@@ -23,3 +23,7 @@
 ## 依赖管理
 
 `JAVA PROJECTS` 视图允许您管理依赖项。更多详细信息可以在[这里](https://github.com/microsoft/vscode-java-dependency#manage-dependencies)找到。
+
+## 快速开始
+
+本文件中的任何代码（或包）可直接引入代码或项目中使用，可直接将源代码、源代码文件或整包复制到项目目录中，import后可直接调用（类似java.util.*）
