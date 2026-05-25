@@ -2,29 +2,23 @@
 <p>数据结构包。</p><br>
 包含各种数据结构：<br>
 <ul>
-    <li>链表</li>
+    <li>单向链表</li>
+    <li>双向链表</li>
     <li>栈
         <ul>
             <li>最大栈</li>
             <li>最小栈</li>
-            <li>单调递增栈</li>
-            <li>单调递减栈</li>
         </ul>
     </li>
+    <li>单调递增栈</li>
+    <li>单调递减栈</li>
     <li>队列</li>
-    <li>树
-        <ul>
-            <li>字典树</li>
-            <li>B+树</li>
-        </ul>
-    </li>
-    <li>二叉树
-        <ul>
-            <li>霍夫曼树</li>
-            <li>树状数组</li>
-            <li>红黑树</li>
-        </ul>
-    </li>
+    <li>树</li>
+    <li>字典树</li>
+    <li>B+树</li>
+    <li>二叉树</li>
+    <li>霍夫曼树</li>
+    <li>红黑树</li>
     <li>堆
         <ul>
             <li>降序堆</li>
@@ -32,8 +26,9 @@
         </ul>
     </li>
     <li>图</li>
-    <li>哈希表</li>
     <li>并查集</li>
+    <li>哈希表</li>
+    <li>树状数组</li>
 </ul>
 */
 package tools.data_structure;

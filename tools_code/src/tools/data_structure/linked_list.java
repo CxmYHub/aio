@@ -1,60 +1,60 @@
 package tools.data_structure;
 /**
-<p>列表类/链表类。</p><br>
-链表是一种线性数据结构。<br>
+<p>单向链表类。</p><br>
+单向链表属于链表的一种，是一种线性数据结构。<br>
 对比数组，链表具有动态大小的优势，即可以在运行时根据需要动态添加或删除元素。<br>
 同时，链表也可以在任意位置进行插入和删除操作。<br>
 但链表的访问时间是线性的，即需要遍历链表才能访问到目标元素。<br>
-<p>本链表以头节点形式实现，头节点不存储元素，而是存储了链表的元素数量。</p>
+<p>本单向链表以头节点形式实现，头节点不存储元素，而是存储了链表的元素数量。</p>
 */
-public class list
+public class linked_list
 {
     public int element=0;
-    public list next=null;
+    public linked_list next=null;
     /**
-    通过整数数组构造链表
+    通过整数数组构造单向链表
     @param numbers 整数数组。
     */
-    public list(int... numbers)
+    public linked_list(int... numbers)
     {
         this.element=numbers.length;
-        list temp=this;
+        linked_list temp=this;
         for(int i=0;i<numbers.length;i++)
         {
-            temp.next=new list(numbers[i],' ');
+            temp.next=new linked_list(numbers[i],' ');
             temp=temp.next;
         }
         temp.element=numbers[numbers.length-1];
     }
     /**
-    构造一个空链表。
+    构造一个空单向链表。
     */
-    public list()
+    public linked_list()
     {
         this.element=0;
     }
-    private list(int number,char inner_constant)
+    private linked_list(int number,char inner_constant)
     {
         element=number;
     }
     /**
-    判断链表是否为空。
-    @return 如果链表为空则返回true，否则返回false。
+    判断单向链表是否为空。
+    @return 如果单向链表为空则返回true，否则返回false。
     */
     public boolean is_empty()
     {
         return element==0;
     }
     /**
-    获取链表的元素数量。
-    @return 链表的元素数量。
+    获取单向链表的元素数量。
+    @return 单向链表的元素数量。
     */
     public int element_count()
     {
         return element;
     }
     /**
-    获取链表中指定索引位置的元素。
+    获取单向链表中指定索引位置的元素。
     @param index 索引位置。
     @return 如果索引有效则返回对应元素，否则返回Integer.MIN_VALUE(索引&lt;0)或Integer.MAX_VALUE(索引≥元素数量)。
     */
@@ -70,7 +70,7 @@ public class list
         }
         else
         {
-            list temp=this;
+            linked_list temp=this;
             for(;index>=0;index--)
             {
                 temp=temp.next;
@@ -79,14 +79,14 @@ public class list
         }
     }
     /**
-    获取链表中第一个出现指定元素的索引位置。
+    获取单向链表中第一个出现指定元素的索引位置。
     @param element 目标元素。
-    @return 如果链表中存在目标元素则返回其索引位置，否则返回Integer.MIN_VALUE。
+    @return 如果单向链表中存在目标元素则返回其索引位置，否则返回Integer.MIN_VALUE。
     */
     public int index_of(int element)
     {
         int result=0;
-        list temp=this;
+        linked_list temp=this;
         while(temp.next!=null)
         {
             if(temp.next.element==element)
@@ -100,47 +100,47 @@ public class list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    在链表末尾插入一个元素。
+    在单向链表末尾插入一个元素。
     @param number 要插入的元素。
     @return 插入的元素。
     */
     public int input(int number)
     {
-        list temp=this;
+        linked_list temp=this;
         while(temp.next!=null)
         {
             temp=temp.next;
         }
-        temp.next=new list(number,' ');
+        temp.next=new linked_list(number,' ');
         element++;
         return number;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    在链表末尾插入多个元素。
+    在单向链表末尾插入多个元素。
     @param numbers 要插入的元素数组。
     @return 插入的元素数量。
     */
     public int input(int... numbers)
     {
-        list temp=this;
+        linked_list temp=this;
         while(temp.next!=null)
         {
             temp=temp.next;
         }
-        temp.next=new list(numbers).next;
+        temp.next=new linked_list(numbers).next;
         element+=numbers.length;
         return numbers.length;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    在链表末尾插入一个子链表。
-    @param sub_list 要插入的子链表。
+    在单向链表末尾插入一个子单向链表。
+    @param sub_list 要插入的子单向链表。
     @return 插入的元素数量。
     */
-    public int input(list sub_list)
+    public int input(linked_list sub_list)
     {
-        list temp=this;
+        linked_list temp=this;
         while(temp.next!=null)
         {
             temp=temp.next;
@@ -151,7 +151,7 @@ public class list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表末尾的多个元素。
+    删除单向链表末尾的多个元素。
     @param count 要删除的元素数量。
     @return 如果删除成功则返回剩余元素数量，否则返回Integer.MIN_VALUE(count&gt;元素数量，此时不删除)。
     */
@@ -159,7 +159,7 @@ public class list
     {
         if(count>0&&count<=element)
         {
-            list temp=this;
+            linked_list temp=this;
             for(int i=0;i<element-count;i++)
             {
                 temp=temp.next;
@@ -175,7 +175,7 @@ public class list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表开头的多个元素。
+    删除单向链表开头的多个元素。
     @param count 要删除的元素数量。
     @return 如果删除成功则返回剩余元素数量，否则返回Integer.MIN_VALUE(count&gt;元素数量，此时不删除)。
     */
@@ -183,7 +183,7 @@ public class list
     {
         if(count>0&&count<=element)
         {
-            list temp=this;
+            linked_list temp=this;
             for(int i=0;i<count;i++)
             {
                 temp=temp.next;
@@ -199,14 +199,14 @@ public class list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表中所有的指定元素。
+    删除单向链表中所有的指定元素。
     @param element 目标元素。
     @return 删除的元素数量。
     */
     public int remove_element(int element)
     {
         int count=0;
-        list temp=this;
+        linked_list temp=this;
         while(temp.next!=null)
         {
             if(temp.next.element==element)
@@ -231,7 +231,7 @@ public class list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表中所有在[min_element,max_element]范围内的元素。
+    删除单向链表中所有在[min_element,max_element]范围内的元素。
     @param min_element 范围的下限（包含）。
     @param max_element 范围的上限（包含）。
     @return 删除的元素数量。
@@ -239,7 +239,7 @@ public class list
     public int remove_element(int min_element,int max_element)
     {
         int count=0;
-        list temp=this;
+        linked_list temp=this;
         while(temp.next!=null)
         {
             if(temp.next.element>=min_element&&temp.next.element<=max_element)
@@ -264,14 +264,14 @@ public class list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    对链表进行升序排序。
+    对单向链表进行升序排序。
     @return 排序后的第一个元素。
     */
     public int sort_ascend()
     {
         int count=element;
-        list pin=this;
-        list temp1,temp2;
+        linked_list pin=this;
+        linked_list temp1,temp2;
         for(;count>0;count--)
         {
             pin=this;
@@ -292,14 +292,14 @@ public class list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    对链表进行降序排序。
+    对单向链表进行降序排序。
     @return 排序后的第一个元素。
     */
     public int sort_descend()
     {
         int count=element;
-        list pin=this;
-        list temp1,temp2;
+        linked_list pin=this;
+        linked_list temp1,temp2;
         for(;count>0;count--)
         {
             pin=this;
@@ -320,18 +320,18 @@ public class list
     }
     public String toString()
     {
-        String result="[";
-        list temp=this;
+        StringBuilder result=new StringBuilder("[");
+        linked_list temp=this;
         while(temp.next!=null)
         {
             temp=temp.next;
-            result+=temp.element;
+            result.append(temp.element);
             if(temp.next!=null)
             {
-                result+=",";
+                result.append("->");
             }
         }
-        result+="]";
-        return result;
+        result.append("]");
+        return result.toString();
     }
 }
