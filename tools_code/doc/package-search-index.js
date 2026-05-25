@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"tools.collection"},{"l":"tools.data_structure"},{"l":"tools.date"},{"l":"tools.geography"},{"l":"tools.mathematics"},{"l":"所有程序包","u":"allpackages-index.html","k":"18"}];updateSearchResults();
