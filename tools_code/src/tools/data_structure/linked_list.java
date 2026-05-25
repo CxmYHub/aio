@@ -9,33 +9,39 @@ package tools.data_structure;
 */
 public class linked_list
 {
-    public int element=0;
-    public linked_list next=null;
+    public static class linked_list_node
+    {
+        public int element;
+        public linked_list_node next;
+        public linked_list_node(int number)
+        {
+            element=number;
+        }
+    }
+    public int element_count=0;
+    public linked_list_node head;
     /**
-    通过整数数组构造单向链表
-    @param numbers 整数数组。
+    通过多个整数构造单向链表。
+    @param numbers 多个整数。
     */
     public linked_list(int... numbers)
     {
-        this.element=numbers.length;
-        linked_list temp=this;
-        for(int i=0;i<numbers.length;i++)
+        element_count=numbers.length;
+        head=new linked_list_node(numbers[0]);
+        linked_list_node temp=head;
+        for(int i=1;i<element_count;i++)
         {
-            temp.next=new linked_list(numbers[i],' ');
+            temp.next=new linked_list_node(numbers[i]);
             temp=temp.next;
         }
-        temp.element=numbers[numbers.length-1];
     }
     /**
     构造一个空单向链表。
     */
     public linked_list()
     {
-        this.element=0;
-    }
-    private linked_list(int number,char inner_constant)
-    {
-        element=number;
+        element_count=0;
+        head=null;
     }
     /**
     判断单向链表是否为空。
@@ -43,7 +49,7 @@ public class linked_list
     */
     public boolean is_empty()
     {
-        return element==0;
+        return element_count==0;
     }
     /**
     获取单向链表的元素数量。
@@ -51,7 +57,7 @@ public class linked_list
     */
     public int element_count()
     {
-        return element;
+        return element_count;
     }
     /**
     获取单向链表中指定索引位置的元素。
@@ -64,14 +70,14 @@ public class linked_list
         {
             return Integer.MIN_VALUE;
         }
-        else if(index>=element)
+        else if(index>=element_count)
         {
             return Integer.MAX_VALUE;
         }
         else
         {
-            linked_list temp=this;
-            for(;index>=0;index--)
+            linked_list_node temp=head;
+            for(;index>0;index--)
             {
                 temp=temp.next;
             }
@@ -86,15 +92,18 @@ public class linked_list
     public int index_of(int element)
     {
         int result=0;
-        linked_list temp=this;
-        while(temp.next!=null)
+        linked_list_node temp=head;
+        while(temp!=null)
         {
-            if(temp.next.element==element)
+            if(temp.element==element)
             {
                 return result;
             }
-            temp=temp.next;
-            result++;
+            else
+            {
+                temp=temp.next;
+                result++;
+            }
         }
         return Integer.MIN_VALUE;
     }
@@ -106,14 +115,23 @@ public class linked_list
     */
     public int input(int number)
     {
-        linked_list temp=this;
-        while(temp.next!=null)
+        if(head==null)
         {
-            temp=temp.next;
+            head=new linked_list_node(number);
+            element_count=1;
+            return number;
         }
-        temp.next=new linked_list(number,' ');
-        element++;
-        return number;
+        else
+        {
+            linked_list_node temp=head;
+            while(temp.next!=null)
+            {
+                temp=temp.next;
+            }
+            temp.next=new linked_list_node(number);
+            element_count++;
+            return number;
+        }
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
@@ -121,15 +139,29 @@ public class linked_list
     @param numbers 要插入的元素数组。
     @return 插入的元素数量。
     */
-    public int input(int... numbers)
+    public int input_more(int... numbers)
     {
-        linked_list temp=this;
-        while(temp.next!=null)
+        linked_list_node temp=head;
+        if(head==null)
         {
+            head=new linked_list_node(numbers[0]);
+            temp=head;
+        }
+        else
+        {
+            while(temp.next!=null)
+            {
+                temp=temp.next;
+            }
+            temp.next=new linked_list_node(numbers[0]);
             temp=temp.next;
         }
-        temp.next=new linked_list(numbers).next;
-        element+=numbers.length;
+        for(int i=1;i<numbers.length;i++)
+        {
+            temp.next=new linked_list_node(numbers[i]);
+            temp=temp.next;
+        }
+        element_count+=numbers.length;
         return numbers.length;
     }
     /**
@@ -140,14 +172,21 @@ public class linked_list
     */
     public int input(linked_list sub_list)
     {
-        linked_list temp=this;
-        while(temp.next!=null)
+        if(head==null)
         {
-            temp=temp.next;
+            head=sub_list.head;
         }
-        temp.next=sub_list.next;
-        element+=sub_list.element;
-        return element;
+        else
+        {
+            linked_list_node temp=head;
+            while(temp.next!=null)
+            {
+                temp=temp.next;
+            }
+            temp.next=sub_list.head;
+        }
+        element_count+=sub_list.element_count;
+        return element_count;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
@@ -157,16 +196,23 @@ public class linked_list
     */
     public int remove_last(int count)
     {
-        if(count>0&&count<=element)
+        if(count>0&&count<=element_count)
         {
-            linked_list temp=this;
-            for(int i=0;i<element-count;i++)
+            if(count==element_count)
             {
-                temp=temp.next;
+                head=null;
             }
-            temp.next=null;
-            element-=count;
-            return element;
+            else
+            {
+                linked_list_node temp=head;
+                for(int i=1;i<element_count-count;i++)
+                {
+                    temp=temp.next;
+                }
+                temp.next=null;
+            }
+            element_count-=count;
+            return element_count;
         }
         else
         {
@@ -181,16 +227,16 @@ public class linked_list
     */
     public int remove_first(int count)
     {
-        if(count>0&&count<=element)
+        if(count>0&&count<=element_count)
         {
-            linked_list temp=this;
+            linked_list_node temp=head;
             for(int i=0;i<count;i++)
             {
                 temp=temp.next;
             }
-            next=temp.next;
-            element-=count;
-            return element;
+            head=temp;
+            element_count-=count;
+            return element_count;
         }
         else
         {
@@ -206,20 +252,19 @@ public class linked_list
     public int remove_element(int element)
     {
         int count=0;
-        linked_list temp=this;
+        while(head.element==element)
+        {
+            head=head.next;
+            element_count--;
+            count++;
+        }
+        linked_list_node temp=head;
         while(temp.next!=null)
         {
             if(temp.next.element==element)
             {
-                if(temp.next.next!=null)
-                {
-                    temp.next=temp.next.next;
-                }
-                else
-                {
-                    temp.next=null;
-                }
-                this.element--;
+                temp.next=temp.next.next;
+                element_count--;
                 count++;
             }
             else
@@ -239,20 +284,19 @@ public class linked_list
     public int remove_element(int min_element,int max_element)
     {
         int count=0;
-        linked_list temp=this;
+        while(head.element>=min_element&&head.element<=max_element)
+        {
+            head=head.next;
+            element_count--;
+            count++;
+        }
+        linked_list_node temp=head;
         while(temp.next!=null)
         {
             if(temp.next.element>=min_element&&temp.next.element<=max_element)
             {
-                if(temp.next.next!=null)
-                {
-                    temp.next=temp.next.next;
-                }
-                else
-                {
-                    temp.next=null;
-                }
-                element--;
+                temp.next=temp.next.next;
+                element_count--;
                 count++;
             }
             else
@@ -265,68 +309,108 @@ public class linked_list
     /**
 	<p>此方法会修改调用对象。</p><br>
     对单向链表进行升序排序。
-    @return 排序后的第一个元素。
+    @return 排序后的第一个元素。<br>
+    如果链表为空则返回Integer.MIN_VALUE。
     */
     public int sort_ascend()
     {
-        int count=element;
-        linked_list pin=this;
-        linked_list temp1,temp2;
-        for(;count>0;count--)
+        if(head==null)
         {
-            pin=this;
-            for(int i=count-2;i>=0;i--)
+            return Integer.MIN_VALUE;
+        }
+        linked_list_node temp1,temp2;
+		int last_swap=element_count-1;
+		for(int i=0;i<element_count-1;i++)
+		{
+			int new_last_swap=0;
+            if(head.element>head.next.element)
             {
-                if(pin.next.element>pin.next.next.element)
-                {
+                temp1=head;
+                temp2=head.next;
+                temp1.next=temp2.next;
+                temp2.next=temp1;
+                head=temp2;
+                new_last_swap=0;
+            }
+            linked_list_node pin=head;
+			for(int j=1;j<last_swap;j++)
+			{
+				if(pin.next.element>pin.next.next.element)
+				{
                     temp1=pin.next;
-                    temp2=temp1.next;
-                    pin.next=temp2;
+                    temp2=pin.next.next;
                     temp1.next=temp2.next;
                     temp2.next=temp1;
-                }
+                    pin.next=temp2;
+					new_last_swap=j;
+				}
                 pin=pin.next;
-            }
-        }
-        return next.element;
+			}
+			if(new_last_swap==0)
+			{
+				break;
+			}
+			last_swap=new_last_swap;
+		}
+        return head.element;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     对单向链表进行降序排序。
-    @return 排序后的第一个元素。
+    @return 排序后的第一个元素。<br>
+    如果链表为空则返回Integer.MIN_VALUE。
     */
     public int sort_descend()
     {
-        int count=element;
-        linked_list pin=this;
-        linked_list temp1,temp2;
-        for(;count>0;count--)
+        if(head==null)
         {
-            pin=this;
-            for(int i=count-2;i>=0;i--)
+            return Integer.MIN_VALUE;
+        }
+        linked_list_node temp1,temp2;
+		int last_swap=element_count-1;
+		for(int i=0;i<element_count-1;i++)
+		{
+			int new_last_swap=0;
+            if(head.element<head.next.element)
             {
-                if(pin.next.element<pin.next.next.element)
-                {
+                temp1=head;
+                temp2=head.next;
+                temp1.next=temp2.next;
+                temp2.next=temp1;
+                head=temp2;
+                new_last_swap=0;
+            }
+            linked_list_node pin=head;
+			for(int j=1;j<last_swap;j++)
+			{
+				if(pin.next.element<pin.next.next.element)
+				{
                     temp1=pin.next;
-                    temp2=temp1.next;
-                    pin.next=temp2;
+                    temp2=pin.next.next;
                     temp1.next=temp2.next;
                     temp2.next=temp1;
-                }
+                    pin.next=temp2;
+					new_last_swap=j;
+				}
                 pin=pin.next;
-            }
-        }
-        return next.element;
+			}
+			if(new_last_swap==0)
+			{
+				break;
+			}
+			last_swap=new_last_swap;
+		}
+        return head.element;
     }
     public String toString()
     {
         StringBuilder result=new StringBuilder("[");
-        linked_list temp=this;
-        while(temp.next!=null)
+        linked_list_node temp=head;
+        while(temp!=null)
         {
-            temp=temp.next;
             result.append(temp.element);
-            if(temp.next!=null)
+            temp=temp.next;
+            if(temp!=null)
             {
                 result.append("->");
             }
