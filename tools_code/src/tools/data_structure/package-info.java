@@ -12,10 +12,16 @@
         </ul>
     </li>
     <li>队列</li>
-    <li>树</li>
+    <li>树
+        <ul>
+            <li>字典树</li>
+            <li>B+树</li>
+        </ul>
+    </li>
     <li>二叉树
         <ul>
             <li>霍夫曼树</li>
+            <li>树状数组</li>
             <li>红黑树</li>
         </ul>
     </li>
@@ -25,7 +31,6 @@
             <li>升序堆</li>
         </ul>
     </li>
-    <li>树状数组</li>
     <li>图</li>
     <li>哈希表</li>
     <li>并查集</li>

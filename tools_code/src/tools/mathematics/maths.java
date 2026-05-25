@@ -282,7 +282,7 @@ public class maths
 				result*=base;
 			}
 			base*=base;
-			exponent/=2;
+			exponent>>=1;
 		}
 		return result;
 	}
@@ -302,7 +302,7 @@ public class maths
 				result*=base;
 			}
 			base*=base;
-			exponent/=2;
+			exponent>>=1;
 		}
 		return result;
 	}
@@ -322,7 +322,7 @@ public class maths
 				result=result*base%1000000007;
 			}
 			base=base*base%1000000007;
-			exponent/=2;
+			exponent>>=1;
 		}
 		return result;
 	}
@@ -343,7 +343,7 @@ public class maths
 				result=result*base%mod;
 			}
 			base=base*base%mod;
-			exponent/=2;
+			exponent>>=1;
 		}
 		return result;
 	}
