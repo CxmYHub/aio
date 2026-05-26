@@ -342,4 +342,43 @@ public class trie
         }
         return false;
     }
+    public String toString()
+    {
+        trie pins[]=new trie[16];
+        char letters[]=new char[16];
+        int pin=0,capacity=16;
+        pins[0]=this;
+        StringBuilder result=new StringBuilder("{");
+        while(pin>=0)
+        {
+            trie now=pins[pin];
+            int next=letters[pin]-'a';
+            for(next=(next<0?0:next+1);next<26&&now.children[next]==null;next++);
+            if(next<26)
+            {
+                letters[pin]=(char)(next+'a');
+                now=now.children[next];
+                if(pin>=capacity)
+                {
+                    capacity=(capacity<<1)+2;
+                    trie new_pins[]=new trie[capacity];
+                    char new_letters[]=new char[capacity];
+                    System.arraycopy(pins,0,new_pins,0,pin);
+                    System.arraycopy(letters,0,new_letters,0,pin);
+                    pins=new_pins;
+                    letters=new_letters;
+                }
+                pins[++pin]=now;
+                if(now.is_end)
+                {
+                    result.append(new String(letters,0,pin)+",");
+                }
+            }
+            else
+            {
+                letters[pin--]=0;
+            }
+        }
+        return result.delete(result.length()-1,result.length()).append("}").toString();
+    }
 }

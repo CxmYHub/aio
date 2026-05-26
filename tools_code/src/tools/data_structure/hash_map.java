@@ -12,6 +12,8 @@ public class hash_map
     /**
     <p>哈希表节点类。</p><br>
     用于存储哈希表中的键值对。<br>
+    每个节点包含键、值和后继节点指针。<br>
+    后继节点指针指向链表中的下一个节点，用于处理哈希冲突。
     */
     public static class hash_map_list_node
     {

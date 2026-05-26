@@ -12,12 +12,12 @@ public class linked_list
     public int element=0;
     public linked_list next=null;
     /**
-    通过整数数组构造链表
-    @param numbers 整数数组。
+    构造一个包含多个元素的单向链表。
+    @param numbers 多个元素。
     */
     public linked_list(int... numbers)
     {
-        this.element=numbers.length;
+        element=numbers.length;
         linked_list temp=this;
         for(int i=0;i<numbers.length;i++)
         {
@@ -27,7 +27,7 @@ public class linked_list
         temp.element=numbers[numbers.length-1];
     }
     /**
-    构造一个链表节点。
+    构造一个指定元素和后继节点的单向链表节点。
     */
     public linked_list(int element,linked_list next)
     {
@@ -35,34 +35,34 @@ public class linked_list
         this.next=next;
     }
     /**
-    构造一个空链表。
+    构造一个空单向链表。
     */
     public linked_list()
     {
-        this.element=0;
+        element=0;
     }
     private linked_list(int number,char inner_constant)
     {
         element=number;
     }
     /**
-    判断链表是否为空。
-    @return 如果链表为空则返回true，否则返回false。
+    判断单向链表是否为空。
+    @return 如果单向链表为空则返回true，否则返回false。
     */
     public boolean is_empty()
     {
         return element==0;
     }
     /**
-    获取链表的元素数量。
-    @return 链表的元素数量。
+    获取单向链表的元素数量。
+    @return 单向链表的元素数量。
     */
     public int element_count()
     {
         return element;
     }
     /**
-    获取链表中指定索引位置的元素。
+    获取单向链表中指定索引位置的元素。
     @param index 索引位置。
     @return 如果索引有效则返回对应元素，否则返回Integer.MIN_VALUE(索引&lt;0)或Integer.MAX_VALUE(索引≥元素数量)。
     */
@@ -87,9 +87,9 @@ public class linked_list
         }
     }
     /**
-    获取链表中第一个出现指定元素的索引位置。
+    获取单向链表中第一个出现指定元素的索引位置。
     @param element 目标元素。
-    @return 如果链表中存在目标元素则返回其索引位置，否则返回Integer.MIN_VALUE。
+    @return 如果单向链表中存在目标元素则返回其索引位置，否则返回Integer.MIN_VALUE。
     */
     public int index_of(int element)
     {
@@ -111,7 +111,7 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    在链表末尾插入一个元素。
+    在单向链表末尾插入一个元素。
     @param number 要插入的元素。
     @return 插入的元素。
     */
@@ -128,7 +128,7 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    在链表末尾插入多个元素。
+    在单向链表末尾插入多个元素。
     @param numbers 要插入的元素数组。
     @return 插入的元素数量。
     */
@@ -145,7 +145,7 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    在链表末尾插入一个子链表。
+    在单向链表末尾插入一个子链表。
     @param sub_list 要插入的子链表。
     @return 插入的元素数量。
     */
@@ -162,7 +162,7 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表末尾的多个元素。
+    删除单向链表末尾的多个元素。
     @param count 要删除的元素数量。
     @return 如果删除成功则返回剩余元素数量，否则返回Integer.MIN_VALUE(count&gt;元素数量，此时不删除)。
     */
@@ -193,7 +193,7 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表开头的多个元素。
+    删除单向链表开头的多个元素。
     @param count 要删除的元素数量。
     @return 如果删除成功则返回剩余元素数量，否则返回Integer.MIN_VALUE(count&gt;元素数量，此时不删除)。
     */
@@ -224,7 +224,7 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表中所有的指定元素。
+    删除单向链表中所有的指定元素。
     @param element 目标元素。
     @return 删除的元素数量。
     */
@@ -249,7 +249,7 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除链表中所有在[min_element,max_element]范围内的元素。
+    删除单向链表中所有在[min_element,max_element]范围内的元素。
     @param min_element 范围的下限（包含）。
     @param max_element 范围的上限（包含）。
     @return 删除的元素数量。
@@ -275,9 +275,9 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    对链表进行升序排序。
+    对单向链表进行升序排序。
     @return 排序后的第一个元素。<br>
-    如果链表为空，则返回Integer.MIN_VALUE。
+    如果单向链表为空，则返回Integer.MIN_VALUE。
     */
     public int sort_ascend()
     {
@@ -361,9 +361,9 @@ public class linked_list
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    对链表进行降序排序。
+    对单向链表进行降序排序。
     @return 排序后的第一个元素。<br>
-    如果链表为空，则返回Integer.MIN_VALUE。
+    如果单向链表为空，则返回Integer.MIN_VALUE。
     */
     public int sort_descend()
     {
