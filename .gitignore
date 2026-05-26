@@ -7,6 +7,7 @@
 *.zip
 *.tar.gz
 *.rar
+*.bat
 hs_err_pid*
 
 # Windows
@@ -29,3 +30,4 @@ $RECYCLE.BIN/
 # 项目
 */bin/*
 !*/doc/*
+tools_code/README.md

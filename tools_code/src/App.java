@@ -13,9 +13,9 @@ public class App
     {
         linked_list list=new linked_list(7,1,4,2,8,5,9,3,6);
         System.out.println(list);
-        list.sort_descend();
-        System.out.println(list);
         list.sort_ascend();
+        System.out.println(list);
+        list.sort_descend();
         System.out.println(list);
     }
 }
