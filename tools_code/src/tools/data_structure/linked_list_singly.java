@@ -26,6 +26,8 @@ public class linked_list_singly
     }
     /**
     构造一个指定元素和后继节点的单向链表节点。
+    @param element 元素。
+    @param next 后继节点。
     */
     public linked_list_singly(int element,linked_list_singly next)
     {

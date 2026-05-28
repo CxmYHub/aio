@@ -28,6 +28,10 @@ public class hash_map
             next=null;
         }
     }
+    /**
+    <p>共24个元素。</p><br>
+    哈希表候选容量表。<br>
+    */
     public static final int prime[]={257,521,1049,2099,4201,8419,16843,33703,67409,134837,269683,539389,1078787,2157587,4315183,8630387,17260781,34521589,69043189,138086407,276172823,552345671,1104691373,2147483647};
     public final int hashing_factor1;
     public final int hashing_factor2;

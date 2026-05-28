@@ -28,7 +28,8 @@ public class determinant implements Comparable<determinant>
 		}
 	}
 	/**
-	构造一个阶数为order_number的零矩阵的行列式对象。
+	构造一个指定阶数的零矩阵的行列式对象。
+	@param order_number 行列式的阶数。
 	*/
 	public determinant(int order_number)
 	{

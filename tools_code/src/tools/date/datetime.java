@@ -409,6 +409,7 @@ public class datetime implements Comparable<datetime>
     }
     /**
     构造指定时区当前日期时间的对象。
+    @param time_zone 时区。
     */
     public datetime(int time_zone)
     {
