@@ -3,6 +3,7 @@ package tools.data_structure;
 <p>元素并查集类。</p><br>
 元素并查集通过维护一个哈希表实现元素到索引的映射。<br>
 除索引外，还可通过元素进行合并和查询操作。
+@see tools.data_structure.disjoint_set
 */
 public class disjoint_set_element extends disjoint_set
 {
@@ -32,7 +33,8 @@ public class disjoint_set_element extends disjoint_set
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展并查集的容量=当前容量*2+2。
+    对并查集进行扩容。<br>
+    新的并查集容量=当前容量*2+2。
     @return 新的并查集容量=当前容量*2+2。
     */
     public int dilate()
@@ -52,7 +54,8 @@ public class disjoint_set_element extends disjoint_set
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展并查集的容量=当前容量+more_capacity。
+    对并查集进行扩容。<br>
+    新的并查集容量=当前容量+more_capacity。
     @param more_capacity 要扩展的容量。
     @return 新的并查集容量=当前容量+more_capacity。
     */
@@ -143,8 +146,7 @@ public class disjoint_set_element extends disjoint_set
         return element_index.get(elements);
     }
     /**
-    获取并查集中指定元素的根索引。<br>
-    若元素不存在，则返回Integer.MIN_VALUE。
+    获取并查集中指定元素的根索引。
     @param elements 元素的值。
     @return 并查集中指定元素的根索引。<br>
     若元素不存在，则返回Integer.MIN_VALUE。
@@ -160,8 +162,7 @@ public class disjoint_set_element extends disjoint_set
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    合并并查集中两个元素的根索引。<br>
-    若元素不存在，则返回Integer.MIN_VALUE。
+    合并并查集中两个元素的根索引。
     @param element1 元素1的值。
     @param element2 元素2的值。
     @return 合并后的根索引。<br>
@@ -198,7 +199,7 @@ public class disjoint_set_element extends disjoint_set
     判断并查集中两个元素是否相关。
     @param element1 元素1的值。
     @param element2 元素2的值。
-    @return 如果两个元素相关则返回true，否则返回false。
+    @return 是否相关。
     */
     public boolean is_related_element(int element1,int element2)
     {

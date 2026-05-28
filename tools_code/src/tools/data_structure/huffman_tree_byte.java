@@ -397,8 +397,9 @@ public class huffman_tree_byte
     }
     /**
 	获取指定字节的霍夫曼编码。
-	@param datum 字节。
-	@return 字节的霍夫曼编码，若字节不存在于树中则返回null。
+	@param datum 待编码字节。
+	@return 字节的霍夫曼编码。<br>
+	若字节不存在于树中，则返回null。
 	*/
 	public String get_code(byte datum)
 	{
@@ -415,7 +416,7 @@ public class huffman_tree_byte
 	}
     /**
 	获取所有字节的霍夫曼编码。
-	@return 所有字节的霍夫曼编码，若字节不存在于树中则返回null。
+	@return 所有字节的霍夫曼编码。
 	*/
     public String get_all_codes()
     {
@@ -438,7 +439,7 @@ public class huffman_tree_byte
     }
 	/**
 	压缩字节数据。
-	@param data 字节数组。
+	@param data 要压缩的字节数组。
 	@return 压缩后的字符串。
 	*/
 	public String encode(byte data[])

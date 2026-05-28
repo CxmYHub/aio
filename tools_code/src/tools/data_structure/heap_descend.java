@@ -5,14 +5,14 @@ package tools.data_structure;
 每次取出的元素都是堆中最大的元素。
 @see heap
 */
-public class descend_heap extends heap
+public class heap_descend extends heap
 {
     /**
     构造一个指定容量的空降序堆。
     @param capacity 堆的容量。
     @see heap#heap(int)
     */
-    public descend_heap(int capacity)
+    public heap_descend(int capacity)
     {
         super(capacity);
     }
@@ -20,7 +20,7 @@ public class descend_heap extends heap
     构造一个默认容量为255的空降序堆。
     @see heap#heap()
     */
-    public descend_heap()
+    public heap_descend()
     {
         super();
     }
@@ -29,7 +29,7 @@ public class descend_heap extends heap
     @param elements 要包含的元素。
     @see heap#heap(int...)
     */
-    public descend_heap(int... elements)
+    public heap_descend(int... elements)
     {
         super(elements);
         regular_all();
@@ -50,7 +50,7 @@ public class descend_heap extends heap
     /**
 	<p>此方法会修改调用对象。</p><br>
     将多个元素插入降序堆。
-    @param elements 要插入的元素。
+    @param elements 要插入的多个元素。
     @return 插入的元素数量。
     @see heap#input_more(int...)
     */
@@ -75,7 +75,7 @@ public class descend_heap extends heap
     /**
 	<p>此方法会修改调用对象。</p><br>
     对降序堆中的所有元素进行调整，使其满足降序堆的性质。
-    @return 堆顶元素。
+    @return 调整后的堆顶元素。
     */
     public int regular_all()
     {
@@ -114,7 +114,7 @@ public class descend_heap extends heap
     /**
 	<p>此方法会修改调用对象。</p><br>
     对降序堆中的堆顶元素进行调整，使其满足降序堆的性质。
-    @return 堆顶元素。
+    @return 调整后的堆顶元素。
     */
     public int regular_top()
     {
@@ -150,7 +150,7 @@ public class descend_heap extends heap
     /**
 	<p>此方法会修改调用对象。</p><br>
     对降序堆中的最后一个元素进行调整，使其满足降序堆的性质。
-    @return 堆顶元素。
+    @return 调整后的堆顶元素。
     */
     public int regular_last()
     {

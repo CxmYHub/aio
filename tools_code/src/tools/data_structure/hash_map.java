@@ -6,6 +6,7 @@ package tools.data_structure;
 通过哈希值可以快速访问对应的值。<br><br>
 本哈希表默认容量为257。<br>
 负载因子为0.6666666666666667，即2/3。<br>
+使用随机化哈希函数避免被先验攻击。
 */
 public class hash_map
 {
@@ -41,7 +42,7 @@ public class hash_map
         hashing_factor2=random_number%2==0?random_number+1:random_number;
     }
     /**
-    <p>构造一个大于等于参考容量的最小质数容量的空哈希表。</p><br>
+    构造一个大于等于参考容量的最小质数容量的空哈希表。
     @param capacity 哈希表的参考容量。
     */
     public hash_map(int capacity)
@@ -86,9 +87,9 @@ public class hash_map
         return number;
     }
     /**
-    对1个整数进行哈希处理，返回该整数的哈希值。<br>
-    @param number 整数。
-    @return 该整数的哈希值。
+    对1个整数进行哈希处理，返回该整数的默认哈希值。<br>
+    @param number 要哈希的整数。
+    @return 该整数的默认哈希值。
     */
     public static int hash(int number)
     {
@@ -101,7 +102,8 @@ public class hash_map
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展哈希表的容量=大于当前容量2倍的最小质数。
+    对哈希表进行扩容。<br>
+    新的哈希表容量=大于当前容量2倍的最小质数。
     @return 新的哈希表容量=大于当前容量2倍的最小质数。
     */
     public int dilate()
@@ -187,7 +189,8 @@ public class hash_map
     /**
     获取哈希表中指定键对应的值。
     @param key 键。
-    @return 键对应的值，若键不存在则返回Integer.MIN_VALUE。
+    @return 键对应的值。<br>
+    若键不存在，则返回Integer.MIN_VALUE。
     */
     public int get(int key)
     {
@@ -214,7 +217,8 @@ public class hash_map
     <p>此方法会修改调用对象。</p><br>
     删除哈希表中指定的键值对。
     @param key 键。
-    @return 删除的键对应的值，若键不存在则返回Integer.MIN_VALUE。
+    @return 删除的键对应的值。<br>
+    若键不存在，则返回Integer.MIN_VALUE。
     */
     public int remove(int key)
     {

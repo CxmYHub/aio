@@ -397,8 +397,9 @@ public class huffman_tree_char
     }
     /**
 	获取指定字符的霍夫曼编码。
-	@param character 字符。
-	@return 字符的霍夫曼编码，若字符不存在于树中则返回null。
+	@param character 待编码字符。
+	@return 字符的霍夫曼编码。<br>
+	若字符不存在于树中，则返回null。
 	*/
 	public String get_code(char character)
 	{
@@ -415,7 +416,7 @@ public class huffman_tree_char
 	}
     /**
 	获取所有字符的霍夫曼编码。
-	@return 所有字符的霍夫曼编码，若字符不存在于树中则返回null。
+	@return 所有字符的霍夫曼编码。
 	*/
     public String get_all_codes()
     {
@@ -438,7 +439,7 @@ public class huffman_tree_char
     }
 	/**
 	压缩字符串数据。
-	@param text 字符串。
+	@param text 要压缩的字符串。
 	@return 压缩后的字符串。
 	*/
 	public String encode(String text)

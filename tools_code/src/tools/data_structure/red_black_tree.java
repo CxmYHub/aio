@@ -24,7 +24,7 @@ public class red_black_tree
     public red_black_tree right;
     public red_black_tree parent;
     /**
-    构造一个特殊的叶节点对象。
+    构造一个特殊的叶节点。
     @param NIL 哑元，用于创建NIL节点。
     */
     public red_black_tree(char NIL)
@@ -37,7 +37,7 @@ public class red_black_tree
     }
     public static final red_black_tree NIL=new red_black_tree('N');
     /**
-    构造一个红黑树节点对象。
+    构造一个红黑树节点。
     @param element 元素。
     */
     public red_black_tree(int element)
@@ -49,7 +49,7 @@ public class red_black_tree
         this.parent=NIL;
     }
     /**
-    构造一个默认的红黑树对象。
+    构造一个默认的红黑树。
     */
     public red_black_tree()
     {
@@ -184,9 +184,9 @@ public class red_black_tree
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    向红黑树中添加一个元素。
-    @param element 元素。
-    @return 是否成功添加。
+    向红黑树中插入一个元素。
+    @param element 要插入的元素。
+    @return 是否成功插入。
     */
     public boolean input(int element)
     {
@@ -272,9 +272,10 @@ public class red_black_tree
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    向红黑树中添加多个元素。
-    @param elements 元素。
-    @return 重复元素的个数。
+    向红黑树中插入多个元素。<br>
+    若元素重复，则仅插入一次，忽略剩余的重复元素。
+    @param elements 要插入的多个元素。
+    @return 忽略的元素数量。
     */
     public int input_more(int... elements)
     {
@@ -366,11 +367,11 @@ public class red_black_tree
     }
     /**
     获取红黑树中元素的深度。
-    @param element 元素。
+    @param element 要获取深度的元素。
     @return 元素的深度。<br>
     若元素不存在，则返回Integer.MIN_VALUE。
     */
-    public int get(int element)
+    public int get_depth(int element)
     {
         red_black_tree now=this.left;
         int depth=0;
@@ -395,7 +396,7 @@ public class red_black_tree
     /**
 	<p>此方法会修改调用对象。</p><br>
     从红黑树中删除一个元素。
-    @param element 元素。
+    @param element 要删除的元素。
     @return 是否成功删除。
     */
     public boolean remove(int element)

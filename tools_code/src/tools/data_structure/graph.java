@@ -3,7 +3,7 @@ package tools.data_structure;
 <p>图类。</p><br>
 图是由顶点和边组成的一种数据结构。<br>
 顶点表示图中的一个点，边表示顶点之间的关系。<br>
-本图以邻接矩阵表示。
+本图以邻接矩阵形式实现。
 */
 public class graph
 {
@@ -12,8 +12,8 @@ public class graph
     public boolean directed=false;
     public boolean righted=false;
     /**
-    构造一个图对象。
-    @param graph_string 图的字符串表示，格式为"{(v1,v2,w1),(v2,v3,w2),...}"。
+    通过图字符串构造一个图。
+    @param graph_string 图字符串，格式为"{(v1,v2,w1),(v2,v3,w2),...}"。
     @param type 图的类型，1表示无向无权图，2表示无向有权图，3表示有向有权图。
     */
     public graph(String graph_string,int type)
@@ -98,12 +98,12 @@ public class graph
         }
     }
     /**
-    计算从起始顶点到目标顶点的最短路径成本。
+    计算从起始顶点到目标顶点的最小路径成本。
     @param start 起始顶点的编号。
     @param end 目标顶点的编号。
-    @return 从起始顶点到目标顶点的最短路径成本。
+    @return 从起始顶点到目标顶点的最小路径成本。
     */
-    public int cost_dijkstra(int start,int end)
+    public int cost_min(int start,int end)
     {
         start--;
         end--;

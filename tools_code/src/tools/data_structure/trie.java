@@ -62,7 +62,7 @@ public class trie
         this.is_end=false;
     }
     /**
-    计算字典树中字符串的数量。
+    计算字典树中字符串数量。
     @return 字符串的数量。
     */
     public int count()

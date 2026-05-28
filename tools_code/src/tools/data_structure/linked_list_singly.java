@@ -7,28 +7,27 @@ package tools.data_structure;
 但链表的访问时间是线性的，即需要遍历链表才能访问到目标元素。<br><br>
 本单向链表以头节点形式实现，头节点中的元素无效。
 */
-public class linked_list
+public class linked_list_singly
 {
     public int element=0;
-    public linked_list next=null;
+    public linked_list_singly next=null;
     /**
     构造一个包含多个元素的单向链表。
     @param numbers 多个元素。
     */
-    public linked_list(int... numbers)
+    public linked_list_singly(int... numbers)
     {
-        linked_list new_node=this;
+        linked_list_singly new_node=this;
         for(int i=0;i<numbers.length;i++)
         {
-            new_node.next=new linked_list(numbers[i],' ');
+            new_node.next=new linked_list_singly(numbers[i],' ');
             new_node=new_node.next;
         }
-        new_node.element=numbers[numbers.length-1];
     }
     /**
     构造一个指定元素和后继节点的单向链表节点。
     */
-    public linked_list(int element,linked_list next)
+    public linked_list_singly(int element,linked_list_singly next)
     {
         this.element=element;
         this.next=next;
@@ -36,10 +35,10 @@ public class linked_list
     /**
     构造一个空单向链表。
     */
-    public linked_list()
+    public linked_list_singly()
     {
     }
-    private linked_list(int number,char inner_constant)
+    private linked_list_singly(int number,char inner_constant)
     {
         element=number;
     }
@@ -58,45 +57,48 @@ public class linked_list
     public int element_count()
     {
         int count=0;
-        for(linked_list pin=this.next;pin!=null;pin=pin.next,count++);
+        for(linked_list_singly pin=this.next;pin!=null;pin=pin.next,count++);
         return count;
     }
     /**
     获取单向链表中指定索引位置的元素。
     @param index 索引。
-    @return 如果索引有效则返回对应元素，否则返回Integer.MIN_VALUE(索引&lt;0)或Integer.MAX_VALUE(索引≥元素数量)。
+    @return 索引位置的元素。<br>
+    若索引&lt;0，则返回Integer.MIN_VALUE。<br>
+    若索引≥元素数量，则返回Integer.MAX_VALUE。
     */
     public int element_at(int index)
     {
-        if(index<0)
-        {
-            return Integer.MIN_VALUE;
-        }
-        else
+        if(index>=0)
         {
             int count=0;
-            for(linked_list pin=this.next;pin!=null;pin=pin.next,count++);
+            for(linked_list_singly pin=this.next;pin!=null;pin=pin.next,count++);
             if(index>=count)
             {
                 return Integer.MAX_VALUE;
             }
             else
             {
-                linked_list pin=this.next;
+                linked_list_singly pin=this.next;
                 for(;index>0;pin=pin.next,index--);
                 return pin.element;
             }
+        }
+        else
+        {
+            return Integer.MIN_VALUE;
         }
     }
     /**
     获取单向链表中第一个出现指定元素的索引。
     @param element 目标元素。
-    @return 如果单向链表中存在目标元素则返回其索引，否则返回Integer.MIN_VALUE。
+    @return 目标元素的首个索引。<br>
+    若单向链表中不存在目标元素，则返回Integer.MIN_VALUE。
     */
     public int index_of(int element)
     {
         int result=0;
-        for(linked_list pin=this.next;pin!=null;pin=pin.next,result++)
+        for(linked_list_singly pin=this.next;pin!=null;pin=pin.next,result++)
         {
             if(pin.element==element)
             {
@@ -112,10 +114,10 @@ public class linked_list
     public int[] traversal()
     {
         int count=0;
-        for(linked_list pin=this.next;pin!=null;pin=pin.next,count++);
+        for(linked_list_singly pin=this.next;pin!=null;pin=pin.next,count++);
         int result[]=new int[count];
         int i=0;
-        for(linked_list pin=this.next;pin!=null;pin=pin.next,i++)
+        for(linked_list_singly pin=this.next;pin!=null;pin=pin.next,i++)
         {
             result[i]=pin.element;
         }
@@ -129,123 +131,163 @@ public class linked_list
     */
     public int input(int number)
     {
-        linked_list pin=this;
-        int count=0;
-        for(;pin.next!=null;pin=pin.next,count++);
-        pin.next=new linked_list(number,' ');
-        return count;
+        linked_list_singly pin=this;
+        int position=0;
+        for(;pin.next!=null;pin=pin.next,position++);
+        pin.next=new linked_list_singly(number,' ');
+        return position;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     向单向链表的末尾插入多个元素。
     @param numbers 要插入的多个元素。
-    @return 插入的位置。
+    @return 插入的位置。<br>
+    若元素数组为空，则返回Integer.MIN_VALUE。
     */
     public int input_more(int... numbers)
     {
-        linked_list pin=this;
-        int count=0;
-        for(;pin.next!=null;pin=pin.next,count++);
-        pin.next=new linked_list(numbers).next;
-        return count;
+        if(numbers!=null&&numbers.length>0)
+        {
+            linked_list_singly pin=this;
+            int position=0;
+            for(;pin.next!=null;pin=pin.next,position++);
+            pin.next=new linked_list_singly(numbers).next;
+            return position;
+        }
+        else
+        {
+            return Integer.MIN_VALUE;
+        }
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    向单向链表的末尾插入一个子链表。
-    @param sub_list 要插入的子链表。
-    @return 插入的位置。
+    向单向链表的末尾插入另一个单向链表。
+    @param list 要插入的单向链表。
+    @return 插入的位置。<br>
+    若要插入的单向链表为空，则返回Integer.MIN_VALUE。
     */
-    public int input_list(linked_list sub_list)
+    public int input_list(linked_list_singly list)
     {
-        linked_list pin=this;
-        int count=0;
-        for(pin=this;pin.next!=null;pin=pin.next,count++);
-        pin.next=sub_list.next;
-        return count;
+        if(list!=null&&list.next!=null)
+        {
+            linked_list_singly pin=this;
+            int position=0;
+            for(;pin.next!=null;pin=pin.next,position++);
+            pin.next=list==null?null:list.next;
+            return position;
+        }
+        else
+        {
+            return Integer.MIN_VALUE;
+        }
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    向单向链表中指定索引位置插入一个元素。<br>
-    当索引大于单向链表的元素数量时，将插入一系列空节点直至索引位置，最后插入目标元素。
-    @param index 索引。
+    向单向链表中指定索引位置插入一个元素。
+    @param index 索引。<br>
+    <ul>
+        <li>当索引小于0时，将元素插入到单向链表的末尾。</li>
+        <li>当索引大于单向链表的元素数量时，将插入一系列空节点直至索引位置，最后插入元素。</li>
+    </ul>
     @param number 要插入的元素。
     @return 插入的位置。
     */
     public int insert(int index,int number)
     {
-        linked_list pin=this;
-        int count=index;
-        for(;pin.next!=null&&index>0;pin=pin.next,index--);
-        for(;index>0;pin=pin.next,index--)
+        linked_list_singly pin=this;
+        int position=0;
+        for(;pin.next!=null&&index!=0;pin=pin.next,index-=index>0?1:0,position++);
+        for(;index>0;pin=pin.next,index--,position++)
         {
-            pin.next=new linked_list(0,' ');
+            pin.next=new linked_list_singly(0,' ');
         }
-        linked_list insert_node=new linked_list(number,' ');
+        linked_list_singly insert_node=new linked_list_singly(number,' ');
         insert_node.next=pin.next;
         pin.next=insert_node;
-        return count;
+        return position;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     向单向链表中指定索引位置插入多个元素。
-    @param index 索引。
+    @param index 索引。<br>
+    <ul>
+        <li>当索引小于0时，将元素插入到单向链表的末尾。</li>
+        <li>当索引大于单向链表的元素数量时，将插入一系列空节点直至索引位置，最后插入元素。</li>
+    </ul>
     @param numbers 要插入的多个元素。
-    @return 插入的位置。
+    @return 插入的位置。<br>
+    若元素数组为空，则返回Integer.MIN_VALUE。
     */
     public int insert_more(int index,int... numbers)
     {
-        linked_list pin=this;
-        int count=index;
-        for(;pin.next!=null&&index>0;pin=pin.next,index--);
-        for(;index>0;pin=pin.next,index--)
+        if(numbers.length>0)
         {
-            pin.next=new linked_list(0,' ');
+            linked_list_singly pin=this;
+            int position=0;
+            for(;pin.next!=null&&index!=0;pin=pin.next,index-=index>0?1:0,position++);
+            for(;index>0;pin=pin.next,index--,position++)
+            {
+                pin.next=new linked_list_singly(0,' ');
+            }
+            linked_list_singly insert_start=new linked_list_singly(numbers).next;
+            linked_list_singly end=insert_start;
+            for(;end.next!=null;end=end.next);
+            end.next=pin.next;
+            pin.next=insert_start;
+            return position;
         }
-        linked_list insert_start=new linked_list(numbers).next;
-        linked_list end=insert_start;
-        for(;end.next!=null;end=end.next);
-        end.next=pin.next;
-        pin.next=insert_start;
-        return count;
+        else
+        {
+            return Integer.MIN_VALUE;
+        }
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    向单向链表中指定索引位置插入一个子链表。
-    @param index 索引。
-    @param sub_list 要插入的子链表。
-    @return 插入的位置。
+    向单向链表中指定索引位置插入另一个单向链表。
+    @param index 索引。<br>
+    <ul>
+        <li>当索引小于0时，将待插入链表插入到单向链表的末尾。</li>
+        <li>当索引大于单向链表的元素数量时，将插入一系列空节点直至索引位置，最后插入待插入链表。</li>
+    </ul>
+    @param list 要插入的单向链表。
+    @return 插入的位置。<br>
+    若要插入的单向链表为空，则返回Integer.MIN_VALUE。
     */
-    public int insert_list(int index,linked_list sub_list)
+    public int insert_list(int index,linked_list_singly list)
     {
-        linked_list pin=this;
-        int count=index;
-        for(;pin.next!=null&&index>0;pin=pin.next,index--);
-        for(;index>0;pin=pin.next,index--)
+        if(list!=null&&list.next!=null)
         {
-            pin.next=new linked_list(0,' ');
+            linked_list_singly pin=this;
+            int position=0;
+            for(;pin.next!=null&&index!=0;pin=pin.next,index-=index>0?1:0,position++);
+            for(;index>0;pin=pin.next,index--,position++)
+            {
+                pin.next=new linked_list_singly(0,' ');
+            }
+            linked_list_singly end=list;
+            for(;end.next!=null;end=end.next);
+            end.next=pin.next;
+            pin.next=list.next;
+            return position;
         }
-        linked_list end=sub_list.next;
-        for(;end.next!=null;end=end.next);
-        end.next=pin.next;
-        pin.next=sub_list.next;
-        return count;
+        else
+        {
+            return Integer.MIN_VALUE;
+        }
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     删除单向链表末尾的多个元素。
     @param count 要删除的元素数量。
-    @return 如果删除成功则返回剩余元素数量，否则返回Integer.MIN_VALUE(count&gt;元素数量，此时不删除)。
+    @return 剩余元素数量。<br>
+    若count&gt;元素数量，则返回Integer.MIN_VALUE，此时不删除。
     */
-    public int remove_last(int count)
+    public int remove_tail(int count)
     {
-        if(count<0)
+        if(count>=0)
         {
-            return Integer.MIN_VALUE;
-        }
-        else
-        {
-            linked_list front=this;
-            linked_list back=this;
+            linked_list_singly front=this;
+            linked_list_singly back=this;
             for(;count>0;front=front.next,count--)
             {
                 if(front.next==null)
@@ -258,23 +300,24 @@ public class linked_list
             back.next=null;
             return node_count;
         }
+        else
+        {
+            return Integer.MIN_VALUE;
+        }
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     删除单向链表开头的多个元素。
     @param count 要删除的元素数量。
-    @return 如果删除成功则返回删除的元素数量，否则返回Integer.MIN_VALUE(count&gt;元素数量，此时不删除)。
+    @return 剩余元素数量。<br>
+    若count&gt;元素数量，则返回Integer.MIN_VALUE，此时不删除。
     */
-    public int remove_first(int count)
+    public int remove_head(int count)
     {
-        if(count<0)
-        {
-            return Integer.MIN_VALUE;
-        }
-        else
+        if(count>=0)
         {
             int delete_count=count;
-            linked_list pin=this;
+            linked_list_singly pin=this;
             for(;count>0;pin=pin.next,count--)
             {
                 if(pin.next==null)
@@ -284,6 +327,10 @@ public class linked_list
             }
             next=pin.next;
             return delete_count;
+        }
+        else
+        {
+            return Integer.MIN_VALUE;
         }
     }
     /**
@@ -295,12 +342,12 @@ public class linked_list
     public int remove_element(int element)
     {
         int count=0;
-        for(linked_list pin=this;pin.next!=null;)
+        for(linked_list_singly pin=this;pin.next!=null;)
         {
             if(pin.next.element==element)
             {
-                linked_list start=pin;
-                linked_list end=pin.next.next;
+                linked_list_singly start=pin;
+                linked_list_singly end=pin.next.next;
                 for(count++;end!=null&&end.element==element;end=end.next,count++);
                 start.next=end;
             }
@@ -321,12 +368,12 @@ public class linked_list
     public int remove_element(int min_element,int max_element)
     {
         int count=0;
-        for(linked_list pin=this;pin.next!=null;)
+        for(linked_list_singly pin=this;pin.next!=null;)
         {
             if(pin.next.element>=min_element&&pin.next.element<=max_element)
             {
-                linked_list start=pin;
-                linked_list end=pin.next.next;
+                linked_list_singly start=pin;
+                linked_list_singly end=pin.next.next;
                 for(count++;end!=null&&end.element>=min_element&&end.element<=max_element;end=end.next,count++);
                 start.next=end;
             }
@@ -346,15 +393,15 @@ public class linked_list
     public int sort_ascend()
     {
         int count=0;
-        for(linked_list pin=this.next;pin!=null;pin=pin.next,count++);
+        for(linked_list_singly pin=this.next;pin!=null;pin=pin.next,count++);
         if(count>=2)
         {
-            linked_list lists[]=new linked_list[count];
+            linked_list_singly lists[]=new linked_list_singly[count];
             lists[0]=this;
             int pin=1;
-            for(linked_list list=this.next.next;list!=null;)
+            for(linked_list_singly list=this.next.next;list!=null;)
             {
-                linked_list head=new linked_list(1,list);
+                linked_list_singly head=new linked_list_singly(1,list);
                 list=list.next;
                 lists[pin++]=head;
                 head.next.next=null;
@@ -365,9 +412,9 @@ public class linked_list
             {
                 for(int left_index=0,right_index=(size+1)>>1;right_index<size;right_index++,left_index++)
                 {
-                    linked_list left=lists[left_index];
-                    linked_list right=lists[right_index];
-                    linked_list start=right;
+                    linked_list_singly left=lists[left_index];
+                    linked_list_singly right=lists[right_index];
+                    linked_list_singly start=right;
                     while(left.next!=null&&right.next!=null)
                     {
                         boolean insert=false;
@@ -380,7 +427,7 @@ public class linked_list
                         {
                             if(left.next!=null)
                             {
-                                linked_list temp=left.next;
+                                linked_list_singly temp=left.next;
                                 left.next=start.next;
                                 start.next=right.next;
                                 right.next=temp;
@@ -434,15 +481,15 @@ public class linked_list
     public int sort_descend()
     {
         int count=0;
-        for(linked_list pin=this.next;pin!=null;pin=pin.next,count++);
+        for(linked_list_singly pin=this.next;pin!=null;pin=pin.next,count++);
         if(count>=2)
         {
-            linked_list lists[]=new linked_list[count];
+            linked_list_singly lists[]=new linked_list_singly[count];
             lists[0]=this;
             int pin=1;
-            for(linked_list list=this.next.next;list!=null;)
+            for(linked_list_singly list=this.next.next;list!=null;)
             {
-                linked_list head=new linked_list(1,list);
+                linked_list_singly head=new linked_list_singly(1,list);
                 list=list.next;
                 lists[pin++]=head;
                 head.next.next=null;
@@ -453,9 +500,9 @@ public class linked_list
             {
                 for(int left_index=0,right_index=(size+1)>>1;right_index<size;right_index++,left_index++)
                 {
-                    linked_list left=lists[left_index];
-                    linked_list right=lists[right_index];
-                    linked_list start=right;
+                    linked_list_singly left=lists[left_index];
+                    linked_list_singly right=lists[right_index];
+                    linked_list_singly start=right;
                     while(left.next!=null&&right.next!=null)
                     {
                         boolean insert=false;
@@ -468,7 +515,7 @@ public class linked_list
                         {
                             if(left.next!=null)
                             {
-                                linked_list temp=left.next;
+                                linked_list_singly temp=left.next;
                                 left.next=start.next;
                                 start.next=right.next;
                                 right.next=temp;
@@ -516,7 +563,7 @@ public class linked_list
     public String toString()
     {
         StringBuilder result=new StringBuilder("[");
-        linked_list pin=this;
+        linked_list_singly pin=this;
         while(pin.next!=null)
         {
             pin=pin.next;

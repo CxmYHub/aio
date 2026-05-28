@@ -16,7 +16,7 @@ public class tree
     public tree child;
     public tree next;
     /**
-    以树字符串构造一个树对象。
+    通过树字符串构造一个树。
     @param tree_string 树字符串。<br>
     树字符串的格式为：根节点{子树1,子树2,子树3,...}...。<br>
     例如：A{B{D,E},C{F,G,H,I}}。<br>
@@ -80,7 +80,7 @@ public class tree
         }
     }
     /**
-    以元素构造一个树对象。
+    通过元素构造一个树。
     @param element 元素。
     */
     public tree(int element)
@@ -313,7 +313,7 @@ public class tree
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    向树中插入一个元素。
+    向树中指定元素的子节点插入一个元素。
     @param element 要插入的元素。
     @param target 要插入的位置的元素。
     @return 插入的元素。<br>
@@ -361,9 +361,11 @@ public class tree
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    从树中删除一个元素。
+    从树中删除一个元素。<br>
+    若存在多个相同元素，则只删除先序遍历序列中出现的第一个。
     @param element 要删除的元素。
-    @return 删除的元素。
+    @return 删除的元素。<br>
+    若元素不存在，则返回Integer.MIN_VALUE。
     */
     public int remove(int element)
     {

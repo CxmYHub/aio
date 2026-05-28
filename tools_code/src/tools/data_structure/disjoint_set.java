@@ -93,7 +93,7 @@ public class disjoint_set
     判断并查集中两个索引是否相关。
     @param index1 索引1。
     @param index2 索引2。
-    @return 如果两个索引相关则返回true，否则返回false。
+    @return 是否相关。
     */
     public boolean is_related_index(int index1,int index2)
     {

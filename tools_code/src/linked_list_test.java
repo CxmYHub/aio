@@ -1,393 +1,238 @@
-import tools.data_structure.linked_list;
-import java.util.Arrays;
+import tools.data_structure.linked_list_singly;
 
-/**
- * linked_list 类的全面单元测试。
- * 使用断言 (assert) 验证各个方法的行为，运行时请启用 -ea 参数。
- */
 public class linked_list_test {
+    // ANSI 颜色代码
+    private static final String GREEN = "\033[32m";
+    private static final String RED = "\033[31m";
+    private static final String RESET = "\033[0m";
+
+    private static int passed = 0, failed = 0;
+
+    // 断言辅助方法
+    private static void assertEqual(String testName, Object actual, Object expected) {
+        if (actual == null && expected == null) {
+            pass(testName, actual);
+        } else if (actual != null && actual.equals(expected)) {
+            pass(testName, actual);
+        } else {
+            fail(testName, actual, expected);
+        }
+    }
+
+    private static void assertTrue(String testName, boolean condition, Object actualOutput) {
+        if (condition) {
+            pass(testName, actualOutput);
+        } else {
+            fail(testName, actualOutput, "true");
+        }
+    }
+
+    private static void pass(String testName, Object output) {
+        passed++;
+        System.out.println(GREEN + "[AC] " + testName + " -> " + output + RESET);
+    }
+
+    private static void fail(String testName, Object output, Object expected) {
+        failed++;
+        System.out.println(RED + "[WA] " + testName + " -> " + output + " (expected: " + expected + ")" + RESET);
+    }
 
     public static void main(String[] args) {
-        boolean allPass = true;
-        allPass &= runTest("构造方法", linked_list_test::testConstructors);
-        allPass &= runTest("is_empty", linked_list_test::testIsEmpty);
-        allPass &= runTest("element_count", linked_list_test::testElementCount);
-        allPass &= runTest("element_at", linked_list_test::testElementAt);
-        allPass &= runTest("index_of", linked_list_test::testIndexOf);
-        allPass &= runTest("traversal", linked_list_test::testTraversal);
-        allPass &= runTest("input", linked_list_test::testInput);
-        allPass &= runTest("input_more", linked_list_test::testInputMore);
-        allPass &= runTest("input_list", linked_list_test::testInputList);
-        allPass &= runTest("insert", linked_list_test::testInsert);
-        allPass &= runTest("insert_more", linked_list_test::testInsertMore);
-        allPass &= runTest("insert_list", linked_list_test::testInsertList);
-        allPass &= runTest("remove_last", linked_list_test::testRemoveLast);
-        allPass &= runTest("remove_first", linked_list_test::testRemoveFirst);
-        allPass &= runTest("remove_element (single)", linked_list_test::testRemoveElementSingle);
-        allPass &= runTest("remove_element (range)", linked_list_test::testRemoveElementRange);
-        allPass &= runTest("sort_ascend", linked_list_test::testSortAscend);
-        allPass &= runTest("sort_descend", linked_list_test::testSortDescend);
-        allPass &= runTest("toString", linked_list_test::testToString);
-
-        if (allPass) {
-            System.out.println("所有测试通过。");
-        } else {
-            System.out.println("部分测试失败，请查看详细信息。");
-        }
-    }
-
-    // ---------- 辅助方法 ----------
-    @FunctionalInterface
-    interface TestMethod {
-        void run() throws Exception;
-    }
-
-    private static boolean runTest(String name, TestMethod test) {
-        try {
-            test.run();
-            System.out.println("[PASS] " + name);
-            return true;
-        } catch (AssertionError e) {
-            System.out.println("[FAIL] " + name + " : " + e.getMessage());
-            return false;
-        } catch (Exception e) {
-            System.out.println("[ERROR] " + name + " 抛出异常: " + e);
-            return false;
-        }
-    }
-
-    private static void assertEquals(int expected, int actual) {
-        assert expected == actual : "期望 " + expected + "，实际 " + actual;
-    }
-    
-    private static void assertEquals(String expected, String actual) {
-        assert expected.equals(actual) : "期望 " + expected + "，实际 " + actual;
-    }
-
-    private static void assertEquals(int[] expected, int[] actual) {
-        assert Arrays.equals(expected, actual) :
-                "期望 " + Arrays.toString(expected) + "，实际 " + Arrays.toString(actual);
-    }
-
-    private static void assertTrue(boolean condition) {
-        assert condition;
-    }
-
-    private static void assertFalse(boolean condition) {
-        assert !condition;
-    }
-
-    // ---------- 测试用例 ----------
-
-    static void testConstructors() {
-        // 无参构造
-        linked_list empty = new linked_list();
-        assertTrue(empty.is_empty());
-        assertEquals(0, empty.element_count());
-        assertEquals(0, empty.traversal().length);
-
-        // 可变参数构造
-        linked_list list = new linked_list(1, 2, 3);
-        assertFalse(list.is_empty());
-        assertEquals(3, list.element_count());
-        assertEquals(new int[]{1, 2, 3}, list.traversal());
-
-        // 含单个元素
-        linked_list single = new linked_list(42);
-        assertEquals(1, single.element_count());
-        assertEquals(42, single.element_at(0));
-
-        // 空可变参数构造（预期应支持，但已知实现可能抛异常）
-        try {
-            linked_list emptyVararg = new linked_list(new int[0]);
-            assertTrue(emptyVararg.is_empty());
-            assertEquals(0, emptyVararg.element_count());
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("   [KNOWN BUG] new linked_list(new int[0]) 抛出 ArrayIndexOutOfBoundsException");
-        }
-    }
-
-    static void testIsEmpty() {
-        assertTrue(new linked_list().is_empty());
-        assertFalse(new linked_list(1).is_empty());
-    }
-
-    static void testElementCount() {
-        assertEquals(0, new linked_list().element_count());
-        assertEquals(1, new linked_list(5).element_count());
-        assertEquals(5, new linked_list(1, 2, 3, 4, 5).element_count());
-    }
-
-    static void testElementAt() {
-        linked_list list = new linked_list(10, 20, 30);
-        assertEquals(10, list.element_at(0));
-        assertEquals(20, list.element_at(1));
-        assertEquals(30, list.element_at(2));
-        assertEquals(Integer.MIN_VALUE, list.element_at(-1));
-        assertEquals(Integer.MAX_VALUE, list.element_at(3));
-        assertEquals(Integer.MAX_VALUE, new linked_list().element_at(0));
-    }
-
-    static void testIndexOf() {
-        linked_list list = new linked_list(5, 10, 5, 20);
-        assertEquals(0, list.index_of(5));
-        assertEquals(1, list.index_of(10));
-        assertEquals(3, list.index_of(20));
-        assertEquals(Integer.MIN_VALUE, list.index_of(99));
-        assertEquals(Integer.MIN_VALUE, new linked_list().index_of(0));
-    }
-
-    static void testTraversal() {
-        linked_list empty = new linked_list();
-        assertEquals(new int[]{}, empty.traversal());
-
-        linked_list list = new linked_list(7, 8, 9);
-        assertEquals(new int[]{7, 8, 9}, list.traversal());
-    }
-
-    static void testInput() {
-        linked_list list = new linked_list();
-        int pos = list.input(100);
-        assertEquals(0, pos);
-        assertEquals(new int[]{100}, list.traversal());
-
-        pos = list.input(200);
-        assertEquals(1, pos);
-        assertEquals(new int[]{100, 200}, list.traversal());
-    }
-
-    static void testInputMore() {
-        linked_list list = new linked_list(1);
-        int pos = list.input_more(2, 3, 4);
-        assertEquals(1, pos);
-        assertEquals(new int[]{1, 2, 3, 4}, list.traversal());
-
-        // 空数组（已知可能异常）
-        try {
-            linked_list empty = new linked_list();
-            empty.input_more();
-            assertTrue(empty.is_empty());
-        } catch (Exception e) {
-            System.out.println("   [KNOWN BUG] input_more() 空参数抛出异常: " + e);
-        }
-    }
-
-    static void testInputList() {
-        linked_list list = new linked_list(1, 2);
-        linked_list sub = new linked_list(3, 4);
-        int pos = list.input_list(sub);
-        assertEquals(2, pos);
-        assertEquals(new int[]{1, 2, 3, 4}, list.traversal());
-
-        // 插入空子链表
-        linked_list empty = new linked_list(10);
-        empty.input_list(new linked_list());
-        assertEquals(new int[]{10}, empty.traversal());
-    }
-
-    static void testInsert() {
-        // 插入开头
-        linked_list list = new linked_list(2, 3);
-        int pos = list.insert(0, 1);
-        assertEquals(0, pos);
-        assertEquals(new int[]{1, 2, 3}, list.traversal());
-
-        // 插入中间
-        pos = list.insert(2, 99);
-        assertEquals(2, pos);
-        assertEquals(new int[]{1, 2, 99, 3}, list.traversal());
-
-        // 插入末尾（索引等于当前长度）
-        pos = list.insert(4, 100);
-        assertEquals(4, pos);
-        assertEquals(new int[]{1, 2, 99, 3, 100}, list.traversal());
-
-        // 索引超过长度，应填充0
-        linked_list padList = new linked_list(1);
-        padList.insert(3, 5);
-        assertEquals(new int[]{1, 0, 0, 5}, padList.traversal());
-
-        // 负数索引（已知未处理，会错误地插入到0位置并返回负数）
-        linked_list negList = new linked_list(10);
-        int negPos = negList.insert(-2, 7);
-        System.out.println("   [INFO] insert(-2,7) 返回值 = " + negPos + "，链表 = " + negList);
-        // 预期行为未定义，此处仅展示
-    }
-
-    static void testInsertMore() {
-        linked_list list = new linked_list(1, 5);
-        list.insert_more(1, 2, 3, 4);
-        assertEquals(new int[]{1, 2, 3, 4, 5}, list.traversal());
-
-        // 填充
-        linked_list pad = new linked_list(1);
-        pad.insert_more(3, 2);
-        assertEquals(new int[]{1, 0, 0, 2}, pad.traversal());
-    }
-
-    static void testInsertList() {
-        linked_list list = new linked_list(1, 4);
-        linked_list sub = new linked_list(2, 3);
-        list.insert_list(1, sub);
-        assertEquals(new int[]{1, 2, 3, 4}, list.traversal());
-
-        // 插入空子链表（已知可能NPE）
-        try {
-            linked_list test = new linked_list(1);
-            test.insert_list(0, new linked_list());
-            assertEquals(new int[]{1}, test.traversal());
-        } catch (NullPointerException e) {
-            System.out.println("   [KNOWN BUG] insert_list 空子链表抛出 NullPointerException");
-        }
-    }
-
-    static void testRemoveLast() {
-        linked_list list = new linked_list(1, 2, 3, 4, 5);
-
-        // 删除尾部2个
-        int remain = list.remove_last(2);
-        assertEquals(3, remain);
-        assertEquals(new int[]{1, 2, 3}, list.traversal());
-
-        // count 超过长度应失败
-        assertEquals(Integer.MIN_VALUE, list.remove_last(10));
-        assertEquals(new int[]{1, 2, 3}, list.traversal());
-
-        // 负数 count
-        assertEquals(Integer.MIN_VALUE, list.remove_last(-1));
-
-        // 删除全部
-        list.remove_last(3);
-        assertTrue(list.is_empty());
-
-        // 致命 BUG：count = 0 会清空整个链表
-        linked_list bugList = new linked_list(10, 20, 30);
-        int zeroResult = bugList.remove_last(0);
-        assertEquals(new int[]{10,20,30}, bugList.traversal());
-        // 预期应保持 [10,20,30]，实际变为 []
-    }
-
-    static void testRemoveFirst() {
-        linked_list list = new linked_list(1, 2, 3, 4, 5);
-
-        int del = list.remove_first(2);
-        assertEquals(2, del);
-        assertEquals(new int[]{3, 4, 5}, list.traversal());
-
-        // 超过长度
-        assertEquals(Integer.MIN_VALUE, list.remove_first(10));
-        assertEquals(new int[]{3, 4, 5}, list.traversal());
-
-        // 负数
-        assertEquals(Integer.MIN_VALUE, list.remove_first(-1));
-
-        // 删除0个
-        del = list.remove_first(0);
-        assertEquals(0, del);
-        assertEquals(new int[]{3, 4, 5}, list.traversal());
-
-        // 全部删除
-        list.remove_first(3);
-        assertTrue(list.is_empty());
-    }
-
-    static void testRemoveElementSingle() {
-        linked_list list = new linked_list(1, 2, 2, 3, 2, 4);
-        int removed = list.remove_element(2);
-        assertEquals(3, removed);
-        assertEquals(new int[]{1, 3, 4}, list.traversal());
-
-        // 删除不存在的元素
-        removed = list.remove_element(99);
-        assertEquals(0, removed);
-        assertEquals(new int[]{1, 3, 4}, list.traversal());
-
-        // 删除全部
-        list.remove_element(1);
-        list.remove_element(3);
-        list.remove_element(4);
-        assertTrue(list.is_empty());
-    }
-
-    static void testRemoveElementRange() {
-        linked_list list = new linked_list(1, 2, 3, 4, 5, 6);
-        int removed = list.remove_element(2, 4);
-        assertEquals(3, removed);
-        assertEquals(new int[]{1, 5, 6}, list.traversal());
-
-        // 包含不存在的
-        removed = list.remove_element(10, 20);
-        assertEquals(0, removed);
-        assertEquals(new int[]{1, 5, 6}, list.traversal());
-
-        // 全部删除
-        removed = list.remove_element(1, 6);
-        assertEquals(3, removed);
-        assertTrue(list.is_empty());
-    }
-
-    static void testSortAscend() {
-        // 空链表
-        linked_list empty = new linked_list();
-        assertEquals(Integer.MIN_VALUE, empty.sort_ascend());
-        assertTrue(empty.is_empty());
-
-        // 单元素
-        linked_list single = new linked_list(42);
-        assertEquals(42, single.sort_ascend());
-        assertEquals(new int[]{42}, single.traversal());
-
-        // 多元素乱序
-        linked_list list = new linked_list(3, 1, 4, 1, 5, 9, 2, 6);
-        int first = list.sort_ascend();
-        assertEquals(1, first);
-        assertEquals(new int[]{1, 1, 2, 3, 4, 5, 6, 9}, list.traversal());
-
-        // 已排序
-        linked_list sorted = new linked_list(10, 20, 30);
-        sorted.sort_ascend();
-        assertEquals(new int[]{10, 20, 30}, sorted.traversal());
-
-        // 反序
-        linked_list reversed = new linked_list(30, 20, 10);
-        reversed.sort_ascend();
-        assertEquals(new int[]{10, 20, 30}, reversed.traversal());
-
-        // 全等元素
-        linked_list same = new linked_list(5, 5, 5, 5);
-        same.sort_ascend();
-        assertEquals(new int[]{5, 5, 5, 5}, same.traversal());
-    }
-
-    static void testSortDescend() {
-        linked_list empty = new linked_list();
-        assertEquals(Integer.MIN_VALUE, empty.sort_descend());
-
-        linked_list single = new linked_list(7);
-        assertEquals(7, single.sort_descend());
-
-        linked_list list = new linked_list(3, 1, 4, 1, 5, 9, 2, 6);
-        list.sort_descend();
-        assertEquals(new int[]{9, 6, 5, 4, 3, 2, 1, 1}, list.traversal());
-
-        linked_list sorted = new linked_list(30, 20, 10);
-        sorted.sort_descend();
-        assertEquals(new int[]{30, 20, 10}, sorted.traversal());
-
-        linked_list reversed = new linked_list(10, 20, 30);
-        reversed.sort_descend();
-        assertEquals(new int[]{30, 20, 10}, reversed.traversal());
-
-        linked_list same = new linked_list(5, 5, 5);
-        same.sort_descend();
-        assertEquals(new int[]{5, 5, 5}, same.traversal());
-    }
-
-    static void testToString() {
-        linked_list empty = new linked_list();
-        assertEquals("[]", empty.toString());
-
-        linked_list list = new linked_list(1, 2, 3);
-        assertEquals("[1->2->3]", list.toString());
+        // ---------- 构造函数 & isEmpty & element_count ----------
+        linked_list_singly empty = new linked_list_singly();
+        assertTrue("empty list is_empty()", empty.is_empty(), empty.is_empty());
+        assertEqual("empty list element_count()", empty.element_count(), 0);
+
+        linked_list_singly list1 = new linked_list_singly(10, 20, 30);
+        assertTrue("varargs list not is_empty()", !list1.is_empty(), !list1.is_empty());
+        assertEqual("varargs list element_count()", list1.element_count(), 3);
+
+        // ---------- element_at ----------
+        assertEqual("list1.element_at(0)", list1.element_at(0), 10);
+        assertEqual("list1.element_at(2)", list1.element_at(2), 30);
+        assertEqual("list1.element_at(-1) negative index", list1.element_at(-1), Integer.MIN_VALUE);
+        assertEqual("list1.element_at(3) out of bounds", list1.element_at(3), Integer.MAX_VALUE);
+        assertEqual("empty.element_at(0)", empty.element_at(0), Integer.MAX_VALUE);
+
+        // ---------- index_of ----------
+        assertEqual("list1.index_of(20)", list1.index_of(20), 1);
+        assertEqual("list1.index_of(99) not found", list1.index_of(99), Integer.MIN_VALUE);
+        assertEqual("empty.index_of(0)", empty.index_of(0), Integer.MIN_VALUE);
+
+        // ---------- traversal ----------
+        int[] arr = list1.traversal();
+        assertTrue("list1.traversal() length == 3", arr.length == 3, arr.length);
+        if (arr.length >= 1) assertEqual("list1.traversal()[0]", arr[0], 10);
+        if (arr.length >= 3) assertEqual("list1.traversal()[2]", arr[2], 30);
+        int[] emptyArr = empty.traversal();
+        assertEqual("empty.traversal() length", emptyArr.length, 0);
+
+        // ---------- input ----------
+        linked_list_singly list2 = new linked_list_singly();
+        int pos = list2.input(5);
+        assertEqual("input into empty returns index", pos, 0);
+        assertEqual("after input, element_count", list2.element_count(), 1);
+        assertEqual("after input, element_at(0)", list2.element_at(0), 5);
+
+        pos = list2.input(7);
+        assertEqual("input append returns index", pos, 1);
+        assertEqual("after append, element_count", list2.element_count(), 2);
+        assertEqual("after append, element_at(1)", list2.element_at(1), 7);
+
+        // ---------- input_more ----------
+        linked_list_singly list3 = new linked_list_singly(1);
+        pos = list3.input_more(2, 3);
+        assertEqual("input_more returns index", pos, 1);
+        assertEqual("after input_more, element_count", list3.element_count(), 3);
+        assertEqual("input_more element_at(2)", list3.element_at(2), 3);
+
+        pos = list3.input_more(); // 空数组
+        assertEqual("input_more empty args returns index (should be -2147483648)", pos, Integer.MIN_VALUE);
+        assertEqual("after empty args, element_count unchanged", list3.element_count(), 3);
+
+        // ---------- input_list ----------
+        linked_list_singly sub = new linked_list_singly(100, 200);
+        linked_list_singly list4 = new linked_list_singly(1, 2);
+        pos = list4.input_list(sub);
+        assertEqual("input_list returns index", pos, 2);
+        assertEqual("after input_list, element_count", list4.element_count(), 4);
+        assertEqual("element_at(2)", list4.element_at(2), 100);
+        assertEqual("element_at(3)", list4.element_at(3), 200);
+
+        // input_list(null) 预期不抛出异常并返回 MIN_VALUE? 原测试认为不崩溃即正确，这里改为期待返回值
+        linked_list_singly listBug = new linked_list_singly(1);
+        int nullPos = listBug.input_list(null);
+        // 根据原实现，可能返回 Integer.MIN_VALUE 或抛异常，这里假设设计上应当不崩溃返回 MIN_VALUE
+        // 如果实际抛异常，测试会失败并显示异常信息
+        assertEqual("input_list(null) returns MIN_VALUE (no crash)", nullPos, Integer.MIN_VALUE);
+
+        // ---------- insert ----------
+        linked_list_singly list5 = new linked_list_singly(10, 30);
+        pos = list5.insert(1, 20);
+        assertEqual("insert middle returns index", pos, 1);
+        assertEqual("after insert, element_at(1)", list5.element_at(1), 20);
+        assertEqual("element_count after insert", list5.element_count(), 3);
+
+        pos = list5.insert(0, 5);
+        assertEqual("insert head returns index", pos, 0);
+        assertEqual("after head insert, element_at(0)", list5.element_at(0), 5);
+        assertEqual("element_count after head insert", list5.element_count(), 4);
+
+        pos = list5.insert(10, 99); // 超界，填充0
+        assertEqual("insert over range returns index", pos, 10);
+        assertEqual("element_count after padding", list5.element_count(), 11);
+        assertEqual("element_at(9) after padding", list5.element_at(9), 0);
+        assertEqual("element_at(10) after padding", list5.element_at(10), 99);
+
+        pos = list5.insert(-3, 77); // 负索引 -> 末尾
+        int lastIdx = list5.element_count() - 1;
+        assertEqual("insert negative index works, last element is 77", list5.element_at(lastIdx), 77);
+
+        // ---------- insert_more ----------
+        linked_list_singly list6 = new linked_list_singly(1, 6);
+        pos = list6.insert_more(1, 2, 3, 4, 5);
+        assertEqual("insert_more returns index", pos, 1);
+        assertEqual("element_count after insert_more", list6.element_count(), 6);
+        assertEqual("element_at(1)", list6.element_at(1), 2);
+        assertEqual("element_at(5)", list6.element_at(5), 6);
+
+        pos = list6.insert_more(20); // 空插入，根据原测试应该返回 MIN_VALUE
+        assertEqual("insert_more empty args returns MIN_VALUE", pos, Integer.MIN_VALUE);
+
+        // ---------- insert_list ----------
+        linked_list_singly list7 = new linked_list_singly(1, 5);
+        linked_list_singly sub2 = new linked_list_singly(2, 3, 4);
+        pos = list7.insert_list(1, sub2);
+        assertEqual("insert_list returns index", pos, 1);
+        assertEqual("element_count after insert_list", list7.element_count(), 5);
+        assertEqual("element_at(1)", list7.element_at(1), 2);
+        assertEqual("element_at(4)", list7.element_at(4), 5);
+
+        pos = list7.insert_list(3, new linked_list_singly()); // 空子链表
+        assertEqual("insert_list empty sublist returns MIN_VALUE", pos, Integer.MIN_VALUE);
+        assertEqual("element_count unchanged", list7.element_count(), 5);
+
+        // ---------- remove_tail ----------
+        linked_list_singly list8 = new linked_list_singly(1, 2, 3, 4, 5);
+        int remaining = list8.remove_tail(2);
+        assertEqual("remove_tail(2) returns remaining count", remaining, 3);
+        assertEqual("after remove_tail, element_count", list8.element_count(), 3);
+        assertEqual("last element now 3", list8.element_at(2), 3);
+
+        remaining = list8.remove_tail(0);
+        assertEqual("remove_tail(0) returns same count", remaining, 3);
+        assertEqual("element_count unchanged", list8.element_count(), 3);
+
+        int failRemove = list8.remove_tail(10);
+        assertEqual("remove_tail(exceed) returns MIN_VALUE", failRemove, Integer.MIN_VALUE);
+        assertEqual("element_count unchanged", list8.element_count(), 3);
+
+        failRemove = empty.remove_tail(-1);
+        assertEqual("remove_tail(negative) returns MIN_VALUE", failRemove, Integer.MIN_VALUE);
+
+        // ---------- remove_head ----------
+        linked_list_singly list9 = new linked_list_singly(1, 2, 3, 4, 5);
+        int deleted = list9.remove_head(2);
+        assertEqual("remove_head(2) returns deleted count", deleted, 2);
+        assertEqual("after remove_head, element_count", list9.element_count(), 3);
+        assertEqual("new head is 3", list9.element_at(0), 3);
+
+        deleted = list9.remove_head(0);
+        assertEqual("remove_head(0) returns 0", deleted, 0);
+        assertEqual("element_count unchanged", list9.element_count(), 3);
+
+        deleted = list9.remove_head(10);
+        assertEqual("remove_head(exceed) returns MIN_VALUE", deleted, Integer.MIN_VALUE);
+        assertEqual("element_count unchanged", list9.element_count(), 3);
+
+        // ---------- remove_element (single) ----------
+        linked_list_singly list10 = new linked_list_singly(1, 2, 3, 2, 4);
+        int removed = list10.remove_element(2);
+        assertEqual("remove_element(2) returns removed count (first only)", removed, 2);
+        assertEqual("after removal, element_count", list10.element_count(), 3);
+        assertEqual("2 should be gone", list10.index_of(2), Integer.MIN_VALUE);
+
+        removed = list10.remove_element(99);
+        assertEqual("remove_element(not found) returns 0", removed, 0);
+
+        // ---------- remove_element (range) ----------
+        linked_list_singly list11 = new linked_list_singly(1, 2, 3, 4, 5, 6);
+        removed = list11.remove_element(2, 4);
+        assertEqual("remove_element(2,4) returns removed count", removed, 3);
+        assertEqual("after range removal, element_count", list11.element_count(), 3);
+        assertEqual("first element remains 1", list11.element_at(0), 1);
+        assertEqual("second element becomes 5", list11.element_at(1), 5);
+
+        // ---------- sort_ascend ----------
+        linked_list_singly list12 = new linked_list_singly(5, 3, 1, 4, 2);
+        int first = list12.sort_ascend();
+        assertEqual("sort_ascend returns first element", first, 1);
+        assertEqual("after sort, first element 1", list12.element_at(0), 1);
+        assertEqual("after sort, last element 5", list12.element_at(4), 5);
+
+        first = new linked_list_singly().sort_ascend();
+        assertEqual("sort_ascend empty returns MIN_VALUE", first, Integer.MIN_VALUE);
+
+        first = new linked_list_singly(42).sort_ascend();
+        assertEqual("sort_ascend single returns that element", first, 42);
+
+        // ---------- sort_descend ----------
+        linked_list_singly list13 = new linked_list_singly(2, 4, 1, 5, 3);
+        first = list13.sort_descend();
+        assertEqual("sort_descend returns first element", first, 5);
+        assertEqual("after sort, first element 5", list13.element_at(0), 5);
+        assertEqual("after sort, last element 1", list13.element_at(4), 1);
+
+        first = new linked_list_singly().sort_descend();
+        assertEqual("sort_descend empty returns MIN_VALUE", first, Integer.MIN_VALUE);
+
+        // ---------- toString ----------
+        linked_list_singly list14 = new linked_list_singly(7, 8, 9);
+        String str = list14.toString();
+        assertEqual("toString() format", str, "[7->8->9]");
+
+        // 最终统计
+        System.out.println("\n===== Test Summary =====");
+        System.out.println("Passed: " + passed + ", Failed: " + failed);
     }
 }

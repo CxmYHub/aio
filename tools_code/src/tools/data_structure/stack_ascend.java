@@ -1,28 +1,28 @@
 package tools.data_structure;
 /**
-<p>单调递减栈类。</p><br>
-单调递减栈是一种特殊的栈，其出栈序列是单调递减的。<br>
-每次取出的元素都是栈中最大的元素。
+<p>单调递增栈类。</p><br>
+单调递增栈是一种特殊的栈，其出栈序列是单调递增的。<br>
+每次取出的元素都是当前栈中最小的元素。
 */
-public class descend_stack
+public class stack_ascend
 {
     public int elements[];
     public int top;
     public int capacity;
     /**
-    构造一个指定容量的空单调递减栈。
+    构造一个指定容量的空单调递增栈。
     @param capacity 栈的容量。
     */
-    public descend_stack(int capacity)
+    public stack_ascend(int capacity)
     {
         elements=new int[capacity];
         top=0;
         this.capacity=capacity;
     }
     /**
-    构造一个默认容量为16的空单调递减栈。
+    构造一个默认容量为16的空单调递增栈。
     */
-    public descend_stack()
+    public stack_ascend()
     {
         elements=new int[16];
         top=0;
@@ -62,7 +62,8 @@ public class descend_stack
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展栈的容量=当前容量*2+2。
+    对单调递增栈进行扩容。<br>
+    新的栈容量=当前容量*2+2。
     @return 新的栈容量=当前容量*2+2。
     */
     public int dilate()
@@ -75,7 +76,8 @@ public class descend_stack
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展栈的容量=当前容量+more_capacity。
+    对单调递增栈进行扩容。<br>
+    新的栈容量=当前容量+more_capacity。
     @param more_capacity 要扩展的容量。
     @return 新的栈容量=当前容量+more_capacity。
     */
@@ -94,14 +96,15 @@ public class descend_stack
     /**
 	<p>此方法会修改调用对象。</p><br>
     将元素压入栈中。<br>
-    会将栈中所有大于element的元素出栈。
+    同时将栈中所有小于待压入元素的元素弹出。
     @param element 要压入栈中的元素。
-    @return 出栈序列，若未出栈则返回空数组。
+    @return 出栈序列。<br>
+    若待压入元素是栈中最小的元素，则不出栈，返回空数组。
     */
     public int[] input(int element)
     {
         int result_length=0;
-        for(int i=top-1;i>=0&&elements[i]>element;i--,result_length++);
+        for(int i=top-1;i>=0&&elements[i]<element;i--,result_length++);
         int result[]=new int[result_length];
         for(int i=0;i<result_length;i++)
         {
@@ -117,10 +120,10 @@ public class descend_stack
     /**
 	<p>此方法会修改调用对象。</p><br>
     将多个元素压入栈中。<br>
-    会将栈中所有大于element的元素出栈。
-    @param elements 要压入栈中的元素数组。
-    @return 每个插入元素对应的出栈序列<br>
-    若当前元素未导致出栈则该元素对应的出栈序列为空数组。
+    同时将栈中所有小于待压入元素的元素弹出。
+    @param elements 要压入栈中的多个元素。
+    @return 每个插入元素对应的出栈序列。<br>
+    若当前元素未导致出栈，则该元素对应的出栈序列为空数组。
     */
     public int[][] input_more(int... elements)
     {
@@ -129,7 +132,7 @@ public class descend_stack
         {
             int element=elements[i];
             int result_length=0;
-            for(int j=top-1;j>=0&&this.elements[j]>element;j--,result_length++);
+            for(int j=top-1;j>=0&&this.elements[j]<element;j--,result_length++);
             result[i]=new int[result_length];
             for(int j=0;j<result_length;j++)
             {
@@ -145,7 +148,8 @@ public class descend_stack
     }
     /**
     获取栈顶元素但不弹出。
-    @return 栈顶元素，如果栈为空则返回Integer.MIN_VALUE。
+    @return 栈顶元素。<br>
+    若栈为空，则返回Integer.MIN_VALUE。
     */
     public int get()
     {
@@ -160,8 +164,9 @@ public class descend_stack
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    弹出栈顶元素。
-    @return 弹出的栈顶元素，如果栈为空则返回Integer.MIN_VALUE。
+    弹出栈顶元素。<br>
+    @return 弹出的栈顶元素。<br>
+    若栈为空，则返回Integer.MIN_VALUE。
     */
     public int output()
     {

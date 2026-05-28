@@ -34,7 +34,7 @@ public class queue
     }
     /**
     判断队列是否为空。
-    @return 如果队列为空则返回true，否则返回false。
+    @return 是否为空。
     */
     public boolean is_empty()
     {
@@ -42,7 +42,7 @@ public class queue
     }
     /**
     判断队列是否已满。
-    @return 如果队列已满则返回true，否则返回false。
+    @return 是否已满。
     */
     public boolean is_full()
     {
@@ -66,7 +66,8 @@ public class queue
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展队列的容量=当前容量*2+2。
+    对队列进行扩容。<br>
+    新的队列容量=当前容量*2+2。
     @return 新的队列容量=当前容量*2+2。
     */
     public int dilate()
@@ -90,7 +91,8 @@ public class queue
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展队列的容量=当前容量+more_capacity。
+    对队列进行扩容。<br>
+    新的队列容量=当前容量+more_capacity。
     @param more_capacity 要扩展的容量。
     @return 新的队列容量=当前容量+more_capacity。
     */
@@ -121,7 +123,7 @@ public class queue
 	<p>此方法会修改调用对象。</p><br>
     将元素入队。
     @param element 要入队的元素。
-    @return 队列的容量，注意不是元素数量。
+    @return 队列中元素的数量。
     */
     public int input(int element)
     {
@@ -135,13 +137,13 @@ public class queue
             rear=0;
             overturn=true;
         }
-        return capacity;
+        return overturn?capacity+rear-top:rear-top;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     将多个元素入队。
-    @param elements 要入队的元素数组。
-    @return 入队的元素数量，即elements.length。
+    @param elements 要入队的多个元素。
+    @return 队列中元素的数量。
     */
     public int input_more(int... elements)
     {
@@ -158,11 +160,12 @@ public class queue
                 overturn=true;
             }
         }
-        return elements.length;
+        return overturn?capacity+rear-top:rear-top;
     }
     /**
     获取队头元素但不出队。
-    @return 队头元素，如果队列为空则返回Integer.MIN_VALUE。
+    @return 队头元素。<br>
+    若队列为空，则返回Integer.MIN_VALUE。
     */
     public int get()
     {
@@ -178,7 +181,8 @@ public class queue
     /**
 	<p>此方法会修改调用对象。</p><br>
     队头元素出队。
-    @return 出队的队头元素，如果队列为空则返回Integer.MIN_VALUE。
+    @return 出队的队头元素。<br>
+    若队列为空，则返回Integer.MIN_VALUE。
     */
     public int output()
     {

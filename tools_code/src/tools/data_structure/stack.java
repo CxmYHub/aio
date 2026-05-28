@@ -31,7 +31,7 @@ public class stack
     }
     /**
     判断栈是否为空。
-    @return 如果栈为空则返回true，否则返回false。
+    @return 是否为空。
     */
     public boolean is_empty()
     {
@@ -39,7 +39,7 @@ public class stack
     }
     /**
     判断栈是否已满。
-    @return 如果栈已满则返回true，否则返回false。
+    @return 是否已满。
     */
     public boolean is_full()
     {
@@ -63,7 +63,8 @@ public class stack
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展栈的容量=当前容量*2+2。
+    对栈进行扩容。<br>
+    新的栈容量=当前容量*2+2。
     @return 新的栈容量=当前容量*2+2。
     */
     public int dilate()
@@ -76,7 +77,8 @@ public class stack
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展栈的容量=当前容量+more_capacity。
+    对栈进行扩容。<br>
+    新的栈容量=当前容量+more_capacity。
     @param more_capacity 要扩展的容量。
     @return 新的栈容量=当前容量+more_capacity。
     */
@@ -96,7 +98,7 @@ public class stack
 	<p>此方法会修改调用对象。</p><br>
     将元素压入栈中。
     @param element 要压入栈中的元素。
-    @return 栈的容量，注意不是元素数量。
+    @return 栈中元素的数量。
     */
     public int input(int element)
     {
@@ -105,13 +107,13 @@ public class stack
             dilate();
         }
         this.elements[top++]=element;
-        return capacity;
+        return top;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     将多个元素压入栈中。
     @param elements 要压入栈中的元素数组。
-    @return 压入栈中的元素数量，即elements.length。
+    @return 栈中元素的数量。
     */
     public int input_more(int... elements)
     {
@@ -123,11 +125,12 @@ public class stack
             }
             this.elements[top++]=element;
         }
-        return elements.length;
+        return top;
     }
     /**
     获取栈顶元素但不弹出。
-    @return 栈顶元素，如果栈为空则返回Integer.MIN_VALUE。
+    @return 栈顶元素。<br>
+    若栈为空，则返回Integer.MIN_VALUE。
     */
     public int get()
     {
@@ -143,7 +146,8 @@ public class stack
     /**
 	<p>此方法会修改调用对象。</p><br>
     弹出栈顶元素。
-    @return 弹出的栈顶元素，如果栈为空则返回Integer.MIN_VALUE。
+    @return 弹出的栈顶元素。<br>
+    若栈为空，则返回Integer.MIN_VALUE。
     */
     public int output()
     {

@@ -5,7 +5,7 @@ package tools.data_structure;
 本最小栈以数组实现，默认容量为16。
 @see stack
 */
-public class min_stack extends stack
+public class stack_min extends stack
 {
     public int min_elements[];
     /**
@@ -13,7 +13,7 @@ public class min_stack extends stack
     @param capacity 栈的容量。
     @see stack#stack(int)
     */
-    public min_stack(int capacity)
+    public stack_min(int capacity)
     {
         super(capacity);
         min_elements=new int[capacity];
@@ -22,14 +22,15 @@ public class min_stack extends stack
     构造一个默认容量为16的空最小栈。
     @see stack#stack()
     */
-    public min_stack()
+    public stack_min()
     {
         super();
         min_elements=new int[16];
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展栈的容量=当前容量*2+2。
+    对最小栈进行扩容。<br>
+    新的栈容量=当前容量*2+2。
     @return 新的栈容量=当前容量*2+2。
     */
     public int dilate()
@@ -45,7 +46,8 @@ public class min_stack extends stack
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    扩展栈的容量=当前容量+more_capacity。
+    对最小栈进行扩容。<br>
+    新的栈容量=当前容量+more_capacity。
     @param more_capacity 要扩展的容量。
     @return 新的栈容量=当前容量+more_capacity。
     */
@@ -66,7 +68,8 @@ public class min_stack extends stack
     }
     /**
     获取栈中最小的元素但不弹出。
-    @return 栈中最小的元素，如果栈为空则返回Integer.MIN_VALUE。
+    @return 栈中最小的元素。<br>
+    若栈为空，则返回Integer.MIN_VALUE。
     */
     public int min_element()
     {
@@ -83,7 +86,7 @@ public class min_stack extends stack
 	<p>此方法会修改调用对象。</p><br>
     将元素压入栈中。
     @param element 要压入栈中的元素。
-    @return 栈的容量，注意不是元素数量。
+    @return 栈中元素的数量。
     @see stack#input(int)
     */
     public int input(int element)
@@ -97,13 +100,13 @@ public class min_stack extends stack
         {
             min_elements[top-1]=Math.min(min_elements[top-2],element);
         }
-        return capacity;
+        return top;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     将多个元素压入栈中。
     @param elements 要压入栈中的元素数组。
-    @return 压入栈中的元素数量，即elements.length。
+    @return 栈中元素的数量。
     @see stack#input_more(int...)
     @see stack#input(int)
     */
@@ -121,6 +124,6 @@ public class min_stack extends stack
                 min_elements[top-1]=Math.min(min_elements[top-2],element);
             }
         }
-        return elements.length;
+        return top;
     }
 }

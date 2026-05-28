@@ -15,10 +15,10 @@ public class binary_tree
     public binary_tree left;
     public binary_tree right;
     /**
-    以树字符串构造一个二叉树对象。<br>
+    通过二叉树字符串构造一个二叉树。<br>
     若传入的节点元素为字符，则存储其ASCII码值。
-    @param tree_string 树字符串。<br>
-    树字符串的格式为：根节点{左子树,右子树}...。<br>
+    @param tree_string 二叉树字符串。<br>
+    二叉树字符串的格式为：根节点{左子树,右子树}...。<br>
     例如：A{B{D,E},C{F,G}}。<br>
     */
     public binary_tree(String tree_string)
@@ -114,7 +114,7 @@ public class binary_tree
         }
     }
     /**
-    以先序遍历序列和中序遍历序列构造一个二叉树对象。
+    通过先序遍历序列和中序遍历序列构造一个二叉树。
     @param preorder 先序遍历序列。
     @param inorder 中序遍历序列。
     */
@@ -154,7 +154,7 @@ public class binary_tree
         }
     }
     /**
-    以中序遍历序列和后序遍历序列构造一个二叉树对象。
+    通过中序遍历序列和后序遍历序列构造一个二叉树。
     @param inorder 中序遍历序列。
     @param postorder 后序遍历序列。
     @param use_inorder_postorder 哑元，代表使用中序遍历序列和后序遍历序列构造二叉树。<br>
@@ -305,7 +305,7 @@ public class binary_tree
     /**
     判断两个二叉树是否相同。
     @param tree 要比较的二叉树。
-    @return 如果两个二叉树相同，则返回true；否则返回false。
+    @return 是否相同。
     */
     public boolean is_same(binary_tree tree)
     {

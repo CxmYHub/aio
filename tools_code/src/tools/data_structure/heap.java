@@ -42,7 +42,8 @@ public class heap
 	}
 	/**
 	<p>此方法会修改调用对象。</p><br>
-	扩展堆的容量=当前容量*2+1。
+	对堆进行扩容。<br>
+	新的堆容量=当前容量*2+1。
 	@return 新的堆容量=当前容量*2+1。
 	*/
 	public int dilate()
@@ -55,7 +56,8 @@ public class heap
 	}
 	/**
 	<p>此方法会修改调用对象。</p><br>
-	扩展堆的容量=当前容量+more_capacity。
+	对堆进行扩容。<br>
+	新的堆容量=当前容量+more_capacity。
 	@param more_capacity 要扩展的容量。
 	@return 新的堆容量=当前容量+more_capacity。
 	*/
@@ -89,7 +91,7 @@ public class heap
 	/**
 	<p>此方法会修改调用对象。</p><br>
 	将多个元素插入堆的末尾。
-	@param elements 要插入的元素。
+	@param elements 要插入的多个元素。
 	@return 插入的元素的数量。
 	*/
 	public int input_more(int... elements)

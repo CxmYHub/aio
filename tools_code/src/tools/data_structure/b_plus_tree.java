@@ -279,8 +279,8 @@ public class b_plus_tree
         return count;
     }
     /**
-    遍历B+树，获取所有元素。
-    @return 所有元素的数组。
+    通过叶节点链表遍历B+树。
+    @return 遍历结果。
     */
     public int[] traversal()
     {
@@ -307,7 +307,7 @@ public class b_plus_tree
     /**
     <p>此方法会修改调用对象。</p><br>
     将一个元素添加到B+树中。
-    @param element 元素。
+    @param element 要添加的元素。
     @return B+树根节点。
     */
     public b_plus_tree input(int element)
@@ -457,8 +457,8 @@ public class b_plus_tree
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    删除B+树中的一个元素。
-    @param element 元素。
+    删除B+树中首个匹配的元素。
+    @param element 要删除的元素。
     @return B+树根节点。
     */
     public b_plus_tree remove(int element)
@@ -688,8 +688,8 @@ public class b_plus_tree
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    删除B+树中所有等于element的元素。
-    @param element 元素。
+    删除B+树中所有匹配的元素。
+    @param element 要删除的元素。
     @return B+树根节点。
     */
     public b_plus_tree remove_all(int element)
