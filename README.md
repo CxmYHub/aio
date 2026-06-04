@@ -684,7 +684,7 @@ tools
 
 ## 4. 使用示例
 
-```java
+``` Java
 import tools.collection.sort;
 import tools.data_structure.heap_ascend;
 import tools.date.datetime;
