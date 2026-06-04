@@ -82,7 +82,7 @@ public class linked_list_singly
             else
             {
                 linked_list_singly pin=this.next;
-                for(;index>0;pin=pin.next,index--);
+                for(;index>0;index--,pin=pin.next);
                 return pin.element;
             }
         }
@@ -131,7 +131,7 @@ public class linked_list_singly
     @param number 要插入的元素。
     @return 插入的位置。
     */
-    public int input(int number)
+    public int input_tail(int number)
     {
         linked_list_singly pin=this;
         int position=0;
@@ -146,7 +146,7 @@ public class linked_list_singly
     @return 插入的位置。<br>
     若元素数组为空，则返回Integer.MIN_VALUE。
     */
-    public int input_more(int... numbers)
+    public int input_more_tail(int... numbers)
     {
         if(numbers!=null&&numbers.length>0)
         {
@@ -168,7 +168,7 @@ public class linked_list_singly
     @return 插入的位置。<br>
     若要插入的单向链表为空，则返回Integer.MIN_VALUE。
     */
-    public int input_list(linked_list_singly list)
+    public int input_list_tail(linked_list_singly list)
     {
         if(list!=null&&list.next!=null)
         {
@@ -185,11 +185,67 @@ public class linked_list_singly
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
+    向单向链表的开头插入一个元素。
+    @param number 要插入的元素。
+    @return 插入的位置。
+    */
+    public int input_head(int number)
+    {
+        next=new linked_list_singly(number,next);
+        return 0;
+    }
+    /**
+	<p>此方法会修改调用对象。</p><br>
+    向单向链表的开头插入多个元素。
+    @param numbers 要插入的多个元素。
+    @return 插入的位置。<br>
+    若元素数组为空，则返回Integer.MIN_VALUE。
+    */
+    public int input_more_head(int... numbers)
+    {
+        if(numbers!=null&&numbers.length>0)
+        {
+            linked_list_singly sub_list=new linked_list_singly(numbers).next;
+            linked_list_singly end=sub_list;
+            for(;end.next!=null;end=end.next);
+            end.next=next;
+            next=sub_list;
+            return 0;
+        }
+        else
+        {
+            return Integer.MIN_VALUE;
+        }
+    }
+    /**
+	<p>此方法会修改调用对象。</p><br>
+    向单向链表的开头插入另一个单向链表。
+    @param list 要插入的单向链表。
+    @return 插入的位置。<br>
+    若要插入的单向链表为空，则返回Integer.MIN_VALUE。
+    */
+    public int input_list_head(linked_list_singly list)
+    {
+        if(list!=null&&list.next!=null)
+        {
+            linked_list_singly end=list.next;
+            for(;end.next!=null;end=end.next);
+            end.next=next;
+            next=list.next;
+            return 0;
+        }
+        else
+        {
+            return Integer.MIN_VALUE;
+        }
+    }
+    /**
+	<p>此方法会修改调用对象。</p><br>
     向单向链表中指定索引位置插入一个元素。
     @param index 索引。<br>
     <ul>
-        <li>当索引小于0时，将元素插入到单向链表的末尾。</li>
-        <li>当索引大于单向链表的元素数量时，将插入一系列空节点直至索引位置，最后插入元素。</li>
+        <li>当索引≤0时，将元素插入单向链表开头。</li>
+        <li>当索引≥单向链表的元素数量时，将元素插入单向链表末尾。</li>
     </ul>
     @param number 要插入的元素。
     @return 插入的位置。
@@ -198,13 +254,8 @@ public class linked_list_singly
     {
         linked_list_singly pin=this;
         int position=0;
-        for(;pin.next!=null&&index!=0;pin=pin.next,index-=index>0?1:0,position++);
-        for(;index>0;pin=pin.next,index--,position++)
-        {
-            pin.next=new linked_list_singly(0,' ');
-        }
-        linked_list_singly insert_node=new linked_list_singly(number,' ');
-        insert_node.next=pin.next;
+        for(;pin.next!=null&&index>0;pin=pin.next,index--,position++);
+        linked_list_singly insert_node=new linked_list_singly(number,pin.next);
         pin.next=insert_node;
         return position;
     }
@@ -213,8 +264,8 @@ public class linked_list_singly
     向单向链表中指定索引位置插入多个元素。
     @param index 索引。<br>
     <ul>
-        <li>当索引小于0时，将元素插入到单向链表的末尾。</li>
-        <li>当索引大于单向链表的元素数量时，将插入一系列空节点直至索引位置，最后插入元素。</li>
+        <li>当索引≤0时，将元素插入单向链表开头。</li>
+        <li>当索引≥单向链表的元素数量时，将元素插入单向链表末尾。</li>
     </ul>
     @param numbers 要插入的多个元素。
     @return 插入的位置。<br>
@@ -222,15 +273,11 @@ public class linked_list_singly
     */
     public int insert_more(int index,int... numbers)
     {
-        if(numbers.length>0)
+        if(numbers!=null&&numbers.length>0)
         {
             linked_list_singly pin=this;
             int position=0;
-            for(;pin.next!=null&&index!=0;pin=pin.next,index-=index>0?1:0,position++);
-            for(;index>0;pin=pin.next,index--,position++)
-            {
-                pin.next=new linked_list_singly(0,' ');
-            }
+            for(;pin.next!=null&&index>0;pin=pin.next,index--,position++);
             linked_list_singly insert_start=new linked_list_singly(numbers).next;
             linked_list_singly end=insert_start;
             for(;end.next!=null;end=end.next);
@@ -248,8 +295,8 @@ public class linked_list_singly
     向单向链表中指定索引位置插入另一个单向链表。
     @param index 索引。<br>
     <ul>
-        <li>当索引小于0时，将待插入链表插入到单向链表的末尾。</li>
-        <li>当索引大于单向链表的元素数量时，将插入一系列空节点直至索引位置，最后插入待插入链表。</li>
+        <li>当索引≤0时，将元素插入单向链表开头。</li>
+        <li>当索引≥单向链表的元素数量时，将元素插入单向链表末尾。</li>
     </ul>
     @param list 要插入的单向链表。
     @return 插入的位置。<br>
@@ -261,11 +308,7 @@ public class linked_list_singly
         {
             linked_list_singly pin=this;
             int position=0;
-            for(;pin.next!=null&&index!=0;pin=pin.next,index-=index>0?1:0,position++);
-            for(;index>0;pin=pin.next,index--,position++)
-            {
-                pin.next=new linked_list_singly(0,' ');
-            }
+            for(;pin.next!=null&&index>0;pin=pin.next,index--,position++);
             linked_list_singly end=list;
             for(;end.next!=null;end=end.next);
             end.next=pin.next;
@@ -281,46 +324,46 @@ public class linked_list_singly
 	<p>此方法会修改调用对象。</p><br>
     删除单向链表末尾的多个元素。
     @param count 要删除的元素数量。
-    @return 剩余元素数量。<br>
-    若count&gt;元素数量，则返回Integer.MIN_VALUE，此时不删除。
+    @return 删除的元素数量。<br>
+    若count&gt;元素数量或count&lt;0或单向链表为空，则返回Integer.MIN_VALUE，此时不删除。
     */
     public int remove_tail(int count)
     {
-        if(count>=0)
+        if(count>0&&next!=null)
         {
+            int delete_count=count;
             linked_list_singly front=this;
             linked_list_singly back=this;
-            for(;count>0;front=front.next,count--)
+            for(;count>0;count--,front=front.next)
             {
                 if(front.next==null)
                 {
                     return Integer.MIN_VALUE;
                 }
             }
-            int node_count=0;
-            for(;front.next!=null;front=front.next,back=back.next,node_count++);
+            for(;front.next!=null;front=front.next,back=back.next);
             back.next=null;
-            return node_count;
+            return delete_count;
         }
         else
         {
-            return Integer.MIN_VALUE;
+            return next!=null?0:Integer.MIN_VALUE;
         }
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
     删除单向链表开头的多个元素。
     @param count 要删除的元素数量。
-    @return 剩余元素数量。<br>
-    若count&gt;元素数量，则返回Integer.MIN_VALUE，此时不删除。
+    @return 删除的元素数量。<br>
+    若count&gt;元素数量或count&lt;0或单向链表为空，则返回Integer.MIN_VALUE，此时不删除。
     */
     public int remove_head(int count)
     {
-        if(count>=0)
+        if(count>0&&next!=null)
         {
             int delete_count=count;
             linked_list_singly pin=this;
-            for(;count>0;pin=pin.next,count--)
+            for(;count>0;count--,pin=pin.next)
             {
                 if(pin.next==null)
                 {
@@ -329,6 +372,34 @@ public class linked_list_singly
             }
             next=pin.next;
             return delete_count;
+        }
+        else
+        {
+            return next!=null?0:Integer.MIN_VALUE;
+        }
+    }
+    /**
+	<p>此方法会修改调用对象。</p><br>
+    删除单向链表中指定索引位置的元素。
+    @param index 要删除的元素的索引。
+    @return 删除的元素。<br>
+    若索引无效或单向链表为空，则返回Integer.MIN_VALUE，此时不删除。
+    */
+    public int remove_index(int index)
+    {
+        if(index>=0&&next!=null)
+        {
+            linked_list_singly pin=this;
+            for(;index>0;index--,pin=pin.next)
+            {
+                if(pin.next==null)
+                {
+                    return Integer.MIN_VALUE;
+                }
+            }
+            int delete_element=pin.next.element;
+            pin.next=pin.next.next;
+            return delete_element;
         }
         else
         {
