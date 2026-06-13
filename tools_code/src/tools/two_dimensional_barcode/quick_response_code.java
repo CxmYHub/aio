@@ -19,19 +19,19 @@ public class quick_response_code
     /**
     通过文本、编码模式、版本号和纠错等级构造二维码。
     @param text 要编码的文本。
+    @param error_correction_level 纠错等级。<br>
+    1:L 低纠错等级(7%)<br>
+    2:M 中纠错等级(15%)<br>
+    3:Q 高纠错等级(25%)<br>
+    4:H 超高纠错等级(30%)
+    @param version 版本。<br>
+    版本∈[1,40]，对应的二维码边长为<code>(version-1)*4+21</code>。
     @param mode 编码模式。<br>
     0:数字模式<br>
     1:数字字母模式<br>
     2:字节模式<br>
     3:日文模式<br>
     4:扩展解释模式（需要使用字节模式掩码）
-    @param version 版本。<br>
-    版本∈[1,40]，对应的二维码边长为<code>(version-1)*4+21</code>。
-    @param error_correction_level 纠错等级。<br>
-    1:L 低纠错等级(7%)<br>
-    2:M 中纠错等级(15%)<br>
-    3:Q 高纠错等级(25%)<br>
-    4:H 超高纠错等级(30%)
     */
     public quick_response_code(String text,int error_correction_level,int version,int mode)
     {
@@ -860,7 +860,7 @@ public class quick_response_code
             }
         }
         graph.dispose();
-        JFrame frame=new JFrame(version+switch(error_correction_level){case 1->"L";case 2->"M";case 3->"Q";case 4->"H";default->"L";});
+        JFrame frame=new JFrame(version+switch(error_correction_level){case 1->"L";case 2->"M";case 3->"Q";case 4->"H";default->"L";}+" 掩膜"+mask);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
         frame.pack();
@@ -905,7 +905,7 @@ public class quick_response_code
         result.append("版本:"+version+"\n");
         result.append("纠错等级:"+error_correction_level+"\n");
         result.append("编码模式:"+mode+"\n");
-        result.append("掩码模式:"+mask+"\n");
+        result.append("掩膜编号:"+mask+"\n");
         // for(int i=0;i<side;i++)
         // {
         //     for(int j=0;j<side;j++)
