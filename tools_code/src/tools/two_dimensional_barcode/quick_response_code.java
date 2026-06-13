@@ -14,6 +14,7 @@ public class quick_response_code
     public int version=1;
     public int error_correction_level=1;
     public int mode=2;
+    public int mask=0;
     public String encoded_text;
     /**
     通过文本、编码模式、版本号和纠错等级构造二维码。
@@ -32,9 +33,10 @@ public class quick_response_code
     3:Q 高纠错等级(25%)<br>
     4:H 超高纠错等级(30%)
     */
-    public quick_response_code(String text,int mode,int version,int error_correction_level)
+    public quick_response_code(String text,int error_correction_level,int version,int mode)
     {
         this.version=version;
+        this.mode=mode;
         if(version<1||version>40)
         {
             this.version=-1;
@@ -392,6 +394,7 @@ public class quick_response_code
         }
         int pin_x=side-1,pin_y=side-1;
         boolean going_up=true,going_left=true;
+        System.out.println("data_convert_pin="+(data_convert_pin>>3));
         for(data_pin=0;data_pin<data_convert_pin;)
         {
             if(!protect[pin_y][pin_x])
@@ -451,8 +454,7 @@ public class quick_response_code
                 }
             }
         }
-        byte mask_mode=0;
-        byte min_punishment_mask_mode=0;
+        int min_punishment_mask_mode=0;
         boolean min_punishment_field[][]=null;
         int min_punishment=Integer.MAX_VALUE;
         boolean pattern_1011101[]={true,false,true,true,true,false,true};
@@ -461,14 +463,14 @@ public class quick_response_code
         int next_00001011101[]={0,0,0,0,4,0,2,0,0,0,0,0};
         boolean pattern_10111010000[]={true,false,true,true,true,false,true,false,false,false,false};
         int next_10111010000[]={0,1,0,2,2,1,0,4,3,0,0,0};
-        for(;mask_mode<8;mask_mode++)
+        for(;mask<8;mask++)
         {
             boolean masked_field[][]=new boolean[side][side];
             for(int y=0;y<side;y++)
             {
                 System.arraycopy(field[y],0,masked_field[y],0,side);
             }
-            switch(mask_mode)
+            switch(mask)
             {
                 case 0->
                 {
@@ -496,7 +498,7 @@ public class quick_response_code
                     {
                         for(int x=0;x<side;x++)
                         {
-                            masked_field[y][x]^=!protect[y][x]&&x%2==0;
+                            masked_field[y][x]^=!protect[y][x]&&x%3==0;
                         }
                     }
                 }
@@ -717,13 +719,13 @@ public class quick_response_code
             if(punishment<min_punishment)
             {
                 min_punishment=punishment;
-                min_punishment_mask_mode=mask_mode;
+                min_punishment_mask_mode=mask;
                 min_punishment_field=masked_field;
             }
         }
         field=min_punishment_field;
-        mask_mode=min_punishment_mask_mode;
-        int format_code=barcode.format_code_table[error_correction_level][mask_mode];
+        mask=min_punishment_mask_mode;
+        int format_code=barcode.format_code_table[error_correction_level][mask];
         for(int i=0;i<15;i++)
         {
             boolean bit=(format_code>>14-i&1)==1;
@@ -823,7 +825,7 @@ public class quick_response_code
                 left=middle+1;
             }
         }
-        this(text,mode,version,error_correction_level);
+        this(text,error_correction_level,version,mode);
     }
     /**
     通过文本构造二维码。<br>
@@ -858,8 +860,8 @@ public class quick_response_code
             }
         }
         graph.dispose();
-        JFrame frame=new JFrame(encoded_text);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame=new JFrame(version+switch(error_correction_level){case 1->"L";case 2->"M";case 3->"Q";case 4->"H";default->"L";});
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -890,7 +892,7 @@ public class quick_response_code
             }
         }
         graph.dispose();
-        JFrame frame=new JFrame(encoded_text);
+        JFrame frame=new JFrame(version+switch(error_correction_level){case 1->"L";case 2->"M";case 3->"Q";case 4->"H";default->"L";}+" 掩膜"+mask);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
         frame.pack();
@@ -902,15 +904,17 @@ public class quick_response_code
         StringBuilder result=new StringBuilder();
         result.append("版本:"+version+"\n");
         result.append("纠错等级:"+error_correction_level+"\n");
-        for(int i=0;i<side;i++)
-        {
-            for(int j=0;j<side;j++)
-            {
-                result.append(field[i][j]?"██":"  ");
-            }
-            result.append("\n");
-        }
-        result.delete(result.length()-1,result.length());
+        result.append("编码模式:"+mode+"\n");
+        result.append("掩码模式:"+mask+"\n");
+        // for(int i=0;i<side;i++)
+        // {
+        //     for(int j=0;j<side;j++)
+        //     {
+        //         result.append(field[i][j]?"██":"  ");
+        //     }
+        //     result.append("\n");
+        // }
+        // result.delete(result.length()-1,result.length());
         return result.toString();
     }
 }
