@@ -56,9 +56,9 @@ public class quick_response_code
                 return;
             }
         }
-        byte mode_header_binary=(byte)meta.mode_mask[mode];
+        byte mode_header_binary=(byte)barcode.mode_mask[mode];
         short character_count_header_binary=(short)(code_length);
-        int data_byte_count=meta.data_code_word_count[version][error_correction_level];
+        int data_byte_count=barcode.data_code_word_count[version][error_correction_level];
         boolean data[]=new boolean[data_byte_count<<3];
         int data_pin=0;
         int header_bit_count=0;
@@ -76,7 +76,7 @@ public class quick_response_code
         {
             data[data_pin]=(mode_header_binary>>(header_bit_count-1-data_pin)&1)==1;
         }
-        header_bit_count+=meta.code_length_bit_count[version][mode];
+        header_bit_count+=barcode.code_length_bit_count[version][mode];
         for(;data_pin<header_bit_count;data_pin++)
         {
             data[data_pin]=(character_count_header_binary>>(header_bit_count-1-data_pin)&1)==1;
@@ -124,7 +124,7 @@ public class quick_response_code
                 int alphanumeric_group=0,group_bit_movement=-1;
                 for(;i<code_length;i+=2)
                 {
-                    alphanumeric_group=meta.alphanumeric_table[text.charAt(i-1)]*45+meta.alphanumeric_table[text.charAt(i)];
+                    alphanumeric_group=barcode.alphanumeric_table[text.charAt(i-1)]*45+barcode.alphanumeric_table[text.charAt(i)];
                     for(group_bit_movement=10;group_bit_movement>=0;group_bit_movement--)
                     {
                         data[data_pin++]=(alphanumeric_group>>(group_bit_movement)&1)==1;
@@ -132,7 +132,7 @@ public class quick_response_code
                 }
                 if(i==code_length)
                 {
-                    alphanumeric_group=meta.alphanumeric_table[text.charAt(code_length-1)];
+                    alphanumeric_group=barcode.alphanumeric_table[text.charAt(code_length-1)];
                     for(group_bit_movement=5;group_bit_movement>=0;group_bit_movement--)
                     {
                         data[data_pin++]=(alphanumeric_group>>(group_bit_movement)&1)==1;
@@ -192,18 +192,18 @@ public class quick_response_code
                 data[data_pin+7]=true;
             }
         }
-        int block_count_per_group[]=meta.block_count_per_group[version][error_correction_level];
-        side=meta.side_length[version];
+        int block_count_per_group[]=barcode.block_count_per_group[version][error_correction_level];
+        side=barcode.side_length[version];
         int group_count=block_count_per_group.length;
         int blocked_byte[][][]=new int[group_count][][];
-        int error_correction_code_word_count_per_block=meta.error_correction_code_word_count_per_block[version][error_correction_level];
-        int generator_polynomial_coefficient[]=meta.generator_polynomial_coefficient[error_correction_code_word_count_per_block];
+        int error_correction_code_word_count_per_block=barcode.error_correction_code_word_count_per_block[version][error_correction_level];
+        int generator_polynomial_coefficient[]=barcode.generator_polynomial_coefficient[error_correction_code_word_count_per_block];
         int data_convert_pin=0;
         int min_block_data_count=Integer.MAX_VALUE;
         for(int i=0;i<group_count;i++)
         {
             int group_size=block_count_per_group[i];
-            int block_data_count=meta.data_code_word_count_per_block[version][error_correction_level][i];
+            int block_data_count=barcode.data_code_word_count_per_block[version][error_correction_level][i];
             min_block_data_count=min_block_data_count<block_data_count?min_block_data_count:block_data_count;
             int block_size=block_data_count+error_correction_code_word_count_per_block;
             blocked_byte[i]=new int[group_size][];
@@ -227,7 +227,7 @@ public class quick_response_code
                         {
                             if(factor!=0&&generator_polynomial_coefficient[l]!=0)
                             {
-                                data_remainder_polynomial_coefficient[k+l]^=meta.exponential_finite_field_256[(meta.logarithm_finite_field_256[factor]+meta.logarithm_finite_field_256[generator_polynomial_coefficient[l]])%255];
+                                data_remainder_polynomial_coefficient[k+l]^=barcode.exponential_finite_field_256[(barcode.logarithm_finite_field_256[factor]+barcode.logarithm_finite_field_256[generator_polynomial_coefficient[l]])%255];
                             }
                         }
                     }
@@ -296,7 +296,7 @@ public class quick_response_code
                 }
             }
         }
-        data_convert_pin+=meta.message_bit_stream_rest_count[version];
+        data_convert_pin+=barcode.message_bit_stream_rest_count[version];
         field=new boolean[side][side];
         boolean protect[][]=new boolean[side][side];
         for(int y=0;y<7;y++)
@@ -348,7 +348,7 @@ public class quick_response_code
         }
         if(version>=2)
         {
-            int alignment_pattern_center_position[][]=meta.alignment_pattern_center_position[version];
+            int alignment_pattern_center_position[][]=barcode.alignment_pattern_center_position[version];
             for(int i=alignment_pattern_center_position.length-1;i>=0;i--)
             {
                 int y=alignment_pattern_center_position[i][0];
@@ -451,30 +451,279 @@ public class quick_response_code
                 }
             }
         }
-        for(int y=0;y<side;y++)
-        {
-            for(int x=0;x<side;x++)
-            {
-                field[y][x]^=!protect[y][x]&&(y+x)%2==0;
-            }
-        }
         byte mask_mode=0;
-        int format_code=(meta.error_correction_mask[error_correction_level]<<3|mask_mode)<<10;
-        int error_correction_bit=format_code;
-        int format_generator_polynomial_coefficient=0b10100110111;
-        for(;;)
+        byte min_punishment_mask_mode=0;
+        boolean min_punishment_field[][]=null;
+        int min_punishment=Integer.MAX_VALUE;
+        boolean pattern_1011101[]={true,false,true,true,true,false,true};
+        int next_1011101[]={0,1,0,2,2,1,0,3};
+        boolean pattern_00001011101[]={false,false,false,false,true,false,true,true,true,false,true};
+        int next_00001011101[]={0,0,0,0,4,0,2,0,0,0,0,0};
+        boolean pattern_10111010000[]={true,false,true,true,true,false,true,false,false,false,false};
+        int next_10111010000[]={0,1,0,2,2,1,0,4,3,0,0,0};
+        for(;mask_mode<8;mask_mode++)
         {
-            int bit_delta=0;
-            for(int temp=error_correction_bit;temp>0;temp>>=1,bit_delta++);
-            if(bit_delta<=10)
+            boolean masked_field[][]=new boolean[side][side];
+            for(int y=0;y<side;y++)
             {
-                break;
+                System.arraycopy(field[y],0,masked_field[y],0,side);
             }
-            for(int temp=format_generator_polynomial_coefficient;temp>0;temp>>=1,bit_delta--);
-            error_correction_bit^=format_generator_polynomial_coefficient<<bit_delta;
+            switch(mask_mode)
+            {
+                case 0->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&(y+x)%2==0;
+                        }
+                    }
+                }
+                case 1->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&y%2==0;
+                        }
+                    }
+                }
+                case 2->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&x%2==0;
+                        }
+                    }
+                }
+                case 3->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&(y+x)%3==0;
+                        }
+                    }
+                }
+                case 4->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&(y/2+x/3)%2==0;
+                        }
+                    }
+                }
+                case 5->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&(y*x)%2+(y*x)%3==0;
+                        }
+                    }
+                }
+                case 6->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&((y*x)%2+(y*x)%3)%2==0;
+                        }
+                    }
+                }
+                case 7->
+                {
+                    for(int y=0;y<side;y++)
+                    {
+                        for(int x=0;x<side;x++)
+                        {
+                            masked_field[y][x]^=!protect[y][x]&&((y+x)%2+(y*x)%3)%2==0;
+                        }
+                    }
+                }
+            }
+            int punishment=0;
+            int true_count=0;
+            for(int y=0;y<side;y++)
+            {
+                int row_continuity=0;
+                int column_continuity=0;
+                int pin_1011101_row=0,pin_00001011101_row=0,pin_10111010000_row=0;
+                int pin_1011101_column=0,pin_00001011101_column=0,pin_10111010000_column=0;
+                for(int x=0;x<side;x++)
+                {
+                    boolean row_bit=masked_field[y][x];
+                    boolean column_bit=masked_field[x][y];
+                    if(row_bit)
+                    {
+                        if(row_continuity>=0)
+                        {
+                            row_continuity++;
+                        }
+                        else if(row_continuity<=-5)
+                        {
+                            punishment-=row_continuity+2;
+                            row_continuity=1;
+                        }
+                    }
+                    else
+                    {
+                        if(row_continuity<=0)
+                        {
+                            row_continuity--;
+                        }
+                        else if(row_continuity>=5)
+                        {
+                            punishment+=row_continuity-2;
+                            row_continuity=-1;
+                        }
+                    }
+                    if(column_bit)
+                    {
+                        if(column_continuity>=0)
+                        {
+                            column_continuity++;
+                        }
+                        else if(column_continuity<=-5)
+                        {
+                            punishment-=column_continuity+2;
+                            column_continuity=1;
+                        }
+                    }
+                    else
+                    {
+                        if(column_continuity<=0)
+                        {
+                            column_continuity--;
+                        }
+                        else if(column_continuity>=5)
+                        {
+                            punishment+=column_continuity-2;
+                            column_continuity=-1;
+                        }
+                    }
+                    if(x<side-1&&y<side-1&&row_bit&&masked_field[y+1][x+1]&&masked_field[y+1][x]&&masked_field[y][x+1])
+                    {
+                        punishment+=3;
+                    }
+                    if(row_bit==pattern_1011101[pin_1011101_row])
+                    {
+                        pin_1011101_row++;
+                        if(pin_1011101_row==7)
+                        {
+                            pin_1011101_row=next_1011101[pin_1011101_row];
+                            punishment+=40;
+                        }
+                    }
+                    else
+                    {
+                        pin_1011101_row=next_1011101[pin_1011101_row];
+                    }
+                    if(column_bit==pattern_1011101[pin_1011101_column])
+                    {
+                        pin_1011101_column++;
+                        if(pin_1011101_column==7)
+                        {
+                            pin_1011101_column=next_1011101[pin_1011101_column];
+                            punishment+=40;
+                        }
+                    }
+                    else
+                    {
+                        pin_1011101_column=next_1011101[pin_1011101_column];
+                    }
+                    if(row_bit==pattern_00001011101[pin_00001011101_row])
+                    {
+                        pin_00001011101_row++;
+                        if(pin_00001011101_row==7)
+                        {
+                            pin_00001011101_row=next_00001011101[pin_00001011101_row];
+                            punishment+=40;
+                        }
+                    }
+                    else
+                    {
+                        pin_00001011101_row=next_00001011101[pin_00001011101_row];
+                    }
+                    if(column_bit==pattern_00001011101[pin_00001011101_column])
+                    {
+                        pin_00001011101_column++;
+                        if(pin_00001011101_column==7)
+                        {
+                            pin_00001011101_column=next_00001011101[pin_00001011101_column];
+                            punishment+=40;
+                        }
+                    }
+                    else
+                    {
+                        pin_00001011101_column=next_00001011101[pin_00001011101_column];
+                    }
+                    if(row_bit==pattern_10111010000[pin_10111010000_row])
+                    {
+                        pin_10111010000_row++;
+                        if(pin_10111010000_row==7)
+                        {
+                            pin_10111010000_row=next_10111010000[pin_10111010000_row];
+                            punishment+=40;
+                        }
+                    }
+                    else
+                    {
+                        pin_10111010000_row=next_10111010000[pin_10111010000_row];
+                    }
+                    if(column_bit==pattern_10111010000[pin_10111010000_column])
+                    {
+                        pin_10111010000_column++;
+                        if(pin_10111010000_column==7)
+                        {
+                            pin_10111010000_column=next_10111010000[pin_10111010000_column];
+                            punishment+=40;
+                        }
+                    }
+                    else
+                    {
+                        pin_10111010000_column=next_10111010000[pin_10111010000_column];
+                    }
+                    true_count+=row_bit?1:0;
+                }
+                if(row_continuity>=5)
+                {
+                    punishment+=row_continuity-2;
+                }
+                else if(row_continuity<=-5)
+                {
+                    punishment-=row_continuity+2;
+                }
+                if(column_continuity>=5)
+                {
+                    punishment+=column_continuity-2;
+                }
+                else if(column_continuity<=-5)
+                {
+                    punishment-=column_continuity+2;
+                }
+            }
+            int delta_punishment=(true_count*100/side/side-50)*2;
+            punishment+=delta_punishment>=0?delta_punishment:-delta_punishment;
+            if(punishment<min_punishment)
+            {
+                min_punishment=punishment;
+                min_punishment_mask_mode=mask_mode;
+                min_punishment_field=masked_field;
+            }
         }
-        format_code|=error_correction_bit;
-        format_code^=0b101010000010010;
+        field=min_punishment_field;
+        mask_mode=min_punishment_mask_mode;
+        int format_code=barcode.format_code_table[error_correction_level][mask_mode];
         for(int i=0;i<15;i++)
         {
             boolean bit=(format_code>>14-i&1)==1;
@@ -501,21 +750,7 @@ public class quick_response_code
         }
         if(version>=7)
         {
-            int version_code=version<<12;
-            error_correction_bit=version_code;
-            int version_generator_polynomial_coefficient=0b1111100100101;
-            for(;;)
-            {
-                int bit_delta=0;
-                for(int temp=error_correction_bit;temp>0;temp>>=1,bit_delta++);
-                if(bit_delta<=12)
-                {
-                    break;
-                }
-                for(int temp=version_generator_polynomial_coefficient;temp>0;temp>>=1,bit_delta--);
-                error_correction_bit^=version_generator_polynomial_coefficient<<bit_delta;
-            }
-            version_code|=error_correction_bit;
+            int version_code=barcode.version_code_table[version];
             for(int i=0;i<18;i++)
             {
                 boolean bit=(version_code>>i&1)==1;
@@ -569,7 +804,7 @@ public class quick_response_code
                 version=-1;
             }
         }
-        if(code_length>meta.effective_data_code_word_count[40][1][mode])
+        if(code_length>barcode.effective_data_code_word_count[40][error_correction_level][mode])
         {
             version=-1;
         }
@@ -577,7 +812,7 @@ public class quick_response_code
         while(left<=right)
         {
             int middle=left+right>>1;
-            int now_capacity=meta.effective_data_code_word_count[middle][error_correction_level][mode];
+            int now_capacity=barcode.effective_data_code_word_count[middle][error_correction_level][mode];
             if(now_capacity>=code_length)
             {
                 version=middle;
@@ -623,8 +858,40 @@ public class quick_response_code
             }
         }
         graph.dispose();
-        JFrame frame=new JFrame("二维码");
+        JFrame frame=new JFrame(encoded_text);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+    /**
+    弹窗显示二维码。<br>
+    自适应像素块大小。
+    */
+    public void display()
+    {
+        int scale=1000/(side+8);
+        scale=scale>12?12:scale;
+        int size=(side+8)*scale;
+        BufferedImage image=new BufferedImage(size,size,BufferedImage.TYPE_INT_RGB);
+        Graphics2D graph=image.createGraphics();
+        graph.setColor(Color.WHITE);
+        graph.fillRect(0,0,size,size);
+        graph.setColor(Color.BLACK);
+        for(int i=0;i<side;i++)
+        {
+            for(int j=0;j<side;j++)
+            {
+                if(field[i][j])
+                {
+                    graph.fillRect((i+4)*scale,(j+4)*scale,scale,scale);
+                }
+            }
+        }
+        graph.dispose();
+        JFrame frame=new JFrame(encoded_text);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
         frame.pack();
         frame.setLocationRelativeTo(null);
