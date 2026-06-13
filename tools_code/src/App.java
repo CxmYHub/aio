@@ -13,5 +13,13 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
+        String text=
+        """
+        TEXTtext
+        """
+        ;
+        quick_response_code qrc=new quick_response_code(text,1);
+        System.out.println(qrc);
+        qrc.display();
     }
 }

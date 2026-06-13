@@ -159,7 +159,7 @@ public class converting_array
                 }
                 else
                 {
-                    writer.write(numbers[i-1]+"}}");
+                    writer.write(numbers[i]+"}}");
                 }
                 writer.flush();
             }
@@ -427,7 +427,7 @@ public class converting_array
             e.printStackTrace();
         }
     }
-    public static void output_generator_polynomial()
+    public static void output_generator_polynomial_coefficient()
     {
         int error_correction_map[]={7,10,13,15,16,17,18,20,22,24,26,28,30};
         int pin_ecm=0;
@@ -671,6 +671,6 @@ public class converting_array
     }
     public static void main(String args[])
     {
-        output_version_code();
+        output_generator_polynomial_coefficient();
     }
 }
