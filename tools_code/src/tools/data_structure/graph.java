@@ -13,8 +13,13 @@ public class graph
     public boolean righted=false;
     /**
     通过图字符串构造一个图。
-    @param graph_string 图字符串，格式为"{(v1,v2,w1),(v2,v3,w2),...}"。
-    @param type 图的类型，1表示无向无权图，2表示无向有权图，3表示有向有权图。
+    @param graph_string 图字符串，格式为<code>{(v1,v2,w1),(v2,v3,w2),...}</code>。
+    @param type 图的类型。<br>
+    <ol>
+        <li>无向无权图。</li>
+        <li>无向有权图。</li>
+        <li>有向有权图。</li>
+    </ol>
     */
     public graph(String graph_string,int type)
     {

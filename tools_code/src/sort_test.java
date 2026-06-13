@@ -1,7 +1,7 @@
 import tools.collection.*;
 import tools.data_structure.*;
+import tools.date_time.*;
 import tools.mathematics.*;
-import tools.date.*;
 import java.util.*;
 import java.time.*;
 public class sort_test
@@ -36,7 +36,7 @@ public class sort_test
                 offical_end=System.nanoTime();
             }
             long start=System.nanoTime();
-            sort.radix(numbers);
+            sort.quick_dual_pivot(numbers);
             // concurrent_sort.concurrent_quick_dual_pivot(numbers);
             long end=System.nanoTime();
             if(judging)

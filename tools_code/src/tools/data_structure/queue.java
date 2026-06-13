@@ -92,9 +92,9 @@ public class queue
     /**
 	<p>此方法会修改调用对象。</p><br>
     对队列进行扩容。<br>
-    新的队列容量=当前容量+more_capacity。
+    新的队列容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
-    @return 新的队列容量=当前容量+more_capacity。
+    @return 新的队列容量=当前容量+<code>more_capacity</code>。
     */
     public int dilate(int more_capacity)
     {
@@ -165,7 +165,7 @@ public class queue
     /**
     获取队头元素但不出队。
     @return 队头元素。<br>
-    若队列为空，则返回Integer.MIN_VALUE。
+    若队列为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int get()
     {
@@ -182,7 +182,7 @@ public class queue
 	<p>此方法会修改调用对象。</p><br>
     队头元素出队。
     @return 出队的队头元素。<br>
-    若队列为空，则返回Integer.MIN_VALUE。
+    若队列为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int output()
     {

@@ -467,7 +467,7 @@ class concurrent_quick_dual_pivot_sort implements Runnable
 }
 /**
 <p>并发排序类。</p><br>
-<p style="color:#FF0000;">此类功能可能不稳定，若非学习、研究和极端情况，请使用collection.sort类进行排序。</p><br>
+<p style="color:#FF0000;">此类功能可能不稳定，若非学习、研究和极端情况，请使用<code>collection.sort</code>类进行排序。</p><br>
 用于对数组进行排序。<br>
 使用并发操作提高效率。
 */

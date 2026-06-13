@@ -399,7 +399,7 @@ public class huffman_tree_byte
 	获取指定字节的霍夫曼编码。
 	@param datum 待编码字节。
 	@return 字节的霍夫曼编码。<br>
-	若字节不存在于树中，则返回null。
+	若字节不存在于树中，则返回<code>null</code>。
 	*/
 	public String get_code(byte datum)
 	{

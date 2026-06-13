@@ -171,10 +171,10 @@ public class b_plus_tree
         return total;
     }
     /**
-    获取B+树中[min,max]范围内元素的数量。
+    获取B+树中[<code>min</code>,<code>max</code>]范围内元素的数量。
     @param min 最小值。
     @param max 最大值。
-    @return [min,max]范围内元素的数量。
+    @return [<code>min</code>,<code>max</code>]范围内元素的数量。
     */
     public int get(int min,int max)
     {

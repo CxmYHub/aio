@@ -75,7 +75,7 @@ public class matrix
 	@param target_row 要获取的元素所在的行。
 	@param target_column 要获取的元素所在的列。
 	@return 如果指定位置在矩阵范围内，则返回该位置的元素。<br>
-	否则返回Integer.MIN_VALUE。
+	否则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int get_element(int target_row,int target_column)
 	{
@@ -94,7 +94,7 @@ public class matrix
 	@param row1 要交换的第一行。
 	@param row2 要交换的第二行。
 	@return 如果交换成功则返回矩阵系数。<br>
-	否则返回Integer.MIN_VALUE。
+	否则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int row_exchange(int row1,int row2)
 	{
@@ -121,7 +121,7 @@ public class matrix
 	@param target_row 要操作的行。
 	@param k 要乘以的非零数。
 	@return 如果操作成功则返回该行的第一个元素。<br>
-	否则返回Integer.MIN_VALUE。
+	否则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int row_multiply(int target_row,int k)
 	{
@@ -141,12 +141,12 @@ public class matrix
 	/**
 	<p>此方法会修改调用对象。</p><br>
 	将矩阵中的一行加上另一行的倍数。<br>
-	将source_row行的每个元素乘以k，加至target_row行的对应元素。
+	将<code>source_row</code>行的每个元素乘以<code>k</code>，加至<code>target_row</code>行的对应元素。
 	@param source_row 要加上的行。
 	@param target_row 要操作的行。
 	@param k 要乘以的倍数。
 	@return 如果操作成功则返回该行的第一个元素。<br>
-	否则返回Integer.MIN_VALUE。
+	否则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int row_add_to(int source_row,int target_row,int k)
 	{
@@ -169,7 +169,7 @@ public class matrix
 	@param column1 要交换的第一列。
 	@param column2 要交换的第二列。
 	@return 如果交换成功则返回矩阵系数。<br>
-	否则返回Integer.MIN_VALUE。
+	否则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int column_exchange(int column1,int column2)
 	{
@@ -196,7 +196,7 @@ public class matrix
 	@param target_column 要操作的列。
 	@param k 要乘以的非零数。
 	@return 如果操作成功则返回该列的第一个元素。<br>
-	否则返回Integer.MIN_VALUE。
+	否则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int column_multiply(int target_column,int k)
 	{
@@ -216,12 +216,12 @@ public class matrix
 	/**
 	<p>此方法会修改调用对象。</p><br>
 	将矩阵中的一列加上另一列的倍数。<br>
-	将source_column列的每个元素乘以k，加至target_column列的对应元素。
+	将<code>source_column</code>列的每个元素乘以<code>k</code>，加至<code>target_column</code>列的对应元素。
 	@param source_column 要加上的列。
 	@param target_column 要操作的列。
 	@param k 要乘以的倍数。
 	@return 如果操作成功则返回该列的第一个元素。<br>
-	否则返回Integer.MIN_VALUE。
+	否则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int column_add_to(int source_column,int target_column,int k)
 	{
@@ -498,7 +498,7 @@ public class matrix
 	<p>此方法会修改调用对象。</p><br>
 	计算两个矩阵的乘积。
 	@param factor 右矩阵数组。
-	@return 当矩阵乘法合法，即左矩阵列数=右矩阵行数时返回this<br>
+	@return 当矩阵乘法合法，即左矩阵列数=右矩阵行数时返回<code>this</code>；<br>
 	否则返回一个1*1的矩阵。
 	*/
 	public matrix multiply(int factor[][])
@@ -532,8 +532,8 @@ public class matrix
 	计算两个二维数组的矩阵乘积。
 	@param factor_left 左矩阵数组。
 	@param factor_right 右矩阵数组。
-	@return 当矩阵乘法合法，即左矩阵列数=右矩阵行数时返回矩阵乘积的二维数组形式<br>
-	否则返回null。
+	@return 当矩阵乘法合法，即左矩阵列数=右矩阵行数时返回矩阵乘积的二维数组形式；<br>
+	否则返回<code>null</code>。
 	*/
 	public static int[][] multiply(int factor_left[][],int factor_right[][])
 	{
@@ -564,7 +564,7 @@ public class matrix
 	<p>此方法会修改调用对象。</p><br>
 	右乘矩阵。
 	@param factor 右矩阵。
-	@return 当矩阵乘法合法，即左矩阵列数=右矩阵行数时返回this<br>
+	@return 当矩阵乘法合法，即左矩阵列数=右矩阵行数时返回<code>this</code>；<br>
 	否则返回一个1*1的矩阵。
 	*/
 	public matrix multiply(matrix factor)

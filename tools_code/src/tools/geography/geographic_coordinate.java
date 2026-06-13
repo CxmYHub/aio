@@ -26,7 +26,8 @@ public class geographic_coordinate
     /**
     将小数角度转换为度分秒格式角度。
     @param deg 角度（小数角度）。
-    @return 度分秒格式的数组，格式为[度,分,秒]。
+    @return 度分秒格式的数组。<br>
+    <code>{度,分,秒}</code>。
     */
     public static int[] deg_to_dms(double deg)
     {
@@ -34,7 +35,8 @@ public class geographic_coordinate
     }
     /**
     将度分秒格式角度转换为小数角度。
-    @param dms 度分秒格式的数组，格式为[度,分,秒]。
+    @param dms 度分秒格式的数组。<br>
+    <code>{度,分,秒}</code>。
     @return 角度（小数角度）。
     */
     public static double dms_to_deg(int dms[])

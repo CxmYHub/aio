@@ -46,7 +46,7 @@ public class linked_list_singly
     }
     /**
     判断单向链表是否为空。
-    @return 如果单向链表为空则返回true，否则返回false。
+    @return 是否为空。
     */
     public boolean is_empty()
     {
@@ -66,8 +66,8 @@ public class linked_list_singly
     获取单向链表中指定索引位置的元素。
     @param index 索引。
     @return 索引位置的元素。<br>
-    若索引&lt;0，则返回Integer.MIN_VALUE。<br>
-    若索引≥元素数量，则返回Integer.MAX_VALUE。
+    若索引&lt;0，则返回<code>Integer.MIN_VALUE</code>。<br>
+    若索引≥元素数量，则返回<code>Integer.MAX_VALUE</code>。
     */
     public int element_at(int index)
     {
@@ -95,7 +95,7 @@ public class linked_list_singly
     获取单向链表中第一个出现指定元素的索引。
     @param element 目标元素。
     @return 目标元素的首个索引。<br>
-    若单向链表中不存在目标元素，则返回Integer.MIN_VALUE。
+    若单向链表中不存在目标元素，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int index_of(int element)
     {
@@ -144,7 +144,7 @@ public class linked_list_singly
     向单向链表的末尾插入多个元素。
     @param numbers 要插入的多个元素。
     @return 插入的位置。<br>
-    若元素数组为空，则返回Integer.MIN_VALUE。
+    若元素数组为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int input_more_tail(int... numbers)
     {
@@ -166,7 +166,7 @@ public class linked_list_singly
     向单向链表的末尾插入另一个单向链表。
     @param list 要插入的单向链表。
     @return 插入的位置。<br>
-    若要插入的单向链表为空，则返回Integer.MIN_VALUE。
+    若要插入的单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int input_list_tail(linked_list_singly list)
     {
@@ -199,7 +199,7 @@ public class linked_list_singly
     向单向链表的开头插入多个元素。
     @param numbers 要插入的多个元素。
     @return 插入的位置。<br>
-    若元素数组为空，则返回Integer.MIN_VALUE。
+    若元素数组为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int input_more_head(int... numbers)
     {
@@ -222,7 +222,7 @@ public class linked_list_singly
     向单向链表的开头插入另一个单向链表。
     @param list 要插入的单向链表。
     @return 插入的位置。<br>
-    若要插入的单向链表为空，则返回Integer.MIN_VALUE。
+    若要插入的单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int input_list_head(linked_list_singly list)
     {
@@ -269,7 +269,7 @@ public class linked_list_singly
     </ul>
     @param numbers 要插入的多个元素。
     @return 插入的位置。<br>
-    若元素数组为空，则返回Integer.MIN_VALUE。
+    若元素数组为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int insert_more(int index,int... numbers)
     {
@@ -300,7 +300,7 @@ public class linked_list_singly
     </ul>
     @param list 要插入的单向链表。
     @return 插入的位置。<br>
-    若要插入的单向链表为空，则返回Integer.MIN_VALUE。
+    若要插入的单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int insert_list(int index,linked_list_singly list)
     {
@@ -325,7 +325,7 @@ public class linked_list_singly
     删除单向链表末尾的多个元素。
     @param count 要删除的元素数量。
     @return 删除的元素数量。<br>
-    若count&gt;元素数量或count&lt;0或单向链表为空，则返回Integer.MIN_VALUE，此时不删除。
+    若<code>count</code>&gt;元素数量或<code>count</code>&lt;0或单向链表为空，则返回<code>Integer.MIN_VALUE</code>，此时不删除。
     */
     public int remove_tail(int count)
     {
@@ -355,7 +355,7 @@ public class linked_list_singly
     删除单向链表开头的多个元素。
     @param count 要删除的元素数量。
     @return 删除的元素数量。<br>
-    若count&gt;元素数量或count&lt;0或单向链表为空，则返回Integer.MIN_VALUE，此时不删除。
+    若<code>count</code>&gt;元素数量或<code>count</code>&lt;0或单向链表为空，则返回<code>Integer.MIN_VALUE</code>，此时不删除。
     */
     public int remove_head(int count)
     {
@@ -383,7 +383,7 @@ public class linked_list_singly
     删除单向链表中指定索引位置的元素。
     @param index 要删除的元素的索引。
     @return 删除的元素。<br>
-    若索引无效或单向链表为空，则返回Integer.MIN_VALUE，此时不删除。
+    若索引无效或单向链表为空，则返回<code>Integer.MIN_VALUE</code>，此时不删除。
     */
     public int remove_index(int index)
     {
@@ -433,7 +433,7 @@ public class linked_list_singly
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    删除单向链表中所有在[min_element,max_element]范围内的元素。
+    删除单向链表中所有在[<code>min_element</code>,<code>max_element</code>]范围内的元素。
     @param min_element 删除范围的下限（包含）。
     @param max_element 删除范围的上限（包含）。
     @return 删除的元素数量。
@@ -461,7 +461,7 @@ public class linked_list_singly
 	<p>此方法会修改调用对象。</p><br>
     对单向链表进行升序排序。
     @return 排序后的第一个元素。<br>
-    如果单向链表为空，则返回Integer.MIN_VALUE。
+    如果单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int sort_ascend()
     {
@@ -549,7 +549,7 @@ public class linked_list_singly
 	<p>此方法会修改调用对象。</p><br>
     对单向链表进行降序排序。
     @return 排序后的第一个元素。<br>
-    如果单向链表为空，则返回Integer.MIN_VALUE。
+    如果单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int sort_descend()
     {

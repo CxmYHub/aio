@@ -57,7 +57,8 @@ public class projected_coordinate
     /**
     计算一个投影坐标对象到当前投影坐标对象的相对坐标。
     @param coordinate 目标投影坐标对象。
-    @return 相对坐标数组，格式为[相对横坐标,相对纵坐标]。
+    @return 相对坐标数组。<br>
+    <code>{相对横坐标,相对纵坐标}</code>。
     */
     public double[] relative_position(projected_coordinate coordinate)
     {
@@ -299,7 +300,7 @@ public class projected_coordinate
     将当前投影坐标对象向指定投影坐标对象位移指定比例。
     @param target 目标投影坐标对象。
     @param move_ratio 比例。<br>
-    move_ratio∈[0,1]，0表示起点，1表示目标点。
+    <code>move_ratio</code>∈[0,1]，0表示起点，1表示目标点。
     @return 位移的距离。
     */
     public double move_ratio_towards(projected_coordinate target,double move_ratio)

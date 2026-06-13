@@ -1,29 +1,22 @@
 import tools.collection.*;
 import tools.data_structure.*;
+import tools.date_time.*;
 import tools.mathematics.*;
 import tools.geography.*;
-import tools.date.*;
+import tools.two_dimensional_barcode.*;
 import java.util.*;
 import java.time.*;
+import java.io.*;
 public class App
 {
-    public static final Scanner s1=new Scanner(System.in);
-    public static final Random RNG=new Random();
+    public static Scanner s1=new Scanner(System.in);
+    public static Random RNG=new Random();
     public static void main(String args[])
     {
-        linked_list_doubly list=new linked_list_doubly();
-        System.out.println(list);
-        list.insert(0,6);
-        System.out.println(list);
-        list.input_more_tail(7,8,9);
-        System.out.println(list);
-        list.input_more_head(3,4,5);
-        System.out.println(list);
-        System.out.println(list.count);
-        System.out.println(list.insert_more(-1,-1,-2,-3));
-        System.out.println(list.count);
-        System.out.println(list);
-        System.out.println(Arrays.toString(list.traversal_forward()));
-        System.out.println(Arrays.toString(list.traversal_backward()));
+        quick_response_code qr=new quick_response_code(
+        """
+        public static final int side_length[]={0,21,25,29,33,37,41,45,49,53,57,61,65,69,73,77,81,85,89,93,97,101,105,109,113,117,121,125,129,133,137,141,145,149,153,157,161,165,169,173,177};
+        """,3);
+        qr.display(10);
     }
 }

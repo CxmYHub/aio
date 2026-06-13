@@ -13,8 +13,8 @@ public class polynomial_equation
 	public int coefficients[];
 	/**
 	通过字符串解析自然数次多项式方程。
-	@param unknown_tag 未知数字母，例如'x'。
-	@param equation_string 多项式方程的字符串表示，例如"2x^2+3x+1=0"。
+	@param unknown_tag 未知数字母，例如<code>'x'</code>。
+	@param equation_string 多项式方程的字符串表示，例如<code>2x^2+3x+1=0</code>。
 	*/
 	public polynomial_equation(char unknown_tag,String equation_string)
 	{
@@ -233,7 +233,7 @@ public class polynomial_equation
 	/**
 	求解多项式方程。<br>
 	除返回多项式方程的根数组外，还会通过标准输出打印原方程的解集。
-	@return 多项式方程的根数组，如果方程无解则返回null。
+	@return 多项式方程的根数组，如果方程无解则返回<code>null</code>。
 	*/
 	public double[] solve()
 	{

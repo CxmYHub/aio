@@ -194,7 +194,7 @@ public class hash_map
     获取哈希表中指定键对应的值。
     @param key 键。
     @return 键对应的值。<br>
-    若键不存在，则返回Integer.MIN_VALUE。
+    若键不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int get(int key)
     {
@@ -222,7 +222,7 @@ public class hash_map
     删除哈希表中指定的键值对。
     @param key 键。
     @return 删除的键对应的值。<br>
-    若键不存在，则返回Integer.MIN_VALUE。
+    若键不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int remove(int key)
     {

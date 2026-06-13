@@ -12,7 +12,7 @@ package tools.data_structure;
     <li>从任意节点到其每个叶节点的所有简单路径都包含相同数量的黑色节点。即黑高相等。</li>
 </ol><br>
 本红黑树采用头节点设计，头节点的左子节点为根节点。<br>
-使用时请调用无参构造器创建红黑树对象，然后调用input或input_more方法插入元素。
+使用时请调用无参构造器创建红黑树对象，然后调用<code>input</code>或<code>input_more</code>方法插入元素。
 */
 public class red_black_tree
 {
@@ -369,7 +369,7 @@ public class red_black_tree
     获取红黑树中元素的深度。
     @param element 要获取深度的元素。
     @return 元素的深度。<br>
-    若元素不存在，则返回Integer.MIN_VALUE。
+    若元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int get_depth(int element)
     {

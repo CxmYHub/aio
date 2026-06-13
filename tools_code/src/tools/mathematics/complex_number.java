@@ -17,7 +17,7 @@ public class complex_number
         this.imaginary=0;
     }
     /**
-    创建一个新的复数对象 real+imaginary*i。
+    创建一个新的复数对象 <code>real</code>+<code>imaginary</code>*i。
     @param real 实部。
     @param imaginary 虚部。
     */
@@ -39,7 +39,7 @@ public class complex_number
         return this.imaginary==0;
     }
     /**
-    计算两个复数的和 C1+C2。
+    计算两个复数的和 <code>C1</code>+<code>C2</code>。
     @param C1 第一个复数对象。
     @param C2 第二个复数对象。
     @return 两个复数对象的和。
@@ -61,7 +61,7 @@ public class complex_number
         return this.imaginary==0;
     }
     /**
-    计算两个复数的差 C1-C2。
+    计算两个复数的差 <code>C1</code>-<code>C2</code>。
     @param C1 第一个复数对象。
     @param C2 第二个复数对象。
     @return 两个复数对象的差。
@@ -85,7 +85,7 @@ public class complex_number
         return this.imaginary==0;
     }
     /**
-    计算两个复数的积 C1*C2。
+    计算两个复数的积 <code>C1</code>*<code>C2</code>。
     @param C1 第一个复数对象。
     @param C2 第二个复数对象。
     @return 两个复数对象的积。
@@ -109,7 +109,7 @@ public class complex_number
         return this.imaginary==0;
     }
     /**
-    计算两个复数的商 C1/C2。
+    计算两个复数的商 <code>C1</code>/<code>C2</code>。
     @param C1 第一个复数对象。
     @param C2 第二个复数对象。
     @return 两个复数对象的商。

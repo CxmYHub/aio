@@ -399,7 +399,7 @@ public class huffman_tree_char
 	获取指定字符的霍夫曼编码。
 	@param character 待编码字符。
 	@return 字符的霍夫曼编码。<br>
-	若字符不存在于树中，则返回null。
+	若字符不存在于树中，则返回<code>null</code>。
 	*/
 	public String get_code(char character)
 	{

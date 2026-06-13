@@ -116,7 +116,7 @@ public class trie
     向字典树中添加一个字符串。
     @param word 字符串。
     @return 新增的节点个数。<br>
-    若字符串已存在，或字符串为空，则返回Integer.MIN_VALUE。
+    若字符串已存在，或字符串为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int input(String word)
     {

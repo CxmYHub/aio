@@ -78,9 +78,9 @@ public class stack
     /**
 	<p>此方法会修改调用对象。</p><br>
     对栈进行扩容。<br>
-    新的栈容量=当前容量+more_capacity。
+    新的栈容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
-    @return 新的栈容量=当前容量+more_capacity。
+    @return 新的栈容量=当前容量+<code>more_capacity</code>。
     */
     public int dilate(int more_capacity)
     {
@@ -130,7 +130,7 @@ public class stack
     /**
     获取栈顶元素但不弹出。
     @return 栈顶元素。<br>
-    若栈为空，则返回Integer.MIN_VALUE。
+    若栈为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int get()
     {
@@ -147,7 +147,7 @@ public class stack
 	<p>此方法会修改调用对象。</p><br>
     弹出栈顶元素。
     @return 弹出的栈顶元素。<br>
-    若栈为空，则返回Integer.MIN_VALUE。
+    若栈为空，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int output()
     {

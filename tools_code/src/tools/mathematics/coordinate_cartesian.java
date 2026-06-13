@@ -39,7 +39,7 @@ public class coordinate_cartesian
     计算指定直角坐标所在的象限。
     @param x 横坐标。
     @param y 纵坐标。
-    @return 直角坐标(x,y)所在的象限。
+    @return 直角坐标(<code>x</code>,<code>y</code>)所在的象限。
     */
     public static int quadrant(double x,double y)
     {
@@ -56,7 +56,7 @@ public class coordinate_cartesian
         y+=coordinate_cartesian.y;
     }
     /**
-    计算两个直角坐标对象的和 coordinate1+coordinate2。
+    计算两个直角坐标对象的和 <code>coordinate1</code>+<code>coordinate2</code>。
     @param coordinate1 第一个直角坐标对象。
     @param coordinate2 第二个直角坐标对象。
     @return 两个直角坐标对象的和。
@@ -76,7 +76,7 @@ public class coordinate_cartesian
         y-=coordinate_cartesian.y;
     }
     /**
-    计算两个直角坐标对象的差 coordinate1-coordinate2。
+    计算两个直角坐标对象的差 <code>coordinate1</code>-<code>coordinate2</code>。
     @param coordinate1 第一个直角坐标对象。
     @param coordinate2 第二个直角坐标对象。
     @return 两个直角坐标对象的差。
@@ -96,7 +96,7 @@ public class coordinate_cartesian
         y*=coefficient;
     }
     /**
-    计算一个直角坐标对象与一个系数的乘积 coordinate_cartesian*coefficient。
+    计算一个直角坐标对象与一个系数的乘积 <code>coordinate_cartesian</code>*<code>coefficient</code>。
     @param coordinate_cartesian 要数乘的直角坐标对象。
     @param coefficient 系数。
     @return 一个直角坐标对象与一个系数的乘积。
@@ -221,7 +221,7 @@ public class coordinate_cartesian
     计算该直角坐标对象到指定直角坐标对象的线性插值。
     @param target 目标直角坐标对象。
     @param ratio 线性插值比例。<br>
-    ratio∈[0,1]，0表示起点，1表示目标点。
+    <code>ratio</code>∈[0,1]，0表示起点，1表示目标点。
     @return 该投影坐标对象到指定投影坐标对象的线性插值。
     */
     public coordinate_cartesian linear_interpolation(coordinate_cartesian target,double ratio)
@@ -256,7 +256,7 @@ public class coordinate_cartesian
     将当前直角坐标对象向指定直角坐标对象位移指定比例。
     @param target 目标直角坐标对象。
     @param move_ratio 比例。<br>
-    move_ratio∈[0,1]，0表示起点，1表示目标点。
+    <code>move_ratio</code>∈[0,1]，0表示起点，1表示目标点。
     @return 位移的距离。
     */
     public double move_ratio_towards(coordinate_cartesian target,double move_ratio)

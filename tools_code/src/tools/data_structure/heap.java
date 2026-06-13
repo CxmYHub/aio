@@ -57,9 +57,9 @@ public class heap
 	/**
 	<p>此方法会修改调用对象。</p><br>
 	对堆进行扩容。<br>
-	新的堆容量=当前容量+more_capacity。
+	新的堆容量=当前容量+<code>more_capacity</code>。
 	@param more_capacity 要扩展的容量。
-	@return 新的堆容量=当前容量+more_capacity。
+	@return 新的堆容量=当前容量+<code>more_capacity</code>。
 	*/
 	public int dilate(int more_capacity)
 	{

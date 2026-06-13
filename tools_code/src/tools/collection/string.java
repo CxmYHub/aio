@@ -28,7 +28,7 @@ public class string
     判断一个字符串中是否包含另一个字符串。
     @param base 基字符串。
     @param pattern 模式字符串。
-    @return 若基字符串中包含模式字符串，则返回true，否则返回false.
+    @return 是否包含。
     */
     public static boolean contains(String base,String pattern)
     {

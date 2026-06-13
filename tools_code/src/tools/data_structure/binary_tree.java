@@ -18,8 +18,8 @@ public class binary_tree
     通过二叉树字符串构造一个二叉树。<br>
     若传入的节点元素为字符，则存储其ASCII码值。
     @param tree_string 二叉树字符串。<br>
-    二叉树字符串的格式为：根节点{左子树,右子树}...。<br>
-    例如：A{B{D,E},C{F,G}}。<br>
+    二叉树字符串的格式为：<code>根节点{左子树,右子树}...</code>。<br>
+    例如：<code>A{B{D,E},C{F,G}}</code>。<br>
     */
     public binary_tree(String tree_string)
     {

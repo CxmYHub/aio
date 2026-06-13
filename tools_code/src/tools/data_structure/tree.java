@@ -18,8 +18,8 @@ public class tree
     /**
     通过树字符串构造一个树。
     @param tree_string 树字符串。<br>
-    树字符串的格式为：根节点{子树1,子树2,子树3,...}...。<br>
-    例如：A{B{D,E},C{F,G,H,I}}。<br>
+    树字符串的格式为：<code>根节点{子树1,子树2,子树3,...}...</code>。<br>
+    例如：<code>A{B{D,E},C{F,G,H,I}}</code>。<br>
     */
     public tree(String tree_string)
     {
@@ -317,7 +317,7 @@ public class tree
     @param element 要插入的元素。
     @param target 要插入的位置的元素。
     @return 插入的元素。<br>
-    若目标元素不存在，则返回Integer.MIN_VALUE。
+    若目标元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int insert_to(int element,int target)
     {
@@ -365,7 +365,7 @@ public class tree
     若存在多个相同元素，则只删除先序遍历序列中出现的第一个。
     @param element 要删除的元素。
     @return 删除的元素。<br>
-    若元素不存在，则返回Integer.MIN_VALUE。
+    若元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int remove(int element)
     {

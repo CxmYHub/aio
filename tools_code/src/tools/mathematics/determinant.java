@@ -74,7 +74,7 @@ public class determinant implements Comparable<determinant>
 	@param target_row 要获取的元素的行号。
 	@param target_column 要获取的元素的列号。
 	@return 指定元素的值。<br>
-	若行号或列号超出范围则返回Integer.MIN_VALUE。
+	若行号或列号超出范围则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int get_element(int target_row,int target_column)
 	{
@@ -93,7 +93,7 @@ public class determinant implements Comparable<determinant>
 	@param row1 要交换的第一行号。
 	@param row2 要交换的第二行号。
 	@return 行列式的系数。<br>
-	若行号超出范围则返回Integer.MIN_VALUE。
+	若行号超出范围则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int exchange_row(int row1,int row2)
 	{
@@ -120,7 +120,7 @@ public class determinant implements Comparable<determinant>
 	@param column1 要交换的第一列号。
 	@param column2 要交换的第二列号。
 	@return 行列式的系数。<br>
-	若列号超出范围则返回Integer.MIN_VALUE。
+	若列号超出范围则返回<code>Integer.MIN_VALUE</code>。
 	*/
 	public int exchange_column(int column1,int column2)
 	{
@@ -144,7 +144,7 @@ public class determinant implements Comparable<determinant>
 	/**
 	<p>此方法会修改调用对象。</p><br>
 	转置行列式。
-	@return this
+	@return <code>this</code>。
 	*/
 	public determinant reverse()
 	{
@@ -182,7 +182,7 @@ public class determinant implements Comparable<determinant>
 	@param base_row 基准行。
 	@param base_column 基准列。
 	@return 余子式对象。<br>
-	若行号或列号超出范围则不进行计算，返回this。
+	若行号或列号超出范围则不进行计算，返回<code>this</code>。
 	*/
 	public determinant cofactor(int base_row,int base_column)
 	{
@@ -259,7 +259,7 @@ public class determinant implements Comparable<determinant>
 	@param base_row 基准行。
 	@param base_column 基准列。
 	@return 代数余子式对象。<br>
-	若行号或列号超出范围则不进行计算，返回this。
+	若行号或列号超出范围则不进行计算，返回<code>this</code>。
 	*/
 	public determinant cofactor_algebraic(int base_row,int base_column)
 	{
@@ -300,7 +300,7 @@ public class determinant implements Comparable<determinant>
 	@param base_row 基准行。
 	@param base_column 基准列。
 	@return 带有系数的余子式对象。<br>
-	若行号或列号超出范围则不进行计算，返回this。
+	若行号或列号超出范围则不进行计算，返回<code>this</code>。
 	*/
 	public determinant cofactor_coefficient(int base_row,int base_column)
 	{

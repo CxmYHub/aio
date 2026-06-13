@@ -55,9 +55,9 @@ public class disjoint_set_element extends disjoint_set
     /**
 	<p>此方法会修改调用对象。</p><br>
     对并查集进行扩容。<br>
-    新的并查集容量=当前容量+more_capacity。
+    新的并查集容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
-    @return 新的并查集容量=当前容量+more_capacity。
+    @return 新的并查集容量=当前容量+<code>more_capacity</code>。
     */
     public int dilate(int more_capacity)
     {
@@ -84,7 +84,7 @@ public class disjoint_set_element extends disjoint_set
     如果部分元素已存在，则不会重复添加。<br>
     @param element 要添加的元素。
     @return 添加后并查集中的元素数量。<br>
-    若元素已存在，则返回Integer.MIN_VALUE。
+    若元素已存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int input(int element)
     {
@@ -149,7 +149,7 @@ public class disjoint_set_element extends disjoint_set
     获取并查集中指定元素的根索引。
     @param elements 元素的值。
     @return 并查集中指定元素的根索引。<br>
-    若元素不存在，则返回Integer.MIN_VALUE。
+    若元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int find_root_by_element(int elements)
     {
@@ -166,7 +166,7 @@ public class disjoint_set_element extends disjoint_set
     @param element1 元素1的值。
     @param element2 元素2的值。
     @return 合并后的根索引。<br>
-    若元素不存在，则返回Integer.MIN_VALUE。
+    若元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int union_element(int element1,int element2)
     {

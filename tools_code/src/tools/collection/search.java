@@ -10,7 +10,7 @@ public class search
     从数组中查找目标元素的第一个出现位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 目标元素的第一个出现位置，如果不存在则返回Integer.MIN_VALUE。
+    @return 目标元素的第一个出现位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int linear_search(int numbers[],int target)
     {
@@ -29,7 +29,7 @@ public class search
     从数组中查找目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 目标元素的位置，如果不存在则返回Integer.MIN_VALUE。
+    @return 目标元素的位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int binary_search(int numbers[],int target)
     {
@@ -57,7 +57,7 @@ public class search
     从数组中查找第一个大于等于目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 第一个大于等于目标元素的位置，如果不存在则返回Integer.MIN_VALUE。
+    @return 第一个大于等于目标元素的位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int binary_search_first(int numbers[],int target)
     {
@@ -80,11 +80,11 @@ public class search
     }
     /**
     <p>二分查找。需确保数组已升序排序。</p><br>
-    查找数组中在[min,max]范围内的元素的个数。
+    查找数组中在[<code>min</code>,<code>max</code>]范围内的元素的个数。
     @param numbers 数组。
     @param min 最小值。
     @param max 最大值。
-    @return 在[min,max]范围内的元素的个数。
+    @return 在[<code>min</code>,<code>max</code>]范围内的元素的个数。
     */
     public static int binary_search_between(int numbers[],int min,int max)
     {
@@ -126,7 +126,7 @@ public class search
     从数组中查找目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 目标元素的位置，如果不存在则返回Integer.MIN_VALUE。
+    @return 目标元素的位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int interpolation_search(int numbers[],int target)
     {

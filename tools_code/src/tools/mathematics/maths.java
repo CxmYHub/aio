@@ -111,7 +111,7 @@ public class maths
 	/**
 	判断一个整数是否是质数。
 	@param number 一个整数。
-	@return 如果是质数则返回true，否则返回false。
+	@return 是否是质数。
 	*/
 	public static boolean is_prime(int number)
 	{
@@ -138,9 +138,9 @@ public class maths
 		return true;
 	}
 	/**
-	计算(1,max]的所有质数。
+	计算(<code>1</code>,<code>max</code>]的所有质数。
 	@param max 最大质数的上限。
-	@return 一个整数数组，包含所有(1,max]的质数。
+	@return 一个整数数组，包含所有(<code>1</code>,<code>max</code>]的质数。
 	*/
 	public static int[] prime_table(int max)
 	{
@@ -180,7 +180,7 @@ public class maths
 	/**
 	将一个整数分解为其质因数。
 	@param number 一个整数。
-	@return 一个整数数组，包含该整数的所有质因数(Π decompose(number)=number)。
+	@return 一个整数数组，包含该整数的所有质因数(<code>Π decompose(number)=number</code>)。
 	*/
 	public static int[] decompose(int number)
 	{
@@ -270,7 +270,7 @@ public class maths
 	快速幂。
 	@param base 底数。
 	@param exponent 指数。
-	@return base的exponent次方。
+	@return <code>base</code>的<code>exponent</code>次方。
 	*/
 	public static int quick_power(int base,int exponent)
 	{
@@ -290,7 +290,7 @@ public class maths
 	长整型快速幂。
 	@param base 底数。
 	@param exponent 指数。
-	@return base的exponent次方。
+	@return <code>base</code>的<code>exponent</code>次方。
 	*/
 	public static long quick_power(long base,long exponent)
 	{
@@ -310,7 +310,7 @@ public class maths
 	长整型快速幂取模1000000007.
 	@param base 底数。
 	@param exponent 指数。
-	@return base的exponent次方对1000000007取模的结果。
+	@return <code>base</code>的<code>exponent</code>次方对1000000007取模的结果。
 	*/
 	public static long quick_power_mod1000000007(long base,long exponent)
 	{
@@ -331,7 +331,7 @@ public class maths
 	@param base 底数。
 	@param exponent 指数。
 	@param mod 模数。
-	@return base的exponent次方对mod取模的结果。
+	@return <code>base</code>的<code>exponent</code>次方对mod取模的结果。
 	*/
 	public static long quick_power_mod(long base,long exponent,long mod)
 	{
@@ -449,10 +449,10 @@ public class maths
 		return y1+(y2-y1)/(x2-x1)*(x-x1);
 	}
 	/**
-	计算区间[from,to]中所有数字以数学顺序升序的序列。
+	计算区间[<code>from</code>,<code>to</code>]中所有数字以数学顺序升序的序列。
 	@param from 区间的起始整数。
 	@param to 区间的结束整数。
-	@return [from,to]区间内数字的数学顺序升序序列。
+	@return [<code>from</code>,<code>to</code>]区间内数字的数学顺序升序序列。
 	*/
 	public static int[] mathematical_order_number(int from,int to)
 	{
@@ -481,9 +481,9 @@ public class maths
         }
     }
 	/**
-	计算区间[1,n]中所有数字以字典序升序的序列。
+	计算区间[<code>1</code>,<code>n</code>]中所有数字以字典序升序的序列。
 	@param n 区间的结束整数。
-	@return [1,n]区间内数字的字典序升序序列。
+	@return [<code>1</code>,<code>n</code>]区间内数字的字典序升序序列。
 	*/
     public static int[] dictionary_order_number_to(int n)
     {
@@ -540,11 +540,11 @@ public class maths
 		}
 	}
 	/**
-	计算一个整数数组中下标在[from,to]范围内的元素反转后的数组。
+	计算一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素反转后的数组。
 	@param numbers 整数数组。
 	@param from 反转区间下界。
 	@param to 反转区间上界。
-	@return 反转下标在[from,to]范围内的元素后的整数数组。
+	@return 反转下标在[<code>from</code>,<code>to</code>]范围内的元素后的整数数组。
 	*/
 	public static int[] reverse_new(int numbers[],int from,int to)
 	{
@@ -565,7 +565,7 @@ public class maths
 	}
 	/**
 	<p>此方法会修改输入的数据。</p><br>
-	反转一个整数数组中下标在[from,to]范围内的元素。
+	反转一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
 	@param numbers 要反转的整数数组。
 	@param from 反转区间下界。
 	@param to 反转区间上界。
@@ -581,9 +581,134 @@ public class maths
 		}
 	}
 	/**
-	计算一个数组随机打乱后的数组。
-	@param numbers 要打乱的数组。
-	@return 打乱后的数组。
+	计算一个双精度浮点数组的反转数组。
+	@param numbers 双精度浮点数组。
+	@return 反转后的双精度浮点数组。
+	*/
+	public static double[] reverse_new(double numbers[])
+	{
+		double result[]=new double[numbers.length];
+		for(int i=0;i<numbers.length;i++)
+		{
+			result[i]=numbers[numbers.length-1-i];
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	反转一个双精度浮点数组。
+	@param numbers 要反转的双精度浮点数组。
+	*/
+	public static void reverse_local(double numbers[])
+	{
+		for(int i=numbers.length/2-1;i>=0;i--)
+		{
+			double temp=numbers[i];
+			numbers[i]=numbers[numbers.length-i-1];
+			numbers[numbers.length-i-1]=temp;
+		}
+	}
+	/**
+	计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素反转后的数组。
+	@param numbers 双精度浮点数组。
+	@param from 反转区间下界。
+	@param to 反转区间上界。
+	@return 反转下标在[<code>from</code>,<code>to</code>]范围内的元素后的双精度浮点数组。
+	*/
+	public static double[] reverse_new(double numbers[],int from,int to)
+	{
+		double result[]=new double[numbers.length];
+		for(int i=0;i<from;i++)
+		{
+			result[i]=numbers[i];
+		}
+		for(int i=from;i<=to;i++)
+		{
+			result[i]=numbers[to-i+from];
+		}
+		for(int i=to+1;i<numbers.length;i++)
+		{
+			result[i]=numbers[i];
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	反转一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+	@param numbers 要反转的双精度浮点数组。
+	@param from 反转区间下界。
+	@param to 反转区间上界。
+	*/
+	public static void reverse_local(double numbers[],int from,int to)
+	{
+		int middle=(from+to)/2;
+		for(int i=from,i_to=to;i<=middle;i++,i_to--)
+		{
+			double temp=numbers[i];
+			numbers[i]=numbers[i_to];
+			numbers[i_to]=temp;
+		}
+	}
+	/**
+	计算一个整数数组中合并重复元素的数组，并按升序排列。
+	@param numbers 整数数组。
+	@return 合并重复元素后，升序排列的数组。
+	*/
+	public static int[] distinct_sort_new(int numbers[])
+	{
+		int temp[]=numbers.clone();
+		sort.radix(temp);
+		int same_count=0;
+		for(int i=1;i<temp.length;i++)
+		{
+			if(temp[i]!=temp[i-1])
+			{
+				temp[i-same_count]=temp[i];
+			}
+			else
+			{
+				same_count++;
+			}
+		}
+		int result[]=new int[temp.length-same_count];
+		for(int i=0;i<result.length;i++)
+		{
+			result[i]=temp[i];
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	合并整数数组中所有重复的元素，并按升序排列。<br>
+	合并后若在数组末尾产生空位，则填充<code>Integer.MIN_VALUE</code>。
+	@param numbers 整数数组。
+	@return 被合并的元素数量。
+	*/
+	public static int distinct_sort_local(int numbers[])
+	{
+		sort.radix(numbers);
+		int same_count=0;
+		for(int i=1;i<numbers.length;i++)
+		{
+			if(numbers[i]!=numbers[i-1])
+			{
+				numbers[i-same_count]=numbers[i];
+			}
+			else
+			{
+				same_count++;
+			}
+		}
+		for(int i=numbers.length-same_count;i<numbers.length;i++)
+		{
+			numbers[i]=Integer.MIN_VALUE;
+		}
+		return same_count;
+	}
+	/**
+	计算一个整数数组随机打乱后的数组。
+	@param numbers 要打乱的整数数组。
+	@return 打乱后的整数数组。
 	*/
 	public static int[] shuffle_new(int numbers[])
 	{
@@ -600,8 +725,8 @@ public class maths
 	}
 	/**
 	<p>此方法会修改输入的数据。</p><br>
-	随机打乱一个数组。
-	@param numbers 要打乱的数组。
+	随机打乱一个整数数组。
+	@param numbers 要打乱的整数数组。
 	*/
 	public static void shuffle_local(int numbers[])
 	{
@@ -615,11 +740,11 @@ public class maths
 		}
 	}
 	/**
-	计算一个数组中下标在[from,to]范围内的元素随机打乱后的数组。
-	@param numbers 要打乱的数组。
+	计算一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
+	@param numbers 要打乱的整数数组。
 	@param from 打乱区间下界。
 	@param to 打乱区间上界。
-	@return 随机打乱下标在[from,to]范围内的元素后的数组。
+	@return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的整数数组。
 	*/
 	public static int[] shuffle_new(int numbers[],int from,int to)
 	{
@@ -636,8 +761,8 @@ public class maths
 	}
 	/**
 	<p>此方法会修改输入的数据。</p><br>
-	随机打乱一个数组中下标在[from,to]范围内的元素。
-	@param numbers 要打乱的数组。
+	随机打乱一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+	@param numbers 要打乱的整数数组。
 	@param from 打乱区间下界。
 	@param to 打乱区间上界。
 	*/
@@ -648,6 +773,78 @@ public class maths
 		{
 			int random_index=random_generator.nextInt(from,to+1);
 			int temp=numbers[i];
+			numbers[i]=numbers[random_index];
+			numbers[random_index]=temp;
+		}
+	}
+	/**
+	计算一个双精度浮点数组随机打乱后的数组。
+	@param numbers 要打乱的双精度浮点数组。
+	@return 打乱后的双精度浮点数组。
+	*/
+	public static double[] shuffle_new(double numbers[])
+	{
+		Random random_generator=new Random();
+		double result[]=numbers.clone();
+		for(int i=numbers.length-1;i>0;i--)
+		{
+			int random_index=random_generator.nextInt(i+1);
+			double temp=result[i];
+			result[i]=result[random_index];
+			result[random_index]=temp;
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	随机打乱一个双精度浮点数组。
+	@param numbers 要打乱的双精度浮点数组。
+	*/
+	public static void shuffle_local(double numbers[])
+	{
+		Random random_generator=new Random();
+		for(int i=numbers.length-1;i>0;i--)
+		{
+			int random_index=random_generator.nextInt(i+1);
+			double temp=numbers[i];
+			numbers[i]=numbers[random_index];
+			numbers[random_index]=temp;
+		}
+	}
+	/**
+	计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
+	@param numbers 要打乱的双精度浮点数组。
+	@param from 打乱区间下界。
+	@param to 打乱区间上界。
+	@return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的双精度浮点数组。
+	*/
+	public static double[] shuffle_new(double numbers[],int from,int to)
+	{
+		Random random_generator=new Random();
+		double result[]=numbers.clone();
+		for(int i=to;i>=from;i--)
+		{
+			int random_index=random_generator.nextInt(from,to+1);
+			double temp=result[i];
+			result[i]=result[random_index];
+			result[random_index]=temp;
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	随机打乱一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+	@param numbers 要打乱的双精度浮点数组。
+	@param from 打乱区间下界。
+	@param to 打乱区间上界。
+	*/
+	public static void shuffle_local(double numbers[],int from,int to)
+	{
+		Random random_generator=new Random();
+		for(int i=to;i>=from;i--)
+		{
+			int random_index=random_generator.nextInt(from,to+1);
+			double temp=numbers[i];
 			numbers[i]=numbers[random_index];
 			numbers[random_index]=temp;
 		}
@@ -910,7 +1107,7 @@ public class maths
 	public static double median(int... numbers)
 	{
 		int temp[]=numbers.clone();
-		sort.quick_dual_pivot(temp);
+		sort.radix(temp);
 		if(temp.length%2==1)
 		{
 			return temp[temp.length/2];
@@ -946,7 +1143,7 @@ public class maths
 	public static int[] mode(int... numbers)
 	{
 		int temp[]=numbers.clone();
-		sort.quick_dual_pivot(temp);
+		sort.radix(temp);
 		int count=0,count_max=0;
 		int unique[]=new int[temp.length];
 		int i=0,j=0,pin=0;
@@ -1380,7 +1577,7 @@ public class maths
 	/**
 	检查一个9*9的数独是否有效。
 	@param board 数独板，0表示空单元格。
-	@return 如果数独有效则返回true，否则返回false。
+	@return 如果数独有效则返回<code>true</code>，否则返回<code>false</code>。
 	*/
     public static boolean sudoku_valid(int board[][])
     {
@@ -1465,7 +1662,7 @@ public class maths
 	<p>此方法会修改输入的数据。</p><br>
 	解一个9*9的数独。
 	@param board 数独板，0表示空单元格。
-	@return 如果数独有解则返回true，并将解写入board；否则返回false，board保持不变。
+	@return 如果数独有解则返回<code>true</code>，并将解写入<code>board</code>；否则返回<code>false</code>，<code>board</code>保持不变。
 	*/
     public static boolean sudoku_solve(int board[][])
     {

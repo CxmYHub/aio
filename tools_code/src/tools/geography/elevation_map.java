@@ -52,7 +52,7 @@ public class elevation_map implements java.io.Serializable
     计算当前高程地图对象的统计信息。<br>
     包括最大值、最小值、平均值、中位数。
     @return 值域是否发生变化。<br>
-    若最大值或最小值发生变化，则返回true；否则返回false。
+    若最大值或最小值发生变化，则返回<code>true</code>；否则返回<code>false</code>。
     */
     public boolean calculate_statistics()
     {
@@ -187,7 +187,7 @@ public class elevation_map implements java.io.Serializable
     <p>此方法会修改调用对象。</p><br>
     计算当前高程地图对象的直方图。<br>
     直方图的区间数为100。
-    @return true。
+    @return 直方图对象。
     */
     public histogram calculate_histogram()
     {
@@ -242,7 +242,7 @@ public class elevation_map implements java.io.Serializable
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前高程地图的高程值规整至[min,max]区间。
+    将当前高程地图的高程值规整至[<code>min</code>,<code>max</code>]区间。
     @param min 最小值。
     @param max 最大值。
     @return 高程变化系数。
@@ -433,8 +433,8 @@ public class elevation_map implements java.io.Serializable
     @param seed 种子。不同的种子会生成不同的地形。
     @param horizontal_scale 水平拉伸系数。值越大，地形越平缓。通常取30-100的值。
     @param octaves 细节等级。值越大，地形越丰富。通常取4-8的值。
-    @param persistence 振幅增长系数。值越大，地形越崎岖。通常取lacunarity的倒数且小于1。
-    @param lacunarity 频率增长系数。值越大，地形高度差越大。通常取persistence的倒数且大于1。
+    @param persistence 振幅增长系数。值越大，地形越崎岖。通常取<code>lacunarity</code>的倒数且小于1。
+    @param lacunarity 频率增长系数。值越大，地形高度差越大。通常取<code>persistence</code>的倒数且大于1。
     @param vertical_scale 竖直拉伸系数。值越大，地形高差越大。通常取500-10000的值。
     @return 地形的最大高度差。
     */
@@ -510,13 +510,13 @@ public class elevation_map implements java.io.Serializable
     /**
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。需要提供种子和高程系数。<br>
-    该方法填入默认参数，调用overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)方法。<br>
+    该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
     默认参数为：
     <ul>
-        <li>horizontal_scale=300（水平拉伸系数）</li>
-        <li>octaves=6（细节等级）</li>
-        <li>persistence=0.5（振幅增长系数）</li>
-        <li>lacunarity=2（频率增长系数）</li>
+        <li><code>horizontal_scale=300</code>（水平拉伸系数）</li>
+        <li><code>octaves=6</code>（细节等级）</li>
+        <li><code>persistence=0.5</code>（振幅增长系数）</li>
+        <li><code>lacunarity=2</code>（频率增长系数）</li>
     </ul>
     @param seed 种子。不同的种子会生成不同的地形。
     @param vertical_scale 竖直拉伸系数。值越大，地形高差越大。通常取500-10000的值。
@@ -529,14 +529,14 @@ public class elevation_map implements java.io.Serializable
     /**
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。需要提供高程系数。<br>
-    该方法填入默认参数，调用overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)方法。<br>
+    该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
     默认参数为：
     <ul>
-        <li>seed=(long)(((Math.random()*Long.MAX_VALUE)+1)*(Math.random()>=0.5?1:-1))，即随机生成一个种子。</li>
-        <li>horizontal_scale=300（水平拉伸系数）</li>
-        <li>octaves=6（细节等级）</li>
-        <li>persistence=0.5（振幅增长系数）</li>
-        <li>lacunarity=2（频率增长系数）</li>
+        <li><code>seed=(long)(((Math.random()*Long.MAX_VALUE)+1)*(Math.random()>=0.5?1:-1))</code>，即随机生成一个种子。</li>
+        <li><code>horizontal_scale=300</code>（水平拉伸系数）</li>
+        <li><code>octaves=6</code>（细节等级）</li>
+        <li><code>persistence=0.5</code>（振幅增长系数）</li>
+        <li><code>lacunarity=2</code>（频率增长系数）</li>
     </ul>
     @param vertical_scale 竖直拉伸系数。值越大，地形高差越大。通常取500-10000的值。
     @return 地形的最大高度差。
@@ -548,14 +548,14 @@ public class elevation_map implements java.io.Serializable
     /**
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。需要提供种子。<br>
-    该方法填入默认参数，调用overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)方法。<br>
+    该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
     默认参数为：
     <ul>
-        <li>horizontal_scale=300（水平拉伸系数）</li>
-        <li>octaves=6（细节等级）</li>
-        <li>persistence=0.5（振幅增长系数）</li>
-        <li>lacunarity=2（频率增长系数）</li>
-        <li>vertical_scale=1000（竖直拉伸系数）</li>
+        <li><code>horizontal_scale=300</code>（水平拉伸系数）</li>
+        <li><code>octaves=6</code>（细节等级）</li>
+        <li><code>persistence=0.5</code>（振幅增长系数）</li>
+        <li><code>lacunarity=2</code>（频率增长系数）</li>
+        <li><code>vertical_scale=1000</code>（竖直拉伸系数）</li>
     </ul>
     @param seed 种子。不同的种子会生成不同的地形。
     @return 地形的最大高度差。
@@ -567,15 +567,15 @@ public class elevation_map implements java.io.Serializable
     /**
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。无需提供参数。<br>
-    该方法填入默认参数，调用overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)方法。<br>
+    该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
     默认参数为：
     <ul>
-        <li>seed=(long)(((Math.random()*Long.MAX_VALUE)+1)*(Math.random()>=0.5?1:-1))，即随机生成一个种子。</li>
-        <li>horizontal_scale=300（水平拉伸系数）</li>
-        <li>octaves=6（细节等级）</li>
-        <li>persistence=0.5（振幅增长系数）</li>
-        <li>lacunarity=2（频率增长系数）</li>
-        <li>vertical_scale=1000（竖直拉伸系数）</li>
+        <li><code>seed=(long)(((Math.random()*Long.MAX_VALUE)+1)*(Math.random()>=0.5?1:-1))</code>，即随机生成一个种子。</li>
+        <li><code>horizontal_scale=300</code>（水平拉伸系数）</li>
+        <li><code>octaves=6</code>（细节等级）</li>
+        <li><code>persistence=0.5</code>（振幅增长系数）</li>
+        <li><code>lacunarity=2</code>（频率增长系数）</li>
+        <li><code>vertical_scale=1000</code>（竖直拉伸系数）</li>
     </ul>
     @return 地形的最大高度差。
     */

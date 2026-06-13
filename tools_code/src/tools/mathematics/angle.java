@@ -93,8 +93,8 @@ public class angle
     将当前角度对象与另一个角度对象相加。
     @param angle 要相加的角度对象。
     @return 和是否超过360°。<br>
-    若和超过360°，则自动执行诱导公式一，并返回true。<br>
-    若和未超过360°，则返回false。
+    若和超过360°，则自动执行诱导公式一，并返回<code>true</code>。<br>
+    若和未超过360°，则返回<code>false</code>。
     */
     public boolean add(angle angle)
     {
