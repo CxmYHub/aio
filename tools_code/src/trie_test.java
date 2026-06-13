@@ -1,5 +1,5 @@
 import tools.data_structure.trie;
-public class TrieTest {
+public class trie_test {
     private static final String GREEN = "\u001B[32m";
     private static final String RED   = "\u001B[31m";
     private static final String RESET = "\u001B[0m";
@@ -118,14 +118,14 @@ public class TrieTest {
     }
 
     // ---------- 辅助断言方法（不依赖 JUnit） ----------
-    private static void assertEqual(Object actual, Object expected, String message) {
-        boolean pass = (actual == null && expected == null) || (actual != null && actual.equals(expected));
-        if (pass) {
-            System.out.println(GREEN + "  [AC] " + message + RESET);
-        } else {
-            System.out.println(RED + "  [WA] " + message + " - 期望: " + expected + "，实际: " + actual + RESET);
-        }
-    }
+    // private static void assertEqual(Object actual, Object expected, String message) {
+    //     boolean pass = (actual == null && expected == null) || (actual != null && actual.equals(expected));
+    //     if (pass) {
+    //         System.out.println(GREEN + "  [AC] " + message + RESET);
+    //     } else {
+    //         System.out.println(RED + "  [WA] " + message + " - 期望: " + expected + "，实际: " + actual + RESET);
+    //     }
+    // }
 
     private static void assertEqual(int actual, int expected, String message) {
         if (actual == expected) {

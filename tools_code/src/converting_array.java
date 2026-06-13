@@ -1,6 +1,5 @@
 import tools.mathematics.*;
 import tools.two_dimensional_barcode.*;
-import java.util.*;
 import java.io.*;
 public class converting_array
 {
@@ -453,11 +452,11 @@ public class converting_array
                     coefficient[0]=1;
                     for(int j=0;j<e;j++)
                     {
-                        int a1=meta.exponential_finite_field_256[j];
+                        int a1=barcode.exponential_finite_field_256[j];
                         for(int k=j;k>=0;k--)
                         {
                             int a00=coefficient[k];
-                            coefficient[k+1]^=(a00==0||a1==0)?0:meta.exponential_finite_field_256[(meta.logarithm_finite_field_256[a00]+meta.logarithm_finite_field_256[a1])%255];
+                            coefficient[k+1]^=(a00==0||a1==0)?0:barcode.exponential_finite_field_256[(barcode.logarithm_finite_field_256[a00]+barcode.logarithm_finite_field_256[a1])%255];
                             // coefficient[k+1]+=(coefficient[k]+j+1)%256;
                         }
                     }
@@ -501,7 +500,6 @@ public class converting_array
     {
         int numbers[][]={{0},{0},{6,18},{6,22},{6,26},{6,30},{6,34},{6,22,38},{6,24,42},{6,26,46},{6,28,50},{6,30,54},{6,32,58},{6,34,62},{6,26,46,66},{6,26,48,70},{6,26,50,74},{6,30,54,78},{6,30,56,82},{6,30,58,86},{6,34,62,90},{6,28,50,72,94},{6,26,50,74,98},{6,30,54,78,102},{6,28,54,80,106},{6,32,58,84,110},{6,30,58,86,114},{6,34,62,90,118},{6,26,50,74,98,122},{6,30,54,78,102,126},{6,26,52,78,104,130},{6,30,56,82,108,134},{6,34,60,86,112,138},{6,30,58,86,114,142},{6,34,62,90,118,146},{6,30,54,78,102,126,150},{6,24,50,76,102,128,154},{6,28,54,80,106,132,158},{6,32,58,84,110,136,162},{6,26,54,82,110,138,166},{6,30,58,86,114,142,170}};
         int result[][][]=new int[numbers.length][][];
-        int pin=0;
         try
         (
             FileWriter writer=new FileWriter("output.txt");
@@ -526,7 +524,7 @@ public class converting_array
                         {
                             int y=numbers[i][k];
                             int x=numbers[i][l];
-                            if(!(y==6&&x==6||y==6&&x>=meta.side_length[i]-7||y>=meta.side_length[i]-7&&x==6))
+                            if(!(y==6&&x==6||y==6&&x>=barcode.side_length[i]-7||y>=barcode.side_length[i]-7&&x==6))
                             {
                                 this_version[this_pin][0]=y;
                                 this_version[this_pin][1]=x;
@@ -568,8 +566,111 @@ public class converting_array
             e.printStackTrace();
         }
     }
+    public static void output_format_code()
+    {
+        try
+        (
+            FileWriter writer=new FileWriter("output.txt");
+        )
+        {
+            File output=new File("output.txt");
+            if(!output.exists())
+            {
+                output.createNewFile();
+            }
+            writer.write("{{0},");
+            writer.flush();
+            for(int error_correction_level=1;error_correction_level<=4;error_correction_level++)
+            {
+                writer.write("{");
+                writer.flush();
+                for(byte mask_mode=0;mask_mode<8;mask_mode++)
+                {
+                    int format_code=(barcode.error_correction_mask[error_correction_level]<<3|mask_mode)<<10;
+                    int error_correction_bit=format_code;
+                    int format_generator_polynomial_coefficient=0b10100110111;
+                    for(;;)
+                    {
+                        int bit_delta=0;
+                        for(int temp=error_correction_bit;temp>0;temp>>=1,bit_delta++);
+                        if(bit_delta<=10)
+                        {
+                            break;
+                        }
+                        for(int temp=format_generator_polynomial_coefficient;temp>0;temp>>=1,bit_delta--);
+                        error_correction_bit^=format_generator_polynomial_coefficient<<bit_delta;
+                    }
+                    format_code|=error_correction_bit;
+                    format_code^=0b101010000010010;
+                    writer.write(format_code+"");
+                    if(mask_mode<7)
+                    {
+                        writer.write(",");
+                    }
+                    writer.flush();
+                }
+                writer.write("}");
+                if(error_correction_level<4)
+                {
+                    writer.write(",");
+                }
+                writer.flush();
+            }
+            writer.write("}");
+            writer.flush();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public static void output_version_code()
+    {
+        try
+        (
+            FileWriter writer=new FileWriter("output.txt");
+        )
+        {
+            File output=new File("output.txt");
+            if(!output.exists())
+            {
+                output.createNewFile();
+            }
+            writer.write("{0,0,0,0,0,0,0,");
+            writer.flush();
+            for(int version=7;version<=40;version++)
+            {
+                int version_code=version<<12;
+                int error_correction_bit=version_code;
+                int version_generator_polynomial_coefficient=0b1111100100101;
+                for(;;)
+                {
+                    int bit_delta=0;
+                    for(int temp=error_correction_bit;temp>0;temp>>=1,bit_delta++);
+                    if(bit_delta<=12)
+                    {
+                        break;
+                    }
+                    for(int temp=version_generator_polynomial_coefficient;temp>0;temp>>=1,bit_delta--);
+                    error_correction_bit^=version_generator_polynomial_coefficient<<bit_delta;
+                }
+                version_code|=error_correction_bit;
+                writer.write(version_code+"");
+                if(version<40)
+                {
+                    writer.write(",");
+                }
+            }
+            writer.write("}");
+            writer.flush();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
     public static void main(String args[])
     {
-        output_alignment_pattern_center_position();
+        output_version_code();
     }
 }
