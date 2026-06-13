@@ -113,7 +113,7 @@ class using_tools
 
         - [huffman_tree_byte / huffman_tree_char（霍夫曼树）](#huffman_tree_byte--huffman_tree_char霍夫曼树)
 
-    - [3.3 tools.date（日期时间）](#33-toolsdate日期时间)
+    - [3.3 tools.date_time（日期时间）](#33-toolsdate_time日期时间)
 
         - [datetime（日期时间）](#datetime日期时间)
 
@@ -130,6 +130,12 @@ class using_tools
     - [3.5 tools.mathematics（数学工具）](#35-toolsmathematics数学工具)
 
         - [math（数学常数）](#math数学常数)
+
+    - [3.6 tools.two_dimensional_barcode（二维码）](#36-toolstwo_dimensional_barcode二维码)
+
+        - [meta（元数据常量）](#meta元数据常量)
+
+        - [quick_response_code（二维码）](#quick_response_code二维码)
 
         - [maths（数学方法）](#maths数学方法)
 
@@ -510,7 +516,7 @@ tools
 
 ---
 
-### 3.3 tools.date（日期时间）
+### 3.3 tools.date_time（日期时间）
 
 #### datetime（日期时间）
 
@@ -679,6 +685,70 @@ tools
 #### angle（角度）
 
 - 存储度、分、秒，支持加法、除法（整数除）、格式化输出。
+
+---
+
+### 3.6 tools.two_dimensional_barcode（二维码）
+
+#### meta（元数据常量）
+
+- **类**：`tools.two_dimensional_barcode.meta`
+
+- **功能**：提供 QR 二维码生成所需的全部常量数据，包括版本边长、编码模式掩码、纠错等级掩码、有限域（GF(256)）指数/对数表、生成多项式系数、编码长度位数、字母数字表、分组信息、对齐图案位置等。
+
+- **主要常量**：
+
+    - `side_length[]` → 各版本（1~40）的二维码边长（21~177）。
+
+    - `mode_mask[]` → 编码模式掩码（数字=1, 字母数字=2, 字节=4, 日文=8）。
+
+    - `error_correction_mask[]` → 纠错等级掩码（L=1, M=0, Q=3, H=2）。
+
+    - `exponential_finite_field_256[]` / `logarithm_finite_field_256[]` → GF(256) 有限域运算表，用于 Reed-Solomon 纠错编码。
+
+    - `generator_polynomial_coefficient[][]` → 各纠错码字数的生成多项式系数。
+
+    - `alphanumeric_table[]` → 字母数字模式编码表（0-9, A-Z, 空格及符号共45个字符）。
+
+    - `block_count_per_group[][][]` / `data_code_word_count_per_block[][][]` → 各版本、各纠错等级的分组和每块数据码字数。
+
+    - `alignment_pattern_center_position[][][]` → 各版本对齐图案的中心坐标。
+
+#### quick_response_code（二维码）
+
+- **类**：`tools.two_dimensional_barcode.quick_response_code`
+
+- **功能**：生成 QR 二维码（Quick Response Code），支持数字、字母数字、字节（UTF-8）、日文、ECI 五种编码模式，支持 L/M/Q/H 四种纠错等级，版本 1~40。
+
+- **字段**：
+
+    - `boolean field[][]` → 二维码的布尔矩阵（true=黑，false=白）。
+
+    - `int side` → 二维码边长。
+
+    - `int version` → 版本号（1~40）。
+
+    - `int error_correction_level` → 纠错等级（1=L, 2=M, 3=Q, 4=H）。
+
+    - `int mode` → 编码模式（0=数字, 1=字母数字, 2=字节, 3=日文, 4=ECI）。
+
+    - `String encoded_text` → 被编码的原始文本。
+
+- **构造器**：
+
+    - `quick_response_code(String text)` → 自动选择编码模式和最小可用版本，默认 L 级纠错。
+
+    - `quick_response_code(String text, int error_correction_level)` → 自动选择编码模式和最小可用版本，指定纠错等级。
+
+    - `quick_response_code(String text, int mode, int version, int error_correction_level)` → 完全手动指定所有参数。
+
+- **方法**：
+
+    - `void display(int scale)` → 弹窗显示二维码图像，`scale` 为每个像素块的像素大小。
+
+    - `String toString()` → 返回二维码的文本表示（Unicode 字符 ██ 和空格），包含版本和纠错等级信息。
+
+- **注意**：`field` 矩阵索引为 `[y][x]`，即先行后列。显示时四周有4像素的白色边距。
 
 ---
 
