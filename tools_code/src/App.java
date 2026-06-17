@@ -13,13 +13,8 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        String text=
-        """
-        TEXTtext
-        """
-        ;
-        quick_response_code qrc=new quick_response_code(text,1);
-        System.out.println(qrc);
-        qrc.display();
+        String text="你好，世界！";
+        boolean[][] field=quick_response_code.encode(text);
+        quick_response_code.display(field);
     }
 }

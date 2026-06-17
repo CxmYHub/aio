@@ -37,6 +37,10 @@ public class qrc_test
         
         你可以将这些文本逐条输入你的二维码生成器，生成二维码后用扫码工具验证解码结果是否一致。
         """
+        ,
+        """
+        sk-6ae7c8f9e8d34ff8b0e8985a6addc3eb
+        """
         };
         for(String i:test)
         {
@@ -61,6 +65,6 @@ public class qrc_test
     }
     public static void main(String args[])
     {
-        print_generator_polynomial();
+        display_test();
     }
 }
