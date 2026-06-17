@@ -131,12 +131,6 @@ class using_tools
 
         - [math（数学常数）](#math数学常数)
 
-    - [3.6 tools.two_dimensional_barcode（二维码）](#36-toolstwo_dimensional_barcode二维码)
-
-        - [meta（元数据常量）](#meta元数据常量)
-
-        - [quick_response_code（二维码）](#quick_response_code二维码)
-
         - [maths（数学方法）](#maths数学方法)
 
         - [complex_number（复数）](#complex_number复数)
@@ -152,8 +146,14 @@ class using_tools
         - [polynomial_equation（多项式方程）](#polynomial_equation多项式方程)
 
         - [square_root（平方根）](#square_root平方根)
-        
+
         - [angle（角度）](#angle角度)
+
+    - [3.6 tools.two_dimensional_barcode（二维码）](#36-toolstwo_dimensional_barcode二维码)
+
+        - [barcode（元数据常量）](#barcode元数据常量)
+
+        - [quick_response_code（二维码）](#quick_response_code二维码)
 
 - [4. 使用示例](#4-使用示例)
 
@@ -183,11 +183,12 @@ class using_tools
 
 ```
 tools
-├── collection          # 集合工具（排序、查找、字符串）
-├── data_structure      # 数据结构（链表、树、堆、图、哈希表等）
-├── date                # 日期时间处理
-├── geography           # 地理坐标、高程地图
-└── mathematics         # 数学算法与结构
+├── collection              # 集合工具（排序、查找、字符串）
+├── data_structure          # 数据结构（链表、树、堆、图、哈希表等）
+├── date_time               # 日期时间处理
+├── geography               # 地理坐标、高程地图
+├── mathematics             # 数学算法与结构
+└── two_dimensional_barcode # 二维码生成（QR Code）
 ```
 
 ---
@@ -418,11 +419,23 @@ tools
 
     - 构造：`linked_list_singly()` 空链表；`linked_list_singly(int... numbers)` 从给定数据构建。
 
-    - 方法：`input`, `insert`, `remove_tail`, `remove_head`, `remove_element`, `sort_ascend`, `sort_descend` 等。
+    - 查询方法：`is_empty()`, `element_count()`, `element_at(int index)`, `index_of(int element)`, `traversal()`。
+
+    - 插入方法：`input_tail(int)`, `input_more_tail(int...)`, `input_list_tail(list)`, `input_head(int)`, `input_more_head(int...)`, `input_list_head(list)`, `insert(int index, int)`, `insert_more(int index, int...)`, `insert_list(int index, list)`。
+
+    - 删除方法：`remove_tail(int count)`, `remove_head(int count)`, `remove_index(int index)`, `remove_element(int)`, `remove_element(int min, int max)`。
+
+    - 排序方法：`sort_ascend()`, `sort_descend()`（归并排序实现）。
 
 - **双向链表** `linked_list_doubly`：无头节点，存储 `head` 和 `tail` 引用，支持正向/反向索引。
 
-    - 方法：`input_tail`, `input_head`, `element_at`, `index_forward`, `index_backward`, `traversal_forward/backward` 等。
+    - 构造：`linked_list_doubly()` 空链表；`linked_list_doubly(int... numbers)` 从给定数据构建。
+
+    - 查询方法：`is_empty()`, `element_count()`, `element_at(int index)`, `index_forward(int)`, `index_backward(int)`, `traversal_forward()`, `traversal_backward()`, `reverse_index(int)`, `min_index(int)`。
+
+    - 插入方法：`input_tail(int)`, `input_more_tail(int...)`, `input_list_tail(list)`, `input_head(int)`, `input_more_head(int...)`, `input_list_head(list)`, `insert(int index, int)`, `insert_more(int index, int...)`, `insert_list(int index, list)`。
+
+    - 删除方法：`remove_tail(int count)`, `remove_head(int count)`, `remove_index(int index)`, `remove_element(int)`, `remove_element(int min, int max)`。
 
 #### queue（队列）
 
@@ -432,13 +445,15 @@ tools
 
     - `boolean is_empty()`, `boolean is_full()`
 
-    - `int element_count()`
+    - `int element_count()`, `int empty_count()` → 元素数量、剩余空间。
 
-    - `int input(int element)`, `int input_more(int... elements)`
+    - `int input(int element)`, `int input_more(int... elements)` → 入队。
 
     - `int get()` → 查看队头。
 
     - `int output()` → 出队。
+
+    - `int dilate()`, `int dilate(int more_capacity)` → 扩容。
 
 #### red_black_tree（红黑树）
 
@@ -458,9 +473,11 @@ tools
 
     - `int get_depth(int element)` → 返回深度（根深度0）。
 
+    - `static red_black_tree left_rotate(red_black_tree)` / `right_rotate(red_black_tree)` → 左旋/右旋操作。
+
 #### stack / stack_ascend / stack_descend / stack_max / stack_min（栈）
 
-- **stack**：普通栈，数组实现，自动扩容。
+- **stack**：普通栈，数组实现，自动扩容，默认容量16。
 
 - **stack_ascend**（单调递增栈）：入栈时弹出所有比新元素小的元素。
 
@@ -470,7 +487,7 @@ tools
 
 - **stack_min**：支持 `O(1)` 获取当前栈中最小值。
 
-- 通用方法：`input`, `input_more`, `output`, `get`。
+- 通用方法：`is_empty()`, `is_full()`, `element_count()`, `empty_count()`, `input`, `input_more`, `output`, `get`, `dilate()`, `dilate(int more_capacity)`。
 
 #### tree（树-孩子兄弟表示法）
 
@@ -490,9 +507,11 @@ tools
 
     - `int count()` → 存储的不同单词数量。
 
-    - `int depth()` → 树深度（即最长单词长度+1）。
+    - `int depth()`, `int max_length()` → 树深度（最长单词长度+1）及最长单词长度。
 
     - `int input(String word)` → 插入单词，返回新增节点数，重复返回 `Integer.MIN_VALUE`。
+
+    - `int input_more(String... words)` → 批量插入单词，返回新增单词数量。
 
     - `boolean exist(String word)` → 判断是否存在。
 
@@ -530,6 +549,10 @@ tools
 
     - `int[] now()` → 获取默认时区当前时间数组 `{年,月,日,时,分,秒,毫秒,时区}`。
 
+    - `int[] now(int time_zone)` → 获取指定时区当前时间数组。
+
+    - `int get_default_time_zone()` / `boolean set_default_time_zone(int time_zone)` → 获取/设置默认时区。
+
     - `long timestamp(...)` → 计算自公元元年1月1日0时0分0秒的毫秒数。
 
     - `int timestamp_day(...)` → 计算日时间戳（天数）。
@@ -542,11 +565,17 @@ tools
 
     - `int day_in_year()` → 当年第几天。
 
+    - `int second_in_day()` → 当天第几秒。
+
     - `datetime add_day(int days)` → 返回新对象，日期偏移。
 
     - `long interval_day(datetime other)` → 相差天数。
 
+    - `int interval_second_in_day(datetime other)` → 同一天内相差秒数。
+
     - `int compareTo(datetime other)` → 比较时间顺序。
+
+    - `String toString()` → 返回 `"AD 2026/01/01 12:00:00.000 UTC+8"` 格式字符串。
 
 #### calendar（日期常数）
 
@@ -612,19 +641,55 @@ tools
 
 - **整数与浮点运算**：
 
-    - `gcd`, `lcm`, `is_prime`, `prime_table`, `decompose`。
+    - `factors(int number)` → 计算一个整数的所有因子。
 
-    - `quick_power`, `quick_power_mod`。
+    - `gcd`, `lcm` → 最大公因数、最小公倍数。
 
-    - `lowbit`, `bit_count`, `length`（十进制位数）。
+    - `is_prime`, `prime_table`, `decompose` → 质数判断、质数表生成、质因数分解。
+
+    - `quick_power`, `quick_power_mod` → 快速幂，支持一般取模和模1000000007。
+
+    - `lowbit` → 最低位1的权值。
+
+    - `bit_count` → 二进制表示中1的个数。
+
+    - `length` → 十进制位数。
+
+    - `binary` → 返回二进制表示（布尔数组）。
+
+    - `binary_weight` → 返回二进制表示中每个1的权值。
+
+    - `linear_interpolation` → 线性插值。
+
+    - `mathematical_order_number` → 区间内数字的数学顺序升序序列。
+
+    - `dictionary_order_number_to` → 区间内数字的字典序升序序列。
+
+    - `number_combination_count` → 由给定数字组成的无前导零的不同数字个数。
 
 - **统计**：
 
-    - `max`, `min`, `sum`, `average`, `median`, `mode`, `variance`, `standard_deviation`, `linear_regression`。
+    - `max`, `min`, `sum`, `average` → 基本统计量（支持 `int` 和 `double`）。
+
+    - `max_index`, `min_index` → 首个最大值/最小值的索引。
+
+    - `weighted_average` → 加权平均值（支持 `int`/`double` 元素和权重交叉组合）。
+
+    - `median`, `mode` → 中位数、众数。
+
+    - `variance`, `variance_average` → 方差、方差平均值。
+
+    - `standard_deviation`, `standard_deviation_average` → 标准差、标准差平均值。
+
+    - `linear_regression` → 一元线性回归。
 
 - **数组操作**：
 
-    - `reverse_new`, `reverse_local`, `shuffle_new`, `shuffle_local`。
+    - `reverse_new`, `reverse_local` → 数组反转（支持 `int[]` 和 `double[]`，支持指定区间）。
+
+    - `shuffle_new`, `shuffle_local` → 随机打乱（支持 `int[]` 和 `double[]`，支持指定区间）。
+
+    - `distinct_sort_new`, `distinct_sort_local` → 去重并升序排序。
 
 - **几何**：
 
@@ -690,9 +755,9 @@ tools
 
 ### 3.6 tools.two_dimensional_barcode（二维码）
 
-#### meta（元数据常量）
+#### barcode（元数据常量）
 
-- **类**：`tools.two_dimensional_barcode.meta`
+- **类**：`tools.two_dimensional_barcode.barcode`
 
 - **功能**：提供 QR 二维码生成所需的全部常量数据，包括版本边长、编码模式掩码、纠错等级掩码、有限域（GF(256)）指数/对数表、生成多项式系数、编码长度位数、字母数字表、分组信息、对齐图案位置等。
 
@@ -718,19 +783,21 @@ tools
 
 - **类**：`tools.two_dimensional_barcode.quick_response_code`
 
-- **功能**：生成 QR 二维码（Quick Response Code），支持数字、字母数字、字节（UTF-8）、日文、ECI 五种编码模式，支持 L/M/Q/H 四种纠错等级，版本 1~40。
+- **功能**：生成 QR 二维码（Quick Response Code），支持数字、字母数字、字节（UTF-8）、日文、ECI 五种编码模式，支持 L/M/Q/H 四种纠错等级，版本 1~40。内部实现包括数据编码、Reed-Solomon 纠错码生成、功能图案与对齐图案绘制、数据位流填充、掩膜评分与选择等完整 QR 码生成流程。
 
 - **字段**：
 
-    - `boolean field[][]` → 二维码的布尔矩阵（true=黑，false=白）。
+    - `boolean field[][]` → 二维码的布尔矩阵（true=黑，false=白），索引为 `[y][x]`。
 
-    - `int side` → 二维码边长。
+    - `int side` → 二维码边长，公式为 `(version-1)*4+21`。
 
     - `int version` → 版本号（1~40）。
 
     - `int error_correction_level` → 纠错等级（1=L, 2=M, 3=Q, 4=H）。
 
     - `int mode` → 编码模式（0=数字, 1=字母数字, 2=字节, 3=日文, 4=ECI）。
+
+    - `int mask` → 最终选择的掩膜编号（0~7），由内部评分算法自动选出最优掩膜。
 
     - `String encoded_text` → 被编码的原始文本。
 
@@ -740,15 +807,33 @@ tools
 
     - `quick_response_code(String text, int error_correction_level)` → 自动选择编码模式和最小可用版本，指定纠错等级。
 
-    - `quick_response_code(String text, int mode, int version, int error_correction_level)` → 完全手动指定所有参数。
+    - `quick_response_code(String text, int error_correction_level, int version, int mode)` → 完全手动指定所有参数。
 
-- **方法**：
+- **静态方法（encode）**：
 
-    - `void display(int scale)` → 弹窗显示二维码图像，`scale` 为每个像素块的像素大小。
+    - `static boolean[][] encode(String text)` → 自动选择编码模式和最小可用版本，默认 L 级纠错，返回二维码布尔矩阵。
 
-    - `String toString()` → 返回二维码的文本表示（Unicode 字符 ██ 和空格），包含版本和纠错等级信息。
+    - `static boolean[][] encode(String text, int error_correction_level)` → 自动选择编码模式和最小可用版本，指定纠错等级，返回二维码布尔矩阵。
 
-- **注意**：`field` 矩阵索引为 `[y][x]`，即先行后列。显示时四周有4像素的白色边距。
+    - `static boolean[][] encode(String text, int error_correction_level, int version, int mode)` → 完全手动指定参数，返回二维码布尔矩阵。编码过程中会打印纠错等级、版本、编码模式等调试信息。
+
+- **实例方法（display）**：
+
+    - `void display()` → 弹窗显示二维码，自适应像素块大小（最大12像素），窗口标题显示版本、纠错等级和掩膜编号。
+
+    - `void display(int scale)` → 弹窗显示二维码，指定每个像素块的像素大小，窗口标题同上。
+
+- **静态方法（display）**：
+
+    - `static void display(boolean[][] field)` → 弹窗显示给定的二维码布尔矩阵，自适应像素块大小（最大12像素）。
+
+    - `static void display(boolean[][] field, int scale)` → 弹窗显示给定的二维码布尔矩阵，指定每个像素块的像素大小。
+
+- **其他方法**：
+
+    - `String toString()` → 返回二维码的文本表示，包含纠错等级、版本、编码模式、掩膜编号信息，以及用 Unicode 字符（██ 和空格）绘制的二维码图形。
+
+- **注意**：`field` 矩阵索引为 `[y][x]`，即先行后列。显示时四周有4像素的白色边距。`version` 为 -1 表示构造失败（如版本号越界或文本过长超出容量）。
 
 ---
 
@@ -757,7 +842,7 @@ tools
 ``` Java
 import tools.collection.sort;
 import tools.data_structure.heap_ascend;
-import tools.date.datetime;
+import tools.date_time.datetime;
 import tools.geography.elevation_map;
 import tools.mathematics.maths;
 public class demo
