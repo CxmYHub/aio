@@ -74,7 +74,8 @@ public class maths
 		{
 			return numbers[0];
 		}
-		int numbers_member[]=numbers.clone();
+		int numbers_member[]=new int[numbers.length];
+		System.arraycopy(numbers,0,numbers_member,0,numbers.length);
 		for(int i=1;i<numbers_member.length;i++)
 		{
 			int smaller=Math.abs(numbers_member[i]);
@@ -148,25 +149,49 @@ public class maths
 		{
 			return new int[0];
 		}
-		int number_bit[]=new int[(max+1)/32+1];
-		number_bit[0]=1;
-		int result[]=new int[(int)Math.sqrt(max)/10+1];
-		int pin=0,capacity=result.length;
-		for(int i=2;i<=max;i++)
+		int result[];
+		int pin=0;
+		if(max<=10000)
 		{
-			if((number_bit[i>>5]&(1<<(i&31)))==0)
+			result=math.prime;
+			pin=1229;
+			int left=0,right=1228;
+			while(left<=right)
 			{
-				if(pin>=capacity)
+				int middle=(left+right)>>1;
+				if(result[middle]<=max)
 				{
-					capacity=(capacity<<1)+2;
-					int new_result[]=new int[capacity];
-					System.arraycopy(result,0,new_result,0,pin);
-					result=new_result;
+					left=middle+1;
 				}
-				result[pin++]=i;
-				for(int j=i*i;j<=max;j+=i)
+				else
 				{
-					number_bit[j>>5]|=(1<<(j&31));
+					right=middle-1;
+					pin=middle;
+				}
+			}
+		}
+		else
+		{
+			int number_bit[]=new int[(max+1>>5)+1];
+			number_bit[0]=1;
+			result=new int[(int)((max<<1)/Math.log(max)+1)];
+			int capacity=result.length;
+			for(int i=2;i<=max;i++)
+			{
+				if((number_bit[i>>5]&(1<<(i&31)))==0)
+				{
+					if(pin>=capacity)
+					{
+						capacity=(capacity<<1)+2;
+						int new_result[]=new int[capacity];
+						System.arraycopy(result,0,new_result,0,pin);
+						result=new_result;
+					}
+					result[pin++]=i;
+					for(long j=(long)i*i;j<=max;j+=i)
+					{
+						number_bit[(int)(j>>5)]|=(1<<(j&31));
+					}
 				}
 			}
 		}
@@ -331,7 +356,7 @@ public class maths
 	@param base 底数。
 	@param exponent 指数。
 	@param mod 模数。
-	@return <code>base</code>的<code>exponent</code>次方对mod取模的结果。
+	@return <code>base</code>的<code>exponent</code>次方对<code>mod</code>取模的结果。
 	*/
 	public static long quick_power_mod(long base,long exponent,long mod)
 	{
@@ -650,13 +675,162 @@ public class maths
 		}
 	}
 	/**
+	计算一个整数数组随机打乱后的数组。
+	@param numbers 要打乱的整数数组。
+	@return 打乱后的整数数组。
+	*/
+	public static int[] shuffle_new(int numbers[])
+	{
+		Random random_generator=new Random();
+		int result[]=new int[numbers.length];
+		System.arraycopy(numbers,0,result,0,numbers.length);
+		for(int i=numbers.length-1;i>0;i--)
+		{
+			int random_index=random_generator.nextInt(i+1);
+			int temp=result[i];
+			result[i]=result[random_index];
+			result[random_index]=temp;
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	随机打乱一个整数数组。
+	@param numbers 要打乱的整数数组。
+	*/
+	public static void shuffle_local(int numbers[])
+	{
+		Random random_generator=new Random();
+		for(int i=numbers.length-1;i>0;i--)
+		{
+			int random_index=random_generator.nextInt(i+1);
+			int temp=numbers[i];
+			numbers[i]=numbers[random_index];
+			numbers[random_index]=temp;
+		}
+	}
+	/**
+	计算一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
+	@param numbers 要打乱的整数数组。
+	@param from 打乱区间下界。
+	@param to 打乱区间上界。
+	@return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的整数数组。
+	*/
+	public static int[] shuffle_new(int numbers[],int from,int to)
+	{
+		Random random_generator=new Random();
+		int result[]=new int[numbers.length];
+		System.arraycopy(numbers,0,result,0,numbers.length);
+		for(int i=to;i>=from;i--)
+		{
+			int random_index=random_generator.nextInt(from,to+1);
+			int temp=result[i];
+			result[i]=result[random_index];
+			result[random_index]=temp;
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	随机打乱一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+	@param numbers 要打乱的整数数组。
+	@param from 打乱区间下界。
+	@param to 打乱区间上界。
+	*/
+	public static void shuffle_local(int numbers[],int from,int to)
+	{
+		Random random_generator=new Random();
+		for(int i=to;i>=from;i--)
+		{
+			int random_index=random_generator.nextInt(from,to+1);
+			int temp=numbers[i];
+			numbers[i]=numbers[random_index];
+			numbers[random_index]=temp;
+		}
+	}
+	/**
+	计算一个双精度浮点数组随机打乱后的数组。
+	@param numbers 要打乱的双精度浮点数组。
+	@return 打乱后的双精度浮点数组。
+	*/
+	public static double[] shuffle_new(double numbers[])
+	{
+		Random random_generator=new Random();
+		double result[]=new double[numbers.length];
+		System.arraycopy(numbers,0,result,0,numbers.length);
+		for(int i=numbers.length-1;i>0;i--)
+		{
+			int random_index=random_generator.nextInt(i+1);
+			double temp=result[i];
+			result[i]=result[random_index];
+			result[random_index]=temp;
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	随机打乱一个双精度浮点数组。
+	@param numbers 要打乱的双精度浮点数组。
+	*/
+	public static void shuffle_local(double numbers[])
+	{
+		Random random_generator=new Random();
+		for(int i=numbers.length-1;i>0;i--)
+		{
+			int random_index=random_generator.nextInt(i+1);
+			double temp=numbers[i];
+			numbers[i]=numbers[random_index];
+			numbers[random_index]=temp;
+		}
+	}
+	/**
+	计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
+	@param numbers 要打乱的双精度浮点数组。
+	@param from 打乱区间下界。
+	@param to 打乱区间上界。
+	@return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的双精度浮点数组。
+	*/
+	public static double[] shuffle_new(double numbers[],int from,int to)
+	{
+		Random random_generator=new Random();
+		double result[]=new double[numbers.length];
+		System.arraycopy(numbers,0,result,0,numbers.length);
+		for(int i=to;i>=from;i--)
+		{
+			int random_index=random_generator.nextInt(from,to+1);
+			double temp=result[i];
+			result[i]=result[random_index];
+			result[random_index]=temp;
+		}
+		return result;
+	}
+	/**
+	<p>此方法会修改输入的数据。</p><br>
+	随机打乱一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+	@param numbers 要打乱的双精度浮点数组。
+	@param from 打乱区间下界。
+	@param to 打乱区间上界。
+	*/
+	public static void shuffle_local(double numbers[],int from,int to)
+	{
+		Random random_generator=new Random();
+		for(int i=to;i>=from;i--)
+		{
+			int random_index=random_generator.nextInt(from,to+1);
+			double temp=numbers[i];
+			numbers[i]=numbers[random_index];
+			numbers[random_index]=temp;
+		}
+	}
+	/**
 	计算一个整数数组中合并重复元素的数组，并按升序排列。
 	@param numbers 整数数组。
 	@return 合并重复元素后，升序排列的数组。
 	*/
 	public static int[] distinct_sort_new(int numbers[])
 	{
-		int temp[]=numbers.clone();
+		int temp[]=new int[numbers.length];
+		System.arraycopy(numbers,0,temp,0,numbers.length);
 		sort.radix(temp);
 		int same_count=0;
 		for(int i=1;i<temp.length;i++)
@@ -704,150 +878,6 @@ public class maths
 			numbers[i]=Integer.MIN_VALUE;
 		}
 		return same_count;
-	}
-	/**
-	计算一个整数数组随机打乱后的数组。
-	@param numbers 要打乱的整数数组。
-	@return 打乱后的整数数组。
-	*/
-	public static int[] shuffle_new(int numbers[])
-	{
-		Random random_generator=new Random();
-		int result[]=numbers.clone();
-		for(int i=numbers.length-1;i>0;i--)
-		{
-			int random_index=random_generator.nextInt(i+1);
-			int temp=result[i];
-			result[i]=result[random_index];
-			result[random_index]=temp;
-		}
-		return result;
-	}
-	/**
-	<p>此方法会修改输入的数据。</p><br>
-	随机打乱一个整数数组。
-	@param numbers 要打乱的整数数组。
-	*/
-	public static void shuffle_local(int numbers[])
-	{
-		Random random_generator=new Random();
-		for(int i=numbers.length-1;i>0;i--)
-		{
-			int random_index=random_generator.nextInt(i+1);
-			int temp=numbers[i];
-			numbers[i]=numbers[random_index];
-			numbers[random_index]=temp;
-		}
-	}
-	/**
-	计算一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
-	@param numbers 要打乱的整数数组。
-	@param from 打乱区间下界。
-	@param to 打乱区间上界。
-	@return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的整数数组。
-	*/
-	public static int[] shuffle_new(int numbers[],int from,int to)
-	{
-		Random random_generator=new Random();
-		int result[]=numbers.clone();
-		for(int i=to;i>=from;i--)
-		{
-			int random_index=random_generator.nextInt(from,to+1);
-			int temp=result[i];
-			result[i]=result[random_index];
-			result[random_index]=temp;
-		}
-		return result;
-	}
-	/**
-	<p>此方法会修改输入的数据。</p><br>
-	随机打乱一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
-	@param numbers 要打乱的整数数组。
-	@param from 打乱区间下界。
-	@param to 打乱区间上界。
-	*/
-	public static void shuffle_local(int numbers[],int from,int to)
-	{
-		Random random_generator=new Random();
-		for(int i=to;i>=from;i--)
-		{
-			int random_index=random_generator.nextInt(from,to+1);
-			int temp=numbers[i];
-			numbers[i]=numbers[random_index];
-			numbers[random_index]=temp;
-		}
-	}
-	/**
-	计算一个双精度浮点数组随机打乱后的数组。
-	@param numbers 要打乱的双精度浮点数组。
-	@return 打乱后的双精度浮点数组。
-	*/
-	public static double[] shuffle_new(double numbers[])
-	{
-		Random random_generator=new Random();
-		double result[]=numbers.clone();
-		for(int i=numbers.length-1;i>0;i--)
-		{
-			int random_index=random_generator.nextInt(i+1);
-			double temp=result[i];
-			result[i]=result[random_index];
-			result[random_index]=temp;
-		}
-		return result;
-	}
-	/**
-	<p>此方法会修改输入的数据。</p><br>
-	随机打乱一个双精度浮点数组。
-	@param numbers 要打乱的双精度浮点数组。
-	*/
-	public static void shuffle_local(double numbers[])
-	{
-		Random random_generator=new Random();
-		for(int i=numbers.length-1;i>0;i--)
-		{
-			int random_index=random_generator.nextInt(i+1);
-			double temp=numbers[i];
-			numbers[i]=numbers[random_index];
-			numbers[random_index]=temp;
-		}
-	}
-	/**
-	计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
-	@param numbers 要打乱的双精度浮点数组。
-	@param from 打乱区间下界。
-	@param to 打乱区间上界。
-	@return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的双精度浮点数组。
-	*/
-	public static double[] shuffle_new(double numbers[],int from,int to)
-	{
-		Random random_generator=new Random();
-		double result[]=numbers.clone();
-		for(int i=to;i>=from;i--)
-		{
-			int random_index=random_generator.nextInt(from,to+1);
-			double temp=result[i];
-			result[i]=result[random_index];
-			result[random_index]=temp;
-		}
-		return result;
-	}
-	/**
-	<p>此方法会修改输入的数据。</p><br>
-	随机打乱一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
-	@param numbers 要打乱的双精度浮点数组。
-	@param from 打乱区间下界。
-	@param to 打乱区间上界。
-	*/
-	public static void shuffle_local(double numbers[],int from,int to)
-	{
-		Random random_generator=new Random();
-		for(int i=to;i>=from;i--)
-		{
-			int random_index=random_generator.nextInt(from,to+1);
-			double temp=numbers[i];
-			numbers[i]=numbers[random_index];
-			numbers[random_index]=temp;
-		}
 	}
 	/**
 	计算多个整数中的最大值。
@@ -1106,7 +1136,8 @@ public class maths
 	*/
 	public static double median(int... numbers)
 	{
-		int temp[]=numbers.clone();
+		int temp[]=new int[numbers.length];
+		System.arraycopy(numbers,0,temp,0,numbers.length);
 		sort.radix(temp);
 		if(temp.length%2==1)
 		{
@@ -1124,7 +1155,8 @@ public class maths
 	*/
 	public static double median(double... numbers)
 	{
-		double temp[]=numbers.clone();
+		double temp[]=new double[numbers.length];
+		System.arraycopy(numbers,0,temp,0,numbers.length);
 		sort.quick_dual_pivot(temp);
 		if(temp.length%2==1)
 		{
@@ -1142,7 +1174,8 @@ public class maths
 	*/
 	public static int[] mode(int... numbers)
 	{
-		int temp[]=numbers.clone();
+		int temp[]=new int[numbers.length];
+		System.arraycopy(numbers,0,temp,0,numbers.length);
 		sort.radix(temp);
 		int count=0,count_max=0;
 		int unique[]=new int[temp.length];
@@ -1498,7 +1531,8 @@ public class maths
 	{
 		if(coordinates_xn_yn_ccw.length>=4&&coordinates_xn_yn_ccw.length%2==0)
 		{
-			double temp[]=coordinates_xn_yn_ccw.clone();
+			double temp[]=new double[coordinates_xn_yn_ccw.length];
+			System.arraycopy(coordinates_xn_yn_ccw,0,temp,0,coordinates_xn_yn_ccw.length);
 			double result=0;
 			for(int i=0;i+3<temp.length;i+=2)
 			{
@@ -1522,7 +1556,8 @@ public class maths
 	{
 		if(coordinates_xn_yn_ccw.length>=6&&coordinates_xn_yn_ccw.length%2==0)
 		{
-			double temp[]=coordinates_xn_yn_ccw.clone();
+			double temp[]=new double[coordinates_xn_yn_ccw.length];
+			System.arraycopy(coordinates_xn_yn_ccw,0,temp,0,coordinates_xn_yn_ccw.length);
 			double median=median(temp);
 			for(int i=0;i<temp.length;i++)
 			{

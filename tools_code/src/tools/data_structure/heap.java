@@ -36,7 +36,8 @@ public class heap
 	*/
 	public heap(int... elements)
 	{
-		this.elements=elements.clone();
+		this.elements=new int[elements.length];
+		System.arraycopy(elements,0,this.elements,0,elements.length);
 		size=elements.length;
 		capacity=elements.length;
 	}

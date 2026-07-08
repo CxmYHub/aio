@@ -47,7 +47,11 @@ public class matrix
 	{
 		row=element_numbers.length;
 		column=element_numbers[0].length;
-		elements=element_numbers.clone();
+		elements=new int[row][column];
+		for(int i=0;i<row;i++)
+		{
+			System.arraycopy(element_numbers[i],0,elements[i],0,column);
+		}
 	}
 	/**
 	通过行、列数构造一个零矩阵。
@@ -68,7 +72,11 @@ public class matrix
 	{
 		row=mirror_determinant.order;
 		column=mirror_determinant.order;
-		elements=mirror_determinant.elements.clone();
+		elements=new int[row][column];
+		for(int i=0;i<row;i++)
+		{
+			System.arraycopy(mirror_determinant.elements[i],0,elements[i],0,column);
+		}
 	}
 	/**
 	获取矩阵中指定位置的元素。

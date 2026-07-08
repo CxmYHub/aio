@@ -10,7 +10,7 @@ public class math
     */
     public final static double pi=3.14159265358979323846;
     /**
-    自然对数底数e。
+    自然对数的底数e。
     */
     public final static double e=2.71828182845904523536;
     /**

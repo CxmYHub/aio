@@ -5,8 +5,8 @@ package tools.date_time;
 包括年、月、日、时、分、秒、毫秒、时区。<br>
 本日期时间以推广公历实现，支持公元前，此时年存储为公元前年的倒数+1。<br>
 例如公元前1年<code>year=0</code>，公元前2年<code>year=-1</code>。<br>
-但在需要表示公元前n年时，应为构造方法传入year=-n。<br>
-传入的year=0将被重置为year=1<br><br>
+但在需要表示公元前n年时，应为构造方法传入<code>year=-n</code>。<br>
+传入的<code>year=0</code>将被重置为<code>year=1</code><br><br>
 若构造时未指定年、月、日，则退化为纯时间对象，无法进行日期处理。<br>
 若构造时未指定时、分、秒，则为纯日期对象，但可进行时间处理。<br><br>
 默认时区为东八区（UTC+8），可通过<code>datetime.set_default_time_zone(int)</code>方法改变。

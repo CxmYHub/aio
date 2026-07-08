@@ -38,12 +38,16 @@ public class determinant implements Comparable<determinant>
 	}
 	/**
 	复制一个行列式对象。
-	@param mirror_determinant 要复制的行列式对象。
+	@param coping_determinant 要复制的行列式对象。
 	*/
-	public determinant(determinant mirror_determinant)
+	public determinant(determinant coping_determinant)
 	{
-		order=mirror_determinant.order;
-		elements=mirror_determinant.elements.clone();
+		order=coping_determinant.order;
+		elements=new int[order][order];
+		for(int i=0;i<order;i++)
+		{
+			System.arraycopy(coping_determinant.elements[i],0,elements[i],0,order);
+		}
 	}
 	/**
 	通过矩阵构造该矩阵的行列式。

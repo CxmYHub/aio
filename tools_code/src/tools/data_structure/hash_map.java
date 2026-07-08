@@ -2,7 +2,7 @@ package tools.data_structure;
 /**
 <p>哈希表类/散列表类。</p><br>
 哈希表是一种数据结构，用于存储键值对。<br>
-每个键都映射到一个唯一的位置，称为哈希值。<br>
+每个键都映射到一个确定的位置，称为哈希值。<br>
 通过哈希值可以快速访问对应的值。<br><br>
 本哈希表默认容量为257。<br>
 负载因子为0.6666666666666667，即2/3。<br>
@@ -81,6 +81,11 @@ public class hash_map
         elements=new hash_map_list_node[capacity];
         size=0;
     }
+    /**
+    对1个整数进行哈希处理，返回该整数在本哈希表中的哈希值。<br>
+    @param number 要哈希的整数。
+    @return 该整数在本哈希表中的哈希值。
+    */
     public int random_hash(int number)
     {
         number^=number>>>16;
