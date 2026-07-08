@@ -743,7 +743,7 @@ tools
     - `int numerator_size` / `denominator_size` → 分子/分母的有效位数。
     - `int mode` → 输出格式（`>0` 小数，`=0` 分数+小数，`<0` 分数）。
 
-- **构造器**：多个重载，支持从整数、字符串（如 `"1/2"`、`"0.5"`）、分子分母字节数组构造。
+- **构造器**：多个重载，支持从整数、字符串（如`"0.5"`）、分子分母字节数组构造。
 
 - **静态方法**：
 
@@ -753,9 +753,6 @@ tools
 
 - **实例方法**：
 
-    - `add/subtract/multiply/divide(big_rational)` → 有理数四则运算。
-    - `reciprocal()` → 返回倒数。
-    - `compareTo(big_rational)` → 比较大小。
     - `toString()` → 按 `mode` 格式输出。
 
 #### complex（复数）
