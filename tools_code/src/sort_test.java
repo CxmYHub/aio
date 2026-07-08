@@ -5,9 +5,9 @@ public class sort_test
     public static void main(String args[])
     {
         Random RNG=new Random();
-        boolean judging=true;
+        boolean judging=false;
         int time=5;
-        int length=10000000;
+        int length=1000000000;
         int numbers[]=new int[length];
         long sum_offical_time=0;
         long sum_time=0;
@@ -32,8 +32,8 @@ public class sort_test
                 offical_end=System.nanoTime();
             }
             long start=System.nanoTime();
-            sort.quick_dual_pivot(numbers);
-            // concurrent_sort.concurrent_quick_dual_pivot(numbers);
+            // sort.quick_dual_pivot(numbers);
+            concurrent_sort.concurrent_quick_dual_pivot(numbers);
             long end=System.nanoTime();
             if(judging)
             {
