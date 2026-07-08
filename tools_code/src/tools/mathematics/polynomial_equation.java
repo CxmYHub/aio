@@ -212,7 +212,8 @@ public class polynomial_equation
 	*/
 	public int simplify()
 	{
-		int positive_coefficient[]=coefficients.clone();
+		int positive_coefficient[]=new int[times+1];
+		System.arraycopy(coefficients,0,positive_coefficient,0,times+1);
 		for(int i=0;i<positive_coefficient.length;i++)
 		{
 			if(positive_coefficient[i]<0)
