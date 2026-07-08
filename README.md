@@ -24,13 +24,39 @@
 
         - `doc`：此处为使用javadoc自动创建的文档。
 
-        - `src`：此处为源代码。
+        - `src`：此处为源代码。包含 `tools/` 工具包及测试类（如 `sort_test.java`、`elevation_test.java`、`qrc_test.java` 等）。
 
-    - `.gitignore`：忽略描述文档，用于忽略一些文件。
+        - `output.txt`：由 `converting_array.java` 生成的二维码数据输出文件。
+
+    - `.gitignore`：忽略描述文档，用于忽略编译产物（`*.class`、`*.jar` 等）、Windows 系统文件（`Thumbs.db`、`Desktop.ini` 等）及日志文件。
 
     - `README.md`：项目说明文档。
 
 > 如果您想要自定义文件夹结构，请打开 `.vscode/settings.json` 并更新相关设置。（当您使用VSCode打开项目时，将提示创建此文件夹。）
+
+## 测试与辅助类
+
+`src/` 目录下除 `tools/` 工具包外，还包含以下测试类和辅助类：
+
+- **App.java**：项目主入口类，默认导入所有工具包子包，方便快速测试。
+
+- **sort_test.java**：排序算法性能测试，对比自定义排序与 `Arrays.sort` 的耗时。
+
+- **ListMergeSortTest.java**：单向链表归并排序测试，验证 `linked_list_singly.sort_ascend()` 的正确性与性能。
+
+- **big_rational_test.java**：高精度有理数类 `big_rational` 的功能测试。
+
+- **elevation_test.java**：高程地图 `elevation_map` 的可视化测试，包含地形生成与统计面板。
+
+- **linked_list_doubly_test.java**：双向链表 `linked_list_doubly` 的功能测试。
+
+- **linked_list_singly_test.java**：单向链表 `linked_list_singly` 的功能测试。
+
+- **qrc_test.java**：二维码生成 `quick_response_code` 的功能测试。
+
+- **trie_test.java**：字典树 `trie` 的功能测试。
+
+- **converting_array.java**：辅助工具类，用于将二维码数据码字数组转换为 `barcode.java` 中的常量格式，生成 `output.txt`。
 
 ## 快速开始
 
@@ -133,7 +159,9 @@ class using_tools
 
         - [maths（数学方法）](#maths数学方法)
 
-        - [complex_number（复数）](#complex_number复数)
+        - [complex（复数）](#complex复数)
+
+        - [big_rational（高精度有理数）](#big_rational高精度有理数)
 
         - [coordinate_cartesian（直角坐标）](#coordinate_cartesian直角坐标)
 
@@ -703,7 +731,34 @@ tools
 
     - `sudoku_valid`, `sudoku_solve`（9×9，原地修改）。
 
-#### complex_number（复数）
+#### big_rational（高精度有理数）
+
+- 高精度有理数类，支持任意大小的分数运算。有理数即分数，包含整数、有限小数和无限循环小数。
+
+- 内部以二维字节数组 `fraction[2][]` 存储分子和分母（低位优先），`fraction[0]` 为分子，`fraction[1]` 为分母。当 `fraction[1]==null` 时表示整数。
+
+- **字段**：
+
+    - `byte fraction[][]` → 分子分母的字节数组表示。
+    - `int numerator_size` / `denominator_size` → 分子/分母的有效位数。
+    - `int mode` → 输出格式（`>0` 小数，`=0` 分数+小数，`<0` 分数）。
+
+- **构造器**：多个重载，支持从整数、字符串（如 `"1/2"`、`"0.5"`）、分子分母字节数组构造。
+
+- **静态方法**：
+
+    - `compare(byte[], byte[])` → 比较两个字节数组表示的大整数。
+    - `add/subtract/multiply/divide(byte[], byte[])` → 大整数四则运算。
+    - `gcd(byte[], byte[])` → 大整数最大公因数。
+
+- **实例方法**：
+
+    - `add/subtract/multiply/divide(big_rational)` → 有理数四则运算。
+    - `reciprocal()` → 返回倒数。
+    - `compareTo(big_rational)` → 比较大小。
+    - `toString()` → 按 `mode` 格式输出。
+
+#### complex（复数）
 
 - 表示 `a + bi`，提供加减乘除、模长运算。
 
