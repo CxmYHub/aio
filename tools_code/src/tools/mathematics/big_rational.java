@@ -7,7 +7,7 @@ package tools.mathematics;
 二维数组中的每个元素表示分子或分母中的一位，低位优先存储。<br>
 其中，<code>fraction[0]</code>和分子位数共同表示分子，<code>fraction[1]</code>和分母位数共同表示分母。<br>
 当<code>fraction[1]==null</code>时，为整数对象。<br>
-字符串输出默认为分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>，可通过设置<code>mode</code>改变输出格式：<br>
+字符串输出默认为分数&nbsp;&nbsp;小数格式，可通过设置<code>mode</code>改变输出格式：<br>
 <ul>
     <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
     <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
@@ -68,7 +68,7 @@ public class big_rational
         return 0;
     }
     /**
-    计算两个字节数组低位优先表示的整数的和。
+    计算两个字节数组低位优先表示的整数的和 <code>addend1</code>+<code>addend2</code>。
     @param addend1 第一个整数的字节数组低位优先表示。
     @param addend2 第二个整数的字节数组低位优先表示。
     @return 两个整数的和的字节数组低位优先表示。
@@ -140,7 +140,7 @@ public class big_rational
         }
     }
     /**
-    计算两个字节数组低位优先表示的整数的差。
+    计算两个字节数组低位优先表示的整数的差 <code>minuend</code>-<code>subtrahend</code>。
     @param minuend 被减数的字节数组低位优先表示。
     @param subtrahend 减数的字节数组低位优先表示。
     @return 被减数与减数的差的字节数组低位优先表示。
@@ -228,7 +228,7 @@ public class big_rational
         }
     }
     /**
-    计算字节数组低位优先表示的整数与一个一位整数的积。
+    计算字节数组低位优先表示的整数与一个一位整数的积 <code>factor</code>*<code>one_bit_multiplier</code>。
     @param factor 因数的字节数组低位优先表示。
     @param one_bit_multiplier 一位因数。
     @return 积的字节数组低位优先表示。
@@ -241,6 +241,10 @@ public class big_rational
         }
         int size1=factor.length;
         for(;size1>0&&factor[size1-1]==0;size1--);
+        if(size1==0)
+        {
+            return new byte[]{0};
+        }
         int positive_factor=size1>0?(factor[size1-1]>=0?1:-1):0;
         int positive_multiplier=one_bit_multiplier>=0?1:-1;
         byte product[]=new byte[size1+2];
@@ -261,7 +265,7 @@ public class big_rational
         return product;
     }
     /**
-    计算两个字节数组低位优先表示的整数的积。
+    计算两个字节数组低位优先表示的整数的积 <code>factor1</code>*<code>factor2</code>。
     @param factor1 第一个整数的字节数组低位优先表示。
     @param factor2 第二个整数的字节数组低位优先表示。
     @return 两个整数的积的字节数组低位优先表示。
@@ -272,6 +276,10 @@ public class big_rational
         int size2=factor2.length;
         for(;size1>0&&factor1[size1-1]==0;size1--);
         for(;size2>0&&factor2[size2-1]==0;size2--);
+        if(size1==0||size2==0)
+        {
+            return new byte[]{0};
+        }
         int positive1=size1>0?(factor1[size1-1]>=0?1:-1):0;
         int positive2=size2>0?(factor2[size2-1]>=0?1:-1):0;
         byte product[]=new byte[size1+size2+1];
@@ -296,14 +304,15 @@ public class big_rational
         return product;
     }
     /**
-    计算两个字节数组低位优先表示的整数的商。
+    计算两个字节数组低位优先表示的整数的商 <code>dividend</code>/<code>one_bit_divisor</code>。
     @param dividend 被除数的字节数组低位优先表示。
     @param one_bit_divisor 一位除数。
     @return 一个二维字节数组：
     <ol>
         <li>商的字节数组低位优先表示。</li>
         <li>余数的字节数组低位优先表示。</li>
-    </ol>
+    </ol><br>
+    若除数为0，则返回空数组。
     */
     public static byte[][] divide(byte dividend[],int one_bit_divisor)
     {
@@ -352,14 +361,15 @@ public class big_rational
         return new byte[][]{result,new byte[]{(byte)remainder}};
     }
     /**
-    计算两个字节数组低位优先表示的整数的商。
+    计算两个字节数组低位优先表示的整数的商 <code>dividend</code>/<code>divisor</code>。
     @param dividend 被除数的字节数组低位优先表示。
     @param divisor 除数的字节数组低位优先表示。
     @return 一个二维字节数组：
     <ol>
         <li>商的字节数组低位优先表示。</li>
         <li>余数的字节数组低位优先表示。</li>
-    </ol>
+    </ol><br>
+    若除数为0，则返回空数组。
     */
     public static byte[][] divide(byte dividend[],byte divisor[])
     {
@@ -480,6 +490,10 @@ public class big_rational
             }
             int size2=number2.length;
             for(;size2>0&&number2[size2-1]==0;size2--);
+            if(size2==0)
+            {
+                return new byte[]{1};
+            }
             do
             {
                 byte result[][]=divide(number1,number2);
@@ -498,7 +512,7 @@ public class big_rational
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    对当前分数对象进行约分。
+    对当前有理数对象进行约分。
     @return 分子与分母的最大公因数的字节数组低位优先表示。
     */
     public byte[] reduce()
@@ -535,7 +549,7 @@ public class big_rational
         }
     }
     /**
-    通过有理数小数形式字符串构造一个高精度有理数对象。
+    通过有理数小数形式字符串构造高精度有理数对象。
     @param rational_string 字符串表示的小数形式有理数。
     */
     public big_rational(String rational_string)
@@ -646,10 +660,13 @@ public class big_rational
             }
         }
         reduce();
-        fraction[0][numerator_size-1]*=is_negative?-1:1;
+        if(numerator_size>0)
+        {
+            fraction[0][numerator_size-1]*=is_negative?-1:1;
+        }
     }
     /**
-    通过有理数分数形式字符串构造一个高精度有理数对象。
+    通过有理数分数形式字符串构造高精度有理数对象。
     @param numerator_string 字符串表示的分子。
     @param denominator_string 字符串表示的分母。
     */
@@ -673,7 +690,252 @@ public class big_rational
             denominator[i]=(byte)(denominator_string.charAt(denominator_size-i-1)-'0');
         }
         reduce();
-        fraction[0][numerator_size-1]*=is_negative?-1:1;
+        if(numerator_size>0)
+        {
+            fraction[0][numerator_size-1]*=is_negative?-1:1;
+        }
+    }
+    /**
+    通过有理数分数字节数组低位优先表示构造高精度有理数对象。
+    @param numerator_array 分子字节数组低位优先表示，表示分子。
+    @param denominator_array 分母字节数组低位优先表示，表示分母。
+    */
+    public big_rational(byte numerator_array[],byte denominator_array[])
+    {
+        for(numerator_size=numerator_array.length;numerator_size>0&&numerator_array[numerator_size-1]==0;numerator_size--);
+        fraction=new byte[2][];
+        if(numerator_size==0)
+        {
+            fraction[0]=new byte[]{0};
+            fraction[1]=null;
+            return;
+        }
+        fraction[0]=new byte[numerator_size+1];
+        System.arraycopy(numerator_array,0,fraction[0],0,numerator_size);
+        if(denominator_array!=null)
+        {
+            for(denominator_size=denominator_array.length;denominator_size>0&&denominator_array[denominator_size-1]==0;denominator_size--);
+            if(denominator_size>0)
+            {
+                fraction[1]=new byte[denominator_size+1];
+                System.arraycopy(denominator_array,0,fraction[1],0,denominator_size);
+                boolean is_negative=fraction[0][numerator_size-1]<0;
+                fraction[0][numerator_size-1]*=is_negative?-1:1;
+                reduce();
+                fraction[0][numerator_size-1]*=is_negative?-1:1;
+            }
+        }
+    }
+    /**
+    <p>此方法会修改输入的数据。</p><br>
+    通分两个有理数。
+    @param rational1 第一个有理数对象。
+    @param rational2 第二个有理数对象。
+    @return 一个二维字节数组：
+    <ol>
+        <li>第一个有理数的通分乘数的字节数组低位优先表示。</li>
+        <li>第二个有理数的通分乘数的字节数组低位优先表示。</li>
+    </ol>
+    */
+    public static byte[][] common_denominator(big_rational rational1,big_rational rational2)
+    {
+        byte multiplier1[]=new byte[]{1};
+        byte multiplier2[]=new byte[]{1};
+        if(rational1.fraction[1]==null&&rational2.fraction[1]==null)
+        {
+        }
+        else if(rational1.fraction[1]==null)
+        {
+            rational1.fraction[1]=new byte[rational2.denominator_size+1];
+            System.arraycopy(rational2.fraction[1],0,rational1.fraction[1],0,rational2.denominator_size);
+            rational1.denominator_size=rational2.denominator_size;
+            multiplier1=rational2.fraction[1];
+            rational1.fraction[0]=multiply(rational1.fraction[0],multiplier1);
+            int numerator_size1=rational1.fraction[0].length;
+            int denominator_size1=rational1.fraction[1].length;
+            for(;numerator_size1>0&&rational1.fraction[0][numerator_size1-1]==0;numerator_size1--);
+            for(;denominator_size1>0&&rational1.fraction[1][denominator_size1-1]==0;denominator_size1--);
+            rational1.numerator_size=numerator_size1;
+            rational1.denominator_size=denominator_size1;
+        }
+        else if(rational2.fraction[1]==null)
+        {
+            rational2.fraction[1]=new byte[rational1.denominator_size+1];
+            System.arraycopy(rational1.fraction[1],0,rational2.fraction[1],0,rational1.denominator_size);
+            rational2.denominator_size=rational1.denominator_size;
+            multiplier2=rational1.fraction[1];
+            rational2.fraction[0]=multiply(rational2.fraction[0],multiplier2);
+            int numerator_size2=rational2.fraction[0].length;
+            int denominator_size2=rational2.fraction[1].length;
+            for(;numerator_size2>0&&rational2.fraction[0][numerator_size2-1]==0;numerator_size2--);
+            for(;denominator_size2>0&&rational2.fraction[1][denominator_size2-1]==0;denominator_size2--);
+            rational2.numerator_size=numerator_size2;
+            rational2.denominator_size=denominator_size2;
+        }
+        else
+        {
+            byte denominator_lcm[]=divide(multiply(rational1.fraction[1],rational2.fraction[1]),gcd(rational1.fraction[1],rational2.fraction[1]))[0];
+            multiplier1=divide(denominator_lcm,rational1.fraction[1])[0];
+            multiplier2=divide(denominator_lcm,rational2.fraction[1])[0];
+            rational1.fraction[0]=multiply(rational1.fraction[0],multiplier1);
+            rational2.fraction[0]=multiply(rational2.fraction[0],multiplier2);
+            rational1.fraction[1]=new byte[denominator_lcm.length];
+            System.arraycopy(denominator_lcm,0,rational1.fraction[1],0,denominator_lcm.length);
+            rational2.fraction[1]=denominator_lcm;
+            int numerator_size1=rational1.fraction[0].length;
+            int numerator_size2=rational2.fraction[0].length;
+            int denominator_size1=rational1.fraction[1].length;
+            int denominator_size2=rational2.fraction[1].length;
+            for(;numerator_size1>0&&rational1.fraction[0][numerator_size1-1]==0;numerator_size1--);
+            for(;numerator_size2>0&&rational2.fraction[0][numerator_size2-1]==0;numerator_size2--);
+            for(;denominator_size1>0&&rational1.fraction[1][denominator_size1-1]==0;denominator_size1--);
+            for(;denominator_size2>0&&rational2.fraction[1][denominator_size2-1]==0;denominator_size2--);
+            rational1.numerator_size=numerator_size1;
+            rational2.numerator_size=numerator_size2;
+            rational1.denominator_size=denominator_size1;
+            rational2.denominator_size=denominator_size2;
+        }
+        return new byte[][]{multiplier1,multiplier2};
+    }
+    /**
+    计算两个有理数的和 <code>addend1</code>+<code>addend2</code>。
+    @param addend1 第一个有理数对象。
+    @param addend2 第二个有理数对象。
+    @return 两个有理数对象的和。
+    */
+    public static big_rational add(big_rational addend1,big_rational addend2)
+    {
+        byte multiplier[][]=common_denominator(addend1,addend2);
+        big_rational result=new big_rational(add(addend1.fraction[0],addend2.fraction[0]),addend1.fraction[1]);
+        addend1.fraction[0]=divide(addend1.fraction[0],multiplier[0])[0];
+        addend2.fraction[0]=divide(addend2.fraction[0],multiplier[1])[0];
+        int numerator_size1=addend1.fraction[0].length;
+        int numerator_size2=addend2.fraction[0].length;
+        for(;numerator_size1>0&&addend1.fraction[0][numerator_size1-1]==0;numerator_size1--);
+        for(;numerator_size2>0&&addend2.fraction[0][numerator_size2-1]==0;numerator_size2--);
+        addend1.numerator_size=numerator_size1;
+        addend2.numerator_size=numerator_size2;
+        if(addend1.fraction[1]!=null)
+        {
+            addend1.fraction[1]=divide(addend1.fraction[1],multiplier[0])[0];
+            int denominator_size1=addend1.fraction[1].length;
+            for(;denominator_size1>0&&addend1.fraction[1][denominator_size1-1]==0;denominator_size1--);
+            addend1.denominator_size=denominator_size1;
+        }
+        if(addend2.fraction[1]!=null)
+        {
+            addend2.fraction[1]=divide(addend2.fraction[1],multiplier[1])[0];
+            int denominator_size2=addend2.fraction[1].length;
+            for(;denominator_size2>0&&addend2.fraction[1][denominator_size2-1]==0;denominator_size2--);
+            addend2.denominator_size=denominator_size2;
+        }
+        if(addend1.denominator_size==0)
+        {
+            addend1.fraction[1]=null;
+        }
+        if(addend2.denominator_size==0)
+        {
+            addend2.fraction[1]=null;
+        }
+        return result;
+    }
+    /**
+    计算两个有理数的差 <code>minuend</code>-<code>subtrahend</code>。
+    @param minuend 被减数有理数对象。
+    @param subtrahend 减数有理数对象。
+    @return 两个有理数对象的差。
+    */
+    public static big_rational subtract(big_rational minuend,big_rational subtrahend)
+    {
+        byte multiplier[][]=common_denominator(minuend,subtrahend);
+        big_rational result=new big_rational(subtract(minuend.fraction[0],subtrahend.fraction[0]),minuend.fraction[1]);
+        minuend.fraction[0]=divide(minuend.fraction[0],multiplier[0])[0];
+        subtrahend.fraction[0]=divide(subtrahend.fraction[0],multiplier[1])[0];
+        int numerator_size1=minuend.fraction[0].length;
+        int numerator_size2=subtrahend.fraction[0].length;
+        for(;numerator_size1>0&&minuend.fraction[0][numerator_size1-1]==0;numerator_size1--);
+        for(;numerator_size2>0&&subtrahend.fraction[0][numerator_size2-1]==0;numerator_size2--);
+        minuend.numerator_size=numerator_size1;
+        subtrahend.numerator_size=numerator_size2;
+        if(minuend.fraction[1]!=null)
+        {
+            minuend.fraction[1]=divide(minuend.fraction[1],multiplier[0])[0];
+            int denominator_size1=minuend.fraction[1].length;
+            for(;denominator_size1>0&&minuend.fraction[1][denominator_size1-1]==0;denominator_size1--);
+            minuend.denominator_size=denominator_size1;
+        }
+        if(subtrahend.fraction[1]!=null)
+        {
+            subtrahend.fraction[1]=divide(subtrahend.fraction[1],multiplier[1])[0];
+            int denominator_size2=subtrahend.fraction[1].length;
+            for(;denominator_size2>0&&subtrahend.fraction[1][denominator_size2-1]==0;denominator_size2--);
+            subtrahend.denominator_size=denominator_size2;
+        }
+        if(minuend.denominator_size==0)
+        {
+            minuend.fraction[1]=null;
+        }
+        if(subtrahend.denominator_size==0)
+        {
+            subtrahend.fraction[1]=null;
+        }
+        return result;
+    }
+    /**
+    计算两个有理数的积 <code>factor1</code>*<code>factor2</code>。
+    @param factor1 第一个有理数对象。
+    @param factor2 第二个有理数对象。
+    @return 两个有理数对象的积。
+    */
+    public static big_rational multiply(big_rational factor1,big_rational factor2)
+    {
+        byte result_numerator[]=multiply(factor1.fraction[0],factor2.fraction[0]);
+        if(factor1.fraction[1]==null&&factor2.fraction[1]==null)
+        {
+            return new big_rational(result_numerator,null);
+        }
+        else if(factor1.fraction[1]==null)
+        {
+            return new big_rational(result_numerator,factor2.fraction[1]);
+        }
+        else if(factor2.fraction[1]==null)
+        {
+            return new big_rational(result_numerator,factor1.fraction[1]);
+        }
+        else
+        {
+            return new big_rational(result_numerator,multiply(factor1.fraction[1],factor2.fraction[1]));
+        }
+    }
+    /**
+    计算两个有理数的商 <code>factor1</code>/<code>factor2</code>。
+    @param dividend 第一个有理数对象。
+    @param divisor 第二个有理数对象。
+    @return 两个有理数对象的商。<br>
+    若除数为0，则返回<code>null</code>。
+    */
+    public static big_rational divide(big_rational dividend,big_rational divisor)
+    {
+        if(divisor.numerator_size==0)
+        {
+            return null;
+        }
+        if(dividend.fraction[1]==null&&divisor.fraction[1]==null)
+        {
+            return new big_rational(dividend.fraction[0],divisor.fraction[0]);
+        }
+        else if(dividend.fraction[1]==null)
+        {
+            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),divisor.fraction[0]);
+        }
+        else if(divisor.fraction[1]==null)
+        {
+            return new big_rational(dividend.fraction[0],multiply(divisor.fraction[0],dividend.fraction[1]));
+        }
+        else
+        {
+            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),multiply(divisor.fraction[0],dividend.fraction[1]));
+        }
     }
     public String toString()
     {
@@ -718,7 +980,11 @@ public class big_rational
                 byte quotient_and_remainder[][]=divide(absolute_numerator,absolute_denominator);
                 byte quotient[]=quotient_and_remainder[0];
                 byte remainder[]=new byte[denominator_size+1];
-                System.arraycopy(quotient_and_remainder[1],0,remainder,0,denominator_size);
+                System.arraycopy(quotient_and_remainder[1],0,remainder,0,quotient_and_remainder[1].length);
+                for(int i=quotient_and_remainder[1].length;i<=denominator_size;i++)
+                {
+                    remainder[i]=0;
+                }
                 int quotient_size=quotient.length;
                 int remainder_size=remainder.length;
                 for(;quotient_size>0&&quotient[quotient_size-1]==0;quotient_size--);
