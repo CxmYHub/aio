@@ -743,16 +743,25 @@ tools
     - `int numerator_size` / `denominator_size` → 分子/分母的有效位数。
     - `int mode` → 输出格式（`>0` 小数，`=0` 分数+小数，`<0` 分数）。
 
-- **构造器**：多个重载，支持从整数、字符串（如`"0.5"`）、分子分母字节数组构造。
+- **构造器**：多个重载，支持从小数字符串（如 `"0.5"`、`"0.(3)"`）、分数分子分母字符串、分子分母字节数组构造。
 
-- **静态方法**：
+- **静态方法（大整数底层运算）**：
 
     - `compare(byte[], byte[])` → 比较两个字节数组表示的大整数。
     - `add/subtract/multiply/divide(byte[], byte[])` → 大整数四则运算。
     - `gcd(byte[], byte[])` → 大整数最大公因数。
 
+- **静态方法（有理数运算）**：
+
+    - `common_denominator(big_rational, big_rational)` → 通分两个有理数（会修改传入对象），返回两个有理数各自通分乘数的字节数组。
+    - `add(big_rational, big_rational)` → 有理数加法，返回两数之和。
+    - `subtract(big_rational, big_rational)` → 有理数减法，返回两数之差。
+    - `multiply(big_rational, big_rational)` → 有理数乘法，返回两数之积。
+    - `divide(big_rational, big_rational)` → 有理数除法，返回两数之商；若除数为0则返回 `null`。
+
 - **实例方法**：
 
+    - `reduce()` → 约分当前有理数对象（会修改调用对象），返回分子分母最大公因数。
     - `toString()` → 按 `mode` 格式输出。
 
 #### complex（复数）
