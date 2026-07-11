@@ -1,6 +1,6 @@
 tools.collection
 tools.data_structure
 tools.date_time
+tools.encode_decode
 tools.geography
 tools.mathematics
-tools.two_dimensional_barcode
