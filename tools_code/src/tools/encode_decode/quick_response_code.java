@@ -1,4 +1,4 @@
-package tools.two_dimensional_barcode;
+package tools.encode_decode;
 import javax.swing.*;
 import java.nio.charset.*;
 import java.awt.*;

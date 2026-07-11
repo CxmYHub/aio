@@ -1,5 +1,6 @@
+import tools.encode_decode.*;
 import tools.mathematics.*;
-import tools.two_dimensional_barcode.*;
+
 import java.io.*;
 public class converting_array
 {
