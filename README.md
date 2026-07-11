@@ -24,7 +24,7 @@
 
         - `doc`：此处为使用javadoc自动创建的文档。
 
-        - `src`：此处为源代码。包含 `tools/` 工具包及测试类（如 `sort_test.java`、`elevation_test.java`、`qrc_test.java` 等）。
+        - `src`：此处为源代码。包含 `tools/` 工具包及测试类（如 `sort_test.java`、`elevation_test.java`、`qrc_test.java` 等）。各子包中均包含 `package-info.java` 包描述文件。
 
         - `output.txt`：由 `converting_array.java` 生成的二维码数据输出文件。
 
@@ -177,7 +177,7 @@ class using_tools
 
         - [angle（角度）](#angle角度)
 
-    - [3.6 tools.two_dimensional_barcode（二维码）](#36-toolstwo_dimensional_barcode二维码)
+    - [3.6 tools.encode_decode（编解码）](#36-toolsencode_decode编解码)
 
         - [barcode（元数据常量）](#barcode元数据常量)
 
@@ -216,7 +216,7 @@ tools
 ├── date_time               # 日期时间处理
 ├── geography               # 地理坐标、高程地图
 ├── mathematics             # 数学算法与结构
-└── two_dimensional_barcode # 二维码生成（QR Code）
+└── encode_decode # 编解码（二维码 QR Code）
 ```
 
 ---
@@ -238,6 +238,14 @@ tools
         - 对整型数组进行原地升序排序。
 
         - 内部根据阈值（`concurrent_quick_dual_pivot_sort.threshold`，默认19683）决定是否创建新线程。
+
+    - `public static void concurrent_quick_dual_pivot(int[] numbers)`
+
+        - 对整型数组进行原地升序排序，使用多线程并发执行。
+
+    - `public static void concurrent_quick_dual_pivot(int[] numbers, int index_left, int index_right)`
+
+        - 对整型数组的指定区间 `[index_left, index_right]` 进行原地升序排序。
 
 - **注意**：此类功能仍在验证中，非学习或极端性能需求建议使用 `java.util.Arrays.sort`。
 
@@ -585,6 +593,20 @@ tools
 
     - `int timestamp_day(...)` → 计算日时间戳（天数）。
 
+    - `static boolean is_leap_year(int year)` → 判断指定年份是否为闰年。
+
+    - `static int weekday(int year, int month, int day)` → 计算指定日期的星期。
+
+    - `static int day_in_year(int year, int month, int day)` → 计算指定日期在当年中的第几天。
+
+    - `static datetime add_day(int year, int month, int day, int add_day)` → 日期偏移，返回新对象。
+
+    - `static long interval_day(int start_year, int start_month, int start_day, int end_year, int end_month, int end_day)` → 计算日期间隔天数。
+
+    - `static int second_in_day(int hour, int minute, int second)` → 计算指定时间在当天中的第几秒。
+
+    - `static int interval_second_in_day(int start_hour, int start_minute, int start_second, int end_hour, int end_minute, int end_second)` → 计算同一天内时间间隔秒数。
+
 - **实例方法**：
 
     - `boolean is_leap_year()` → 是否为闰年。
@@ -629,7 +651,27 @@ tools
 
     - `double normalize(double newMin, double newMax)` → 线性拉伸至指定范围。
 
-    - `double overlay_perlin_terrain(...)` → 叠加柏林噪声地形，支持种子、水平/垂直缩放、细节等级等参数。
+    - `double normalize()` → 线性拉伸至 [0, 1] 范围。
+
+    - `double linear_scale(double vertical_coefficient)` → 线性缩放（乘以系数）。
+
+    - `double exponential_scale(double vertical_exponent)` → 指数缩放（幂次变换）。
+
+    - `double exponential_normalize(double normalize_exponent)` → 指数归一化（先指数缩放再拉伸至 [0, 1]）。
+
+    - `double secant_odd_normalize()` → 正割奇函数归一化（使用 secant 变换后拉伸至 [0, 1]）。
+
+    - `double overlay_perlin_terrain(long seed, double horizontal_scale, int octaves, double persistence, double lacunarity, double vertical_scale)` → 叠加柏林噪声地形，支持种子、水平/垂直缩放、细节等级等参数。
+
+    - `double overlay_perlin_terrain(long seed, double vertical_scale)` → 简化版，仅指定种子和垂直缩放。
+
+    - `double overlay_perlin_terrain(double vertical_scale)` → 简化版，仅指定垂直缩放。
+
+    - `double overlay_perlin_terrain(long seed)` → 简化版，仅指定种子。
+
+    - `double overlay_perlin_terrain()` → 无参版，使用默认参数。
+
+    - `String toString()` → 返回高程矩阵的文本表示。
 
 #### geographic_coordinate（地理坐标）
 
@@ -647,15 +689,37 @@ tools
 
 - **方法**：
 
-    - `double distance(projected_coordinate other)`
+    - `boolean move(double delta_x, double delta_y)` → 平移坐标。
+
+    - `static projected_coordinate offset(projected_coordinate coordinate, double delta_x, double delta_y)` → 静态版平移，返回新坐标。
+
+    - `double[] relative_position(projected_coordinate coordinate)` → 计算相对位置 `{Δx, Δy}`。
+
+    - `double distance(projected_coordinate other)` → 计算两点距离。
+
+    - `static double distance(double x0, double y0, double xt, double yt)` → 静态版距离计算。
+
+    - `boolean equals_approximate(projected_coordinate coordinate, double tolerance)` → 容差近似相等判断。
 
     - `double azimuth_angle(projected_coordinate target)` → 方位角（0°=正北）。
 
+    - `static double azimuth_angle(double x0, double y0, double xt, double yt)` → 静态版方位角计算。
+
     - `projected_coordinate destination(double azimuth, double distance)` → 已知方位角和距离求终点。
+
+    - `projected_coordinate middle_point(projected_coordinate target)` → 求中点坐标。
+
+    - `projected_coordinate linear_interpolation(projected_coordinate target, double ratio)` → 线性插值。
+
+    - `double move_distance_towards(projected_coordinate target, double move_distance)` → 向目标移动指定距离。
+
+    - `double move_ratio_towards(projected_coordinate target, double move_ratio)` → 按比例向目标移动。
 
     - `static double area(projected_coordinate... vertices)` → 多边形面积（按逆时针顺序给出顶点）。
 
     - `static double perimeter(...)` → 多边形周长。
+
+    - `String toString()` / `boolean equals(Object)` → 字符串表示与相等判断。
 
 ---
 
@@ -723,6 +787,8 @@ tools
 
     - `polygon_perimeter`, `polygon_area`。
 
+    - `matrix_multiply(int[][] factor_left, int[][] factor_right)` → 矩阵乘法。
+
 - **表达式计算**：
 
     - `calculate(String expression)` → 计算四则运算表达式（支持 `+ - * / ( )` 及负号）。
@@ -759,6 +825,8 @@ tools
     - `multiply(big_rational, big_rational)` → 有理数乘法，返回两数之积。
     - `divide(big_rational, big_rational)` → 有理数除法，返回两数之商；若除数为0则返回 `null`。
 
+    - `power(big_rational, int)` → 有理数的整数次幂运算，返回幂结果。
+
 - **实例方法**：
 
     - `reduce()` → 约分当前有理数对象（会修改调用对象），返回分子分母最大公因数。
@@ -771,6 +839,32 @@ tools
 #### coordinate_cartesian（直角坐标）
 
 - 类似 `projected_coordinate`，无地理语义，提供象限、距离、角度、中点、插值等方法。
+
+- **构造**：`coordinate_cartesian(double x, double y)` 或 `coordinate_cartesian()`。
+
+- **方法**：
+
+    - `int quadrant()` / `static int quadrant(double x, double y)` → 判断象限（0=原点，1~4=象限，5=坐标轴）。
+
+    - `void add(coordinate_cartesian)` / `static coordinate_cartesian add(coordinate_cartesian, coordinate_cartesian)` → 坐标加法。
+
+    - `void subtract(coordinate_cartesian)` / `static coordinate_cartesian subtract(...)` → 坐标减法。
+
+    - `void multiply_scalar(double)` / `static coordinate_cartesian multiply_scalar(...)` → 标量乘法。
+
+    - `double distance(coordinate_cartesian)` / `static double distance(double, double, double, double)` → 距离计算。
+
+    - `double angle(coordinate_cartesian target)` / `static double angle(double, double, double, double)` → 角度（弧度，0°=正东）。
+
+    - `coordinate_cartesian middle_point(coordinate_cartesian target)` → 中点。
+
+    - `coordinate_cartesian linear_interpolation(coordinate_cartesian target, double ratio)` → 线性插值。
+
+    - `double move_distance_towards(coordinate_cartesian target, double move_distance)` / `double move_ratio_towards(...)` → 向目标移动。
+
+    - `static double perimeter(coordinate_cartesian... coordinates_ccw)` / `static double area(...)` → 多边形周长/面积。
+
+    - `String toString()` → 字符串表示。
 
 #### determinant（行列式）
 
@@ -806,19 +900,53 @@ tools
 
 - **构造**：`square_root(int n)` → 自动化简。
 
-- **方法**：`double value()` → 小数近似值；`compareTo` 比较大小。
+- **方法**：
+
+    - `static int[] sqrt(int number)` → 静态方法，化简平方根，返回 `{系数, 根号内数}`。
+
+    - `static String string(int number)` → 静态方法，返回格式化字符串（如 `"2√3"`）。
+
+    - `double value()` → 小数近似值。
+
+    - `int compareTo(square_root comparing)` → 比较大小。
+
+    - `String toString()` → 返回化简后的字符串表示。
 
 #### angle（角度）
 
-- 存储度、分、秒，支持加法、除法（整数除）、格式化输出。
+- **字段**：
+
+    - `int degree` / `int minute` / `int second` → 度、分、秒。
+
+- **构造**：`angle(int degree, int minute, int second)` 或 `angle(int degree, int minute)` 或 `angle(int degree)` 或 `angle()`。
+
+- **方法**：
+
+    - `double angle_to_deg()` → 转换为十进制角度。
+
+    - `static double angle_to_deg(int degree, int minute, int second)` → 静态版角度转换。
+
+    - `double angle_to_rad()` → 转换为弧度。
+
+    - `static double angle_to_rad(int degree, int minute, int second)` → 静态版弧度转换。
+
+    - `boolean add(angle angle)` → 角度加法，修改当前对象。
+
+    - `static int[] sum(angle... angles)` → 多个角度求和，返回 `{度, 分, 秒}`。
+
+    - `double divide(int number)` → 角度除法（整数除），返回十进制角度商。
+
+    - `int reform()` → 规范化角度（进位处理），返回符号。
+
+    - `String toString()` → 返回格式化字符串。
 
 ---
 
-### 3.6 tools.two_dimensional_barcode（二维码）
+### 3.6 tools.encode_decode（编解码）
 
-#### barcode（元数据常量）
+#### barcode（二维码元数据常量）
 
-- **类**：`tools.two_dimensional_barcode.barcode`
+- **类**：`tools.encode_decode.barcode`
 
 - **功能**：提供 QR 二维码生成所需的全部常量数据，包括版本边长、编码模式掩码、纠错等级掩码、有限域（GF(256)）指数/对数表、生成多项式系数、编码长度位数、字母数字表、分组信息、对齐图案位置等。
 
@@ -842,7 +970,7 @@ tools
 
 #### quick_response_code（二维码）
 
-- **类**：`tools.two_dimensional_barcode.quick_response_code`
+- **类**：`tools.encode_decode.quick_response_code`
 
 - **功能**：生成 QR 二维码（Quick Response Code），支持数字、字母数字、字节（UTF-8）、日文、ECI 五种编码模式，支持 L/M/Q/H 四种纠错等级，版本 1~40。内部实现包括数据编码、Reed-Solomon 纠错码生成、功能图案与对齐图案绘制、数据位流填充、掩膜评分与选择等完整 QR 码生成流程。
 
