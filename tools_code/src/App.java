@@ -1,9 +1,10 @@
 import tools.collection.*;
 import tools.data_structure.*;
 import tools.date_time.*;
+import tools.encode_decode.*;
 import tools.mathematics.*;
 import tools.geography.*;
-import tools.two_dimensional_barcode.*;
+
 import java.util.*;
 import java.time.*;
 import java.io.*;
