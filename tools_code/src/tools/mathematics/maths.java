@@ -297,7 +297,7 @@ public class maths
 	@param exponent 指数。
 	@return <code>base</code>的<code>exponent</code>次方。
 	*/
-	public static int quick_power(int base,int exponent)
+	public static int power(int base,int exponent)
 	{
 		int result=1;
 		while(exponent>0)
@@ -317,7 +317,7 @@ public class maths
 	@param exponent 指数。
 	@return <code>base</code>的<code>exponent</code>次方。
 	*/
-	public static long quick_power(long base,long exponent)
+	public static long power(long base,long exponent)
 	{
 		long result=1;
 		while(exponent>0)
@@ -337,7 +337,7 @@ public class maths
 	@param exponent 指数。
 	@return <code>base</code>的<code>exponent</code>次方对1000000007取模的结果。
 	*/
-	public static long quick_power_mod1000000007(long base,long exponent)
+	public static long power_mod1000000007(long base,long exponent)
 	{
 		long result=1;
 		while(exponent>0)
@@ -358,7 +358,7 @@ public class maths
 	@param mod 模数。
 	@return <code>base</code>的<code>exponent</code>次方对<code>mod</code>取模的结果。
 	*/
-	public static long quick_power_mod(long base,long exponent,long mod)
+	public static long power_mod(long base,long exponent,long mod)
 	{
 		long result=1;
 		while(exponent>0)
