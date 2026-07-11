@@ -540,7 +540,7 @@ public class big_rational
             fraction[1]=divide(fraction[1],gcd)[0];
             for(numerator_size=fraction[0].length;numerator_size>0&&fraction[0][numerator_size-1]==0;numerator_size--);
             for(denominator_size=fraction[1].length;denominator_size>0&&fraction[1][denominator_size-1]==0;denominator_size--);
-            if(denominator_size==1&&fraction[1][0]==1)
+            if(numerator_size==0||denominator_size==1&&fraction[1][0]==1)
             {
                 fraction[1]=null;
                 denominator_size=0;
@@ -702,6 +702,21 @@ public class big_rational
     */
     public big_rational(byte numerator_array[],byte denominator_array[])
     {
+        this(numerator_array,denominator_array,0);
+    }
+    /**
+    通过有理数分数字节数组低位优先表示构造高精度有理数对象。
+    @param numerator_array 分子字节数组低位优先表示，表示分子。
+    @param denominator_array 分母字节数组低位优先表示，表示分母。
+    @param mode 字符串输出模式，0表示正，-1表示负。<br>
+    <ul>
+        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
+        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+    </ul>
+    */
+    public big_rational(byte numerator_array[],byte denominator_array[],int mode)
+    {
         for(numerator_size=numerator_array.length;numerator_size>0&&numerator_array[numerator_size-1]==0;numerator_size--);
         fraction=new byte[2][];
         if(numerator_size==0)
@@ -725,6 +740,7 @@ public class big_rational
                 fraction[0][numerator_size-1]*=is_negative?-1:1;
             }
         }
+        this.mode=mode;
     }
     /**
     <p>此方法会修改输入的数据。</p><br>
@@ -806,7 +822,7 @@ public class big_rational
     public static big_rational add(big_rational addend1,big_rational addend2)
     {
         byte multiplier[][]=common_denominator(addend1,addend2);
-        big_rational result=new big_rational(add(addend1.fraction[0],addend2.fraction[0]),addend1.fraction[1]);
+        big_rational result=new big_rational(add(addend1.fraction[0],addend2.fraction[0]),addend1.fraction[1],addend1.mode==addend2.mode?addend1.mode:0);
         addend1.fraction[0]=divide(addend1.fraction[0],multiplier[0])[0];
         addend2.fraction[0]=divide(addend2.fraction[0],multiplier[1])[0];
         int numerator_size1=addend1.fraction[0].length;
@@ -848,7 +864,7 @@ public class big_rational
     public static big_rational subtract(big_rational minuend,big_rational subtrahend)
     {
         byte multiplier[][]=common_denominator(minuend,subtrahend);
-        big_rational result=new big_rational(subtract(minuend.fraction[0],subtrahend.fraction[0]),minuend.fraction[1]);
+        big_rational result=new big_rational(subtract(minuend.fraction[0],subtrahend.fraction[0]),minuend.fraction[1],minuend.mode==subtrahend.mode?minuend.mode:0);
         minuend.fraction[0]=divide(minuend.fraction[0],multiplier[0])[0];
         subtrahend.fraction[0]=divide(subtrahend.fraction[0],multiplier[1])[0];
         int numerator_size1=minuend.fraction[0].length;
@@ -892,25 +908,25 @@ public class big_rational
         byte result_numerator[]=multiply(factor1.fraction[0],factor2.fraction[0]);
         if(factor1.fraction[1]==null&&factor2.fraction[1]==null)
         {
-            return new big_rational(result_numerator,null);
+            return new big_rational(result_numerator,null,factor1.mode==factor2.mode?factor1.mode:0);
         }
         else if(factor1.fraction[1]==null)
         {
-            return new big_rational(result_numerator,factor2.fraction[1]);
+            return new big_rational(result_numerator,factor2.fraction[1],factor1.mode==factor2.mode?factor1.mode:0);
         }
         else if(factor2.fraction[1]==null)
         {
-            return new big_rational(result_numerator,factor1.fraction[1]);
+            return new big_rational(result_numerator,factor1.fraction[1],factor1.mode==factor2.mode?factor1.mode:0);
         }
         else
         {
-            return new big_rational(result_numerator,multiply(factor1.fraction[1],factor2.fraction[1]));
+            return new big_rational(result_numerator,multiply(factor1.fraction[1],factor2.fraction[1]),factor1.mode==factor2.mode?factor1.mode:0);
         }
     }
     /**
     计算两个有理数的商 <code>factor1</code>/<code>factor2</code>。
-    @param dividend 第一个有理数对象。
-    @param divisor 第二个有理数对象。
+    @param dividend 被除数有理数对象。
+    @param divisor 除数有理数对象。
     @return 两个有理数对象的商。<br>
     若除数为0，则返回<code>null</code>。
     */
@@ -922,25 +938,83 @@ public class big_rational
         }
         if(dividend.fraction[1]==null&&divisor.fraction[1]==null)
         {
-            return new big_rational(dividend.fraction[0],divisor.fraction[0]);
+            return new big_rational(dividend.fraction[0],divisor.fraction[0],dividend.mode==divisor.mode?dividend.mode:0);
         }
         else if(dividend.fraction[1]==null)
         {
-            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),divisor.fraction[0]);
+            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),divisor.fraction[0],dividend.mode==divisor.mode?dividend.mode:0);
         }
         else if(divisor.fraction[1]==null)
         {
-            return new big_rational(dividend.fraction[0],multiply(divisor.fraction[0],dividend.fraction[1]));
+            return new big_rational(dividend.fraction[0],multiply(divisor.fraction[0],dividend.fraction[1]),dividend.mode==divisor.mode?dividend.mode:0);
         }
         else
         {
-            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),multiply(divisor.fraction[0],dividend.fraction[1]));
+            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),multiply(divisor.fraction[0],dividend.fraction[1]),dividend.mode==divisor.mode?dividend.mode:0);
         }
+    }
+    /**
+    计算有理数的整数次幂 <code>base</code>^<code>exponent</code>。<br>
+    @param base 底数有理数对象。
+    @param exponent 指数整数。
+    @return 底数的指数次幂。
+    */
+    public static big_rational power(big_rational base,int exponent)
+    {
+        if(base.numerator_size==0)
+        {
+            return exponent>0?new big_rational(new byte[]{0},null,base.mode):null;
+        }
+        else if(exponent==0)
+        {
+            return new big_rational(new byte[]{1},null,base.mode);
+        }
+        else if(exponent==1)
+        {
+            return new big_rational(base.fraction[0],base.fraction[1],base.mode);
+        }
+        else if(exponent==-1)
+        {
+            return new big_rational(base.denominator_size>0?base.fraction[1]:new byte[]{1},base.fraction[0],base.mode);
+        }
+        int positive_base=base.numerator_size>0?(base.fraction[0][base.numerator_size-1]>=0?1:-1):0;
+        base.fraction[0][base.numerator_size-1]*=positive_base;
+        if(positive_base!=0&&base.numerator_size==1&&base.fraction[0][0]==1)
+        {
+            big_rational result=new big_rational(new byte[]{exponent%2==0?1:(byte)positive_base},null,base.mode);
+            base.fraction[0][base.numerator_size-1]*=positive_base;
+            return result;
+        }
+        boolean is_negative_exponent=exponent<0;
+        exponent=is_negative_exponent?-exponent:exponent;
+        int positive_result=(exponent%2==0||positive_base>=0)?1:-1;
+        big_rational result=new big_rational(new byte[]{1},null,base.mode);
+        big_rational major=new big_rational(base.fraction[0],base.fraction[1],base.mode);
+        for(;exponent>0;exponent>>=1)
+        {
+            if((exponent&1)==1)
+            {
+                result=multiply(result,major);
+            }
+            major=multiply(major,major);
+        }
+        if(is_negative_exponent)
+        {
+            byte temp[]=result.fraction[1];
+            result.fraction[1]=result.fraction[0];
+            result.fraction[0]=temp;
+            int temp_size=result.denominator_size;
+            result.denominator_size=result.numerator_size;
+            result.numerator_size=temp_size;
+        }
+        result.fraction[0][result.numerator_size-1]*=positive_result;
+        base.fraction[0][base.numerator_size-1]*=positive_base;
+        return result;
     }
     public String toString()
     {
         StringBuilder result=new StringBuilder();
-        if(mode<=0)
+        if(mode<=0||fraction[1]==null)
         {
             if(numerator_size==0)
             {
