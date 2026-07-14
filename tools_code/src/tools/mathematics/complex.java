@@ -35,19 +35,19 @@ public class complex
     */
     public boolean add(complex C)
     {
-        this.real+=C.real;
-        this.imaginary+=C.imaginary;
-        return this.imaginary==0;
+        real+=C.real;
+        imaginary+=C.imaginary;
+        return imaginary==0;
     }
     /**
-    计算两个复数的和 <code>C1</code>+<code>C2</code>。
-    @param C1 第一个复数对象。
-    @param C2 第二个复数对象。
-    @return 两个复数对象的和。
+    计算两个复数的和 <code>addend1</code>+<code>addend2</code>。
+    @param addend1 第一个复数加数对象。
+    @param addend2 第二个复数加数对象。
+    @return 两个复数的和。
     */
-    public static complex add(complex C1,complex C2)
+    public static complex add(complex addend1,complex addend2)
     {
-        return new complex(C1.real+C2.real,C1.imaginary+C2.imaginary);
+        return new complex(addend1.real+addend2.real,addend1.imaginary+addend2.imaginary);
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
@@ -57,19 +57,19 @@ public class complex
     */
     public boolean subtract(complex C)
     {
-        this.real-=C.real;
-        this.imaginary-=C.imaginary;
-        return this.imaginary==0;
+        real-=C.real;
+        imaginary-=C.imaginary;
+        return imaginary==0;
     }
     /**
-    计算两个复数的差 <code>C1</code>-<code>C2</code>。
-    @param C1 第一个复数对象。
-    @param C2 第二个复数对象。
-    @return 两个复数对象的差。
+    计算两个复数的差 <code>minuend</code>-<code>subtrahend</code>。
+    @param minuend 复数被减数对象。
+    @param subtrahend 复数减数对象。
+    @return 两个复数的差。
     */
-    public static complex subtract(complex C1,complex C2)
+    public static complex subtract(complex minuend,complex subtrahend)
     {
-        return new complex(C1.real-C2.real,C1.imaginary-C2.imaginary);
+        return new complex(minuend.real-subtrahend.real,minuend.imaginary-subtrahend.imaginary);
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
@@ -86,14 +86,14 @@ public class complex
         return this.imaginary==0;
     }
     /**
-    计算两个复数的积 <code>C1</code>*<code>C2</code>。
-    @param C1 第一个复数对象。
-    @param C2 第二个复数对象。
-    @return 两个复数对象的积。
+    计算两个复数的积 <code>factor1</code>*<code>factor2</code>。
+    @param factor1 第一个复数因数对象。
+    @param factor2 第二个复数因数对象。
+    @return 两个复数的积。
     */
-    public static complex multiply(complex C1,complex C2)
+    public static complex multiply(complex factor1,complex factor2)
     {
-        return new complex(C1.real*C2.real-C1.imaginary*C2.imaginary,C1.real*C2.imaginary+C1.imaginary*C2.real);
+        return new complex(factor1.real*factor2.real-factor1.imaginary*factor2.imaginary,factor1.real*factor2.imaginary+factor1.imaginary*factor2.real);
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
@@ -110,14 +110,14 @@ public class complex
         return this.imaginary==0;
     }
     /**
-    计算两个复数的商 <code>C1</code>/<code>C2</code>。
-    @param C1 第一个复数对象。
-    @param C2 第二个复数对象。
-    @return 两个复数对象的商。
+    计算两个复数的商 <code>dividend</code>/<code>divisor</code>。
+    @param dividend 复数被除数对象。
+    @param divisor 复数除数对象。
+    @return 两个复数的商。
     */
-    public static complex divide(complex C1,complex C2)
+    public static complex divide(complex dividend,complex divisor)
     {
-        return new complex((C1.real*C2.real+C1.imaginary*C2.imaginary)/(C2.real*C2.real+C2.imaginary*C2.imaginary),(C1.imaginary*C2.real-C1.real*C2.imaginary)/(C2.real*C2.real+C2.imaginary*C2.imaginary));
+        return new complex((dividend.real*divisor.real+dividend.imaginary*divisor.imaginary)/(divisor.real*divisor.real+divisor.imaginary*divisor.imaginary),(dividend.imaginary*divisor.real-dividend.real*divisor.imaginary)/(divisor.real*divisor.real+divisor.imaginary*divisor.imaginary));
     }
     /**
     计算当前复数对象的模长。
@@ -125,7 +125,7 @@ public class complex
     */
     public double magnitude()
     {
-        return Math.sqrt(this.real*this.real+this.imaginary*this.imaginary);
+        return Math.sqrt(real*real+imaginary*imaginary);
     }
     /**
     计算给定复数的模长。
@@ -139,6 +139,6 @@ public class complex
     }
     public String toString()
     {
-        return this.real==0?""+(this.imaginary==0?"0.0":this.imaginary+"i"):this.real+""+(this.imaginary==0?"":(this.imaginary>0?"+":"")+this.imaginary+"i");
+        return real==0?""+(imaginary==0?"0.0":imaginary+"i"):real+""+(imaginary==0?"":(imaginary>0?"+":"")+imaginary+"i");
     }
 }

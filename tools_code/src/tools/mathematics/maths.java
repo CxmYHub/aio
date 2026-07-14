@@ -300,14 +300,13 @@ public class maths
 	public static int power(int base,int exponent)
 	{
 		int result=1;
-		while(exponent>0)
+		for(;exponent>0;exponent>>=1)
 		{
 			if(exponent%2==1)
 			{
 				result*=base;
 			}
 			base*=base;
-			exponent>>=1;
 		}
 		return result;
 	}
@@ -320,14 +319,13 @@ public class maths
 	public static long power(long base,long exponent)
 	{
 		long result=1;
-		while(exponent>0)
+		for(;exponent>0;exponent>>=1)
 		{
 			if(exponent%2==1)
 			{
 				result*=base;
 			}
 			base*=base;
-			exponent>>=1;
 		}
 		return result;
 	}
@@ -340,14 +338,13 @@ public class maths
 	public static long power_mod1000000007(long base,long exponent)
 	{
 		long result=1;
-		while(exponent>0)
+		for(;exponent>0;exponent>>=1)
 		{
 			if(exponent%2==1)
 			{
 				result=result*base%1000000007;
 			}
 			base=base*base%1000000007;
-			exponent>>=1;
 		}
 		return result;
 	}
@@ -361,14 +358,13 @@ public class maths
 	public static long power_mod(long base,long exponent,long mod)
 	{
 		long result=1;
-		while(exponent>0)
+		for(;exponent>0;exponent>>=1)
 		{
 			if(exponent%2==1)
 			{
 				result=result*base%mod;
 			}
 			base=base*base%mod;
-			exponent>>=1;
 		}
 		return result;
 	}

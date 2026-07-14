@@ -56,10 +56,10 @@ public class coordinate_cartesian
         y+=coordinate_cartesian.y;
     }
     /**
-    计算两个直角坐标对象的和 <code>coordinate1</code>+<code>coordinate2</code>。
+    计算两个直角坐标的和 <code>coordinate1</code>+<code>coordinate2</code>。
     @param coordinate1 第一个直角坐标对象。
     @param coordinate2 第二个直角坐标对象。
-    @return 两个直角坐标对象的和。
+    @return 两个直角坐标的和。
     */
     public static coordinate_cartesian add(coordinate_cartesian coordinate1,coordinate_cartesian coordinate2)
     {
@@ -76,10 +76,10 @@ public class coordinate_cartesian
         y-=coordinate_cartesian.y;
     }
     /**
-    计算两个直角坐标对象的差 <code>coordinate1</code>-<code>coordinate2</code>。
+    计算两个直角坐标的差 <code>coordinate1</code>-<code>coordinate2</code>。
     @param coordinate1 第一个直角坐标对象。
     @param coordinate2 第二个直角坐标对象。
-    @return 两个直角坐标对象的差。
+    @return 两个直角坐标的差。
     */
     public static coordinate_cartesian subtract(coordinate_cartesian coordinate1,coordinate_cartesian coordinate2)
     {
@@ -96,19 +96,19 @@ public class coordinate_cartesian
         y*=coefficient;
     }
     /**
-    计算一个直角坐标对象与一个系数的乘积 <code>coordinate_cartesian</code>*<code>coefficient</code>。
+    计算一个直角坐标与一个系数的乘积 <code>coordinate_cartesian</code>*<code>coefficient</code>。
     @param coordinate_cartesian 要数乘的直角坐标对象。
     @param coefficient 系数。
-    @return 一个直角坐标对象与一个系数的乘积。
+    @return 一个直角坐标与一个系数的乘积。
     */
     public static coordinate_cartesian multiply_scalar(coordinate_cartesian coordinate_cartesian,double coefficient)
     {
         return new coordinate_cartesian(coordinate_cartesian.x*coefficient,coordinate_cartesian.y*coefficient);
     }
     /**
-    计算当前直角坐标对象与另一个直角坐标对象的距离。
+    计算当前直角坐标与另一个直角坐标的距离。
     @param coordinate_cartesian 要计算距离的直角坐标对象。
-    @return 当前直角坐标对象与另一个直角坐标对象的距离。
+    @return 当前直角坐标与另一个直角坐标的距离。
     */
     public double distance(coordinate_cartesian coordinate_cartesian)
     {
