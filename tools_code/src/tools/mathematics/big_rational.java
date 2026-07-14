@@ -69,9 +69,9 @@ public class big_rational
     }
     /**
     计算两个字节数组低位优先表示的整数的和 <code>addend1</code>+<code>addend2</code>。
-    @param addend1 第一个整数的字节数组低位优先表示。
-    @param addend2 第二个整数的字节数组低位优先表示。
-    @return 两个整数的和的字节数组低位优先表示。
+    @param addend1 第一个加数的字节数组低位优先表示。
+    @param addend2 第二个加数的字节数组低位优先表示。
+    @return 和的字节数组低位优先表示。
     */
     public static byte[] add(byte addend1[],byte addend2[])
     {
@@ -81,61 +81,77 @@ public class big_rational
         for(;size2>0&&addend2[size2-1]==0;size2--);
         int positive1=size1>0?(addend1[size1-1]>=0?1:-1):0;
         int positive2=size2>0?(addend2[size2-1]>=0?1:-1):0;
-        int size_sum=size1>size2?size1:(size1<size2?size2:size1+1);
-        byte sum[];
+        int size_sum=size1>size2?size1+1:size2+1;
         if(positive1==0||positive2==0)
         {
-            sum=new byte[size_sum+1];
+            byte sum[]=new byte[size_sum+1];
             System.arraycopy(positive1==0?addend2:addend1,0,sum,0,positive1==0?size2:size1);
             return sum;
         }
-        else if(positive1>positive2)
+        byte inner_addend1[]=new byte[size1];
+        byte inner_addend2[]=new byte[size2];
+        System.arraycopy(addend1,0,inner_addend1,0,size1);
+        System.arraycopy(addend2,0,inner_addend2,0,size2);
+        if(positive1==positive2)
         {
-            addend2[size2-1]*=-1;
-            sum=subtract(addend1,addend2);
-            addend2[size2-1]*=-1;
-            return sum;
-        }
-        else if(positive1<positive2)
-        {
-            addend1[size1-1]*=-1;
-            sum=subtract(addend2,addend1);
-            addend1[size1-1]*=-1;
-            return sum;
-        }
-        else
-        {
-            if(positive1<0)
-            {
-                addend1[size1-1]*=-1;
-                addend2[size2-1]*=-1;
-            }
-            sum=new byte[size_sum+1];
+            inner_addend1[size1-1]*=positive1;
+            inner_addend2[size2-1]*=positive1;
+            byte sum[]=new byte[size_sum+1];
             if(size1<size2)
             {
-                byte temp[]=addend1;
-                addend1=addend2;
-                addend2=temp;
+                byte temp[]=inner_addend1;
+                inner_addend1=inner_addend2;
+                inner_addend2=temp;
                 int temp_size=size1;
                 size1=size2;
                 size2=temp_size;
             }
             for(int i=0;i<size2;i++)
             {
-                sum[i+1]+=(byte)((sum[i]+addend1[i]+addend2[i])/10);
-                sum[i]=(byte)((sum[i]+addend1[i]+addend2[i])%10);
+                sum[i+1]+=(byte)((sum[i]+inner_addend1[i]+inner_addend2[i])/10);
+                sum[i]=(byte)((sum[i]+inner_addend1[i]+inner_addend2[i])%10);
             }
             for(int i=size2;i<size1;i++)
             {
-                sum[i+1]+=(byte)((sum[i]+addend1[i])/10);
-                sum[i]=(byte)((sum[i]+addend1[i])%10);
+                sum[i+1]+=(byte)((sum[i]+inner_addend1[i])/10);
+                sum[i]=(byte)((sum[i]+inner_addend1[i])%10);
             }
-            if(positive1<0)
+            for(;size_sum>0&&sum[size_sum-1]==0;size_sum--);
+            sum[size_sum-1]*=positive1;
+            return sum;
+        }
+        else
+        {
+            inner_addend1[size1-1]*=positive1;
+            inner_addend2[size2-1]*=positive2;
+            int positive_result=compare(inner_addend1,inner_addend2);
+            positive_result=positive_result==0?0:(positive_result>0?1:-1);
+            if(positive_result==0)
             {
-                addend1[size1-1]*=-1;
-                addend2[size2-1]*=-1;
-                sum[size_sum-1]*=-1;
+                return new byte[]{0};
             }
+            else if(positive_result<0)
+            {
+                byte temp[]=inner_addend1;
+                inner_addend1=inner_addend2;
+                inner_addend2=temp;
+                int temp_size=size1;
+                size1=size2;
+                size2=temp_size;
+            }
+            byte sum[]=new byte[size_sum+1];
+            for(int i=0;i<size2;i++)
+            {
+                sum[i+1]=(byte)Math.floorDiv(sum[i]+inner_addend1[i]-inner_addend2[i],10);
+                sum[i]=(byte)Math.floorMod(sum[i]+inner_addend1[i]-inner_addend2[i],10);
+            }
+            for(int i=size2;i<size1;i++)
+            {
+                sum[i+1]+=(byte)Math.floorDiv(sum[i]+inner_addend1[i],10);
+                sum[i]=(byte)Math.floorMod(sum[i]+inner_addend1[i],10);
+            }
+            for(;size_sum>0&&sum[size_sum-1]==0;size_sum--);
+            sum[size_sum-1]*=positive1*positive_result;
             return sum;
         }
     }
@@ -143,7 +159,7 @@ public class big_rational
     计算两个字节数组低位优先表示的整数的差 <code>minuend</code>-<code>subtrahend</code>。
     @param minuend 被减数的字节数组低位优先表示。
     @param subtrahend 减数的字节数组低位优先表示。
-    @return 被减数与减数的差的字节数组低位优先表示。
+    @return 差的字节数组低位优先表示。
     */
     public static byte[] subtract(byte minuend[],byte subtrahend[])
     {
@@ -153,82 +169,92 @@ public class big_rational
         for(;size_subtrahend>0&&subtrahend[size_subtrahend-1]==0;size_subtrahend--);
         int positive_minuend=size_minuend>0?(minuend[size_minuend-1]>=0?1:-1):0;
         int positive_subtrahend=size_subtrahend>0?(subtrahend[size_subtrahend-1]>=0?1:-1):0;
-        byte difference[];
-        if(positive_minuend<0&&positive_subtrahend>0)
+        int positive_result=compare(minuend,subtrahend);
+        positive_result=positive_result==0?0:(positive_result>0?1:-1);
+        int size_difference=size_minuend>size_subtrahend?size_minuend+1:size_subtrahend+1;
+        if(positive_result==0)
         {
-            minuend[size_minuend-1]*=-1;
-            difference=add(minuend,subtrahend);
-            int size_difference=difference.length;
-            for(;size_difference>0&&difference[size_difference-1]==0;size_difference--);
-            difference[size_difference-1]*=-1;
-            minuend[size_minuend-1]*=-1;
+            return new byte[]{0};
+        }
+        else if(positive_minuend==0||positive_subtrahend==0)
+        {
+            byte difference[]=new byte[size_difference+1];
+            int size_result=size_minuend>size_subtrahend?size_minuend:size_subtrahend;
+            System.arraycopy(positive_subtrahend==0?minuend:subtrahend,0,difference,0,size_result);
+            difference[size_result-1]*=positive_subtrahend==0?1:-1;
             return difference;
         }
-        else if(positive_minuend>0&&positive_subtrahend<0)
+        byte inner_minuend[]=new byte[size_minuend];
+        byte inner_subtrahend[]=new byte[size_subtrahend];
+        System.arraycopy(minuend,0,inner_minuend,0,size_minuend);
+        System.arraycopy(subtrahend,0,inner_subtrahend,0,size_subtrahend);
+        if(positive_minuend==positive_subtrahend)
         {
-            subtrahend[size_subtrahend-1]*=-1;
-            difference=add(minuend,subtrahend);
-            subtrahend[size_subtrahend-1]*=-1;
+            inner_minuend[size_minuend-1]*=positive_minuend;
+            inner_subtrahend[size_subtrahend-1]*=positive_minuend;
+            if(positive_result*positive_minuend<0)
+            {
+                byte temp[]=inner_minuend;
+                inner_minuend=inner_subtrahend;
+                inner_subtrahend=temp;
+                int temp_size=size_minuend;
+                size_minuend=size_subtrahend;
+                size_subtrahend=temp_size;
+            }
+            byte difference[]=new byte[size_difference+1];
+            for(int i=0;i<size_subtrahend;i++)
+            {
+                difference[i+1]=(byte)Math.floorDiv(difference[i]+inner_minuend[i]-inner_subtrahend[i],10);
+                difference[i]=(byte)Math.floorMod(difference[i]+inner_minuend[i]-inner_subtrahend[i],10);
+            }
+            for(int i=size_subtrahend;i<size_minuend;i++)
+            {
+                difference[i+1]=(byte)Math.floorDiv(difference[i]+inner_minuend[i],10);
+                difference[i]=(byte)Math.floorMod(difference[i]+inner_minuend[i],10);
+            }
+            for(;size_difference>0&&difference[size_difference-1]==0;size_difference--);
+            difference[size_difference-1]*=positive_result;
             return difference;
         }
         else
         {
-            if(positive_minuend<0)
+            inner_minuend[size_minuend-1]*=positive_minuend;
+            inner_subtrahend[size_subtrahend-1]*=positive_subtrahend;
+            int positive_absolute=compare(inner_minuend,inner_subtrahend);
+            positive_absolute=positive_absolute==0?0:(positive_absolute>0?1:-1);
+            if(positive_absolute==0)
             {
-                minuend[size_minuend-1]*=-1;
-                subtrahend[size_subtrahend-1]*=-1;
-                byte temp[]=minuend;
-                minuend=subtrahend;
-                subtrahend=temp;
-                int temp_size=size_minuend;
-                size_minuend=size_subtrahend;
-                size_subtrahend=temp_size;
-            }
-            int relation=compare(minuend,subtrahend);
-            boolean is_minus=relation<0;
-            if(relation==0)
-            {
-                if(positive_minuend<0)
-                {
-                    minuend[size_minuend-1]*=-1;
-                    subtrahend[size_subtrahend-1]*=-1;
-                }
+                inner_minuend[size_minuend-1]*=positive_minuend;
+                inner_subtrahend[size_subtrahend-1]*=positive_subtrahend;
                 return new byte[]{0};
             }
-            else if(is_minus)
+            else if(positive_absolute<0)
             {
-                byte temp[]=minuend;
-                minuend=subtrahend;
-                subtrahend=temp;
+                byte temp[]=inner_minuend;
+                inner_minuend=inner_subtrahend;
+                inner_subtrahend=temp;
                 int temp_size=size_minuend;
                 size_minuend=size_subtrahend;
                 size_subtrahend=temp_size;
             }
-            difference=new byte[size_minuend+1];
+            byte difference[]=new byte[size_difference+1];
             for(int i=0;i<size_subtrahend;i++)
             {
-                difference[i+1]+=(byte)Math.floorDiv(difference[i]+minuend[i]-subtrahend[i],10);
-                difference[i]=(byte)Math.floorMod(difference[i]+minuend[i]-subtrahend[i],10);
+                difference[i+1]=(byte)((difference[i]+inner_minuend[i]+inner_subtrahend[i])/10);
+                difference[i]=(byte)((difference[i]+inner_minuend[i]+inner_subtrahend[i])%10);
             }
             for(int i=size_subtrahend;i<size_minuend;i++)
             {
-                difference[i+1]+=(byte)Math.floorDiv(difference[i]+minuend[i],10);
-                difference[i]=(byte)Math.floorMod(difference[i]+minuend[i],10);
+                difference[i+1]=(byte)((difference[i]+inner_minuend[i])/10);
+                difference[i]=(byte)((difference[i]+inner_minuend[i])%10);
             }
-            int size_difference=difference.length;
             for(;size_difference>0&&difference[size_difference-1]==0;size_difference--);
-            difference[size_difference-1]*=is_minus?-1:1;
-            if(positive_minuend<0)
-            {
-                minuend[size_minuend-1]*=-1;
-                subtrahend[size_subtrahend-1]*=-1;
-                difference[size_difference-1]*=-1;
-            }
+            difference[size_difference-1]*=positive_result;
             return difference;
         }
     }
     /**
-    计算字节数组低位优先表示的整数与一个一位整数的积 <code>factor</code>*<code>one_bit_multiplier</code>。
+    计算一个字节数组低位优先表示的整数与一个一位整数的积 <code>factor</code>*<code>one_bit_multiplier</code>。
     @param factor 因数的字节数组低位优先表示。
     @param one_bit_multiplier 一位因数。
     @return 积的字节数组低位优先表示。
@@ -252,7 +278,7 @@ public class big_rational
         one_bit_multiplier*=positive_multiplier;
         for(int i=0;i<size1;i++)
         {
-            product[i+1]+=(byte)((product[i]+factor[i]*one_bit_multiplier)/10);
+            product[i+1]=(byte)((product[i]+factor[i]*one_bit_multiplier)/10);
             product[i]=(byte)((product[i]+factor[i]*one_bit_multiplier)%10);
         }
         if(positive_factor!=positive_multiplier)
@@ -268,7 +294,7 @@ public class big_rational
     计算两个字节数组低位优先表示的整数的积 <code>factor1</code>*<code>factor2</code>。
     @param factor1 第一个整数的字节数组低位优先表示。
     @param factor2 第二个整数的字节数组低位优先表示。
-    @return 两个整数的积的字节数组低位优先表示。
+    @return 积的字节数组低位优先表示。
     */
     public static byte[] multiply(byte factor1[],byte factor2[])
     {
@@ -280,17 +306,21 @@ public class big_rational
         {
             return new byte[]{0};
         }
-        int positive1=size1>0?(factor1[size1-1]>=0?1:-1):0;
-        int positive2=size2>0?(factor2[size2-1]>=0?1:-1):0;
+        byte inner_factor1[]=new byte[size1];
+        byte inner_factor2[]=new byte[size2];
+        System.arraycopy(factor1,0,inner_factor1,0,size1);
+        System.arraycopy(factor2,0,inner_factor2,0,size2);
+        int positive1=size1>0?(inner_factor1[size1-1]>=0?1:-1):0;
+        int positive2=size2>0?(inner_factor2[size2-1]>=0?1:-1):0;
         byte product[]=new byte[size1+size2+1];
-        factor1[size1-1]*=positive1;
-        factor2[size2-1]*=positive2;
+        inner_factor1[size1-1]*=positive1;
+        inner_factor2[size2-1]*=positive2;
         for(int i=0;i<size1;i++)
         {
             for(int j=0;j<size2;j++)
             {
-                product[i+j+1]+=(byte)((product[i+j]+factor1[i]*factor2[j])/10);
-                product[i+j]=(byte)((product[i+j]+factor1[i]*factor2[j])%10);
+                product[i+j+1]+=(byte)((product[i+j]+inner_factor1[i]*inner_factor2[j])/10);
+                product[i+j]=(byte)((product[i+j]+inner_factor1[i]*inner_factor2[j])%10);
             }
         }
         if(positive1!=positive2)
@@ -299,12 +329,10 @@ public class big_rational
             for(;size_product>0&&product[size_product-1]==0;size_product--);
             product[size_product-1]*=-1;
         }
-        factor1[size1-1]*=positive1;
-        factor2[size2-1]*=positive2;
         return product;
     }
     /**
-    计算两个字节数组低位优先表示的整数的商 <code>dividend</code>/<code>one_bit_divisor</code>。
+    计算一个字节数组低位优先表示的整数与一个一位整数的商 <code>dividend</code>/<code>one_bit_divisor</code>。
     @param dividend 被除数的字节数组低位优先表示。
     @param one_bit_divisor 一位除数。
     @return 一个二维字节数组：
@@ -312,13 +340,13 @@ public class big_rational
         <li>商的字节数组低位优先表示。</li>
         <li>余数的字节数组低位优先表示。</li>
     </ol><br>
-    若除数为0，则返回空数组。
+    若除数为0，则返回<code>null</code>。
     */
     public static byte[][] divide(byte dividend[],int one_bit_divisor)
     {
         if(one_bit_divisor==0)
         {
-            return new byte[0][0];
+            return null;
         }
         int dividend_size=dividend.length;
         for(;dividend_size>0&&dividend[dividend_size-1]==0;dividend_size--);
@@ -369,7 +397,7 @@ public class big_rational
         <li>商的字节数组低位优先表示。</li>
         <li>余数的字节数组低位优先表示。</li>
     </ol><br>
-    若除数为0，则返回空数组。
+    若除数为0，则返回<code>null</code>。
     */
     public static byte[][] divide(byte dividend[],byte divisor[])
     {
@@ -381,89 +409,90 @@ public class big_rational
         int positive_divisor=divisor_size>0?(divisor[divisor_size-1]>=0?1:-1):0;
         if(positive_divisor==0)
         {
-            return new byte[0][0];
+            return null;
         }
-        if(positive_dividend==0)
+        else if(positive_dividend==0)
         {
             return new byte[][]{{0},{0}};
         }
-        byte primary_dividend[]=dividend;
-        dividend=new byte[dividend_size+1];
-        System.arraycopy(primary_dividend,0,dividend,0,dividend_size);
-        dividend[dividend_size-1]*=positive_dividend;
-        byte primary_divisor[]=divisor;
-        divisor=new byte[divisor_size+1];
-        System.arraycopy(primary_divisor,0,divisor,0,divisor_size);
-        divisor[divisor_size-1]*=positive_divisor;
-        int delta=10/(divisor[divisor_size-1]+1);
+        byte inner_dividend[]=new byte[dividend_size+1];
+        byte inner_divisor[]=new byte[divisor_size+1];
+        System.arraycopy(dividend,0,inner_dividend,0,dividend_size);
+        System.arraycopy(divisor,0,inner_divisor,0,divisor_size);
+        inner_dividend[dividend_size-1]*=positive_dividend;
+        inner_divisor[divisor_size-1]*=positive_divisor;
+        int delta=10/(inner_divisor[divisor_size-1]+1);
         if(delta>1)
         {
-            dividend=multiply(dividend,delta);
-            divisor=multiply(divisor,delta);
-            for(dividend_size=dividend.length;dividend_size>0&&dividend[dividend_size-1]==0;dividend_size--);
-            for(divisor_size=divisor.length;divisor_size>0&&divisor[divisor_size-1]==0;divisor_size--);
+            inner_dividend=multiply(inner_dividend,delta);
+            inner_divisor=multiply(inner_divisor,delta);
+            for(dividend_size=inner_dividend.length;dividend_size>0&&inner_dividend[dividend_size-1]==0;dividend_size--);
+            for(divisor_size=inner_divisor.length;divisor_size>0&&inner_divisor[divisor_size-1]==0;divisor_size--);
         }
         int quotient_size=dividend_size-divisor_size+2;
         quotient_size=quotient_size>0?quotient_size:1;
         byte quotient[]=new byte[quotient_size];
         for(int i=dividend_size-divisor_size;i>=0;i--)
         {
-            int quotient_test=(dividend[i+divisor_size]*10+dividend[i+divisor_size-1])/divisor[divisor_size-1];
-            int remainder_test=(dividend[i+divisor_size]*10+dividend[i+divisor_size-1])%divisor[divisor_size-1];
-            if(divisor_size>1&&(quotient_test>=10||quotient_test*divisor[divisor_size-2]>remainder_test*10+dividend[i+divisor_size-2]))
+            int quotient_test=(inner_dividend[i+divisor_size]*10+inner_dividend[i+divisor_size-1])/inner_divisor[divisor_size-1];
+            int remainder_test=(inner_dividend[i+divisor_size]*10+inner_dividend[i+divisor_size-1])%inner_divisor[divisor_size-1];
+            if(divisor_size>1&&(quotient_test>=10||quotient_test*inner_divisor[divisor_size-2]>remainder_test*10+inner_dividend[i+divisor_size-2]))
             {
                 quotient_test--;
-                remainder_test+=divisor[divisor_size-1];
-                if(remainder_test<10&&(quotient_test>=10||quotient_test*divisor[divisor_size-2]>remainder_test*10+dividend[i+divisor_size-2]))
+                remainder_test+=inner_divisor[divisor_size-1];
+                if(remainder_test<10&&(quotient_test>=10||quotient_test*inner_divisor[divisor_size-2]>remainder_test*10+inner_dividend[i+divisor_size-2]))
                 {
                     quotient_test--;
-                    remainder_test+=divisor[divisor_size-1];
+                    remainder_test+=inner_divisor[divisor_size-1];
                 }
             }
             for(int j=i;j<i+divisor_size;j++)
             {
-                dividend[j+1]+=(byte)Math.floorDiv(dividend[j]-quotient_test*divisor[j-i],10);
-                dividend[j]=(byte)Math.floorMod(dividend[j]-quotient_test*divisor[j-i],10);
+                inner_dividend[j+1]+=(byte)Math.floorDiv(inner_dividend[j]-quotient_test*inner_divisor[j-i],10);
+                inner_dividend[j]=(byte)Math.floorMod(inner_dividend[j]-quotient_test*inner_divisor[j-i],10);
             }
-            if(dividend[i+divisor_size]<0)
+            if(inner_dividend[i+divisor_size]<0)
             {
                 quotient_test--;
                 for(int j=i;j<i+divisor_size;j++)
                 {
-                    dividend[j]+=divisor[j-i];
-                    if(dividend[j]>9)
+                    inner_dividend[j]=(byte)((inner_dividend[j]+inner_divisor[j-i])%10);
+                    if(inner_dividend[j]>9)
                     {
-                        dividend[j+1]+=(byte)(dividend[j]/10);
-                        dividend[j]=(byte)(dividend[j]%10);
+                        inner_dividend[j+1]+=(byte)(inner_dividend[j]/10);
+                        inner_dividend[j]=(byte)(inner_dividend[j]%10);
                     }
                 }
             }
             quotient[i]=(byte)quotient_test;
         }
-        dividend=divide(dividend,delta)[0];
-        for(dividend_size=dividend.length;dividend_size>0&&dividend[dividend_size-1]==0;dividend_size--);
+        inner_dividend=divide(inner_dividend,delta)[0];
+        for(dividend_size=inner_dividend.length;dividend_size>0&&inner_dividend[dividend_size-1]==0;dividend_size--);
         for(quotient_size=quotient.length;quotient_size>0&&quotient[quotient_size-1]==0;quotient_size--);
         if(dividend_size>0&&positive_dividend<0)
         {
             quotient_size=quotient_size==0?1:quotient_size;
             quotient[0]++;
-            for(int i=0;i<quotient_size&&quotient[i]>9;i++)
+            int i=0;
+            for(;i<quotient_size&&quotient[i]>9;i++)
             {
                 quotient[i+1]+=1;
                 quotient[i]-=10;
             }
+            i++;
+            quotient_size=i>quotient_size?i:quotient_size;
             for(divisor_size=divisor.length;divisor_size>0&&divisor[divisor_size-1]==0;divisor_size--);
-            primary_divisor[divisor_size-1]*=positive_divisor;
-            dividend=subtract(primary_divisor,dividend);
-            primary_divisor[divisor_size-1]*=positive_divisor;
-            for(dividend_size=dividend.length;dividend_size>0&&dividend[dividend_size-1]==0;dividend_size--);
+            divisor[divisor_size-1]*=positive_divisor;
+            inner_dividend=subtract(divisor,inner_dividend);
+            divisor[divisor_size-1]*=positive_divisor;
+            for(dividend_size=inner_dividend.length;dividend_size>0&&inner_dividend[dividend_size-1]==0;dividend_size--);
         }
         if(quotient_size>0)
         {
             quotient[quotient_size-1]*=positive_dividend*positive_divisor;
         }
         byte remainder[]=new byte[dividend_size+1];
-        System.arraycopy(dividend,0,remainder,0,dividend_size);
+        System.arraycopy(inner_dividend,0,remainder,0,dividend_size);
         byte result[][]={quotient,remainder};
         return result;
     }
@@ -471,14 +500,32 @@ public class big_rational
     计算两个字节数组低位优先表示的整数的最大公因数。
     @param number1 第一个整数的字节数组低位优先表示。
     @param number2 第二个整数的字节数组低位优先表示。
-    @return 两个整数的最大公因数的字节数组低位优先表示。
+    @return 最大公因数的字节数组低位优先表示。<br>
+    定义0与0的最大公因数为0。
     */
     public static byte[] gcd(byte number1[],byte number2[])
     {
+        int size1=number1.length;
+        int size2=number2.length;
+        for(;size1>0&&number1[size1-1]==0;size1--);
+        for(;size2>0&&number2[size2-1]==0;size2--);
+        if(size1==0&&size2==0)
+        {
+            return new byte[]{0};
+        }
+        else if(size1==0||size2==0)
+        {
+            int result_size=size1>0?size1:size2;
+            byte result[]=new byte[result_size];
+            System.arraycopy(size1>0?number1:number2,0,result,0,result_size);
+            return result;
+        }
         int relation=compare(number1,number2);
         if(relation==0)
         {
-            return number1;
+            byte result[]=new byte[number1.length];
+            System.arraycopy(number1,0,result,0,number1.length);
+            return result;
         }
         else
         {
@@ -488,12 +535,6 @@ public class big_rational
                 number1=number2;
                 number2=temp;
             }
-            int size2=number2.length;
-            for(;size2>0&&number2[size2-1]==0;size2--);
-            if(size2==0)
-            {
-                return new byte[]{1};
-            }
             do
             {
                 byte result[][]=divide(number1,number2);
@@ -502,11 +543,14 @@ public class big_rational
                 for(size2=number2.length;size2>0&&number2[size2-1]==0;size2--);
             }
             while(size2>0);
-            int size1=number1.length;
-            for(;size1>0&&number1[size1-1]==0;size1--);
+            for(size1=number1.length;size1>0&&number1[size1-1]==0;size1--);
             number2=number1;
             number1=new byte[size1+1];
             System.arraycopy(number2,0,number1,0,size1);
+            if(number1[size1-1]<0)
+            {
+                number1[size1-1]*=-1;
+            }
             return number1;
         }
     }
