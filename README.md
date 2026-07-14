@@ -823,18 +823,18 @@ tools
     - `static byte[] multiply(byte[], byte[])` → 两整数乘法，返回字节数组。
     - `static byte[][] divide(byte[], int)` → 整数除以一位整数，返回 `{商, 余数}`。
     - `static byte[][] divide(byte[], byte[])` → 两整数除法，返回 `{商, 余数}`。
-    - `static byte[] gcd(byte[], byte[])` → 兩整數的最大公因數。
+    - `static byte[] gcd(byte[], byte[])` → 两整数的最大公因数。
     - `static byte[] power(byte[], int)` → 整数的正整数次幂。
 
 - **静态方法（big_integer 对象运算）**：
 
-    - `static big_integer add(big_integer, big_integer)` → 兩高精度整數加法。
-    - `static big_integer subtract(big_integer, big_integer)` → 兩高精度整數減法。
+    - `static big_integer add(big_integer, big_integer)` → 两高精度整数加法。
+    - `static big_integer subtract(big_integer, big_integer)` → 两高精度整数减法。
     - `static big_integer multiply(big_integer, int)` → 高精度整数与一位整数乘法。
-    - `static big_integer multiply(big_integer, big_integer)` → 兩高精度整數乘法。
+    - `static big_integer multiply(big_integer, big_integer)` → 两高精度整数乘法。
     - `static big_integer[] divide(big_integer, int)` → 除以一位整数，返回 `{商, 余数}`。
-    - `static big_integer[] divide(big_integer, big_integer)` → 兩高精度整數除法，返回 `{商, 余数}`。
-    - `static big_integer gcd(big_integer, big_integer)` → 兩高精度整數的最大公因數。
+    - `static big_integer[] divide(big_integer, big_integer)` → 两高精度整数除法，返回 `{商, 余数}`。
+    - `static big_integer gcd(big_integer, big_integer)` → 两高精度整数的最大公因数。
     - `static big_integer power(big_integer, int)` → 高精度整数的正整数次幂。
 
 - **实例方法**：
