@@ -44,7 +44,9 @@
 
 - **ListMergeSortTest.java**：单向链表归并排序测试，验证 `linked_list_singly.sort_ascend()` 的正确性与性能。
 
-- **big_rational_test.java**：高精度有理数类 `big_rational` 的功能测试。
+- **big_integer_test.java**：高精度整数类 `big_integer` 的功能测试，对比 `java.math.BigInteger` 验证加减乘除、最大公因数、幂运算等。
+
+- **big_number_test.java**：高精度整数类 `big_integer` 与高精度有理数类 `big_rational` 的综合测试。
 
 - **elevation_test.java**：高程地图 `elevation_map` 的可视化测试，包含地形生成与统计面板。
 
@@ -796,6 +798,51 @@ tools
 - **数独求解**：
 
     - `sudoku_valid`, `sudoku_solve`（9×9，原地修改）。
+
+#### big_integer（高精度整数）
+
+- 高精度整数类，支持任意大小的整数运算。内部以字节数组低位优先存储每一位数字，并记录有效位数。
+
+- **字段**：
+
+    - `byte number[]` → 整数的字节数组低位优先表示。
+    - `int size` → 有效位数。
+
+- **构造器**：
+
+    - `big_integer(String number_string)` → 通过整数字符串构造（支持负号）。
+    - `big_integer(byte number_array[])` → 通过字节数组低位优先表示构造。
+    - `big_integer(byte number_array[], int size)` → 直接使用字节数组和位数构造（不拷贝）。
+
+- **静态方法（字节数组底层运算）**：
+
+    - `static int compare(byte[], byte[])` → 比较两个字节数组表示的整数大小。
+    - `static byte[] add(byte[], byte[])` → 两整数加法，返回字节数组。
+    - `static byte[] subtract(byte[], byte[])` → 两整数减法，返回字节数组。
+    - `static byte[] multiply(byte[], int)` → 整数与一位整数乘法，返回字节数组。
+    - `static byte[] multiply(byte[], byte[])` → 两整数乘法，返回字节数组。
+    - `static byte[][] divide(byte[], int)` → 整数除以一位整数，返回 `{商, 余数}`。
+    - `static byte[][] divide(byte[], byte[])` → 两整数除法，返回 `{商, 余数}`。
+    - `static byte[] gcd(byte[], byte[])` → 兩整數的最大公因數。
+    - `static byte[] power(byte[], int)` → 整数的正整数次幂。
+
+- **静态方法（big_integer 对象运算）**：
+
+    - `static big_integer add(big_integer, big_integer)` → 兩高精度整數加法。
+    - `static big_integer subtract(big_integer, big_integer)` → 兩高精度整數減法。
+    - `static big_integer multiply(big_integer, int)` → 高精度整数与一位整数乘法。
+    - `static big_integer multiply(big_integer, big_integer)` → 兩高精度整數乘法。
+    - `static big_integer[] divide(big_integer, int)` → 除以一位整数，返回 `{商, 余数}`。
+    - `static big_integer[] divide(big_integer, big_integer)` → 兩高精度整數除法，返回 `{商, 余数}`。
+    - `static big_integer gcd(big_integer, big_integer)` → 兩高精度整數的最大公因數。
+    - `static big_integer power(big_integer, int)` → 高精度整数的正整数次幂。
+
+- **实例方法**：
+
+    - `int compareTo(big_integer another)` → 比较当前对象与指定对象的数值大小。
+    - `String toString()` → 返回整数的十进制字符串表示。
+
+- **注意**：此类实现了 `Comparable<big_integer>` 接口。`0` 与 `0` 的 `gcd` 定义为 `0`。除数为 `0` 时除法返回 `null`。底数与指数同时为 `0` 时幂运算返回 `null`。
 
 #### big_rational（高精度有理数）
 
