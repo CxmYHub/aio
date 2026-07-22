@@ -557,8 +557,8 @@ public class datetime implements Comparable<datetime>
         return now(default_time_zone);
     }
     /**
-    计算当前日期时间对象自公元元年1月1日0时0分0秒的毫秒时间戳。
-    @return 当前日期时间对象自公元元年1月1日0时0分0秒的毫秒时间戳。<br>
+    计算当前日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。
+    @return 当前日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。<br>
     对于纯时间对象，返回自当日0时0分0秒 UTC+0的毫秒时间戳。
     */
     public long timestamp()
@@ -599,8 +599,8 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
-    计算当前日期时间对象自公元元年1月1日的日时间戳。
-    @return 当前日期时间对象自公元元年1月1日的日时间戳。<br>
+    计算当前日期时间自公元元年1月1日的日时间戳。
+    @return 当前日期时间自公元元年1月1日的日时间戳。<br>
     对于纯时间对象，返回<code>Integer.MIN_VALUE</code>。
     */
     public int timestamp_day()
@@ -633,7 +633,7 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
-    判断当前日期时间对象年份是否为闰年。
+    判断当前日期时间的年份是否为闰年。
     @return 是否为闰年。<br>
     对于纯时间对象，返回<code>false</code>。
     */
@@ -652,7 +652,7 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
-    计算当前日期时间对象的星期。
+    计算当前日期时间的星期。
     @return 当前日期时间对象的星期。<br>
     <ul>
         <li>0=星期日。</li>
@@ -707,8 +707,8 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
-    计算当前日期时间对象在该年中的天数。
-    @return 当前日期时间对象在该年中的天数。<br>
+    计算当前日期时间在该年中的天数。
+    @return 当前日期时间在该年中的天数。<br>
     对于纯时间对象，返回<code>Integer.MIN_VALUE</code>。
     */
     public int day_in_year()
@@ -735,9 +735,9 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
-    计算当前日期时间对象经过指定天数后的日期时间。
+    计算当前日期时间经过指定天数后的日期时间。
     @param add_day 增加的天数，若为负数则减少天数。
-    @return 当前日期时间对象经过指定天数后的日期时间对象。<br>
+    @return 当前日期时间经过指定天数后的日期时间。<br>
     对于纯时间对象，不做处理，返回<code>this</code>。<br>
     */
     public datetime add_day(int add_day)
@@ -800,7 +800,7 @@ public class datetime implements Comparable<datetime>
     @param month 月。
     @param day 日。
     @param add_day 增加的天数，若为负数则减少天数。
-    @return 指定日期经过指定天数后的日期时间对象。<br>
+    @return 指定日期经过指定天数后的日期时间。<br>
     */
     public static datetime add_day(int year,int month,int day,int add_day)
     {
@@ -851,11 +851,11 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
-    计算当前日期时间对象与指定日期时间对象相差的天数。
+    计算当前日期时间与指定日期时间相差的天数。
     @param to 终点日期时间对象。
-    @return 当前日期时间对象与指定日期时间对象相差的天数。<br>
-    若当前日期时间对象的时间晚于指定日期时间，则返回的天数为负数。<br>
-    若当前日期时间对象或指定日期时间对象为纯时间对象，返回<code>Long.MIN_VALUE</code>。
+    @return 当前日期时间与指定日期时间相差的天数。<br>
+    若当前日期时间的时间晚于指定日期时间，则返回的天数为负数。<br>
+    若当前日期时间或指定日期时间为纯时间对象，返回<code>Long.MIN_VALUE</code>。
     */
     public long interval_day(datetime to)
     {
@@ -885,8 +885,8 @@ public class datetime implements Comparable<datetime>
         return timestamp_day(end_year,end_month,end_day)-timestamp_day(start_year,start_month,start_day);
     }
     /**
-    计算当前日期时间对象在该天中的秒数。
-    @return 当前日期时间对象在该天中的秒数。
+    计算当前日期时间在该天中的秒数。
+    @return 当前日期时间在该天中的秒数。
     */
     public int second_in_day()
     {
@@ -904,9 +904,9 @@ public class datetime implements Comparable<datetime>
         return hour*3600+minute*60+second;
     }
     /**
-    计算当前日期时间对象与指定日期时间对象相差的日间秒数。
+    计算当前日期时间与指定日期时间相差的日间秒数。
     @param to 终点日期时间对象。
-    @return 当前日期时间对象与终点日期时间对象相差的日间秒数。<br>
+    @return 当前日期时间与终点日期时间相差的日间秒数。<br>
     若当前时间晚于终点时间，则返回的日间秒数为负数。<br>
     若当前时区与终点时区不同，则返回的秒数的绝对值可能大于一天的秒数。
     */
@@ -948,14 +948,14 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
-    比较当前日期时间对象与指定日期时间对象的时间。
+    比较当前日期时间与指定日期时间的时间。
     @param another 指定日期时间对象。
-    @return 当前日期时间对象与指定日期时间对象的时间的比较结果。<br>
+    @return 当前日期时间与指定日期时间的时间的比较结果。<br>
     若混合比较日期时间对象和纯时间对象，则仅比较时间部分。<br>
     <ul>
-        <li>0：当前日期时间对象的时间与指定日期时间相同。<br>
-        <li>&gt;0：当前日期时间对象的时间晚于指定日期时间。<br>
-        <li>&lt;0：当前日期时间对象的时间早于指定日期时间。<br>
+        <li>0：当前日期时间与指定日期时间相同。<br>
+        <li>&gt;0：当前日期时间晚于指定日期时间。<br>
+        <li>&lt;0：当前日期时间早于指定日期时间。<br>
     </ul>
     */
     public int compareTo(datetime another)

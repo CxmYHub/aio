@@ -196,10 +196,7 @@ public class maths
 			}
 		}
 		int returning[]=new int[pin];
-		for(int i=0;i<pin;i++)
-		{
-			returning[i]=result[i];
-		}
+		System.arraycopy(result,0,returning,0,pin);
 		return returning;
 	}
 	/**
@@ -385,8 +382,9 @@ public class maths
 	*/
 	public static int length(int number)
 	{
-		number=number<0?-number:number;
-		return (int)(Math.log(number)/Math.log(10))+1;
+		int length=0;
+		for(;number!=0;number/=10,length++);
+		return length;
 	}
 	/**
 	计算一个整数的二进制表示中1的个数。
@@ -414,8 +412,8 @@ public class maths
 		{
 			return new boolean[]{false};
 		}
-		number=number<0?-number:number;
-		int length=(int)(Math.log(number)/Math.log(2))+1;
+		int length=0;
+		for(int temp=number;temp!=0;temp>>=1,length++);
 		boolean binary_ascend[]=new boolean[length];
 		for(int i=0;i<length;i++)
 		{

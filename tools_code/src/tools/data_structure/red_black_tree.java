@@ -37,6 +37,95 @@ public class red_black_tree
     }
     public static final red_black_tree NIL=new red_black_tree('N');
     /**
+    构造一个包含指定元素的红黑树。
+    @param elements 多个元素。
+    */
+    public red_black_tree(int... elements)
+    {
+        this.element=0;
+        this.is_red=false;
+        this.right=NIL;
+        this.parent=NIL;
+        this.left=new red_black_tree(element);
+        this.left.parent=this;
+        this.left.is_red=false;
+        select_elements:
+        for(int element:elements)
+        {
+            red_black_tree now=this.left;
+            while(true)
+            {
+                if(element<now.element)
+                {
+                    if(now.left==NIL)
+                    {
+                        now.left=new red_black_tree(element);
+                        now.left.parent=now;
+                        now=now.left;
+                        break;
+                    }
+                    now=now.left;
+                }
+                else if(element>now.element)
+                {
+                    if(now.right==NIL)
+                    {
+                        now.right=new red_black_tree(element);
+                        now.right.parent=now;
+                        now=now.right;
+                        break;
+                    }
+                    now=now.right;
+                }
+                else
+                {
+                    continue select_elements;
+                }
+            }
+            while(now.parent.is_red)
+            {
+                red_black_tree grand_parent=now.parent.parent;
+                red_black_tree uncle=grand_parent.left==now.parent?grand_parent.right:grand_parent.left;
+                if(now.parent.is_red&&uncle.is_red)
+                {
+                    now.parent.is_red=false;
+                    uncle.is_red=false;
+                    grand_parent.is_red=true;
+                    now=grand_parent;
+                }
+                else if(now.parent.is_red&&!uncle.is_red)
+                {
+                    if(grand_parent.left.right==now)
+                    {
+                        now=now.parent;
+                        left_rotate(now);
+                    }
+                    else if(grand_parent.right.left==now)
+                    {
+                        now=now.parent;
+                        right_rotate(now);
+                    }
+                    if(grand_parent.left.left==now)
+                    {
+                        now=right_rotate(grand_parent);
+                        now.is_red=false;
+                        grand_parent.is_red=true;
+                        continue select_elements;
+                    }
+                    else if(grand_parent.right.right==now)
+                    {
+                        now=left_rotate(grand_parent);
+                        now.is_red=false;
+                        grand_parent.is_red=true;
+                        continue select_elements;
+                    }
+                }
+            }
+            this.is_red=false;
+            this.left.is_red=false;
+        }
+    }
+    /**
     构造一个红黑树节点。
     @param element 元素。
     */
