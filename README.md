@@ -44,9 +44,9 @@
 
 - **ListMergeSortTest.java**：单向链表归并排序测试，验证 `linked_list_singly.sort_ascend()` 的正确性与性能。
 
-- **big_integer_test.java**：高精度整数类 `big_integer` 的功能测试，对比 `java.math.BigInteger` 验证加减乘除、最大公因数、幂运算等。
+- **big_integer_test.java**：高精度整数类 `big_integer` 的综合测试。
 
-- **big_number_test.java**：高精度整数类 `big_integer` 与高精度有理数类 `big_rational` 的综合测试。
+- **big_rational_test.java**：高精度有理数类 `big_rational` 的综合测试。
 
 - **elevation_test.java**：高程地图 `elevation_map` 的可视化测试，包含地形生成与统计面板。
 
@@ -161,9 +161,11 @@ class using_tools
 
         - [maths（数学方法）](#maths数学方法)
 
-        - [complex（复数）](#complex复数)
+        - [big_integer（高精度整数）](#big_integer高精度整数)
 
         - [big_rational（高精度有理数）](#big_rational高精度有理数)
+
+        - [complex（复数）](#complex复数)
 
         - [coordinate_cartesian（直角坐标）](#coordinate_cartesian直角坐标)
 
@@ -237,17 +239,9 @@ tools
 
     - `public static void concurrent_quick_dual_pivot(int[] numbers)`
 
-        - 对整型数组进行原地升序排序。
-
-        - 内部根据阈值（`concurrent_quick_dual_pivot_sort.threshold`，默认19683）决定是否创建新线程。
-
-    - `public static void concurrent_quick_dual_pivot(int[] numbers)`
-
         - 对整型数组进行原地升序排序，使用多线程并发执行。
 
-    - `public static void concurrent_quick_dual_pivot(int[] numbers, int index_left, int index_right)`
-
-        - 对整型数组的指定区间 `[index_left, index_right]` 进行原地升序排序。
+        - 内部通过 `concurrent_quick_dual_pivot_sort`（包级私有）实现，根据阈值（`concurrent_quick_dual_pivot_sort.threshold`，默认19683）决定是否创建新线程。
 
 - **注意**：此类功能仍在验证中，非学习或极端性能需求建议使用 `java.util.Arrays.sort`。
 
@@ -741,7 +735,9 @@ tools
 
     - `is_prime`, `prime_table`, `decompose` → 质数判断、质数表生成、质因数分解。
 
-    - `quick_power`, `quick_power_mod` → 快速幂，支持一般取模和模1000000007。
+    - `power(int, int)` / `power(long, long)` → 快速幂（整数幂运算）。
+    - `power_mod1000000007(long, long)` → 快速幂取模 1000000007。
+    - `power_mod(long, long, long)` → 快速幂取模（自定义模数）。
 
     - `lowbit` → 最低位1的权值。
 
@@ -801,83 +797,85 @@ tools
 
 #### big_integer（高精度整数）
 
-- 高精度整数类，支持任意大小的整数运算。内部以字节数组低位优先存储每一位数字，并记录有效位数。
+- 高精度整数类，支持任意大小的整数运算。内部以整型数组 `int[]` 以 2^31 进制表示整数的绝对值，低位优先存储，符号表示整数的正负。
 
 - **字段**：
 
-    - `byte number[]` → 整数的字节数组低位优先表示。
+    - `int number[]` → 整数的整型数组低位优先表示（2^31 进制）。
     - `int size` → 有效位数。
+    - `int sign` → 符号（1=正，-1=负，0=零）。
 
 - **构造器**：
 
-    - `big_integer(String number_string)` → 通过整数字符串构造（支持负号）。
-    - `big_integer(byte number_array[])` → 通过字节数组低位优先表示构造。
-    - `big_integer(byte number_array[], int size)` → 直接使用字节数组和位数构造（不拷贝）。
+    - `big_integer(String number_string)` → 通过整数字符串构造（支持负号和前导零）。
+    - `big_integer(int number)` → 通过基本类型 `int` 构造。
+    - `big_integer(int number_array[], int sign)` → 通过低位优先的整型数组和符号构造（会拷贝数组）。
+    - `big_integer(int number_array[], int size, int sign)` → 直接使用输入的数组、位数和符号构造（不拷贝，不检查）。
 
-- **静态方法（字节数组底层运算）**：
+- **静态方法（底层运算）**：
 
-    - `static int compare(byte[], byte[])` → 比较两个字节数组表示的整数大小。
-    - `static byte[] add(byte[], byte[])` → 两整数加法，返回字节数组。
-    - `static byte[] subtract(byte[], byte[])` → 两整数减法，返回字节数组。
-    - `static byte[] multiply(byte[], int)` → 整数与一位整数乘法，返回字节数组。
-    - `static byte[] multiply(byte[], byte[])` → 两整数乘法，返回字节数组。
-    - `static byte[][] divide(byte[], int)` → 整数除以一位整数，返回 `{商, 余数}`。
-    - `static byte[][] divide(byte[], byte[])` → 两整数除法，返回 `{商, 余数}`。
-    - `static byte[] gcd(byte[], byte[])` → 两整数的最大公因数。
-    - `static byte[] power(byte[], int)` → 整数的正整数次幂。
+    - `static int compare_absolute(int[], int[])` → 比较两个整型数组表示的绝对值大小。
 
 - **静态方法（big_integer 对象运算）**：
 
     - `static big_integer add(big_integer, big_integer)` → 两高精度整数加法。
     - `static big_integer subtract(big_integer, big_integer)` → 两高精度整数减法。
-    - `static big_integer multiply(big_integer, int)` → 高精度整数与一位整数乘法。
+    - `static big_integer multiply(big_integer, int)` → 高精度整数与基本类型整数乘法。
     - `static big_integer multiply(big_integer, big_integer)` → 两高精度整数乘法。
-    - `static big_integer[] divide(big_integer, int)` → 除以一位整数，返回 `{商, 余数}`。
-    - `static big_integer[] divide(big_integer, big_integer)` → 两高精度整数除法，返回 `{商, 余数}`。
-    - `static big_integer gcd(big_integer, big_integer)` → 两高精度整数的最大公因数。
-    - `static big_integer power(big_integer, int)` → 高精度整数的正整数次幂。
+    - `static big_integer[] divide(big_integer, int)` → 除以基本类型整数，返回 `{商, 余数}`。若除数为0则返回 `null`。
+    - `static big_integer[] divide(big_integer, big_integer)` → 两高精度整数除法，返回 `{商, 余数}`。若除数为0则返回 `null`。
+    - `static big_integer gcd(big_integer, big_integer)` → 两高精度整数的最大公因数。`0` 与 `0` 的 `gcd` 定义为 `0`。
+    - `static big_integer lcm(big_integer, big_integer)` → 两高精度整数的最小公倍数。`0` 与 `0` 的 `lcm` 定义为 `0`。
+    - `static big_integer power(big_integer, int)` → 高精度整数的正整数次幂。若指数为负数或底数与指数同时为0则返回 `null`。
+    - `static big_integer factorial(int)` → 计算整数的阶乘。若整数为负数则返回 `null`。
 
 - **实例方法**：
 
-    - `int compareTo(big_integer another)` → 比较当前对象与指定对象的数值大小。
+    - `boolean increment()` → 自增1，返回位数是否改变。
+    - `boolean decrement()` → 自减1，返回位数是否改变。
+    - `int compareTo(big_integer another)` → 比较当前对象与指定对象的数值大小（实现 `Comparable<big_integer>` 接口）。
+    - `boolean equals(Object another)` → 判断与指定对象是否相等。
+    - `int hashCode()` → 返回哈希值。
     - `String toString()` → 返回整数的十进制字符串表示。
 
-- **注意**：此类实现了 `Comparable<big_integer>` 接口。`0` 与 `0` 的 `gcd` 定义为 `0`。除数为 `0` 时除法返回 `null`。底数与指数同时为 `0` 时幂运算返回 `null`。
+- **注意**：此类实现了 `Comparable<big_integer>` 接口。除数为 `0` 时除法返回 `null`。底数与指数同时为 `0` 时幂运算返回 `null`。
 
 #### big_rational（高精度有理数）
 
 - 高精度有理数类，支持任意大小的分数运算。有理数即分数，包含整数、有限小数和无限循环小数。
 
-- 内部以二维字节数组 `fraction[2][]` 存储分子和分母（低位优先），`fraction[0]` 为分子，`fraction[1]` 为分母。当 `fraction[1]==null` 时表示整数。
+- 内部以两个 `big_integer` 对象 `numerator`（分子）和 `denominator`（分母）存储。当 `denominator` 为 `null` 时表示整数。
 
 - **字段**：
 
-    - `byte fraction[][]` → 分子分母的字节数组表示。
-    - `int numerator_size` / `denominator_size` → 分子/分母的有效位数。
+    - `big_integer numerator` → 分子。
+    - `big_integer denominator` → 分母（`null` 时表示整数）。
     - `int mode` → 输出格式（`>0` 小数，`=0` 分数+小数，`<0` 分数）。
 
-- **构造器**：多个重载，支持从小数字符串（如 `"0.5"`、`"0.(3)"`）、分数分子分母字符串、分子分母字节数组构造。
+- **构造器**：多个重载，支持从各种形式构造：
 
-- **静态方法（大整数底层运算）**：
-
-    - `compare(byte[], byte[])` → 比较两个字节数组表示的大整数。
-    - `add/subtract/multiply/divide(byte[], byte[])` → 大整数四则运算。
-    - `gcd(byte[], byte[])` → 大整数最大公因数。
+    - `big_rational(String rational_string)` → 从小数字符串构造（如 `"0.5"`、`"0.(3)"`，用括号表示循环节）。
+    - `big_rational(String numerator_string, String denominator_string, int mode)` → 从分子分母字符串和输出模式构造。
+    - `big_rational(String numerator_string, String denominator_string)` → 从分子分母字符串构造（默认 `mode=0`）。
+    - `big_rational(int numerator, int denominator, int mode)` → 从基本类型整数分子分母和输出模式构造。
+    - `big_rational(int numerator, int denominator)` → 从基本类型整数分子分母构造（默认 `mode=0`）。
+    - `big_rational(big_integer numerator, big_integer denominator, int mode)` → 从高精度整数分子分母和输出模式构造。
+    - `big_rational(big_integer numerator, big_integer denominator)` → 从高精度整数分子分母构造（默认 `mode=0`）。
+    - `big_rational(big_integer numerator, big_integer denominator, int sign, int mode)` → 从高精度整数分子分母、符号和输出模式构造。
 
 - **静态方法（有理数运算）**：
 
-    - `common_denominator(big_rational, big_rational)` → 通分两个有理数（会修改传入对象），返回两个有理数各自通分乘数的字节数组。
-    - `add(big_rational, big_rational)` → 有理数加法，返回两数之和。
-    - `subtract(big_rational, big_rational)` → 有理数减法，返回两数之差。
-    - `multiply(big_rational, big_rational)` → 有理数乘法，返回两数之积。
-    - `divide(big_rational, big_rational)` → 有理数除法，返回两数之商；若除数为0则返回 `null`。
-
-    - `power(big_rational, int)` → 有理数的整数次幂运算，返回幂结果。
+    - `static big_integer[] common_denominator(big_rational, big_rational)` → 通分两个有理数（会修改传入对象），返回两个 `big_integer` 的数组，分别为两个有理数各自通分乘数。
+    - `static big_rational add(big_rational, big_rational)` → 有理数加法，返回两数之和。
+    - `static big_rational subtract(big_rational, big_rational)` → 有理数减法，返回两数之差。
+    - `static big_rational multiply(big_rational, big_rational)` → 有理数乘法，返回两数之积。
+    - `static big_rational divide(big_rational, big_rational)` → 有理数除法，返回两数之商；若除数为0则返回 `null`。
+    - `static big_rational power(big_rational, int)` → 有理数的整数次幂运算，返回幂结果。
 
 - **实例方法**：
 
-    - `reduce()` → 约分当前有理数对象（会修改调用对象），返回分子分母最大公因数。
-    - `toString()` → 按 `mode` 格式输出。
+    - `big_integer reduce()` → 约分当前有理数对象（会修改调用对象），返回分子分母的最大公因数。
+    - `String toString()` → 按 `mode` 格式输出。
 
 #### complex（复数）
 
