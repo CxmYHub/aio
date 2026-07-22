@@ -1,12 +1,12 @@
 package tools.mathematics;
+import java.util.HashMap;
 /**
 <p>高精度有理数类。</p><br>
 有理数，即分数，包含整数、有限小数和无限循环小数。<br>
 任何有理数都可表示为分数。<br>
-本高精度有理数以二维字节数组<code>fraction[2][]</code>和分子、分母的位数实现。<br>
-二维数组中的每个元素表示分子或分母中的一位，低位优先存储。<br>
-其中，<code>fraction[0]</code>和分子位数共同表示分子，<code>fraction[1]</code>和分母位数共同表示分母。<br>
-当<code>fraction[1]==null</code>时，为整数对象。<br>
+本高精度有理数以两个高精度整数对象实现。<br>
+两个高精度整数对象分别表示分子和分母。<br>
+当分母为<code>null</code>时，为整数对象。<br>
 字符串输出默认为分数&nbsp;&nbsp;小数格式，可通过设置<code>mode</code>改变输出格式：<br>
 <ul>
     <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
@@ -16,697 +16,156 @@ package tools.mathematics;
 */
 public class big_rational
 {
-    public byte fraction[][];
-    public int numerator_size;
-    public int denominator_size;
+    public big_integer numerator;
+    public big_integer denominator;
     public int mode=0;
     /**
-    比较两个字节数组低位优先表示的整数的大小。
-    @param number1 第一个整数的字节数组低位优先表示。
-    @param number2 第二个整数的字节数组低位优先表示。
-    @return
-    <ul>
-        <li>0：<code>number1=number2</code>。</li>
-        <li>&gt;0：<code>number1&gt;number2</code>。</li>
-        <li>&lt;0：<code>number1&lt;number2</code>。</li>
-    </ul>
-    */
-    public static int compare(byte number1[],byte number2[])
-    {
-        int size1=number1.length;
-        int size2=number2.length;
-        for(;size1>0&&number1[size1-1]==0;size1--);
-        for(;size2>0&&number2[size2-1]==0;size2--);
-        int positive1=size1>0?(number1[size1-1]>=0?1:-1):0;
-        int positive2=size2>0?(number2[size2-1]>=0?1:-1):0;
-        if(positive1!=positive2)
-        {
-            return positive1-positive2;
-        }
-        else if(positive1==0)
-        {
-            return 0;
-        }
-        if(size1!=size2)
-        {
-            return (size1-size2)*positive1;
-        }
-        else
-        {
-            for(int i=size1-1;i>=0;i--)
-            {
-                if(number1[i]!=number2[i])
-                {
-                    if(i==size1-1)
-                    {
-                        return number1[i]-number2[i];
-                    }
-                    return (number1[i]-number2[i])*positive1;
-                }
-            }
-        }
-        return 0;
-    }
-    /**
-    计算两个字节数组低位优先表示的整数的和 <code>addend1</code>+<code>addend2</code>。
-    @param addend1 第一个加数的字节数组低位优先表示。
-    @param addend2 第二个加数的字节数组低位优先表示。
-    @return 和的字节数组低位优先表示。
-    */
-    public static byte[] add(byte addend1[],byte addend2[])
-    {
-        int size1=addend1.length;
-        int size2=addend2.length;
-        for(;size1>0&&addend1[size1-1]==0;size1--);
-        for(;size2>0&&addend2[size2-1]==0;size2--);
-        int positive1=size1>0?(addend1[size1-1]>=0?1:-1):0;
-        int positive2=size2>0?(addend2[size2-1]>=0?1:-1):0;
-        int size_sum=size1>size2?size1+1:size2+1;
-        if(positive1==0||positive2==0)
-        {
-            byte sum[]=new byte[size_sum+1];
-            System.arraycopy(positive1==0?addend2:addend1,0,sum,0,positive1==0?size2:size1);
-            return sum;
-        }
-        byte inner_addend1[]=new byte[size1];
-        byte inner_addend2[]=new byte[size2];
-        System.arraycopy(addend1,0,inner_addend1,0,size1);
-        System.arraycopy(addend2,0,inner_addend2,0,size2);
-        if(positive1==positive2)
-        {
-            inner_addend1[size1-1]*=positive1;
-            inner_addend2[size2-1]*=positive1;
-            byte sum[]=new byte[size_sum+1];
-            if(size1<size2)
-            {
-                byte temp[]=inner_addend1;
-                inner_addend1=inner_addend2;
-                inner_addend2=temp;
-                int temp_size=size1;
-                size1=size2;
-                size2=temp_size;
-            }
-            for(int i=0;i<size2;i++)
-            {
-                sum[i+1]+=(byte)((sum[i]+inner_addend1[i]+inner_addend2[i])/10);
-                sum[i]=(byte)((sum[i]+inner_addend1[i]+inner_addend2[i])%10);
-            }
-            for(int i=size2;i<size1;i++)
-            {
-                sum[i+1]+=(byte)((sum[i]+inner_addend1[i])/10);
-                sum[i]=(byte)((sum[i]+inner_addend1[i])%10);
-            }
-            for(;size_sum>0&&sum[size_sum-1]==0;size_sum--);
-            sum[size_sum-1]*=positive1;
-            return sum;
-        }
-        else
-        {
-            inner_addend1[size1-1]*=positive1;
-            inner_addend2[size2-1]*=positive2;
-            int positive_result=compare(inner_addend1,inner_addend2);
-            positive_result=positive_result==0?0:(positive_result>0?1:-1);
-            if(positive_result==0)
-            {
-                return new byte[]{0};
-            }
-            else if(positive_result<0)
-            {
-                byte temp[]=inner_addend1;
-                inner_addend1=inner_addend2;
-                inner_addend2=temp;
-                int temp_size=size1;
-                size1=size2;
-                size2=temp_size;
-            }
-            byte sum[]=new byte[size_sum+1];
-            for(int i=0;i<size2;i++)
-            {
-                sum[i+1]=(byte)Math.floorDiv(sum[i]+inner_addend1[i]-inner_addend2[i],10);
-                sum[i]=(byte)Math.floorMod(sum[i]+inner_addend1[i]-inner_addend2[i],10);
-            }
-            for(int i=size2;i<size1;i++)
-            {
-                sum[i+1]+=(byte)Math.floorDiv(sum[i]+inner_addend1[i],10);
-                sum[i]=(byte)Math.floorMod(sum[i]+inner_addend1[i],10);
-            }
-            for(;size_sum>0&&sum[size_sum-1]==0;size_sum--);
-            sum[size_sum-1]*=positive1*positive_result;
-            return sum;
-        }
-    }
-    /**
-    计算两个字节数组低位优先表示的整数的差 <code>minuend</code>-<code>subtrahend</code>。
-    @param minuend 被减数的字节数组低位优先表示。
-    @param subtrahend 减数的字节数组低位优先表示。
-    @return 差的字节数组低位优先表示。
-    */
-    public static byte[] subtract(byte minuend[],byte subtrahend[])
-    {
-        int size_minuend=minuend.length;
-        int size_subtrahend=subtrahend.length;
-        for(;size_minuend>0&&minuend[size_minuend-1]==0;size_minuend--);
-        for(;size_subtrahend>0&&subtrahend[size_subtrahend-1]==0;size_subtrahend--);
-        int positive_minuend=size_minuend>0?(minuend[size_minuend-1]>=0?1:-1):0;
-        int positive_subtrahend=size_subtrahend>0?(subtrahend[size_subtrahend-1]>=0?1:-1):0;
-        int positive_result=compare(minuend,subtrahend);
-        positive_result=positive_result==0?0:(positive_result>0?1:-1);
-        int size_difference=size_minuend>size_subtrahend?size_minuend+1:size_subtrahend+1;
-        if(positive_result==0)
-        {
-            return new byte[]{0};
-        }
-        else if(positive_minuend==0||positive_subtrahend==0)
-        {
-            byte difference[]=new byte[size_difference+1];
-            int size_result=size_minuend>size_subtrahend?size_minuend:size_subtrahend;
-            System.arraycopy(positive_subtrahend==0?minuend:subtrahend,0,difference,0,size_result);
-            difference[size_result-1]*=positive_subtrahend==0?1:-1;
-            return difference;
-        }
-        byte inner_minuend[]=new byte[size_minuend];
-        byte inner_subtrahend[]=new byte[size_subtrahend];
-        System.arraycopy(minuend,0,inner_minuend,0,size_minuend);
-        System.arraycopy(subtrahend,0,inner_subtrahend,0,size_subtrahend);
-        if(positive_minuend==positive_subtrahend)
-        {
-            inner_minuend[size_minuend-1]*=positive_minuend;
-            inner_subtrahend[size_subtrahend-1]*=positive_minuend;
-            if(positive_result*positive_minuend<0)
-            {
-                byte temp[]=inner_minuend;
-                inner_minuend=inner_subtrahend;
-                inner_subtrahend=temp;
-                int temp_size=size_minuend;
-                size_minuend=size_subtrahend;
-                size_subtrahend=temp_size;
-            }
-            byte difference[]=new byte[size_difference+1];
-            for(int i=0;i<size_subtrahend;i++)
-            {
-                difference[i+1]=(byte)Math.floorDiv(difference[i]+inner_minuend[i]-inner_subtrahend[i],10);
-                difference[i]=(byte)Math.floorMod(difference[i]+inner_minuend[i]-inner_subtrahend[i],10);
-            }
-            for(int i=size_subtrahend;i<size_minuend;i++)
-            {
-                difference[i+1]=(byte)Math.floorDiv(difference[i]+inner_minuend[i],10);
-                difference[i]=(byte)Math.floorMod(difference[i]+inner_minuend[i],10);
-            }
-            for(;size_difference>0&&difference[size_difference-1]==0;size_difference--);
-            difference[size_difference-1]*=positive_result;
-            return difference;
-        }
-        else
-        {
-            inner_minuend[size_minuend-1]*=positive_minuend;
-            inner_subtrahend[size_subtrahend-1]*=positive_subtrahend;
-            int positive_absolute=compare(inner_minuend,inner_subtrahend);
-            positive_absolute=positive_absolute==0?0:(positive_absolute>0?1:-1);
-            if(positive_absolute==0)
-            {
-                inner_minuend[size_minuend-1]*=positive_minuend;
-                inner_subtrahend[size_subtrahend-1]*=positive_subtrahend;
-                return new byte[]{0};
-            }
-            else if(positive_absolute<0)
-            {
-                byte temp[]=inner_minuend;
-                inner_minuend=inner_subtrahend;
-                inner_subtrahend=temp;
-                int temp_size=size_minuend;
-                size_minuend=size_subtrahend;
-                size_subtrahend=temp_size;
-            }
-            byte difference[]=new byte[size_difference+1];
-            for(int i=0;i<size_subtrahend;i++)
-            {
-                difference[i+1]=(byte)((difference[i]+inner_minuend[i]+inner_subtrahend[i])/10);
-                difference[i]=(byte)((difference[i]+inner_minuend[i]+inner_subtrahend[i])%10);
-            }
-            for(int i=size_subtrahend;i<size_minuend;i++)
-            {
-                difference[i+1]=(byte)((difference[i]+inner_minuend[i])/10);
-                difference[i]=(byte)((difference[i]+inner_minuend[i])%10);
-            }
-            for(;size_difference>0&&difference[size_difference-1]==0;size_difference--);
-            difference[size_difference-1]*=positive_result;
-            return difference;
-        }
-    }
-    /**
-    计算一个字节数组低位优先表示的整数与一个一位整数的积 <code>factor</code>*<code>one_bit_multiplier</code>。
-    @param factor 因数的字节数组低位优先表示。
-    @param one_bit_multiplier 一位因数。
-    @return 积的字节数组低位优先表示。
-    */
-    public static byte[] multiply(byte factor[],int one_bit_multiplier)
-    {
-        if(one_bit_multiplier==0)
-        {
-            return new byte[]{0};
-        }
-        int size1=factor.length;
-        for(;size1>0&&factor[size1-1]==0;size1--);
-        if(size1==0)
-        {
-            return new byte[]{0};
-        }
-        int positive_factor=size1>0?(factor[size1-1]>=0?1:-1):0;
-        int positive_multiplier=one_bit_multiplier>=0?1:-1;
-        byte product[]=new byte[size1+2];
-        factor[size1-1]*=positive_factor;
-        one_bit_multiplier*=positive_multiplier;
-        for(int i=0;i<size1;i++)
-        {
-            product[i+1]=(byte)((product[i]+factor[i]*one_bit_multiplier)/10);
-            product[i]=(byte)((product[i]+factor[i]*one_bit_multiplier)%10);
-        }
-        if(positive_factor!=positive_multiplier)
-        {
-            int size_product=product.length;
-            for(;size_product>0&&product[size_product-1]==0;size_product--);
-            product[size_product-1]*=-1;
-        }
-        factor[size1-1]*=positive_factor;
-        return product;
-    }
-    /**
-    计算两个字节数组低位优先表示的整数的积 <code>factor1</code>*<code>factor2</code>。
-    @param factor1 第一个整数的字节数组低位优先表示。
-    @param factor2 第二个整数的字节数组低位优先表示。
-    @return 积的字节数组低位优先表示。
-    */
-    public static byte[] multiply(byte factor1[],byte factor2[])
-    {
-        int size1=factor1.length;
-        int size2=factor2.length;
-        for(;size1>0&&factor1[size1-1]==0;size1--);
-        for(;size2>0&&factor2[size2-1]==0;size2--);
-        if(size1==0||size2==0)
-        {
-            return new byte[]{0};
-        }
-        byte inner_factor1[]=new byte[size1];
-        byte inner_factor2[]=new byte[size2];
-        System.arraycopy(factor1,0,inner_factor1,0,size1);
-        System.arraycopy(factor2,0,inner_factor2,0,size2);
-        int positive1=size1>0?(inner_factor1[size1-1]>=0?1:-1):0;
-        int positive2=size2>0?(inner_factor2[size2-1]>=0?1:-1):0;
-        byte product[]=new byte[size1+size2+1];
-        inner_factor1[size1-1]*=positive1;
-        inner_factor2[size2-1]*=positive2;
-        for(int i=0;i<size1;i++)
-        {
-            for(int j=0;j<size2;j++)
-            {
-                product[i+j+1]+=(byte)((product[i+j]+inner_factor1[i]*inner_factor2[j])/10);
-                product[i+j]=(byte)((product[i+j]+inner_factor1[i]*inner_factor2[j])%10);
-            }
-        }
-        if(positive1!=positive2)
-        {
-            int size_product=product.length;
-            for(;size_product>0&&product[size_product-1]==0;size_product--);
-            product[size_product-1]*=-1;
-        }
-        return product;
-    }
-    /**
-    计算一个字节数组低位优先表示的整数与一个一位整数的商 <code>dividend</code>/<code>one_bit_divisor</code>。
-    @param dividend 被除数的字节数组低位优先表示。
-    @param one_bit_divisor 一位除数。
-    @return 一个二维字节数组：
-    <ol>
-        <li>商的字节数组低位优先表示。</li>
-        <li>余数的字节数组低位优先表示。</li>
-    </ol><br>
-    若除数为0，则返回<code>null</code>。
-    */
-    public static byte[][] divide(byte dividend[],int one_bit_divisor)
-    {
-        if(one_bit_divisor==0)
-        {
-            return null;
-        }
-        int dividend_size=dividend.length;
-        for(;dividend_size>0&&dividend[dividend_size-1]==0;dividend_size--);
-        int positive_dividend=dividend_size>0?(dividend[dividend_size-1]>=0?1:-1):0;
-        int positive_divisor=one_bit_divisor>=0?1:-1;
-        if(positive_dividend==0)
-        {
-            return new byte[][]{{0},{0}};
-        }
-        byte quotient[]=new byte[dividend_size+1];
-        if(one_bit_divisor==1||one_bit_divisor==-1)
-        {
-            System.arraycopy(dividend,0,quotient,0,dividend_size);
-            quotient[dividend_size-1]*=positive_divisor;
-            return new byte[][]{quotient,new byte[]{0}};
-        }
-        dividend[dividend_size-1]*=positive_dividend;
-        one_bit_divisor*=positive_divisor;
-        int remainder=0;
-        for(int i=dividend_size-1;i>=0;i--)
-        {
-            remainder=remainder*10+dividend[i];
-            quotient[i]=(byte)(remainder/one_bit_divisor);
-            remainder%=one_bit_divisor;
-        }
-        int quotient_size=dividend_size;
-        for(;quotient_size>0&&quotient[quotient_size-1]==0;quotient_size--);
-        if(remainder>0&&positive_dividend<0)
-        {
-            quotient[0]++;
-            remainder=one_bit_divisor-remainder;
-        }
-        if(quotient_size>0)
-        {
-            quotient[quotient_size-1]*=positive_dividend*positive_divisor;
-        }
-        dividend[dividend_size-1]*=positive_dividend;
-        byte result[]=new byte[quotient_size+1];
-        System.arraycopy(quotient,0,result,0,quotient_size);
-        return new byte[][]{result,new byte[]{(byte)remainder}};
-    }
-    /**
-    计算两个字节数组低位优先表示的整数的商 <code>dividend</code>/<code>divisor</code>。
-    @param dividend 被除数的字节数组低位优先表示。
-    @param divisor 除数的字节数组低位优先表示。
-    @return 一个二维字节数组：
-    <ol>
-        <li>商的字节数组低位优先表示。</li>
-        <li>余数的字节数组低位优先表示。</li>
-    </ol><br>
-    若除数为0，则返回<code>null</code>。
-    */
-    public static byte[][] divide(byte dividend[],byte divisor[])
-    {
-        int dividend_size=dividend.length;
-        int divisor_size=divisor.length;
-        for(;dividend_size>0&&dividend[dividend_size-1]==0;dividend_size--);
-        for(;divisor_size>0&&divisor[divisor_size-1]==0;divisor_size--);
-        int positive_dividend=dividend_size>0?(dividend[dividend_size-1]>=0?1:-1):0;
-        int positive_divisor=divisor_size>0?(divisor[divisor_size-1]>=0?1:-1):0;
-        if(positive_divisor==0)
-        {
-            return null;
-        }
-        else if(positive_dividend==0)
-        {
-            return new byte[][]{{0},{0}};
-        }
-        byte inner_dividend[]=new byte[dividend_size+1];
-        byte inner_divisor[]=new byte[divisor_size+1];
-        System.arraycopy(dividend,0,inner_dividend,0,dividend_size);
-        System.arraycopy(divisor,0,inner_divisor,0,divisor_size);
-        inner_dividend[dividend_size-1]*=positive_dividend;
-        inner_divisor[divisor_size-1]*=positive_divisor;
-        int delta=10/(inner_divisor[divisor_size-1]+1);
-        if(delta>1)
-        {
-            inner_dividend=multiply(inner_dividend,delta);
-            inner_divisor=multiply(inner_divisor,delta);
-            for(dividend_size=inner_dividend.length;dividend_size>0&&inner_dividend[dividend_size-1]==0;dividend_size--);
-            for(divisor_size=inner_divisor.length;divisor_size>0&&inner_divisor[divisor_size-1]==0;divisor_size--);
-        }
-        int quotient_size=dividend_size-divisor_size+2;
-        quotient_size=quotient_size>0?quotient_size:1;
-        byte quotient[]=new byte[quotient_size];
-        for(int i=dividend_size-divisor_size;i>=0;i--)
-        {
-            int quotient_test=(inner_dividend[i+divisor_size]*10+inner_dividend[i+divisor_size-1])/inner_divisor[divisor_size-1];
-            int remainder_test=(inner_dividend[i+divisor_size]*10+inner_dividend[i+divisor_size-1])%inner_divisor[divisor_size-1];
-            if(divisor_size>1&&(quotient_test>=10||quotient_test*inner_divisor[divisor_size-2]>remainder_test*10+inner_dividend[i+divisor_size-2]))
-            {
-                quotient_test--;
-                remainder_test+=inner_divisor[divisor_size-1];
-                if(remainder_test<10&&(quotient_test>=10||quotient_test*inner_divisor[divisor_size-2]>remainder_test*10+inner_dividend[i+divisor_size-2]))
-                {
-                    quotient_test--;
-                    remainder_test+=inner_divisor[divisor_size-1];
-                }
-            }
-            for(int j=i;j<i+divisor_size;j++)
-            {
-                inner_dividend[j+1]+=(byte)Math.floorDiv(inner_dividend[j]-quotient_test*inner_divisor[j-i],10);
-                inner_dividend[j]=(byte)Math.floorMod(inner_dividend[j]-quotient_test*inner_divisor[j-i],10);
-            }
-            if(inner_dividend[i+divisor_size]<0)
-            {
-                quotient_test--;
-                for(int j=i;j<i+divisor_size;j++)
-                {
-                    inner_dividend[j]=(byte)((inner_dividend[j]+inner_divisor[j-i])%10);
-                    if(inner_dividend[j]>9)
-                    {
-                        inner_dividend[j+1]+=(byte)(inner_dividend[j]/10);
-                        inner_dividend[j]=(byte)(inner_dividend[j]%10);
-                    }
-                }
-            }
-            quotient[i]=(byte)quotient_test;
-        }
-        inner_dividend=divide(inner_dividend,delta)[0];
-        for(dividend_size=inner_dividend.length;dividend_size>0&&inner_dividend[dividend_size-1]==0;dividend_size--);
-        for(quotient_size=quotient.length;quotient_size>0&&quotient[quotient_size-1]==0;quotient_size--);
-        if(dividend_size>0&&positive_dividend<0)
-        {
-            quotient_size=quotient_size==0?1:quotient_size;
-            quotient[0]++;
-            int i=0;
-            for(;i<quotient_size&&quotient[i]>9;i++)
-            {
-                quotient[i+1]+=1;
-                quotient[i]-=10;
-            }
-            i++;
-            quotient_size=i>quotient_size?i:quotient_size;
-            for(divisor_size=divisor.length;divisor_size>0&&divisor[divisor_size-1]==0;divisor_size--);
-            divisor[divisor_size-1]*=positive_divisor;
-            inner_dividend=subtract(divisor,inner_dividend);
-            divisor[divisor_size-1]*=positive_divisor;
-            for(dividend_size=inner_dividend.length;dividend_size>0&&inner_dividend[dividend_size-1]==0;dividend_size--);
-        }
-        if(quotient_size>0)
-        {
-            quotient[quotient_size-1]*=positive_dividend*positive_divisor;
-        }
-        byte remainder[]=new byte[dividend_size+1];
-        System.arraycopy(inner_dividend,0,remainder,0,dividend_size);
-        byte result[][]={quotient,remainder};
-        return result;
-    }
-    /**
-    计算两个字节数组低位优先表示的整数的最大公因数。
-    @param number1 第一个整数的字节数组低位优先表示。
-    @param number2 第二个整数的字节数组低位优先表示。
-    @return 最大公因数的字节数组低位优先表示。<br>
-    定义0与0的最大公因数为0。
-    */
-    public static byte[] gcd(byte number1[],byte number2[])
-    {
-        int size1=number1.length;
-        int size2=number2.length;
-        for(;size1>0&&number1[size1-1]==0;size1--);
-        for(;size2>0&&number2[size2-1]==0;size2--);
-        if(size1==0&&size2==0)
-        {
-            return new byte[]{0};
-        }
-        else if(size1==0||size2==0)
-        {
-            int result_size=size1>0?size1:size2;
-            byte result[]=new byte[result_size];
-            System.arraycopy(size1>0?number1:number2,0,result,0,result_size);
-            return result;
-        }
-        int relation=compare(number1,number2);
-        if(relation==0)
-        {
-            byte result[]=new byte[number1.length];
-            System.arraycopy(number1,0,result,0,number1.length);
-            return result;
-        }
-        else
-        {
-            if(relation<0)
-            {
-                byte temp[]=number1;
-                number1=number2;
-                number2=temp;
-            }
-            do
-            {
-                byte result[][]=divide(number1,number2);
-                number1=number2;
-                number2=result[1];
-                for(size2=number2.length;size2>0&&number2[size2-1]==0;size2--);
-            }
-            while(size2>0);
-            for(size1=number1.length;size1>0&&number1[size1-1]==0;size1--);
-            number2=number1;
-            number1=new byte[size1+1];
-            System.arraycopy(number2,0,number1,0,size1);
-            if(number1[size1-1]<0)
-            {
-                number1[size1-1]*=-1;
-            }
-            return number1;
-        }
-    }
-    /**
     <p>此方法会修改调用对象。</p><br>
-    对当前有理数对象进行约分。
-    @return 分子与分母的最大公因数的字节数组低位优先表示。
+    对有理数进行约分。
+    @return 分子和分母的最大公因数
     */
-    public byte[] reduce()
+    public big_integer reduce()
     {
-        if(fraction[1]==null)
+        big_integer gcd=big_integer.gcd(numerator,denominator);
+        numerator=big_integer.divide(numerator,gcd)[0];
+        denominator=big_integer.divide(denominator,gcd)[0];
+        if(denominator.size==1&&denominator.number[0]==1)
         {
-            return new byte[]{1};
+            numerator.sign*=denominator.sign;
+            denominator=null;
         }
-        int relation=compare(fraction[0],fraction[1]);
-        if(relation==0)
-        {
-            fraction[1]=null;
-            denominator_size=0;
-            while(numerator_size>1)
-            {
-                fraction[0][--numerator_size]=0;
-            }
-            fraction[0][0]=1;
-            return new byte[]{0};
-        }
-        else
-        {
-            byte gcd[]=gcd(fraction[0],fraction[1]);
-            fraction[0]=divide(fraction[0],gcd)[0];
-            fraction[1]=divide(fraction[1],gcd)[0];
-            for(numerator_size=fraction[0].length;numerator_size>0&&fraction[0][numerator_size-1]==0;numerator_size--);
-            for(denominator_size=fraction[1].length;denominator_size>0&&fraction[1][denominator_size-1]==0;denominator_size--);
-            if(numerator_size==0||denominator_size==1&&fraction[1][0]==1)
-            {
-                fraction[1]=null;
-                denominator_size=0;
-            }
-            return gcd;
-        }
+        return gcd;
     }
     /**
     通过有理数小数形式字符串构造高精度有理数对象。
-    @param rational_string 字符串表示的小数形式有理数。
+    @param rational_string 字符串表示的小数形式有理数。<br>
+    用括号表示循环节，例如<code>0.(3)</code>表示0.333333...。
     */
     public big_rational(String rational_string)
     {
-        char number_chars[]=rational_string.toCharArray();
-        int length=number_chars.length;
-        int offset=0;
-        int point_index=length-1;
-        boolean is_decimal=false;
-        boolean is_loop=false;
+        int length=rational_string.length();
+        StringBuilder unloop_builder=new StringBuilder();
+        StringBuilder loop_builder=new StringBuilder();
         boolean is_negative=false;
-        if(number_chars[0]=='-')
+        int offset=0;
+        if(rational_string.charAt(0)=='-')
         {
             is_negative=true;
             offset++;
         }
-        for(int i=1;i<length;i++)
+        else if(rational_string.charAt(0)=='+')
         {
-            char now=number_chars[i];
+            offset++;
+        }
+        int dot_index=-1;
+        int loop_start=-1;
+        int loop_end=-1;
+        for(int i=offset;i<length;i++)
+        {
+            char now=rational_string.charAt(i);
             if(now=='.')
             {
-                is_decimal=true;
-                point_index=i-(is_negative?1:0);
+                dot_index=i-offset;
                 offset++;
             }
-            else if(now=='('||now==')')
+            else if(now=='(')
             {
-                is_loop=true;
-                offset+=2;
-                break;
+                loop_start=i-offset;
+                loop_builder.append(unloop_builder);
+                offset++;
             }
-        }
-        fraction=new byte[2][];
-        byte numerator[]=fraction[0]=new byte[length-offset+1];
-        offset=0;
-        for(int i=0;i<length>>1;i++)
-        {
-            char temp=number_chars[i];
-            number_chars[i]=number_chars[length-1-i];
-            number_chars[length-1-i]=temp;
-        }
-        length-=is_negative?1:0;
-        if(is_decimal)
-        {
-            byte denominator[]=fraction[1]=new byte[length-point_index+1];
-            if(is_loop)
+            else if(now==')')
             {
-                int loop_length=0;
-                boolean loop_end=false;
-                for(int i=0;i<length;i++)
-                {
-                    char now=number_chars[i];
-                    if(now==')')
-                    {
-                        offset++;
-                        loop_length=i;
-                    }
-                    else if(now=='(')
-                    {
-                        offset++;
-                        loop_length=i-loop_length-1;
-                        loop_end=true;
-                    }
-                    else if(now=='.')
-                    {
-                        offset++;
-                        denominator_size=i-offset+1;
-                    }
-                    else 
-                    {
-                        numerator[i-offset]=(byte)(now-'0');
-                        if(loop_end)
-                        {
-                            numerator[i-loop_length-offset+1]+=(byte)(Math.floorDiv(numerator[i-loop_length-offset]-now+'0',10));
-                            numerator[i-loop_length-offset]=(byte)(Math.floorMod(numerator[i-loop_length-offset]-now+'0',10));
-                        }
-                    }
-                }
-                for(int i=denominator_size-loop_length;i<denominator_size;i++)
-                {
-                    denominator[i]=9;
-                }
+                loop_end=i-offset;
+                offset++;
+            }
+            else if(loop_start==-1)
+            {
+                unloop_builder.append(now);
             }
             else
             {
-                for(int i=0;i<length;i++)
-                {
-                    char now=number_chars[i];
-                    if(now=='.')
-                    {
-                        offset=1;
-                        denominator_size=i+1;
-                    }
-                    else
-                    {
-                        numerator[i-offset]=(byte)(now-'0');
-                    }
-                }
-                numerator_size=length-1;
-                denominator[denominator_size-1]=1;
+                loop_builder.append(now);
             }
+        }
+        length-=offset;
+        if(dot_index==-1)
+        {
+            numerator=new big_integer(unloop_builder.toString());
+            numerator.sign=is_negative?-1:1;
+            denominator=null;
         }
         else
         {
-            for(;numerator_size<length;numerator_size++)
+            StringBuilder denominator_builder=new StringBuilder();
+            if(loop_start==-1)
             {
-                numerator[numerator_size]=(byte)(number_chars[numerator_size]-'0');
+                numerator=new big_integer(unloop_builder.toString());
+                numerator.sign=is_negative?-1:1;
+                denominator_builder.append("1");
+                for(int i=dot_index;i<length;i++)
+                {
+                    denominator_builder.append("0");
+                }
+                denominator=new big_integer(denominator_builder.toString());
             }
+            else
+            {
+                big_integer unloop=new big_integer(unloop_builder.toString());
+                big_integer loop=new big_integer(loop_builder.toString());
+                numerator=big_integer.subtract(loop,unloop);
+                numerator.sign=is_negative?-1:1;
+                for(int i=loop_start;i<loop_end;i++)
+                {
+                    denominator_builder.append("9");
+                }
+                for(int i=dot_index;i<loop_start;i++)
+                {
+                    denominator_builder.append("0");
+                }
+                denominator=new big_integer(denominator_builder.toString());
+            }
+            reduce();
         }
-        reduce();
-        if(numerator_size>0)
+    }
+    /**
+    通过有理数分数形式字符串和字符串输出模式构造高精度有理数对象。
+    @param numerator_string 字符串表示的分子。
+    @param denominator_string 字符串表示的分母。
+    @param mode 字符串输出模式。<br>
+    <ul>
+        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
+        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+    </ul>
+    */
+    public big_rational(String numerator_string,String denominator_string,int mode)
+    {
+        this.mode=mode;
+        numerator=new big_integer(numerator_string);
+        boolean has_denominator=false;
+        if(denominator_string!=null)
         {
-            fraction[0][numerator_size-1]*=is_negative?-1:1;
+            int denominator_length=denominator_string.length();
+            for(int i=0;i<denominator_length;i++)
+            {
+                char now=denominator_string.charAt(i);
+                if(now>='1'&&now<='9')
+                {
+                    if(i<denominator_length-1||now>='2')
+                    {
+                        has_denominator=true;
+                    }
+                    break;
+                }
+            }
+            if(has_denominator)
+            {
+                denominator=new big_integer(denominator_string);
+                numerator.sign*=denominator.sign;
+                denominator.sign=1;
+                reduce();
+            }
         }
     }
     /**
@@ -716,285 +175,298 @@ public class big_rational
     */
     public big_rational(String numerator_string,String denominator_string)
     {
-        int numerator_length=numerator_string.length();
-        int denominator_length=denominator_string.length();
-        boolean is_negative=numerator_string.charAt(0)=='-';
-        int offset=is_negative?1:0;
-        numerator_size=numerator_length-offset;
-        denominator_size=denominator_length;
-        fraction=new byte[2][];
-        byte numerator[]=fraction[0]=new byte[numerator_size+1];
-        byte denominator[]=fraction[1]=new byte[denominator_size+1];
-        for(int i=0;i<numerator_size;i++)
-        {
-            numerator[i]=(byte)(numerator_string.charAt(numerator_size-i-1+offset)-'0');
-        }
-        for(int i=0;i<denominator_size;i++)
-        {
-            denominator[i]=(byte)(denominator_string.charAt(denominator_size-i-1)-'0');
-        }
-        reduce();
-        if(numerator_size>0)
-        {
-            fraction[0][numerator_size-1]*=is_negative?-1:1;
-        }
+        this(numerator_string,denominator_string,0);
     }
     /**
-    通过有理数分数字节数组低位优先表示构造高精度有理数对象。
-    @param numerator_array 分子字节数组低位优先表示，表示分子。
-    @param denominator_array 分母字节数组低位优先表示，表示分母。
-    */
-    public big_rational(byte numerator_array[],byte denominator_array[])
-    {
-        this(numerator_array,denominator_array,0);
-    }
-    /**
-    通过有理数分数字节数组低位优先表示构造高精度有理数对象。
-    @param numerator_array 分子字节数组低位优先表示，表示分子。
-    @param denominator_array 分母字节数组低位优先表示，表示分母。
-    @param mode 字符串输出模式，0表示正，-1表示负。<br>
+    通过有理数分子和分母以及字符串输出模式构造高精度有理数对象。
+    @param numerator 整数表示的分子。
+    @param denominator 整数表示的分母。
+    @param mode 字符串输出模式。<br>
     <ul>
         <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
         <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
         <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
     </ul>
     */
-    public big_rational(byte numerator_array[],byte denominator_array[],int mode)
+    public big_rational(int numerator,int denominator,int mode)
     {
-        for(numerator_size=numerator_array.length;numerator_size>0&&numerator_array[numerator_size-1]==0;numerator_size--);
-        fraction=new byte[2][];
-        if(numerator_size==0)
+        this.mode=mode;
+        if(numerator==0)
         {
-            fraction[0]=new byte[]{0};
-            fraction[1]=null;
-            return;
+            this.numerator=new big_integer(0);
+            this.denominator=null;
         }
-        fraction[0]=new byte[numerator_size+1];
-        System.arraycopy(numerator_array,0,fraction[0],0,numerator_size);
-        if(denominator_array!=null)
+        else
         {
-            for(denominator_size=denominator_array.length;denominator_size>0&&denominator_array[denominator_size-1]==0;denominator_size--);
-            if(denominator_size>0)
+            if(denominator<0)
             {
-                fraction[1]=new byte[denominator_size+1];
-                System.arraycopy(denominator_array,0,fraction[1],0,denominator_size);
-                boolean is_negative=fraction[0][numerator_size-1]<0;
-                fraction[0][numerator_size-1]*=is_negative?-1:1;
+                numerator=-numerator;
+                denominator=-denominator;
+            }
+            this.numerator=new big_integer(numerator);
+            if(denominator<=1)
+            {
+                this.denominator=null;
+            }
+            else
+            {
+                this.denominator=new big_integer(denominator);
                 reduce();
-                fraction[0][numerator_size-1]*=is_negative?-1:1;
             }
         }
+    }
+    /**
+    通过有理数分子和分母构造高精度有理数对象。
+    @param numerator 整数表示的分子。
+    @param denominator 整数表示的分母。
+    */
+    public big_rational(int numerator,int denominator)
+    {
+        this(numerator,denominator,0);
+    }
+    /**
+    通过高精度整数分子和分母以及字符串输出模式构造高精度有理数对象。
+    @param numerator 高精度整数表示的分子。
+    @param denominator 高精度整数表示的分母。
+    @param mode 字符串输出模式。<br>
+    <ul>
+        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
+        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+    </ul>
+    */
+    public big_rational(big_integer numerator,big_integer denominator,int mode)
+    {
         this.mode=mode;
+        this.numerator=new big_integer(numerator.number,numerator.sign);
+        if(denominator==null)
+        {
+        }
+        else if(denominator.size==0||denominator.size==1&&denominator.number[0]==1)
+        {
+            this.numerator.sign*=denominator.sign;
+            this.denominator=null;
+        }
+        else
+        {
+            this.numerator.sign*=denominator.sign;
+            this.denominator=new big_integer(denominator.number,1);
+            reduce();
+        }
+    }
+    /**
+    通过高精度整数分子和分母构造高精度有理数对象。
+    @param numerator 高精度整数表示的分子。
+    @param denominator 高精度整数表示的分母。
+    */
+    public big_rational(big_integer numerator,big_integer denominator)
+    {
+        this(numerator,denominator,0);
+    }
+    /**
+    通过高精度整数分子和分母以及字符串输出模式构造高精度有理数对象。<br>
+    本构造方法会直接使用输入的高精度整数、符号和模式，不创建新的高精度整数对象。
+    @param numerator 高精度整数表示的分子。
+    @param denominator 高精度整数表示的分母。
+    @param sign 有理数的符号。
+    @param mode 字符串输出模式。<br>
+    <ul>
+        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
+        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+    </ul>
+    */
+    public big_rational(big_integer numerator,big_integer denominator,int sign,int mode)
+    {
+        this.mode=mode;
+        numerator.sign=sign;
+        this.numerator=numerator;
+        if(denominator==null||denominator.size==0||denominator.size==1&&denominator.number[0]==1)
+        {
+            this.denominator=null;
+        }
+        else
+        {
+            denominator.sign=1;
+            this.denominator=denominator;
+            reduce();
+        }
     }
     /**
     <p>此方法会修改输入的数据。</p><br>
     通分两个有理数。
     @param rational1 第一个有理数对象。
     @param rational2 第二个有理数对象。
-    @return 一个二维字节数组：
+    @return 一个高精度整数数组：
     <ol>
-        <li>第一个有理数的通分乘数的字节数组低位优先表示。</li>
-        <li>第二个有理数的通分乘数的字节数组低位优先表示。</li>
+        <li>第一个有理数的通分乘数。</li>
+        <li>第二个有理数的通分乘数。</li>
     </ol>
     */
-    public static byte[][] common_denominator(big_rational rational1,big_rational rational2)
+    public static big_integer[] common_denominator(big_rational rational1,big_rational rational2)
     {
-        byte multiplier1[]=new byte[]{1};
-        byte multiplier2[]=new byte[]{1};
-        if(rational1.fraction[1]==null&&rational2.fraction[1]==null)
+        if(rational1.denominator==null&&rational2.denominator==null)
         {
+            return new big_integer[]{new big_integer(1),new big_integer(1)};
         }
-        else if(rational1.fraction[1]==null)
+        else if(rational1.denominator==null)
         {
-            rational1.fraction[1]=new byte[rational2.denominator_size+1];
-            System.arraycopy(rational2.fraction[1],0,rational1.fraction[1],0,rational2.denominator_size);
-            rational1.denominator_size=rational2.denominator_size;
-            multiplier1=rational2.fraction[1];
-            rational1.fraction[0]=multiply(rational1.fraction[0],multiplier1);
-            int numerator_size1=rational1.fraction[0].length;
-            int denominator_size1=rational1.fraction[1].length;
-            for(;numerator_size1>0&&rational1.fraction[0][numerator_size1-1]==0;numerator_size1--);
-            for(;denominator_size1>0&&rational1.fraction[1][denominator_size1-1]==0;denominator_size1--);
-            rational1.numerator_size=numerator_size1;
-            rational1.denominator_size=denominator_size1;
+            rational1.denominator=new big_integer(rational2.denominator.number,1);
+            rational1.numerator=big_integer.multiply(rational1.numerator,rational1.denominator);
+            return new big_integer[]{new big_integer(rational2.denominator.number,1),new big_integer(1)};
         }
-        else if(rational2.fraction[1]==null)
+        else if(rational2.denominator==null)
         {
-            rational2.fraction[1]=new byte[rational1.denominator_size+1];
-            System.arraycopy(rational1.fraction[1],0,rational2.fraction[1],0,rational1.denominator_size);
-            rational2.denominator_size=rational1.denominator_size;
-            multiplier2=rational1.fraction[1];
-            rational2.fraction[0]=multiply(rational2.fraction[0],multiplier2);
-            int numerator_size2=rational2.fraction[0].length;
-            int denominator_size2=rational2.fraction[1].length;
-            for(;numerator_size2>0&&rational2.fraction[0][numerator_size2-1]==0;numerator_size2--);
-            for(;denominator_size2>0&&rational2.fraction[1][denominator_size2-1]==0;denominator_size2--);
-            rational2.numerator_size=numerator_size2;
-            rational2.denominator_size=denominator_size2;
+            rational2.denominator=new big_integer(rational1.denominator.number,1);
+            rational2.numerator=big_integer.multiply(rational2.numerator,rational2.denominator);
+            return new big_integer[]{new big_integer(1),new big_integer(rational1.denominator.number,1)};
+        }
+        else if(rational1.denominator.compareTo(rational2.denominator)==0)
+        {
+            return new big_integer[]{new big_integer(1),new big_integer(1)};
         }
         else
         {
-            byte denominator_lcm[]=divide(multiply(rational1.fraction[1],rational2.fraction[1]),gcd(rational1.fraction[1],rational2.fraction[1]))[0];
-            multiplier1=divide(denominator_lcm,rational1.fraction[1])[0];
-            multiplier2=divide(denominator_lcm,rational2.fraction[1])[0];
-            rational1.fraction[0]=multiply(rational1.fraction[0],multiplier1);
-            rational2.fraction[0]=multiply(rational2.fraction[0],multiplier2);
-            rational1.fraction[1]=new byte[denominator_lcm.length];
-            System.arraycopy(denominator_lcm,0,rational1.fraction[1],0,denominator_lcm.length);
-            rational2.fraction[1]=denominator_lcm;
-            int numerator_size1=rational1.fraction[0].length;
-            int numerator_size2=rational2.fraction[0].length;
-            int denominator_size1=rational1.fraction[1].length;
-            int denominator_size2=rational2.fraction[1].length;
-            for(;numerator_size1>0&&rational1.fraction[0][numerator_size1-1]==0;numerator_size1--);
-            for(;numerator_size2>0&&rational2.fraction[0][numerator_size2-1]==0;numerator_size2--);
-            for(;denominator_size1>0&&rational1.fraction[1][denominator_size1-1]==0;denominator_size1--);
-            for(;denominator_size2>0&&rational2.fraction[1][denominator_size2-1]==0;denominator_size2--);
-            rational1.numerator_size=numerator_size1;
-            rational2.numerator_size=numerator_size2;
-            rational1.denominator_size=denominator_size1;
-            rational2.denominator_size=denominator_size2;
+            big_integer common_denominator=big_integer.lcm(rational1.denominator,rational2.denominator);
+            big_integer multiplier1=big_integer.divide(common_denominator,rational1.denominator)[0];
+            big_integer multiplier2=big_integer.divide(common_denominator,rational2.denominator)[0];
+            rational1.denominator=common_denominator;
+            rational2.denominator=new big_integer(common_denominator.number,1);
+            rational1.numerator=big_integer.multiply(rational1.numerator,multiplier1);
+            rational2.numerator=big_integer.multiply(rational2.numerator,multiplier2);
+            return new big_integer[]{multiplier1,multiplier2};
         }
-        return new byte[][]{multiplier1,multiplier2};
     }
     /**
     计算两个有理数的和 <code>addend1</code>+<code>addend2</code>。
     @param addend1 第一个有理数对象。
     @param addend2 第二个有理数对象。
-    @return 两个有理数对象的和。
+    @return 两个有理数的和。
     */
     public static big_rational add(big_rational addend1,big_rational addend2)
     {
-        byte multiplier[][]=common_denominator(addend1,addend2);
-        big_rational result=new big_rational(add(addend1.fraction[0],addend2.fraction[0]),addend1.fraction[1],addend1.mode==addend2.mode?addend1.mode:0);
-        addend1.fraction[0]=divide(addend1.fraction[0],multiplier[0])[0];
-        addend2.fraction[0]=divide(addend2.fraction[0],multiplier[1])[0];
-        int numerator_size1=addend1.fraction[0].length;
-        int numerator_size2=addend2.fraction[0].length;
-        for(;numerator_size1>0&&addend1.fraction[0][numerator_size1-1]==0;numerator_size1--);
-        for(;numerator_size2>0&&addend2.fraction[0][numerator_size2-1]==0;numerator_size2--);
-        addend1.numerator_size=numerator_size1;
-        addend2.numerator_size=numerator_size2;
-        if(addend1.fraction[1]!=null)
+        if(addend1.denominator==null&&addend2.denominator==null)
         {
-            addend1.fraction[1]=divide(addend1.fraction[1],multiplier[0])[0];
-            int denominator_size1=addend1.fraction[1].length;
-            for(;denominator_size1>0&&addend1.fraction[1][denominator_size1-1]==0;denominator_size1--);
-            addend1.denominator_size=denominator_size1;
+            big_integer sum=big_integer.add(addend1.numerator,addend2.numerator);
+            return new big_rational(sum,null,sum.sign,addend1.mode==addend2.mode?addend1.mode:0);
         }
-        if(addend2.fraction[1]!=null)
+        else if(addend1.denominator==null)
         {
-            addend2.fraction[1]=divide(addend2.fraction[1],multiplier[1])[0];
-            int denominator_size2=addend2.fraction[1].length;
-            for(;denominator_size2>0&&addend2.fraction[1][denominator_size2-1]==0;denominator_size2--);
-            addend2.denominator_size=denominator_size2;
+            big_integer sum_numerator=big_integer.add(big_integer.multiply(addend1.numerator,addend2.denominator),addend2.numerator);
+            big_integer sum_denominator=new big_integer(addend2.denominator.number,1);
+            return new big_rational(sum_numerator,sum_denominator,sum_numerator.sign,addend1.mode==addend2.mode?addend1.mode:0);
         }
-        if(addend1.denominator_size==0)
+        else if(addend2.denominator==null)
         {
-            addend1.fraction[1]=null;
+            big_integer sum_numerator=big_integer.add(addend1.numerator,big_integer.multiply(addend2.numerator,addend1.denominator));
+            big_integer sum_denominator=new big_integer(addend1.denominator.number,1);
+            return new big_rational(sum_numerator,sum_denominator,sum_numerator.sign,addend1.mode==addend2.mode?addend1.mode:0);
         }
-        if(addend2.denominator_size==0)
+        else
         {
-            addend2.fraction[1]=null;
+            big_integer common_denominator=big_integer.lcm(addend1.denominator,addend2.denominator);
+            big_integer multiplier1=big_integer.divide(common_denominator,addend1.denominator)[0];
+            big_integer multiplier2=big_integer.divide(common_denominator,addend2.denominator)[0];
+            big_integer sum_numerator=big_integer.add(big_integer.multiply(addend1.numerator,multiplier1),big_integer.multiply(addend2.numerator,multiplier2));
+            return new big_rational(sum_numerator,common_denominator,sum_numerator.sign,addend1.mode==addend2.mode?addend1.mode:0);
         }
-        return result;
     }
     /**
     计算两个有理数的差 <code>minuend</code>-<code>subtrahend</code>。
     @param minuend 被减数有理数对象。
     @param subtrahend 减数有理数对象。
-    @return 两个有理数对象的差。
+    @return 两个有理数的差。
     */
     public static big_rational subtract(big_rational minuend,big_rational subtrahend)
     {
-        byte multiplier[][]=common_denominator(minuend,subtrahend);
-        big_rational result=new big_rational(subtract(minuend.fraction[0],subtrahend.fraction[0]),minuend.fraction[1],minuend.mode==subtrahend.mode?minuend.mode:0);
-        minuend.fraction[0]=divide(minuend.fraction[0],multiplier[0])[0];
-        subtrahend.fraction[0]=divide(subtrahend.fraction[0],multiplier[1])[0];
-        int numerator_size1=minuend.fraction[0].length;
-        int numerator_size2=subtrahend.fraction[0].length;
-        for(;numerator_size1>0&&minuend.fraction[0][numerator_size1-1]==0;numerator_size1--);
-        for(;numerator_size2>0&&subtrahend.fraction[0][numerator_size2-1]==0;numerator_size2--);
-        minuend.numerator_size=numerator_size1;
-        subtrahend.numerator_size=numerator_size2;
-        if(minuend.fraction[1]!=null)
+        if(minuend.denominator==null&&subtrahend.denominator==null)
         {
-            minuend.fraction[1]=divide(minuend.fraction[1],multiplier[0])[0];
-            int denominator_size1=minuend.fraction[1].length;
-            for(;denominator_size1>0&&minuend.fraction[1][denominator_size1-1]==0;denominator_size1--);
-            minuend.denominator_size=denominator_size1;
+            big_integer difference=big_integer.subtract(minuend.numerator,subtrahend.numerator);
+            return new big_rational(difference,null,difference.sign,minuend.mode==subtrahend.mode?minuend.mode:0);
         }
-        if(subtrahend.fraction[1]!=null)
+        else if(minuend.denominator==null)
         {
-            subtrahend.fraction[1]=divide(subtrahend.fraction[1],multiplier[1])[0];
-            int denominator_size2=subtrahend.fraction[1].length;
-            for(;denominator_size2>0&&subtrahend.fraction[1][denominator_size2-1]==0;denominator_size2--);
-            subtrahend.denominator_size=denominator_size2;
+            big_integer difference_numerator=big_integer.subtract(big_integer.multiply(minuend.numerator,subtrahend.denominator),subtrahend.numerator);
+            big_integer difference_denominator=new big_integer(subtrahend.denominator.number,1);
+            return new big_rational(difference_numerator,difference_denominator,difference_numerator.sign,minuend.mode==subtrahend.mode?minuend.mode:0);
         }
-        if(minuend.denominator_size==0)
+        else if(subtrahend.denominator==null)
         {
-            minuend.fraction[1]=null;
+            big_integer difference_numerator=big_integer.subtract(minuend.numerator,big_integer.multiply(subtrahend.numerator,minuend.denominator));
+            big_integer difference_denominator=new big_integer(minuend.denominator.number,1);
+            return new big_rational(difference_numerator,difference_denominator,difference_numerator.sign,minuend.mode==subtrahend.mode?minuend.mode:0);
         }
-        if(subtrahend.denominator_size==0)
+        else
         {
-            subtrahend.fraction[1]=null;
+            big_integer common_denominator=big_integer.lcm(minuend.denominator,subtrahend.denominator);
+            big_integer multiplier1=big_integer.divide(common_denominator,minuend.denominator)[0];
+            big_integer multiplier2=big_integer.divide(common_denominator,subtrahend.denominator)[0];
+            big_integer difference_numerator=big_integer.subtract(big_integer.multiply(minuend.numerator,multiplier1),big_integer.multiply(subtrahend.numerator,multiplier2));
+            return new big_rational(difference_numerator,common_denominator,difference_numerator.sign,minuend.mode==subtrahend.mode?minuend.mode:0);
         }
-        return result;
     }
     /**
     计算两个有理数的积 <code>factor1</code>*<code>factor2</code>。
     @param factor1 第一个有理数对象。
     @param factor2 第二个有理数对象。
-    @return 两个有理数对象的积。
+    @return 两个有理数的积。
     */
     public static big_rational multiply(big_rational factor1,big_rational factor2)
     {
-        byte result_numerator[]=multiply(factor1.fraction[0],factor2.fraction[0]);
-        if(factor1.fraction[1]==null&&factor2.fraction[1]==null)
+        if(factor1.denominator==null&&factor2.denominator==null)
         {
-            return new big_rational(result_numerator,null,factor1.mode==factor2.mode?factor1.mode:0);
+            big_integer product=big_integer.multiply(factor1.numerator,factor2.numerator);
+            return new big_rational(product,null,product.sign,factor1.mode==factor2.mode?factor1.mode:0);
         }
-        else if(factor1.fraction[1]==null)
+        else if(factor1.denominator==null)
         {
-            return new big_rational(result_numerator,factor2.fraction[1],factor1.mode==factor2.mode?factor1.mode:0);
+            big_integer product_numerator=big_integer.multiply(factor1.numerator,factor2.numerator);
+            big_integer product_denominator=new big_integer(factor2.denominator.number,1);
+            return new big_rational(product_numerator,product_denominator,product_numerator.sign,factor1.mode==factor2.mode?factor1.mode:0);
         }
-        else if(factor2.fraction[1]==null)
+        else if(factor2.denominator==null)
         {
-            return new big_rational(result_numerator,factor1.fraction[1],factor1.mode==factor2.mode?factor1.mode:0);
+            big_integer product_numerator=big_integer.multiply(factor1.numerator,factor2.numerator);
+            big_integer product_denominator=new big_integer(factor1.denominator.number,1);
+            return new big_rational(product_numerator,product_denominator,product_numerator.sign,factor1.mode==factor2.mode?factor1.mode:0);
         }
         else
         {
-            return new big_rational(result_numerator,multiply(factor1.fraction[1],factor2.fraction[1]),factor1.mode==factor2.mode?factor1.mode:0);
+            return new big_rational(big_integer.multiply(factor1.numerator,factor2.numerator),big_integer.multiply(factor1.denominator,factor2.denominator),factor1.numerator.sign*factor2.numerator.sign,factor1.mode==factor2.mode?factor1.mode:0);
         }
     }
     /**
-    计算两个有理数的商 <code>factor1</code>/<code>factor2</code>。
+    计算两个有理数的商 <code>dividend</code>/<code>divisor</code>。
     @param dividend 被除数有理数对象。
     @param divisor 除数有理数对象。
-    @return 两个有理数对象的商。<br>
+    @return 两个有理数的商。<br>
     若除数为0，则返回<code>null</code>。
     */
     public static big_rational divide(big_rational dividend,big_rational divisor)
     {
-        if(divisor.numerator_size==0)
+        if(divisor.numerator.size==0)
         {
             return null;
         }
-        if(dividend.fraction[1]==null&&divisor.fraction[1]==null)
+        else if(dividend.denominator==null&&divisor.denominator==null)
         {
-            return new big_rational(dividend.fraction[0],divisor.fraction[0],dividend.mode==divisor.mode?dividend.mode:0);
+            return new big_rational(dividend.numerator,divisor.numerator,0);
         }
-        else if(dividend.fraction[1]==null)
+        else if(dividend.denominator==null)
         {
-            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),divisor.fraction[0],dividend.mode==divisor.mode?dividend.mode:0);
+            big_integer quotient_numerator=big_integer.multiply(dividend.numerator,divisor.denominator);
+            big_integer quotient_denominator=new big_integer(divisor.numerator.number,1);
+            return new big_rational(quotient_numerator,quotient_denominator,dividend.numerator.sign*divisor.numerator.sign,dividend.mode==divisor.mode?dividend.mode:0);
         }
-        else if(divisor.fraction[1]==null)
+        else if(divisor.denominator==null)
         {
-            return new big_rational(dividend.fraction[0],multiply(divisor.fraction[0],dividend.fraction[1]),dividend.mode==divisor.mode?dividend.mode:0);
+            big_integer quotient_numerator=new big_integer(dividend.numerator.number,dividend.numerator.sign);
+            big_integer quotient_denominator=big_integer.multiply(dividend.denominator,divisor.numerator);
+            return new big_rational(quotient_numerator,quotient_denominator,dividend.numerator.sign*divisor.numerator.sign,dividend.mode==divisor.mode?dividend.mode:0);
         }
         else
         {
-            return new big_rational(multiply(dividend.fraction[0],divisor.fraction[1]),multiply(divisor.fraction[0],dividend.fraction[1]),dividend.mode==divisor.mode?dividend.mode:0);
+            return new big_rational(big_integer.multiply(dividend.numerator,divisor.denominator),big_integer.multiply(dividend.denominator,divisor.numerator),dividend.numerator.sign*divisor.numerator.sign,dividend.mode==divisor.mode?dividend.mode:0);
         }
     }
     /**
@@ -1005,35 +477,31 @@ public class big_rational
     */
     public static big_rational power(big_rational base,int exponent)
     {
-        if(base.numerator_size==0)
+        if(base.numerator.size==0)
         {
-            return exponent>0?new big_rational(new byte[]{0},null,base.mode):null;
+            return exponent>0?new big_rational(0,1,base.mode):null;
         }
         else if(exponent==0)
         {
-            return new big_rational(new byte[]{1},null,base.mode);
+            return new big_rational(1,1,base.mode);
         }
         else if(exponent==1)
         {
-            return new big_rational(base.fraction[0],base.fraction[1],base.mode);
+            return new big_rational(base.numerator,base.denominator,base.mode);
         }
         else if(exponent==-1)
         {
-            return new big_rational(base.denominator_size>0?base.fraction[1]:new byte[]{1},base.fraction[0],base.mode);
+            return new big_rational(base.denominator!=null?base.denominator:new big_integer(1),base.numerator,base.mode);
         }
-        int positive_base=base.numerator_size>0?(base.fraction[0][base.numerator_size-1]>=0?1:-1):0;
-        base.fraction[0][base.numerator_size-1]*=positive_base;
-        if(positive_base!=0&&base.numerator_size==1&&base.fraction[0][0]==1)
+        if(base.denominator==null&&base.numerator.size==1&&base.numerator.number[0]==1)
         {
-            big_rational result=new big_rational(new byte[]{exponent%2==0?1:(byte)positive_base},null,base.mode);
-            base.fraction[0][base.numerator_size-1]*=positive_base;
+            big_rational result=new big_rational(exponent%2==0?1:base.numerator.sign,1,base.mode);
             return result;
         }
         boolean is_negative_exponent=exponent<0;
         exponent=is_negative_exponent?-exponent:exponent;
-        int positive_result=(exponent%2==0||positive_base>=0)?1:-1;
-        big_rational result=new big_rational(new byte[]{1},null,base.mode);
-        big_rational major=new big_rational(base.fraction[0],base.fraction[1],base.mode);
+        big_rational result=new big_rational(1,1,base.mode);
+        big_rational major=new big_rational(base.numerator,base.denominator,base.mode);
         for(;exponent>0;exponent>>=1)
         {
             if((exponent&1)==1)
@@ -1044,40 +512,24 @@ public class big_rational
         }
         if(is_negative_exponent)
         {
-            byte temp[]=result.fraction[1];
-            result.fraction[1]=result.fraction[0];
-            result.fraction[0]=temp;
-            int temp_size=result.denominator_size;
-            result.denominator_size=result.numerator_size;
-            result.numerator_size=temp_size;
+            result=new big_rational(result.denominator!=null?result.denominator:new big_integer(new int[]{1},1,1),result.numerator,result.numerator.sign,base.mode);
         }
-        result.fraction[0][result.numerator_size-1]*=positive_result;
-        base.fraction[0][base.numerator_size-1]*=positive_base;
         return result;
     }
     public String toString()
     {
-        StringBuilder result=new StringBuilder();
-        if(mode<=0||fraction[1]==null)
+        if(denominator==null)
         {
-            if(numerator_size==0)
-            {
-                result.append("0");
-            }
-            for(int i=numerator_size-1;i>=0;i--)
-            {
-                result.append(fraction[0][i]);
-            }
+            return numerator.toString();
         }
-        if(fraction[1]!=null)
+        else
         {
+            StringBuilder result=new StringBuilder();
             if(mode<=0)
             {
+                result.append(numerator.toString());
                 result.append("/");
-                for(int i=denominator_size-1;i>=0;i--)
-                {
-                    result.append(fraction[1][i]);
-                }
+                result.append(denominator.toString());
             }
             if(mode==0)
             {
@@ -1085,97 +537,44 @@ public class big_rational
             }
             if(mode>=0)
             {
-                boolean is_negative=fraction[0][numerator_size-1]<0;
-                byte absolute_numerator[]=new byte[numerator_size+1];
-                System.arraycopy(fraction[0],0,absolute_numerator,0,numerator_size);
+                boolean is_negative=numerator.sign<0;
+                big_integer quotient_and_remainder[]=big_integer.divide(is_negative?new big_integer(numerator.number,numerator.size,1):numerator,denominator);
                 if(is_negative)
                 {
-                    absolute_numerator[numerator_size-1]*=-1;
                     result.append("-");
                 }
-                byte absolute_denominator[]=new byte[denominator_size+1];
-                System.arraycopy(fraction[1],0,absolute_denominator,0,denominator_size);
-                byte quotient_and_remainder[][]=divide(absolute_numerator,absolute_denominator);
-                byte quotient[]=quotient_and_remainder[0];
-                byte remainder[]=new byte[denominator_size+1];
-                System.arraycopy(quotient_and_remainder[1],0,remainder,0,quotient_and_remainder[1].length);
-                for(int i=quotient_and_remainder[1].length;i<=denominator_size;i++)
-                {
-                    remainder[i]=0;
-                }
-                int quotient_size=quotient.length;
-                int remainder_size=remainder.length;
-                for(;quotient_size>0&&quotient[quotient_size-1]==0;quotient_size--);
-                for(;remainder[remainder_size-1]==0;remainder_size--);
-                if(quotient_size==0)
-                {
-                    result.append("0");
-                }
-                for(int i=quotient_size-1;i>=0;i--)
-                {
-                    result.append((char)(quotient[i]+'0'));
-                }
+                result.append(quotient_and_remainder[0]);
                 result.append(".");
-                byte remainders[][]=new byte[10][];
-                int remainders_size[]=new int[10];
-                int size=0,capacity=10;
-                StringBuilder decimal=new StringBuilder();
-                while(remainder_size>0)
+                big_integer remainder=quotient_and_remainder[1];
+                HashMap<big_integer,Integer> remainders=new HashMap<big_integer,Integer>();
+                StringBuilder loop_builder=new StringBuilder();
+                big_integer ten=new big_integer(new int[]{10},1,1);
+                for(int loop_size=-1;remainder.size>0;loop_size--)
                 {
-                    int loop_start=-1;
-                    for(int i=0;i<size;i++)
+                    if(remainders.containsKey(remainder))
                     {
-                        if(compare(remainders[i],remainder)==0)
-                        {
-                            loop_start=i;
-                            break;
-                        }
+                        loop_size=-remainders.getOrDefault(remainder,0)-1;
                     }
-                    if(loop_start!=-1)
+                    if(loop_size>=0)
                     {
-                        decimal.insert(loop_start,"(");
-                        decimal.append(")");
+                        loop_builder.insert(loop_size,'(');
+                        loop_builder.append(')');
                         break;
                     }
-                    if(size==capacity)
+                    else
                     {
-                        capacity=(capacity<<1)+2;
-                        byte new_remainders[][]=new byte[capacity][];
-                        int new_remainders_size[]=new int[capacity];
-                        System.arraycopy(remainders,0,new_remainders,0,size);
-                        System.arraycopy(remainders_size,0,new_remainders_size,0,size);
-                        remainders=new_remainders;
-                        remainders_size=new_remainders_size;
+                        remainders.put(remainder,loop_size);
+                        remainder=big_integer.multiply(remainder,ten);
+                        quotient_and_remainder=big_integer.divide(remainder,denominator);
+                        big_integer quotient=quotient_and_remainder[0];
+                        int digit=quotient.size>0?quotient.number[0]:0;
+                        loop_builder.append((char)('0'+digit));
+                        remainder=quotient_and_remainder[1];
                     }
-                    remainders[size]=new byte[remainder_size];
-                    System.arraycopy(remainder,0,remainders[size],0,remainder_size);
-                    remainders_size[size]=remainder_size;
-                    size++;
-                    for(int i=remainder_size;i>0;i--)
-                    {
-                        remainder[i]=remainder[i-1];
-                    }
-                    remainder[0]=0;
-                    remainder_size++;
-                    int one_quotient=0;
-                    for(;compare(remainder,absolute_denominator)>=0;one_quotient++)
-                    {
-                        for(int i=0;i<remainder_size;i++)
-                        {
-                            remainder[i]-=absolute_denominator[i];
-                            if(remainder[i]<0)
-                            {
-                                remainder[i+1]--;
-                                remainder[i]+=10;
-                            }
-                        }
-                    }
-                    decimal.append((char)(one_quotient+'0'));
-                    for(remainder_size=remainder.length;remainder_size>0&&remainder[remainder_size-1]==0;remainder_size--);
                 }
-                result.append(decimal);
+                result.append(loop_builder);
             }
+            return result.toString();
         }
-        return result.toString();
     }
 }
