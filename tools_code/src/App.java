@@ -13,5 +13,6 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
+        deque dq1=new deque(1);
     }
 }
