@@ -29,7 +29,7 @@ public class complex
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    将当前复数对象与另一个复数对象相加。
+    将当前复数与另一个复数相加。
     @param C 要相加的复数对象。
     @return 和是否为实数。
     */
@@ -51,7 +51,7 @@ public class complex
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    将当前复数对象与另一个复数对象相减。
+    将当前复数与另一个复数相减。
     @param C 要相减的复数对象。
     @return 差是否为实数。
     */
@@ -73,7 +73,7 @@ public class complex
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    将当前复数对象与另一个复数对象相乘。
+    将当前复数与另一个复数相乘。
     @param C 要相乘的复数对象。
     @return 积是否为实数。
     */
@@ -97,7 +97,7 @@ public class complex
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
-    将当前复数对象与另一个复数对象相除。
+    将当前复数与另一个复数相除。
     @param C 要相除的复数对象。
     @return 商是否为实数。
     */
@@ -120,7 +120,7 @@ public class complex
         return new complex((dividend.real*divisor.real+dividend.imaginary*divisor.imaginary)/(divisor.real*divisor.real+divisor.imaginary*divisor.imaginary),(dividend.imaginary*divisor.real-dividend.real*divisor.imaginary)/(divisor.real*divisor.real+divisor.imaginary*divisor.imaginary));
     }
     /**
-    计算当前复数对象的模长。
+    计算当前复数的模长。
     @return 当前复数对象的模长。
     */
     public double magnitude()

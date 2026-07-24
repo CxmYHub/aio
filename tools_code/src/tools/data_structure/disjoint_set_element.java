@@ -1,7 +1,7 @@
 package tools.data_structure;
 /**
 <p>元素并查集类。</p><br>
-元素并查集通过维护一个哈希表实现元素到索引的映射。<br>
+元素并查集是一种特殊的并查集，通过维护一个哈希表实现元素到索引的映射。<br>
 除索引外，还可通过元素进行合并和查询操作。
 @see tools.data_structure.disjoint_set
 */

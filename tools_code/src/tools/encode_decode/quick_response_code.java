@@ -47,30 +47,30 @@ public class quick_response_code
         {
             code_length=text.getBytes(StandardCharsets.UTF_8).length;
         }
-        byte mode_header_binary=(byte)barcode.mode_mask[mode];
-        short character_count_header_binary=(short)(code_length);
+        byte mode_fronter_binary=(byte)barcode.mode_mask[mode];
+        short character_count_fronter_binary=(short)(code_length);
         int data_byte_count=barcode.data_code_word_count[version][error_correction_level];
         boolean data[]=new boolean[data_byte_count<<3];
         int data_pin=0;
         int header_bit_count=0;
         if(mode==4)
         {
-            short eci_header_binary=(short)(7<<8|26);
+            short eci_fronter_binary=(short)(7<<8|26);
             header_bit_count+=12;
             for(;data_pin<header_bit_count;data_pin++)
             {
-                data[data_pin]=(eci_header_binary>>(header_bit_count-1-data_pin)&1)==1;
+                data[data_pin]=(eci_fronter_binary>>(header_bit_count-1-data_pin)&1)==1;
             }
         }
         header_bit_count+=4;
         for(;data_pin<header_bit_count;data_pin++)
         {
-            data[data_pin]=(mode_header_binary>>(header_bit_count-1-data_pin)&1)==1;
+            data[data_pin]=(mode_fronter_binary>>(header_bit_count-1-data_pin)&1)==1;
         }
         header_bit_count+=barcode.code_length_bit_count[version][mode];
         for(;data_pin<header_bit_count;data_pin++)
         {
-            data[data_pin]=(character_count_header_binary>>(header_bit_count-1-data_pin)&1)==1;
+            data[data_pin]=(character_count_fronter_binary>>(header_bit_count-1-data_pin)&1)==1;
         }
         switch(mode)
         {

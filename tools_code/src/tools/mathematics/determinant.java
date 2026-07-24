@@ -167,7 +167,7 @@ public class determinant implements Comparable<determinant>
 	/**
 	计算行列式的转置行列式。
 	@param reversing_determinant 要转置的行列式对象。
-	@return 转置行列式对象。
+	@return 转置行列式。
 	*/
 	public static determinant reverse(determinant reversing_determinant)
 	{

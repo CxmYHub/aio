@@ -129,7 +129,7 @@ public class tree
     public int depth()
     {
         tree pins[]=new tree[10];
-        int top=0,rear=1,capacity=10;
+        int front=0,rear=1,capacity=10;
         boolean overturn=false;
         pins[0]=this;
         int level_size=1;
@@ -141,23 +141,23 @@ public class tree
             int next_level_size=0;
             for(;level_size>0;level_size--)
             {
-                now=pins[top++];
-                if(top>=capacity)
+                now=pins[front++];
+                if(front>=capacity)
                 {
-                    top=0;
+                    front=0;
                     overturn=false;
                 }
                 if(now.child!=null)
                 {
                     for(now=now.child;now!=null;now=now.next)
                     {
-                        if(top==rear&&overturn)
+                        if(front==rear&&overturn)
                         {
                             tree new_pins[]=new tree[(capacity<<1)+2];
-                            System.arraycopy(pins,top,new_pins,0,capacity-top);
-                            System.arraycopy(pins,0,new_pins,capacity-top,rear);
+                            System.arraycopy(pins,front,new_pins,0,capacity-front);
+                            System.arraycopy(pins,0,new_pins,capacity-front,rear);
                             pins=new_pins;
-                            top=0;
+                            front=0;
                             rear=capacity;
                             capacity=(capacity<<1)+2;
                             overturn=false;

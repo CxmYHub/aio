@@ -134,9 +134,9 @@ public class big_rational
     @param denominator_string 字符串表示的分母。
     @param mode 字符串输出模式。<br>
     <ul>
-        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
-        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
-        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+        <li>&gt;0：小数格式，例如<code>"0.5"</code>。</li>
+        <li>=0：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li>&lt;0：分数格式，例如<code>"1/2"</code>。</li>
     </ul>
     */
     public big_rational(String numerator_string,String denominator_string,int mode)
@@ -183,9 +183,9 @@ public class big_rational
     @param denominator 整数表示的分母。
     @param mode 字符串输出模式。<br>
     <ul>
-        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
-        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
-        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+        <li>&gt;0：小数格式，例如<code>"0.5"</code>。</li>
+        <li>=0：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li>&lt;0：分数格式，例如<code>"1/2"</code>。</li>
     </ul>
     */
     public big_rational(int numerator,int denominator,int mode)
@@ -230,9 +230,9 @@ public class big_rational
     @param denominator 高精度整数表示的分母。
     @param mode 字符串输出模式。<br>
     <ul>
-        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
-        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
-        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+        <li>&gt;0：小数格式，例如<code>"0.5"</code>。</li>
+        <li>=0：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li>&lt;0：分数格式，例如<code>"1/2"</code>。</li>
     </ul>
     */
     public big_rational(big_integer numerator,big_integer denominator,int mode)
@@ -271,9 +271,9 @@ public class big_rational
     @param sign 有理数的符号。
     @param mode 字符串输出模式。<br>
     <ul>
-        <li><code>mode&gt;0</code>：小数格式，例如<code>"0.5"</code>。</li>
-        <li><code>mode=0</code>：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
-        <li><code>mode&lt;0</code>：分数格式，例如<code>"1/2"</code>。</li>
+        <li>&gt;0：小数格式，例如<code>"0.5"</code>。</li>
+        <li>=0：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li>&lt;0：分数格式，例如<code>"1/2"</code>。</li>
     </ul>
     */
     public big_rational(big_integer numerator,big_integer denominator,int sign,int mode)

@@ -28,7 +28,7 @@ public class coordinate_cartesian
         this.y=0;
     }
     /**
-    计算当前直角坐标对象所在的象限。
+    计算当前直角坐标所在的象限。
     @return 当前直角坐标对象所在的象限。
     */
     public int quadrant()
@@ -47,7 +47,7 @@ public class coordinate_cartesian
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前直角坐标对象与另一个直角坐标对象相加。
+    将当前直角坐标与另一个直角坐标相加。
     @param coordinate_cartesian 要相加的直角坐标对象。
     */
     public void add(coordinate_cartesian coordinate_cartesian)
@@ -67,7 +67,7 @@ public class coordinate_cartesian
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前直角坐标对象与另一个直角坐标对象相减。
+    将当前直角坐标与另一个直角坐标相减。
     @param coordinate_cartesian 要相减的直角坐标对象。
     */
     public void subtract(coordinate_cartesian coordinate_cartesian)
@@ -87,7 +87,7 @@ public class coordinate_cartesian
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    计算当前直角坐标对象与一个系数的乘积。
+    计算当前直角坐标与一个系数的乘积。
     @param coefficient 系数。
     */
     public void multiply_scalar(double coefficient)
@@ -209,20 +209,20 @@ public class coordinate_cartesian
         }
     }
     /**
-    计算该直角坐标对象与指定直角坐标对象连线的中点。
+    计算该直角坐标与指定直角坐标连线的中点。
     @param target 目标直角坐标对象。
-    @return 该直角坐标对象与指定直角坐标对象连线的中点。
+    @return 该直角坐标与指定直角坐标连线的中点。
     */
     public coordinate_cartesian middle_point(coordinate_cartesian target)
     {
         return new coordinate_cartesian((target.x+x)/2,(target.y+y)/2);
     }
     /**
-    计算该直角坐标对象到指定直角坐标对象的线性插值。
+    计算该直角坐标到指定直角坐标的线性插值。
     @param target 目标直角坐标对象。
     @param ratio 线性插值比例。<br>
     <code>ratio</code>∈[0,1]，0表示起点，1表示目标点。
-    @return 该投影坐标对象到指定投影坐标对象的线性插值。
+    @return 该直角坐标到指定直角坐标的线性插值。
     */
     public coordinate_cartesian linear_interpolation(coordinate_cartesian target,double ratio)
     {
@@ -230,7 +230,7 @@ public class coordinate_cartesian
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前直角坐标对象向指定直角坐标对象位移指定距离。<br>
+    将当前直角坐标向指定直角坐标位移指定距离。<br>
     注意，坐标经计算后可能存在双精度浮点数精度误差，导致位移结果不准确。
     @param target 目标直角坐标对象。
     @param move_distance 距离。
@@ -253,7 +253,7 @@ public class coordinate_cartesian
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前直角坐标对象向指定直角坐标对象位移指定比例。
+    将当前直角坐标向指定直角坐标位移指定比例。
     @param target 目标直角坐标对象。
     @param move_ratio 比例。<br>
     <code>move_ratio</code>∈[0,1]，0表示起点，1表示目标点。

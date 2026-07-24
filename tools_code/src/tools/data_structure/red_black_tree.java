@@ -11,8 +11,7 @@ package tools.data_structure;
     <li>如果一个节点是红色的，那么它的子节点都是黑色的。即不存在连续的红色节点。</li>
     <li>从任意节点到其每个叶节点的所有简单路径都包含相同数量的黑色节点。即黑高相等。</li>
 </ol><br>
-本红黑树采用头节点设计，头节点的左子节点为根节点。<br>
-使用时请调用无参构造器创建红黑树对象，然后调用<code>input</code>或<code>input_more</code>方法插入元素。
+本红黑树采用头节点设计，头节点的左子节点为根节点。
 */
 public class red_black_tree
 {

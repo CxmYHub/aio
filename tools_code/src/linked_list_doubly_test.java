@@ -27,14 +27,14 @@ public class linked_list_doubly_test {
         test_traversal_backward();
 
         // 尾部插入测试
-        test_input_tail();
-        test_input_more_tail();
-        test_input_list_tail();
+        test_input_back();
+        test_input_more_back();
+        test_input_list_back();
 
         // 头部插入测试
-        test_input_head();
-        test_input_more_head();
-        test_input_list_head();
+        test_input_front();
+        test_input_more_front();
+        test_input_list_front();
 
         // 中间插入测试
         test_insert_positive();
@@ -46,8 +46,8 @@ public class linked_list_doubly_test {
         test_insert_list();
 
         // 删除测试
-        test_remove_tail();
-        test_remove_head();
+        test_remove_back();
+        test_remove_front();
         test_remove_index();
         test_remove_element_single();
         test_remove_element_range();
@@ -142,10 +142,10 @@ public class linked_list_doubly_test {
     static void test_is_empty_and_count() {
         linked_list_doubly list = new linked_list_doubly();
         checkBoolean(true, list.is_empty(), "空链表 is_empty()");
-        list.input_tail(5);
+        list.input_back(5);
         checkBoolean(false, list.is_empty(), "插入后 is_empty()");
         checkInt(1, list.element_count(), "插入后 element_count()");
-        list.remove_tail(1);
+        list.remove_back(1);
         checkBoolean(true, list.is_empty(), "删除全部后 is_empty()");
     }
 
@@ -218,63 +218,63 @@ public class linked_list_doubly_test {
     }
 
     // 尾部插入
-    static void test_input_tail() {
+    static void test_input_back() {
         linked_list_doubly list = new linked_list_doubly();
-        int idx = list.input_tail(100);
+        int idx = list.input_back(100);
         checkInt(-1, idx, "空表尾插返回反向索引-1");
         checkInt(1, list.element_count(), "尾插后个数=1");
         checkInt(100, list.element_at(0), "尾插元素正确");
 
-        idx = list.input_tail(200);
+        idx = list.input_back(200);
         checkInt(-1, idx, "再次尾插返回-1");
         checkInt(2, list.element_count(), "尾插后个数=2");
         checkInt(200, list.element_at(-1), "尾插元素在末尾");
     }
 
-    static void test_input_more_tail() {
+    static void test_input_more_back() {
         linked_list_doubly list = new linked_list_doubly();
-        int idx = list.input_more_tail(1, 2, 3);
+        int idx = list.input_more_back(1, 2, 3);
         checkInt(-3, idx, "空表尾插多个返回-3");
         checkArray(new int[]{1, 2, 3}, list.traversal_forward(), "尾插多个元素");
 
         // 空数组参数
         linked_list_doubly list2 = new linked_list_doubly(10);
-        idx = list2.input_more_tail(); // 无参相当于空数组
+        idx = list2.input_more_back(); // 无参相当于空数组
         checkInt(Integer.MIN_VALUE, idx, "空数组尾插返回MIN_VALUE");
         checkInt(1, list2.element_count(), "空数组插入个数不变");
     }
 
-    static void test_input_list_tail() {
+    static void test_input_list_back() {
         linked_list_doubly list1 = new linked_list_doubly(1, 2);
         linked_list_doubly list2 = new linked_list_doubly(3, 4);
-        int idx = list1.input_list_tail(list2);
+        int idx = list1.input_list_back(list2);
         checkInt(-2, idx, "尾插链表返回-2");
         checkArray(new int[]{1, 2, 3, 4}, list1.traversal_forward(), "尾插链表内容");
     }
 
     // 头部插入
-    static void test_input_head() {
+    static void test_input_front() {
         linked_list_doubly list = new linked_list_doubly();
-        int idx = list.input_head(42);
+        int idx = list.input_front(42);
         checkInt(0, idx, "空表头插返回0");
         checkInt(42, list.element_at(0), "头插元素");
 
-        idx = list.input_head(99);
+        idx = list.input_front(99);
         checkInt(0, idx, "再头插返回0");
         checkArray(new int[]{99, 42}, list.traversal_forward(), "头插顺序");
     }
 
-    static void test_input_more_head() {
+    static void test_input_more_front() {
         linked_list_doubly list = new linked_list_doubly();
-        int idx = list.input_more_head(3, 4, 5);
+        int idx = list.input_more_front(3, 4, 5);
         checkInt(0, idx, "空表多头插返回0");
         checkArray(new int[]{3, 4, 5}, list.traversal_forward(), "多头插顺序");
     }
 
-    static void test_input_list_head() {
+    static void test_input_list_front() {
         linked_list_doubly list1 = new linked_list_doubly(5, 6);
         linked_list_doubly list2 = new linked_list_doubly(3, 4);
-        int idx = list1.input_list_head(list2);
+        int idx = list1.input_list_front(list2);
         checkInt(0, idx, "头插链表返回0");
         checkArray(new int[]{3, 4, 5, 6}, list1.traversal_forward(), "头插链表内容");
     }
@@ -343,36 +343,36 @@ public class linked_list_doubly_test {
     }
 
     // 删除测试
-    static void test_remove_tail() {
+    static void test_remove_back() {
         linked_list_doubly list = new linked_list_doubly(1, 2, 3);
-        int cnt = list.remove_tail(2);
+        int cnt = list.remove_back(2);
         checkInt(2, cnt, "删除尾部2个返回2");
         checkArray(new int[]{1}, list.traversal_forward(), "删除尾部后");
 
         // 删除剩余1个
-        cnt = list.remove_tail(1);
+        cnt = list.remove_back(1);
         checkInt(1, cnt, "删除最后一个返回1");
         checkBoolean(true, list.is_empty(), "链表变空");
 
         // 空链表删除
-        cnt = list.remove_tail(1);
+        cnt = list.remove_back(1);
         checkInt(Integer.MIN_VALUE, cnt, "空链表尾删返回MIN_VALUE");
 
         // 删除0个
         linked_list_doubly list2 = new linked_list_doubly(10);
-        cnt = list2.remove_tail(0);
+        cnt = list2.remove_back(0);
         checkInt(0, cnt, "非空链表删除0个返回0");
         checkInt(1, list2.element_count(), "删除0个元素个数不变");
     }
 
-    static void test_remove_head() {
+    static void test_remove_front() {
         linked_list_doubly list = new linked_list_doubly(5, 6, 7);
-        int cnt = list.remove_head(2);
+        int cnt = list.remove_front(2);
         checkInt(2, cnt, "删除头部2个返回2");
         checkArray(new int[]{7}, list.traversal_forward(), "删除头部后");
 
         // 删除剩余1个
-        cnt = list.remove_head(1);
+        cnt = list.remove_front(1);
         checkInt(1, cnt, "删除最后头返回1");
         checkBoolean(true, list.is_empty(), "链表变空");
     }

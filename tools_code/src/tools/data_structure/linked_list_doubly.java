@@ -202,7 +202,7 @@ public class linked_list_doubly
     @param number 要插入的元素。
     @return 插入的位置的反向索引。
     */
-    public int input_tail(int number)
+    public int input_back(int number)
     {
         if(count==0)
         {
@@ -223,7 +223,7 @@ public class linked_list_doubly
     @return 插入的位置的反向索引。<br>
     若元素数组为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_more_tail(int... numbers)
+    public int input_more_back(int... numbers)
     {
         if(numbers!=null&&numbers.length>0)
         {
@@ -255,7 +255,7 @@ public class linked_list_doubly
     @return 插入的位置的反向索引。<br>
     若要插入的双向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_list_tail(linked_list_doubly list)
+    public int input_list_back(linked_list_doubly list)
     {
         if(list!=null&&list.count>0)
         {
@@ -283,7 +283,7 @@ public class linked_list_doubly
     @param number 要插入的元素。
     @return 插入的位置的正向索引。
     */
-    public int input_head(int number)
+    public int input_front(int number)
     {
         if(count==0)
         {
@@ -304,7 +304,7 @@ public class linked_list_doubly
     @return 插入的位置的正向索引。<br>
     若元素数组为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_more_head(int... numbers)
+    public int input_more_front(int... numbers)
     {
         if(numbers!=null&&numbers.length>0)
         {
@@ -336,7 +336,7 @@ public class linked_list_doubly
     @return 插入的位置的正向索引。<br>
     若要插入的双向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_list_head(linked_list_doubly list)
+    public int input_list_front(linked_list_doubly list)
     {
         if(list!=null&&list.count>0)
         {
@@ -569,7 +569,7 @@ public class linked_list_doubly
     @return 删除的元素数量。<br>
     若<code>count</code>&gt;元素数量或<code>count</code>&lt;0或双向链表为空，则返回<code>Integer.MIN_VALUE</code>，此时不删除。
     */
-    public int remove_tail(int count)
+    public int remove_back(int count)
     {
         if(count==this.count)
         {
@@ -598,7 +598,7 @@ public class linked_list_doubly
     @return 删除的元素数量。<br>
     若<code>count</code>&gt;元素数量或<code>count</code>&lt;0或双向链表为空，则返回<code>Integer.MIN_VALUE</code>，此时不删除。
     */
-    public int remove_head(int count)
+    public int remove_front(int count)
     {
         if(count==this.count)
         {

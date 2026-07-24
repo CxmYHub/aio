@@ -32,7 +32,7 @@ public class projected_coordinate
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前投影坐标对象进行位移。
+    将当前投影坐标进行位移。
     @param delta_x 向东位移。
     @param delta_y 向北位移。
     @return 是否实际移动，即位移是否大于0.
@@ -44,18 +44,18 @@ public class projected_coordinate
         return delta_x!=0||delta_y!=0;
     }
     /**
-    计算指定投影坐标对象偏移指定量的投影坐标。
+    计算指定投影坐标偏移指定量的投影坐标。
     @param coordinate 基准投影坐标对象。
     @param delta_x 向东偏移。
     @param delta_y 向北偏移。
-    @return 偏移后的投影坐标对象。
+    @return 偏移后的投影坐标。
     */
     public static projected_coordinate offset(projected_coordinate coordinate,double delta_x,double delta_y)
     {
         return new projected_coordinate(coordinate.x+delta_x,coordinate.y+delta_y);
     }
     /**
-    计算一个投影坐标对象到当前投影坐标对象的相对坐标。
+    计算一个投影坐标到当前投影坐标的相对坐标。
     @param coordinate 目标投影坐标对象。
     @return 相对坐标数组。<br>
     <code>{相对横坐标,相对纵坐标}</code>。
@@ -65,9 +65,9 @@ public class projected_coordinate
         return new double[]{coordinate.x-x,coordinate.y-y};
     }
     /**
-    计算当前投影坐标对象与另一个投影坐标对象的距离。
+    计算当前投影坐标与另一个投影坐标的距离。
     @param coordinate 要计算距离的投影坐标对象。
-    @return 当前投影坐标对象与另一个投影坐标对象的距离。
+    @return 当前投影坐标与另一个投影坐标的距离。
     */
     public double distance(projected_coordinate coordinate)
     {
@@ -86,7 +86,7 @@ public class projected_coordinate
         return Math.sqrt((xt-x0)*(xt-x0)+(yt-y0)*(yt-y0));
     }
     /**
-    判断当前投影坐标对象与指定投影坐标对象是否在指定容差内。
+    判断当前投影坐标与指定投影坐标是否在指定容差内。
     @param coordinate 投影坐标对象。
     @param tolerance 容差。
     @return 是否在指定容差内。
@@ -178,7 +178,7 @@ public class projected_coordinate
         }
     }
     /**
-    计算该投影坐标对象以指定方位角位移指定距离后的投影坐标。
+    计算该投影坐标以指定方位角位移指定距离后的投影坐标。
     @param azimuth_angle 方位角。
     @param distance 距离。
     @return 以指定方位角位移指定距离后的投影坐标对象。
@@ -253,20 +253,20 @@ public class projected_coordinate
         return new projected_coordinate(destination_x,destination_y);
     }
     /**
-    计算该投影坐标对象与指定投影坐标对象连线的中点。
+    计算该投影坐标与指定投影坐标连线的中点。
     @param target 目标投影坐标对象。
-    @return 该投影坐标对象与指定投影坐标对象连线的中点。
+    @return 该投影坐标与指定投影坐标连线的中点。
     */
     public projected_coordinate middle_point(projected_coordinate target)
     {
         return new projected_coordinate((target.x+x)/2,(target.y+y)/2);
     }
     /**
-    计算该投影坐标对象到指定投影坐标对象的线性插值。
+    计算该投影坐标到指定投影坐标的线性插值。
     @param target 目标投影坐标对象。
     @param ratio 线性插值比例。<br>
     ratio∈[0,1]，0表示起点，1表示目标点。
-    @return 该投影坐标对象到指定投影坐标对象的线性插值。
+    @return 该投影坐标到指定投影坐标的线性插值。
     */
     public projected_coordinate linear_interpolation(projected_coordinate target,double ratio)
     {
@@ -274,7 +274,7 @@ public class projected_coordinate
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前投影坐标对象向指定投影坐标对象位移指定距离。<br>
+    将当前投影坐标向指定投影坐标位移指定距离。<br>
     注意，坐标经计算后可能存在双精度浮点数精度误差，导致位移结果不准确。
     @param target 目标投影坐标对象。
     @param move_distance 距离。
@@ -297,7 +297,7 @@ public class projected_coordinate
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    将当前投影坐标对象向指定投影坐标对象位移指定比例。
+    将当前投影坐标向指定投影坐标位移指定比例。
     @param target 目标投影坐标对象。
     @param move_ratio 比例。<br>
     <code>move_ratio</code>∈[0,1]，0表示起点，1表示目标点。
@@ -381,9 +381,9 @@ public class projected_coordinate
         return "("+x+","+y+")";
     }
     /**
-    判断当前投影坐标对象是否严格等于指定投影坐标对象。
+    判断当前投影坐标是否严格等于指定投影坐标。
     @param object 投影坐标对象。
-    @return 是否严格等于指定投影坐标对象。<br>
+    @return 是否严格等于指定投影坐标。<br>
     注意，坐标经计算后可能存在双精度浮点数精度误差，导致判断结果不准确。
     */
     public boolean equals(Object object)

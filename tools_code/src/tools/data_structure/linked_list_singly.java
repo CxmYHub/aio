@@ -131,7 +131,7 @@ public class linked_list_singly
     @param number 要插入的元素。
     @return 插入的位置。
     */
-    public int input_tail(int number)
+    public int input_back(int number)
     {
         linked_list_singly pin=this;
         int position=0;
@@ -146,7 +146,7 @@ public class linked_list_singly
     @return 插入的位置。<br>
     若元素数组为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_more_tail(int... numbers)
+    public int input_more_back(int... numbers)
     {
         if(numbers!=null&&numbers.length>0)
         {
@@ -168,7 +168,7 @@ public class linked_list_singly
     @return 插入的位置。<br>
     若要插入的单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_list_tail(linked_list_singly list)
+    public int input_list_back(linked_list_singly list)
     {
         if(list!=null&&list.next!=null)
         {
@@ -189,7 +189,7 @@ public class linked_list_singly
     @param number 要插入的元素。
     @return 插入的位置。
     */
-    public int input_head(int number)
+    public int input_front(int number)
     {
         next=new linked_list_singly(number,next);
         return 0;
@@ -201,7 +201,7 @@ public class linked_list_singly
     @return 插入的位置。<br>
     若元素数组为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_more_head(int... numbers)
+    public int input_more_front(int... numbers)
     {
         if(numbers!=null&&numbers.length>0)
         {
@@ -224,7 +224,7 @@ public class linked_list_singly
     @return 插入的位置。<br>
     若要插入的单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int input_list_head(linked_list_singly list)
+    public int input_list_front(linked_list_singly list)
     {
         if(list!=null&&list.next!=null)
         {
@@ -327,7 +327,7 @@ public class linked_list_singly
     @return 删除的元素数量。<br>
     若<code>count</code>&gt;元素数量或<code>count</code>&lt;0或单向链表为空，则返回<code>Integer.MIN_VALUE</code>，此时不删除。
     */
-    public int remove_tail(int count)
+    public int remove_back(int count)
     {
         if(count>0&&next!=null)
         {
@@ -357,7 +357,7 @@ public class linked_list_singly
     @return 删除的元素数量。<br>
     若<code>count</code>&gt;元素数量或<code>count</code>&lt;0或单向链表为空，则返回<code>Integer.MIN_VALUE</code>，此时不删除。
     */
-    public int remove_head(int count)
+    public int remove_front(int count)
     {
         if(count>0&&next!=null)
         {

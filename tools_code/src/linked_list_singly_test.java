@@ -39,7 +39,7 @@ public class linked_list_singly_test {
         testIndexOfNotFound();
         testIndexOfFirstOccurrence();
 
-        // ================== input_tail ==================
+        // ================== input_back ==================
         testInputTailIntoEmpty();
         testInputTailIntoNonEmpty();
         testInputMoreTail();
@@ -47,7 +47,7 @@ public class linked_list_singly_test {
         testInputListTail();
         testInputListTailEmpty();
 
-        // ================== input_head ==================
+        // ================== input_front ==================
         testInputHeadIntoEmpty();
         testInputHeadIntoNonEmpty();
         testInputMoreHead();
@@ -64,12 +64,12 @@ public class linked_list_singly_test {
         testInsertListMiddle();
         testInsertListEmpty();
 
-        // ================== remove_tail ==================
+        // ================== remove_back ==================
         testRemoveTailNormal();
         testRemoveTailZeroCount();
         testRemoveTailTooMany();
 
-        // ================== remove_head ==================
+        // ================== remove_front ==================
         testRemoveHeadNormal();
         testRemoveHeadZeroCount();
         testRemoveHeadTooMany();
@@ -250,84 +250,84 @@ public class linked_list_singly_test {
 
     private static void testInputTailIntoEmpty() {
         linked_list_singly list = new linked_list_singly();
-        int pos = list.input_tail(42);
-        assertEquals(pos, 0, "空链表 input_tail(42) 返回位置 0");
-        assertArrayEquals(list.traversal(), new int[]{42}, "空链表 input_tail 后元素为 [42]");
+        int pos = list.input_back(42);
+        assertEquals(pos, 0, "空链表 input_back(42) 返回位置 0");
+        assertArrayEquals(list.traversal(), new int[]{42}, "空链表 input_back 后元素为 [42]");
     }
 
     private static void testInputTailIntoNonEmpty() {
         linked_list_singly list = new linked_list_singly(1, 2);
-        int pos = list.input_tail(3);
-        assertEquals(pos, 2, "非空链表 input_tail(3) 返回位置 2");
-        assertArrayEquals(list.traversal(), new int[]{1, 2, 3}, "input_tail 后元素 [1,2,3]");
+        int pos = list.input_back(3);
+        assertEquals(pos, 2, "非空链表 input_back(3) 返回位置 2");
+        assertArrayEquals(list.traversal(), new int[]{1, 2, 3}, "input_back 后元素 [1,2,3]");
     }
 
     private static void testInputMoreTail() {
         linked_list_singly list = new linked_list_singly(10);
-        int pos = list.input_more_tail(20, 30);
-        assertEquals(pos, 1, "input_more_tail(20,30) 返回位置 1");
-        assertArrayEquals(list.traversal(), new int[]{10, 20, 30}, "input_more_tail 后 [10,20,30]");
+        int pos = list.input_more_back(20, 30);
+        assertEquals(pos, 1, "input_more_back(20,30) 返回位置 1");
+        assertArrayEquals(list.traversal(), new int[]{10, 20, 30}, "input_more_back 后 [10,20,30]");
     }
 
     private static void testInputMoreTailEmptyArray() {
         linked_list_singly list = new linked_list_singly(1);
-        int pos = list.input_more_tail(); // 空参数
-        assertEquals(pos, Integer.MIN_VALUE, "input_more_tail() 空参数返回 MIN_VALUE");
-        assertArrayEquals(list.traversal(), new int[]{1}, "input_more_tail() 后链表不变");
+        int pos = list.input_more_back(); // 空参数
+        assertEquals(pos, Integer.MIN_VALUE, "input_more_back() 空参数返回 MIN_VALUE");
+        assertArrayEquals(list.traversal(), new int[]{1}, "input_more_back() 后链表不变");
     }
 
     private static void testInputListTail() {
         linked_list_singly list1 = new linked_list_singly(1, 2);
         linked_list_singly list2 = new linked_list_singly(3, 4);
-        int pos = list1.input_list_tail(list2);
-        assertEquals(pos, 2, "input_list_tail 返回位置 2");
-        assertArrayEquals(list1.traversal(), new int[]{1, 2, 3, 4}, "input_list_tail 后 [1,2,3,4]");
+        int pos = list1.input_list_back(list2);
+        assertEquals(pos, 2, "input_list_back 返回位置 2");
+        assertArrayEquals(list1.traversal(), new int[]{1, 2, 3, 4}, "input_list_back 后 [1,2,3,4]");
     }
 
     private static void testInputListTailEmpty() {
         linked_list_singly list1 = new linked_list_singly(100);
         linked_list_singly empty = new linked_list_singly();
-        int pos = list1.input_list_tail(empty);
-        assertEquals(pos, Integer.MIN_VALUE, "input_list_tail(空链表) 返回 MIN_VALUE");
+        int pos = list1.input_list_back(empty);
+        assertEquals(pos, Integer.MIN_VALUE, "input_list_back(空链表) 返回 MIN_VALUE");
     }
 
     private static void testInputHeadIntoEmpty() {
         linked_list_singly list = new linked_list_singly();
-        int pos = list.input_head(9);
-        assertEquals(pos, 0, "空链表 input_head(9) 返回 0");
-        assertArrayEquals(list.traversal(), new int[]{9}, "空链表 input_head 后 [9]");
+        int pos = list.input_front(9);
+        assertEquals(pos, 0, "空链表 input_front(9) 返回 0");
+        assertArrayEquals(list.traversal(), new int[]{9}, "空链表 input_front 后 [9]");
     }
 
     private static void testInputHeadIntoNonEmpty() {
         linked_list_singly list = new linked_list_singly(2, 3);
-        list.input_head(1);
-        assertArrayEquals(list.traversal(), new int[]{1, 2, 3}, "input_head(1) 后 [1,2,3]");
+        list.input_front(1);
+        assertArrayEquals(list.traversal(), new int[]{1, 2, 3}, "input_front(1) 后 [1,2,3]");
     }
 
     private static void testInputMoreHead() {
         linked_list_singly list = new linked_list_singly(4, 5);
-        list.input_more_head(1, 2, 3);
-        assertArrayEquals(list.traversal(), new int[]{1, 2, 3, 4, 5}, "input_more_head(1,2,3) 后 [1,2,3,4,5]");
+        list.input_more_front(1, 2, 3);
+        assertArrayEquals(list.traversal(), new int[]{1, 2, 3, 4, 5}, "input_more_front(1,2,3) 后 [1,2,3,4,5]");
     }
 
     private static void testInputMoreHeadEmptyArray() {
         linked_list_singly list = new linked_list_singly(7);
-        int pos = list.input_more_head();
-        assertEquals(pos, Integer.MIN_VALUE, "input_more_head() 空参数返回 MIN_VALUE");
+        int pos = list.input_more_front();
+        assertEquals(pos, Integer.MIN_VALUE, "input_more_front() 空参数返回 MIN_VALUE");
     }
 
     private static void testInputListHead() {
         linked_list_singly list1 = new linked_list_singly(3, 4);
         linked_list_singly list2 = new linked_list_singly(1, 2);
-        list1.input_list_head(list2);
-        assertArrayEquals(list1.traversal(), new int[]{1, 2, 3, 4}, "input_list_head 后 [1,2,3,4]");
+        list1.input_list_front(list2);
+        assertArrayEquals(list1.traversal(), new int[]{1, 2, 3, 4}, "input_list_front 后 [1,2,3,4]");
     }
 
     private static void testInputListHeadEmpty() {
         linked_list_singly list1 = new linked_list_singly(10);
         linked_list_singly empty = new linked_list_singly();
-        int pos = list1.input_list_head(empty);
-        assertEquals(pos, Integer.MIN_VALUE, "input_list_head(空链表) 返回 MIN_VALUE");
+        int pos = list1.input_list_front(empty);
+        assertEquals(pos, Integer.MIN_VALUE, "input_list_front(空链表) 返回 MIN_VALUE");
     }
 
     private static void testInsertMiddle() {
@@ -377,39 +377,39 @@ public class linked_list_singly_test {
 
     private static void testRemoveTailNormal() {
         linked_list_singly list = new linked_list_singly(1, 2, 3, 4);
-        int removed = list.remove_tail(2);
-        assertEquals(removed, 2, "remove_tail(2) 返回删除数 2");
-        assertArrayEquals(list.traversal(), new int[]{1, 2}, "remove_tail(2) 后 [1,2]");
+        int removed = list.remove_back(2);
+        assertEquals(removed, 2, "remove_back(2) 返回删除数 2");
+        assertArrayEquals(list.traversal(), new int[]{1, 2}, "remove_back(2) 后 [1,2]");
     }
 
     private static void testRemoveTailZeroCount() {
         linked_list_singly list = new linked_list_singly(1, 2);
-        assertEquals(list.remove_tail(0), 0, "remove_tail(0) 返回 0");
-        assertArrayEquals(list.traversal(), new int[]{1, 2}, "remove_tail(0) 后链表不变");
+        assertEquals(list.remove_back(0), 0, "remove_back(0) 返回 0");
+        assertArrayEquals(list.traversal(), new int[]{1, 2}, "remove_back(0) 后链表不变");
     }
 
     private static void testRemoveTailTooMany() {
         linked_list_singly list = new linked_list_singly(1, 2, 3);
-        assertEquals(list.remove_tail(10), Integer.MIN_VALUE, "remove_tail(超量) 返回 MIN_VALUE");
+        assertEquals(list.remove_back(10), Integer.MIN_VALUE, "remove_back(超量) 返回 MIN_VALUE");
         assertArrayEquals(list.traversal(), new int[]{1, 2, 3}, "超量删除后链表不变");
     }
 
     private static void testRemoveHeadNormal() {
         linked_list_singly list = new linked_list_singly(1, 2, 3, 4);
-        int removed = list.remove_head(2);
-        assertEquals(removed, 2, "remove_head(2) 返回删除数 2");
-        assertArrayEquals(list.traversal(), new int[]{3, 4}, "remove_head(2) 后 [3,4]");
+        int removed = list.remove_front(2);
+        assertEquals(removed, 2, "remove_front(2) 返回删除数 2");
+        assertArrayEquals(list.traversal(), new int[]{3, 4}, "remove_front(2) 后 [3,4]");
     }
 
     private static void testRemoveHeadZeroCount() {
         linked_list_singly list = new linked_list_singly(1, 2);
-        assertEquals(list.remove_head(0), 0, "remove_head(0) 返回 0");
-        assertArrayEquals(list.traversal(), new int[]{1, 2}, "remove_head(0) 后链表不变");
+        assertEquals(list.remove_front(0), 0, "remove_front(0) 返回 0");
+        assertArrayEquals(list.traversal(), new int[]{1, 2}, "remove_front(0) 后链表不变");
     }
 
     private static void testRemoveHeadTooMany() {
         linked_list_singly list = new linked_list_singly(1, 2);
-        assertEquals(list.remove_head(5), Integer.MIN_VALUE, "remove_head(超量) 返回 MIN_VALUE");
+        assertEquals(list.remove_front(5), Integer.MIN_VALUE, "remove_front(超量) 返回 MIN_VALUE");
         assertArrayEquals(list.traversal(), new int[]{1, 2}, "超量删除后链表不变");
     }
 

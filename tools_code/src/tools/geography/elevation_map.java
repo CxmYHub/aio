@@ -49,7 +49,7 @@ public class elevation_map implements java.io.Serializable
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    计算当前高程地图对象的统计信息。<br>
+    计算当前高程地图的统计信息。<br>
     包括最大值、最小值、平均值、中位数。
     @return 值域是否发生变化。<br>
     若最大值或最小值发生变化，则返回<code>true</code>；否则返回<code>false</code>。
@@ -185,9 +185,9 @@ public class elevation_map implements java.io.Serializable
     }
     /**
     <p>此方法会修改调用对象。</p><br>
-    计算当前高程地图对象的直方图。<br>
+    计算当前高程地图的直方图。<br>
     直方图的区间数为100。
-    @return 直方图对象。
+    @return 当前高程地图的直方图。
     */
     public histogram calculate_histogram()
     {
