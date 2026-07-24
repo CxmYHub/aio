@@ -7,7 +7,7 @@ package tools.data_structure;
 public class queue
 {
     public int elements[];
-    public int top;
+    public int front;
     public int rear;
     public int capacity;
     public boolean overturn=false;
@@ -18,7 +18,7 @@ public class queue
     public queue(int capacity)
     {
         elements=new int[capacity];
-        top=0;
+        front=0;
         rear=0;
         this.capacity=capacity;
     }
@@ -28,7 +28,7 @@ public class queue
     public queue()
     {
         elements=new int[256];
-        top=0;
+        front=0;
         rear=0;
         this.capacity=256;
     }
@@ -38,7 +38,7 @@ public class queue
     */
     public boolean is_empty()
     {
-        return top==rear&&!overturn;
+        return front==rear&&!overturn;
     }
     /**
     判断队列是否已满。
@@ -46,7 +46,7 @@ public class queue
     */
     public boolean is_full()
     {
-        return top==rear&&overturn;
+        return front==rear&&overturn;
     }
     /**
     获取队列中元素的数量。
@@ -54,7 +54,7 @@ public class queue
     */
     public int element_count()
     {
-        return overturn?capacity+rear-top:rear-top;
+        return overturn?capacity+rear-front:rear-front;
     }
     /**
     获取队列中剩余空间的数量。
@@ -62,7 +62,7 @@ public class queue
     */
     public int empty_count()
     {
-        return overturn?top-rear:capacity+top-rear;
+        return overturn?front-rear:capacity+front-rear;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
@@ -75,16 +75,16 @@ public class queue
         int new_elements[]=new int[(capacity<<1)+2];
         if(!overturn)
         {
-            System.arraycopy(elements,top,new_elements,0,rear-top);
+            System.arraycopy(elements,front,new_elements,0,rear-front);
         }
         else
         {
-            System.arraycopy(elements,top,new_elements,0,capacity-top);
-            System.arraycopy(elements,0,new_elements,capacity-top,rear);
+            System.arraycopy(elements,front,new_elements,0,capacity-front);
+            System.arraycopy(elements,0,new_elements,capacity-front,rear);
         }
         elements=new_elements;
-        top=0;
-        rear=overturn?capacity+rear-top:rear-top;
+        rear=overturn?capacity+rear-front:rear-front;
+        front=0;
         overturn=false;
         capacity=(capacity<<1)+2;
         return capacity;
@@ -105,16 +105,16 @@ public class queue
         int new_elements[]=new int[capacity+more_capacity];
         if(!overturn)
         {
-            System.arraycopy(elements,top,new_elements,0,rear-top);
+            System.arraycopy(elements,front,new_elements,0,rear-front);
         }
         else
         {
-            System.arraycopy(elements,top,new_elements,0,capacity-top);
-            System.arraycopy(elements,0,new_elements,capacity-top,rear);
+            System.arraycopy(elements,front,new_elements,0,capacity-front);
+            System.arraycopy(elements,0,new_elements,capacity-front,rear);
         }
         elements=new_elements;
-        top=0;
-        rear=overturn?capacity+rear-top:rear-top;
+        rear=overturn?capacity+rear-front:rear-front;
+        front=0;
         overturn=false;
         capacity+=more_capacity;
         return capacity;
@@ -127,7 +127,7 @@ public class queue
     */
     public int input(int element)
     {
-        if(top==rear&&overturn)
+        if(front==rear&&overturn)
         {
             dilate();
         }
@@ -137,7 +137,7 @@ public class queue
             rear=0;
             overturn=true;
         }
-        return overturn?capacity+rear-top:rear-top;
+        return overturn?capacity+rear-front:rear-front;
     }
     /**
 	<p>此方法会修改调用对象。</p><br>
@@ -149,7 +149,7 @@ public class queue
     {
         for(int element:elements)
         {
-            if(top==rear&&overturn)
+            if(front==rear&&overturn)
             {
                 dilate();
             }
@@ -160,7 +160,7 @@ public class queue
                 overturn=true;
             }
         }
-        return overturn?capacity+rear-top:rear-top;
+        return overturn?capacity+rear-front:rear-front;
     }
     /**
     获取队头元素但不出队。
@@ -169,9 +169,9 @@ public class queue
     */
     public int get()
     {
-        if(top!=rear||overturn)
+        if(front!=rear||overturn)
         {
-            return elements[top];
+            return elements[front];
         }
         else
         {
@@ -186,15 +186,15 @@ public class queue
     */
     public int output()
     {
-        if(top<capacity-1&&(top!=rear||overturn))
+        if(front!=rear||overturn)
         {
-            return elements[top++];
-        }
-        else if(top==capacity-1&&(top!=rear||overturn))
-        {
-            top=0;
-            overturn=false;
-            return elements[capacity-1];
+            int result=elements[front++];
+            if(front>=capacity)
+            {
+                front=0;
+                overturn=false;
+            }
+            return result;
         }
         else
         {
