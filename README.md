@@ -54,6 +54,8 @@
 
 - **linked_list_singly_test.java**：单向链表 `linked_list_singly` 的功能测试。
 
+- **deque_test.java**：双端队列 `deque` 的功能测试。
+
 - **qrc_test.java**：二维码生成 `quick_response_code` 的功能测试。
 
 - **trie_test.java**：字典树 `trie` 的功能测试。
@@ -118,6 +120,8 @@ class using_tools
         - [binary_tree（二叉树）](#binary_tree二叉树)
 
         - [b_plus_tree（B+树）](#b_plus_treeb树)
+
+        - [deque（双端队列）](#deque双端队列)
 
         - [disjoint_set / disjoint_set_element（并查集）](#disjoint_set--disjoint_set_element并查集)
 
@@ -376,6 +380,32 @@ tools
     - `b_plus_tree remove(int key)` → 删除一个匹配的元素，返回新根。
 
     - `b_plus_tree remove_all(int key)` → 删除所有匹配元素，返回新根。
+
+#### deque（双端队列）
+
+- 继承自 `queue`，在队列两端都可以进行插入和删除操作。以循环数组实现，默认容量256。
+
+- **构造器**：`deque(int capacity)` 指定容量；`deque()` 默认容量256。
+
+- **方法**：
+
+    - `int input_back(int element)` → 从队尾入队（同 `queue.input`）。
+
+    - `int input_more_back(int... elements)` → 从队尾批量入队。
+
+    - `int input_front(int element)` → 从队头入队。
+
+    - `int input_more_front(int... elements)` → 从队头批量入队。
+
+    - `int get_back()` → 获取队尾元素但不出队，空时返回 `Integer.MIN_VALUE`。
+
+    - `int get_front()` → 获取队头元素但不出队（同 `queue.get`）。
+
+    - `int output_back()` → 队尾元素出队，空时返回 `Integer.MIN_VALUE`。
+
+    - `int output_front()` → 队头元素出队（同 `queue.output`）。
+
+- 同时继承 `queue` 的所有方法（`is_empty()`, `element_count()`, `dilate()` 等）。
 
 #### disjoint_set / disjoint_set_element（并查集）
 
