@@ -5,5 +5,7 @@
         "lib/**/*.jar"
     ],
     "java.debug.settings.onBuildFailureProceed": true,
-    "java.search.scope": "all"
+    "java.search.scope": "all",
+    "trae.tab.enableRename": false,
+    "trae.tab.enableAutoImport": false
 }
