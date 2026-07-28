@@ -6,7 +6,10 @@ B+树是一种自平衡的树结构，用于存储和检索数据。<br>
 <ul>
     <li>
         内部节点。<br>
-        包含多个关键字和对应的子节点指针。
+        包含多个关键字和对应的子节点指针。<br>
+        关键字存储数据的界限。<br>
+        若数据≥界限，则数据位于界限的右子树。<br>
+        若数据≤界限，则数据位于界限的左子树。
     </li>
     <li>
         叶节点。<br>
@@ -152,14 +155,14 @@ public class b_plus_tree
             while(left<=right)
             {
                 int middle=(left+right)/2;
-                if(now.elements[middle]<element)
-                {
-                    left=middle+1;
-                }
-                else
+                if(now.elements[middle]>=element)
                 {
                     target=middle;
                     right=middle-1;
+                }
+                else
+                {
+                    left=middle+1;
                 }
             }
             now=now.children[target];
@@ -173,14 +176,14 @@ public class b_plus_tree
         while(left<=right)
         {
             int middle=(left+right)/2;
-            if(now.elements[middle]<element)
-            {
-                left=middle+1;
-            }
-            else
+            if(now.elements[middle]>=element)
             {
                 left_index=middle;
                 right=middle-1;
+            }
+            else
+            {
+                left=middle+1;
             }
         }
         int total=0;
@@ -203,14 +206,14 @@ public class b_plus_tree
                 while(left<=right)
                 {
                     int middle=(left+right)/2;
-                    if(now.elements[middle]<=element)
-                    {
-                        left=middle+1;
-                    }
-                    else
+                    if(now.elements[middle]>element)
                     {
                         right_index=middle;
                         right=middle-1;
+                    }
+                    else
+                    {
+                        left=middle+1;
                     }
                 }
                 return total+right_index-left_index;
@@ -239,14 +242,14 @@ public class b_plus_tree
             while(left<=right)
             {
                 int middle=(left+right)/2;
-                if(now.elements[middle]<min)
-                {
-                    left=middle+1;
-                }
-                else
+                if(now.elements[middle]>=min)
                 {
                     target=middle;
                     right=middle-1;
+                }
+                else
+                {
+                    left=middle+1;
                 }
             }
             now=now.children[target];
@@ -260,14 +263,14 @@ public class b_plus_tree
         while(left<=right)
         {
             int middle=(left+right)/2;
-            if(now.elements[middle]<min)
-            {
-                left=middle+1;
-            }
-            else
+            if(now.elements[middle]>=min)
             {
                 left_index=middle;
                 right=middle-1;
+            }
+            else
+            {
+                left=middle+1;
             }
         }
         int total=0;
@@ -290,14 +293,14 @@ public class b_plus_tree
                 while(left<=right)
                 {
                     int middle=(left+right)/2;
-                    if(now.elements[middle]<=max)
-                    {
-                        left=middle+1;
-                    }
-                    else
+                    if(now.elements[middle]>max)
                     {
                         right_index=middle;
                         right=middle-1;
+                    }
+                    else
+                    {
+                        left=middle+1;
                     }
                 }
                 return total+right_index-left_index;
@@ -392,14 +395,14 @@ public class b_plus_tree
             while(left<=right)
             {
                 int middle=(left+right)/2;
-                if(now.elements[middle]<=element)
-                {
-                    left=middle+1;
-                }
-                else
+                if(now.elements[middle]>element)
                 {
                     target=middle;
                     right=middle-1;
+                }
+                else
+                {
+                    left=middle+1;
                 }
             }
             indexs[pin++]=target;
@@ -410,14 +413,14 @@ public class b_plus_tree
         while(left<=right)
         {
             int middle=(left+right)/2;
-            if(now.elements[middle]<=element)
-            {
-                left=middle+1;
-            }
-            else
+            if(now.elements[middle]>element)
             {
                 target=middle;
                 right=middle-1;
+            }
+            else
+            {
+                left=middle+1;
             }
         }
         for(int i=now.count-1;i>=target;i--)
@@ -542,14 +545,14 @@ public class b_plus_tree
             while(left<=right)
             {
                 int middle=(left+right)/2;
-                if(now.elements[middle]<=element)
-                {
-                    left=middle+1;
-                }
-                else
+                if(now.elements[middle]>element)
                 {
                     target=middle;
                     right=middle-1;
+                }
+                else
+                {
+                    left=middle+1;
                 }
             }
             indexs[pin++]=target;

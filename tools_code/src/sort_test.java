@@ -6,8 +6,8 @@ public class sort_test
     {
         Random RNG=new Random();
         boolean judging=false;
-        int time=5;
-        int length=100000;
+        int time=1;
+        int length=10000000;
         int numbers[]=new int[length];
         long sum_offical_time=0;
         long sum_time=0;
