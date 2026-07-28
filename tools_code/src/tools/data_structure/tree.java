@@ -1,6 +1,6 @@
 package tools.data_structure;
 /**
-<p>树类。</p><br>
+<p>树类</p><br>
 树是一种非线性数据结构。<br>
 其每个节点包含一个元素和零个或多个子节点。<br>
 其中：
@@ -12,14 +12,24 @@ package tools.data_structure;
 */
 public class tree
 {
+    /**
+    <p>元素</p>
+    */
     public int element;
+    /**
+    <p>第一个子节点指针</p>
+    */
     public tree child;
+    /**
+    <p>下一个兄弟节点指针</p>
+    */
     public tree next;
     /**
+    <p>构造方法</p><br>
     通过树字符串构造一个树。
     @param tree_string 树字符串。<br>
     树字符串的格式为：<code>根节点{子树1,子树2,子树3,...}...</code>。<br>
-    例如：<code>A{B{D,E},C{F,G,H,I}}</code>。<br>
+    例如：<code>A{B{D,E},C{F,G,H,I}}</code>。
     */
     public tree(String tree_string)
     {
@@ -80,17 +90,23 @@ public class tree
         }
     }
     /**
-    通过元素构造一个树。
+    <p>节点构造方法</p><br>
+    构造一个包含指定元素的树节点。
     @param element 元素。
     */
     public tree(int element)
     {
         this.element=element;
     }
+    /**
+    <p>无参节点构造方法</p><br>
+    构造一个默认元素为0的树节点。
+    */
     private tree()
     {
     }
     /**
+    <p>节点计数</p><br>
     计算树的节点数。
     @return 树的节点数。
     */
@@ -123,6 +139,7 @@ public class tree
         return count;
     }
     /**
+    <p>树深度计算</p><br>
     计算树的深度。
     @return 树的深度。
     */
@@ -177,6 +194,7 @@ public class tree
         return depth;
     }
     /**
+    <p>先序遍历</p><br>
     先序遍历树。
     @return 先序遍历结果。
     */
@@ -229,6 +247,7 @@ public class tree
         return result;
     }
     /**
+    <p>后序遍历</p><br>
     后序遍历树。
     @return 后序遍历结果。
     */
@@ -289,6 +308,7 @@ public class tree
         return result;
     }
     /**
+    <p>层序遍历</p><br>
     层序遍历树。
     @return 层序遍历结果。
     */
@@ -312,7 +332,8 @@ public class tree
         return result;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素插入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向树中指定元素的子节点插入一个元素。
     @param element 要插入的元素。
     @param target 要插入的位置的元素。
@@ -360,7 +381,8 @@ public class tree
         return Integer.MIN_VALUE;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素删除（单个匹配）</p><br>
+    <p>此方法会修改调用对象。</p><br>
     从树中删除一个元素。<br>
     若存在多个相同元素，则只删除先序遍历序列中出现的第一个。
     @param element 要删除的元素。
@@ -410,6 +432,10 @@ public class tree
         }
         return Integer.MIN_VALUE;
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 树的字符串表示。
+    */
     public String toString()
     {
         tree pins[]=new tree[10];

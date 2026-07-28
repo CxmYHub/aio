@@ -1,11 +1,12 @@
 package tools.collection;
 /**
-<p>字符串工具类。</p><br>
+<p>字符串工具类</p><br>
 用于对字符串进行操作。
 */
 public class string
 {
     /**
+    <p>字符串反转</p><br>
     计算一个字符串的反转字符串。
     @param string 字符串。
     @return 反转的字符串。
@@ -25,6 +26,7 @@ public class string
         return new String(char_string);
     }
     /**
+    <p>字符串包含判断</p><br>
     判断一个字符串中是否包含另一个字符串。
     @param base 基字符串。
     @param pattern 模式字符串。
@@ -72,6 +74,7 @@ public class string
         return pin==pattern_length;
     }
     /**
+    <p>回文串判断</p><br>
     判断一个字符串是否为回文字符串。
     @param string 字符串。
     @return 是否为回文字符串。
@@ -91,6 +94,7 @@ public class string
         return is_palindrome;
     }
     /**
+    <p>最长回文子串</p><br>
     计算一个字符串的最长回文子串。
     @param string 字符串。
     @return 最长回文子串。
@@ -143,6 +147,7 @@ public class string
         return string.substring((max_center-max_length)/2,(max_center+max_length)/2);
     }
     /**
+    <p>最长回文子串长度</p><br>
     计算一个字符串的最长回文子串的长度。
     @param string 字符串。
     @return 最长回文子串的长度。
@@ -193,6 +198,7 @@ public class string
         return max_length;
     }
     /**
+    <p>正则表达式匹配</p><br>
     判断一个字符串是否匹配一个正则表达式。
     @param string 字符串。
     @param expression 正则表达式。<br>

@@ -1,17 +1,30 @@
 package tools.data_structure;
 /**
-<p>图类。</p><br>
+<p>图类</p><br>
 图是由顶点和边组成的一种数据结构。<br>
 顶点表示图中的一个点，边表示顶点之间的关系。<br>
 本图以邻接矩阵形式实现。
 */
 public class graph
 {
+    /**
+    <p>邻接矩阵</p>
+    */
     public int elements[][];
+    /**
+    <p>顶点数量</p>
+    */
     public int vexs=1;
+    /**
+    <p>是否为有向图</p>
+    */
     public boolean directed=false;
+    /**
+    <p>是否为有权图</p>
+    */
     public boolean righted=false;
     /**
+    <p>构造方法</p><br>
     通过图字符串构造一个图。
     @param graph_string 图字符串，格式为<code>{(v1,v2,w1),(v2,v3,w2),...}</code>。
     @param type 图的类型。<br>
@@ -103,6 +116,7 @@ public class graph
         }
     }
     /**
+    <p>最小路径成本</p><br>
     计算从起始顶点到目标顶点的最小路径成本。
     @param start 起始顶点的编号。
     @param end 目标顶点的编号。
@@ -153,6 +167,10 @@ public class graph
         }
         return cost[end];
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 图的字符串表示。
+    */
     public String toString()
     {
         StringBuilder result=new StringBuilder();

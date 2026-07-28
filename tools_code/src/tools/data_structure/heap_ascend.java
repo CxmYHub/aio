@@ -1,6 +1,6 @@
 package tools.data_structure;
 /**
-<p>升序堆类。</p><br>
+<p>升序堆类</p><br>
 升序堆是一种特殊的堆，其每个节点的元素都小于或等于其子节点的元素。<br>
 每次取出的元素都是堆中最小的元素。
 @see heap
@@ -8,23 +8,7 @@ package tools.data_structure;
 public class heap_ascend extends heap
 {
     /**
-    构造一个指定容量的空升序堆。
-    @param capacity 堆的容量。
-    @see heap#heap(int)
-    */
-    public heap_ascend(int capacity)
-    {
-        super(capacity);
-    }
-    /**
-    构造一个默认容量为255的空升序堆。
-    @see heap#heap()
-    */
-    public heap_ascend()
-    {
-        super();
-    }
-    /**
+    <p>构造方法</p><br>
     构造一个升序堆，包含指定元素。
     @param elements 要包含的元素。
     @see heap#heap(int...)
@@ -35,7 +19,27 @@ public class heap_ascend extends heap
         regular_all();
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>构造方法</p><br>
+    构造一个指定容量的空升序堆。
+    @param capacity 堆的容量。
+    @see heap#heap(int)
+    */
+    public heap_ascend(int capacity)
+    {
+        super(capacity);
+    }
+    /**
+    <p>无参构造方法</p><br>
+    构造一个默认容量为255的空升序堆。
+    @see heap#heap()
+    */
+    public heap_ascend()
+    {
+        super();
+    }
+    /**
+    <p>元素输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将元素插入升序堆。
     @param element 要插入的元素。
     @return 插入的元素。
@@ -48,7 +52,8 @@ public class heap_ascend extends heap
         return element;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将多个元素插入升序堆。
     @param elements 要插入的多个元素。
     @return 插入的元素数量。
@@ -61,7 +66,8 @@ public class heap_ascend extends heap
         return count;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素输出</p><br>
+    <p>此方法会修改调用对象。</p><br>
     从升序堆中取出最小元素。
     @return 最小元素。
     @see heap#output()
@@ -73,7 +79,8 @@ public class heap_ascend extends heap
         return min;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>所有元素调整</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对升序堆中的所有元素进行调整，使其满足升序堆的性质。
     @return 调整后的堆顶元素。
     */
@@ -112,7 +119,8 @@ public class heap_ascend extends heap
         return elements[0];
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>堆顶元素调整</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对升序堆中的堆顶元素进行调整，使其满足升序堆的性质。
     @return 调整后的堆顶元素。
     */
@@ -148,7 +156,8 @@ public class heap_ascend extends heap
         return elements[0];
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>末元素调整</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对升序堆中的最后一个元素进行调整，使其满足升序堆的性质。
     @return 调整后的堆顶元素。
     */

@@ -1,14 +1,18 @@
 package tools.data_structure;
 /**
-<p>最大栈类。</p><br>
+<p>最大栈类</p><br>
 最大栈是一种特殊的栈，除了基本的入栈、出栈操作外，还可以在O(1)时间内获取栈中的最大元素。<br>
 本最大栈以数组实现，默认容量为16。
 @see stack
 */
 public class stack_max extends stack
 {
+    /**
+    <p>最大元素数组</p>
+    */
     public int max_elements[];
     /**
+    <p>构造方法</p><br>
     构造一个指定容量的空最大栈。
     @param capacity 栈的容量。
     @see stack#stack(int)
@@ -19,6 +23,7 @@ public class stack_max extends stack
         max_elements=new int[capacity];
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认容量为16的空最大栈。
     @see stack#stack()
     */
@@ -28,7 +33,8 @@ public class stack_max extends stack
         max_elements=new int[16];
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对最大栈进行扩容。<br>
     新的栈容量=当前容量*2+2。
     @return 新的栈容量=当前容量*2+2。
@@ -45,7 +51,8 @@ public class stack_max extends stack
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对最大栈进行扩容。<br>
     新的栈容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
@@ -67,6 +74,7 @@ public class stack_max extends stack
         return capacity;
     }
     /**
+    <p>最大元素获取</p><br>
     获取栈中最大的元素但不弹出。
     @return 栈中最大的元素。<br>
     若栈为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -83,7 +91,8 @@ public class stack_max extends stack
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素压入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将元素压入栈中。
     @param element 要压入栈中的元素。
     @return 栈中元素的数量。
@@ -103,7 +112,8 @@ public class stack_max extends stack
         return top;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量压入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将多个元素压入栈中。
     @param elements 要压入栈中的元素数组。
     @return 栈中元素的数量。

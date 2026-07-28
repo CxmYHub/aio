@@ -225,18 +225,18 @@ public class elevation_test
         // System.out.println("线性缩放2倍后：\n"+map);
         // double returning_coefficient=map.normalize();
         // System.out.println("归一化后：\n"+map);
-        // double coefficient=map.exponential_scale(Math.E);
-        // System.out.println(coefficient);
-        // System.out.println("指数缩放后：\n"+map);
+        double coefficient=map.exponential_scale(1.001);
+        System.out.println(coefficient);
+        System.out.println("指数缩放后：\n"+map);
         // map.linear_scale(1/returning_coefficient);
         // System.out.println("线性缩放回归后：\n"+map);
         // visualize(map.elevation);
         // map.exponential_normalize(Math.E);
         // System.out.println("指数规整后：\n"+map);
-        map.secant_odd_normalize();
-        System.out.println("正割奇函数规整后：\n"+map);
+        // map.secant_odd_normalize();
+        // System.out.println("正割奇函数规整后：\n"+map);
         map.calculate_statistics();
-        System.out.println(map);
+        // System.out.println(map);
         System.out.println(map.calculate_histogram());
         visualize(map.elevation);
     }

@@ -1,16 +1,26 @@
 package tools.data_structure;
 /**
-<p>元素并查集类。</p><br>
-元素并查集是一种特殊的并查集，通过维护一个哈希表实现元素到索引的映射。<br>
-除索引外，还可通过元素进行合并和查询操作。
+<p>元素并查集类</p><br>
+元素并查集是一种特殊的并查集，除索引外，还可通过元素进行合并和查询操作。<br>
+本元素并查集通过维护一个哈希表实现元素到索引的映射。
 @see tools.data_structure.disjoint_set
 */
 public class disjoint_set_element extends disjoint_set
 {
+    /**
+    <p>元素数组</p>
+    */
     public int elements[];
+    /**
+    <p>元素到索引的映射</p>
+    */
     public hash_map element_index;
+    /**
+    <p>元素数量</p>
+    */
     public int size=0;
     /**
+    <p>构造方法</p><br>
     构造一个指定容量的空并查集。
     @param count 并查集的容量。
     */
@@ -22,6 +32,7 @@ public class disjoint_set_element extends disjoint_set
         element_index=new hash_map(capacity);
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认容量为16的空并查集。
     */
     public disjoint_set_element()
@@ -32,7 +43,8 @@ public class disjoint_set_element extends disjoint_set
         element_index=new hash_map();
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对并查集进行扩容。<br>
     新的并查集容量=当前容量*2+2。
     @return 新的并查集容量=当前容量*2+2。
@@ -53,7 +65,8 @@ public class disjoint_set_element extends disjoint_set
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对并查集进行扩容。<br>
     新的并查集容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
@@ -79,7 +92,8 @@ public class disjoint_set_element extends disjoint_set
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向并查集中添加元素。<br>
     如果部分元素已存在，则不会重复添加。<br>
     @param element 要添加的元素。
@@ -102,7 +116,8 @@ public class disjoint_set_element extends disjoint_set
         return size;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向并查集中添加多个元素。<br>
     如果部分元素已存在，则不会重复添加。<br>
     @param elements 要添加的元素。
@@ -128,6 +143,7 @@ public class disjoint_set_element extends disjoint_set
         return size;
     }
     /**
+    <p>元素获取</p><br>
     获取并查集中指定索引的元素。
     @param index 元素的索引。
     @return 并查集中指定索引的元素。
@@ -137,6 +153,7 @@ public class disjoint_set_element extends disjoint_set
         return elements[index];
     }
     /**
+    <p>索引查询</p><br>
     获取并查集中指定元素的索引。
     @param elements 元素的值。
     @return 并查集中指定元素的索引。
@@ -146,6 +163,7 @@ public class disjoint_set_element extends disjoint_set
         return element_index.get(elements);
     }
     /**
+    <p>根索引查询</p><br>
     获取并查集中指定元素的根索引。
     @param elements 元素的值。
     @return 并查集中指定元素的根索引。<br>
@@ -161,7 +179,8 @@ public class disjoint_set_element extends disjoint_set
         return find_root_by_index(index);
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>集合合并</p><br>
+    <p>此方法会修改调用对象。</p><br>
     合并并查集中两个元素的根索引。
     @param element1 元素1的值。
     @param element2 元素2的值。
@@ -195,7 +214,8 @@ public class disjoint_set_element extends disjoint_set
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素相关性判断</p><br>
+    <p>此方法会修改调用对象。</p><br>
     判断并查集中两个元素是否相关。
     @param element1 元素1的值。
     @param element2 元素2的值。

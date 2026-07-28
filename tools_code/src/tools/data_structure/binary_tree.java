@@ -1,6 +1,6 @@
 package tools.data_structure;
 /**
-<p>二叉树类。</p><br>
+<p>二叉树类</p><br>
 二叉树是一种特殊的树状数据结构，每个节点有左、右两个子节点。<br>
 其中：
 <ul>
@@ -11,15 +11,25 @@ package tools.data_structure;
 */
 public class binary_tree
 {
+    /**
+    <p>节点元素</p>
+    */
     public int element;
+    /**
+    <p>左子树指针</p>
+    */
     public binary_tree left;
+    /**
+    <p>右子树指针</p>
+    */
     public binary_tree right;
     /**
+    <p>构造方法</p><br>
     通过二叉树字符串构造一个二叉树。<br>
     若传入的节点元素为字符，则存储其ASCII码值。
     @param tree_string 二叉树字符串。<br>
     二叉树字符串的格式为：<code>根节点{左子树,右子树}...</code>。<br>
-    例如：<code>A{B{D,E},C{F,G}}</code>。<br>
+    例如：<code>A{B{D,E},C{F,G}}</code>。
     */
     public binary_tree(String tree_string)
     {
@@ -114,6 +124,7 @@ public class binary_tree
         }
     }
     /**
+    <p>构造方法</p><br>
     通过先序遍历序列和中序遍历序列构造一个二叉树。
     @param preorder 先序遍历序列。
     @param inorder 中序遍历序列。
@@ -154,10 +165,11 @@ public class binary_tree
         }
     }
     /**
+    <p>构造方法</p><br>
     通过中序遍历序列和后序遍历序列构造一个二叉树。
     @param inorder 中序遍历序列。
     @param postorder 后序遍历序列。
-    @param use_inorder_postorder 哑元，代表使用中序遍历序列和后序遍历序列构造二叉树。<br>
+    @param use_inorder_postorder 哑元，代表使用中序遍历序列和后序遍历序列构造二叉树。
     */
     public binary_tree(int inorder[],int postorder[],int use_inorder_postorder)
     {
@@ -194,11 +206,17 @@ public class binary_tree
             }
         }
     }
+    /**
+    <p>节点构造方法</p><br>
+    构造一个包含指定元素的二叉树节点。
+    @param element 节点元素。
+    */
     private binary_tree(int element)
     {
         this.element=element;
     }
     /**
+    <p>节点计数</p><br>
     计算二叉树的节点数。
     @return 二叉树的节点数。
     */
@@ -231,6 +249,7 @@ public class binary_tree
         return count;
     }
     /**
+    <p>树深度计算</p><br>
     计算二叉树的深度。
     @return 二叉树的深度。
     */
@@ -303,61 +322,7 @@ public class binary_tree
         return depth;
     }
     /**
-    判断两个二叉树是否相同。
-    @param tree 要比较的二叉树。
-    @return 是否相同。
-    */
-    public boolean is_same(binary_tree tree)
-    {
-        int this_depth=depth();
-        int tree_depth=tree.depth();
-        int this_count=count();
-        int tree_count=tree.count();
-        if(this_depth!=tree_depth||this_count!=tree_count)
-        {
-            return false;
-        }
-        binary_tree pins1[]=new binary_tree[this_count];
-        binary_tree pins2[]=new binary_tree[this_count];
-        pins1[0]=this;
-        pins2[0]=tree;
-        int pin1=1,pin2=1;
-        while(pin1>0&&pin2>0)
-        {
-            binary_tree tree1=pins1[--pin1];
-            binary_tree tree2=pins2[--pin2];
-            if(tree1.element!=tree2.element)
-            {
-                return false;
-            }
-            if(tree1.left!=null&&tree2.left!=null)
-            {
-                pins1[pin1++]=tree1.left;
-                pins2[pin2++]=tree2.left;
-            }
-            else if(tree1.left==null&&tree2.left==null)
-            {
-            }
-            else
-            {
-                return false;
-            }
-            if(tree1.right!=null&&tree2.right!=null)
-            {
-                pins1[pin1++]=tree1.right;
-                pins2[pin2++]=tree2.right;
-            }
-            else if(tree1.right==null&&tree2.right==null)
-            {
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    /**
+    <p>先序遍历</p><br>
     先序遍历二叉树。
     @return 先序遍历结果。
     */
@@ -410,6 +375,7 @@ public class binary_tree
         return result;
     }
     /**
+    <p>中序遍历</p><br>
     中序遍历二叉树。
     @return 中序遍历结果。
     */
@@ -459,6 +425,7 @@ public class binary_tree
         return result;
     }
     /**
+    <p>后序遍历</p><br>
     后序遍历二叉树。
     @return 后序遍历结果。
     */
@@ -517,6 +484,7 @@ public class binary_tree
         return result;
     }
     /**
+    <p>层序遍历</p><br>
     层序遍历二叉树。
     @return 层序遍历结果。
     */
@@ -544,7 +512,8 @@ public class binary_tree
         return result;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向二叉树中插入一个元素。
     @param element 要插入的元素。
     @return 插入的元素的父节点元素。
@@ -587,7 +556,8 @@ public class binary_tree
         return now.element;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素删除（单个匹配）</p><br>
+    <p>此方法会修改调用对象。</p><br>
     从二叉树中删除一个元素。
     @param element 要删除的元素。
     @return 删除的元素。
@@ -642,8 +612,9 @@ public class binary_tree
         return Integer.MIN_VALUE;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
-    镜像二叉树。
+    <p>镜像二叉树</p><br>
+    <p>此方法会修改调用对象。</p><br>
+    将二叉树中所有节点的左右子树对调。
     */
     public void invert()
     {
@@ -673,6 +644,10 @@ public class binary_tree
             }
         }
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 二叉树的字符串表示。
+    */
     public String toString()
     {
         binary_tree pins[]=new binary_tree[10];
@@ -730,5 +705,66 @@ public class binary_tree
             }
         }
         return result.toString();
+    }
+    /**
+    <p>相等判断</p><br>
+    判断两个二叉树是否相同。
+    @param another_tree 要比较的二叉树。
+    @return 是否相同。
+    */
+    public boolean equals(Object another_tree)
+    {
+        if(another_tree==null||!(another_tree instanceof binary_tree))
+        {
+            return false;
+        }
+        binary_tree tree=(binary_tree)another_tree;
+        int this_depth=depth();
+        int tree_depth=tree.depth();
+        int this_count=count();
+        int tree_count=tree.count();
+        if(this_depth!=tree_depth||this_count!=tree_count)
+        {
+            return false;
+        }
+        binary_tree pins1[]=new binary_tree[this_count];
+        binary_tree pins2[]=new binary_tree[this_count];
+        pins1[0]=this;
+        pins2[0]=tree;
+        int pin1=1,pin2=1;
+        while(pin1>0&&pin2>0)
+        {
+            binary_tree tree1=pins1[--pin1];
+            binary_tree tree2=pins2[--pin2];
+            if(tree1.element!=tree2.element)
+            {
+                return false;
+            }
+            if(tree1.left!=null&&tree2.left!=null)
+            {
+                pins1[pin1++]=tree1.left;
+                pins2[pin2++]=tree2.left;
+            }
+            else if(tree1.left==null&&tree2.left==null)
+            {
+            }
+            else
+            {
+                return false;
+            }
+            if(tree1.right!=null&&tree2.right!=null)
+            {
+                pins1[pin1++]=tree1.right;
+                pins2[pin2++]=tree2.right;
+            }
+            else if(tree1.right==null&&tree2.right==null)
+            {
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

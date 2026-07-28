@@ -1,12 +1,12 @@
 package tools.collection;
 /**
-<p>查找类。</p><br>
+<p>查找类</p><br>
 用于查找数组中的元素。
 */
 public class search
 {
     /**
-    <p>线性查找。</p><br>
+    <p>线性查找</p><br>
     从数组中查找目标元素的第一个出现位置。
     @param numbers 数组。
     @param target 目标元素。
@@ -25,7 +25,8 @@ public class search
         return Integer.MIN_VALUE;
     }
     /**
-    <p>二分查找。需确保数组已升序排序。</p><br>
+    <p>二分查找</p><br>
+    <p>使用时需确保数组已升序排序。</p><br>
     从数组中查找目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
@@ -53,7 +54,8 @@ public class search
         return Integer.MIN_VALUE;
     }
     /**
-    <p>二分查找。需确保数组已升序排序。</p><br>
+    <p>二分查找</p><br>
+    <p>使用时需确保数组已升序排序。</p><br>
     从数组中查找第一个大于等于目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
@@ -79,7 +81,8 @@ public class search
         return result;
     }
     /**
-    <p>二分查找。需确保数组已升序排序。</p><br>
+    <p>二分查找</p><br>
+    <p>使用时需确保数组已升序排序。</p><br>
     查找数组中在[<code>min</code>,<code>max</code>]范围内的元素的个数。
     @param numbers 数组。
     @param min 最小值。
@@ -122,7 +125,8 @@ public class search
         return result_max-result_min-1>0?result_max-result_min-1:0;
     }
     /**
-    <p>插值查找。需确保数组已升序排序。</p><br>
+    <p>插值查找</p><br>
+    <p>使用时需确保数组已升序排序。</p><br>
     从数组中查找目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。

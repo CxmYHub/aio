@@ -1,14 +1,24 @@
 package tools.mathematics;
 /**
-<p>角度类。</p><br>
+<p>角度类</p><br>
 用于表示角度及对角度的操作。
 */
 public class angle
 {
+    /**
+    <p>度</p>
+    */
     public int degree;
+    /**
+    <p>分</p>
+    */
     public int minute;
+    /**
+    <p>秒</p>
+    */
     public int second;
     /**
+    <p>全参构造方法</p><br>
     构造一个角度对象。
     @param degree 度。
     @param minute 分。
@@ -21,6 +31,7 @@ public class angle
         this.second=second;
     }
     /**
+    <p>构造方法</p><br>
     构造一个角度对象。
     @param degree 度。
     @param minute 分。
@@ -32,6 +43,7 @@ public class angle
         this.second=0;
     }
     /**
+    <p>构造方法</p><br>
     构造一个角度对象。
     @param degree 度。
     */
@@ -42,6 +54,7 @@ public class angle
         this.second=0;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认角度对象(0°0'0")。
     */
     public angle()
@@ -51,6 +64,7 @@ public class angle
         this.second=0;
     }
     /**
+    <p>度分秒转小数</p><br>
     计算角度对应的小数表示的角度。
     @return 角度对应的小数表示的角度。
     */
@@ -59,6 +73,7 @@ public class angle
         return (double)degree+(double)minute/60+(double)second/3600;
     }
     /**
+    <p>度分秒转小数</p><br>
     计算一个角度对应的小数表示的角度。
     @param degree 度。
     @param minute 分。
@@ -70,6 +85,7 @@ public class angle
         return (double)degree+(double)minute/60+(double)second/3600;
     }
     /**
+    <p>度分秒转弧度</p><br>
     计算角度对应的弧度。
     @return 角度对应的弧度。
     */
@@ -78,6 +94,7 @@ public class angle
         return ((double)degree+(double)minute/60+(double)second/3600)/180*Math.PI;
     }
     /**
+    <p>度分秒转弧度</p><br>
     计算一个角度对应的弧度。
     @param degree 度。
     @param minute 分。
@@ -89,12 +106,15 @@ public class angle
         return ((double)degree+(double)minute/60+(double)second/3600)/180*Math.PI;
     }
     /**
+    <p>角度相加</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前角度与另一个角度相加。
     @param angle 要相加的角度对象。
     @return 和是否超过360°。<br>
-    若和超过360°，则自动执行诱导公式一，并返回<code>true</code>。<br>
-    若和未超过360°，则返回<code>false</code>。
+    <ul>
+        <li>若和超过360°，则自动执行诱导公式一，并返回<code>true</code>。</li>
+        <li>若和未超过360°，则返回<code>false</code>。</li>
+    </ul>
     */
     public boolean add(angle angle)
     {
@@ -114,6 +134,7 @@ public class angle
         return reversed;
     }
     /**
+    <p>角度相加</p><br>
     计算多个角度的和。
     @param angles 要计算和的多个角度对象。
     @return 多个角度的和。
@@ -140,7 +161,8 @@ public class angle
         return sum;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>角度缩小</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将当前角度除以一个整数。
     @param number 除数。
     @return 一个角度对象除以一个整数后的小数表示的角度，保留到秒。
@@ -167,6 +189,7 @@ public class angle
         return sub_second;
     }
     /**
+    <p>诱导公式一</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前角度的度部分取模360(执行诱导公式一)。
     @return 当前角度对象的度部分取模360后的结果。
@@ -176,6 +199,10 @@ public class angle
         this.degree%=360;
         return this.degree;
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 角度的字符串表示。
+    */
     public String toString()
     {
         return ""+this.degree+"°"+((this.minute<10)?("0"+this.minute):this.minute)+"'"+((this.second<10)?("0"+this.second):this.second)+"\"";

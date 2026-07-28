@@ -1,6 +1,6 @@
 package tools.data_structure;
 /**
-<p>B+树类。</p><br>
+<p>B+树类</p><br>
 B+树是一种自平衡的树结构，用于存储和检索数据。<br>
 其具有两种节点：<br>
 <ul>
@@ -25,13 +25,58 @@ B+树满足以下四条性质，其中，m为树的阶：<br>
 */
 public class b_plus_tree
 {
+    /**
+    <p>阶</p><br>
+    每个节点的子节点数量上限。<br>
+    默认为256。
+    */
     public final int order;
+    /**
+    <p>子节点指针数组</p><br>
+    指向子节点的指针数组。<br>
+    <ul>
+        <li>根节点，包含[2,<code>order</code>]个子节点。</li>
+        <li>内部节点，包含[<code>order/2</code>,<code>order</code>]个子节点。</li>
+        <li>叶节点，没有子节点。</li>
+    </ul>
+    */
     public b_plus_tree[] children;
+    /**
+    <p>关键字数组</p><br>
+    存储数据界线或数据。<br>
+    <ul>
+        <li>根节点/内部节点，存储数据的界限。<br>
+        若数据≥界限，则数据位于界限的右子树。<br>
+        若数据&lt;界限，则数据位于界限的左子树。
+        </li>
+        <li>叶节点，存储数据。</li>
+    </ul>
+    */
     public int[] elements;
+    /**
+    <p>元素数量</p><br>
+    节点中存储的元素数量。
+    */
     public int count;
+    /**
+    <p>叶节点后继指针</p><br>
+    <ul>
+        <li>根节点/内部节点，没有后继。</li>
+        <li>叶节点，指向下一个叶节点。</li>
+    </ul>
+    */
     public b_plus_tree next;
+    /**
+    <p>节点类型</p><br>
+    <ul>
+        <li>=0：根节点。</li>
+        <li>=1：内部节点。</li>
+        <li>=2：叶节点。</li>
+    </ul>
+    */
     public int type;
     /**
+    <p>节点构造方法</p><br>
     构造一个指定阶数的B+树节点对象。
     @param order 树的阶。
     @param type 节点类型。<br>
@@ -61,6 +106,7 @@ public class b_plus_tree
         }
     }
     /**
+    <p>构造方法</p><br>
     构造一个指定阶数的B+树对象。
     @param order 树的阶。
     */
@@ -74,6 +120,7 @@ public class b_plus_tree
         next=null;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认阶数为256的B+树对象。
     */
     public b_plus_tree()
@@ -86,11 +133,12 @@ public class b_plus_tree
         next=null;
     }
     /**
+    <p>单元素计数</p><br>
     获取B+树中指定元素的数量。
     @param element 元素。
     @return 元素的数量。
     */
-    public int get(int element)
+    public int count(int element)
     {
         if(this.count==0)
         {
@@ -171,12 +219,13 @@ public class b_plus_tree
         return total;
     }
     /**
+    <p>区间元素计数</p><br>
     获取B+树中[<code>min</code>,<code>max</code>]范围内元素的数量。
     @param min 最小值。
     @param max 最大值。
     @return [<code>min</code>,<code>max</code>]范围内元素的数量。
     */
-    public int get(int min,int max)
+    public int count(int min,int max)
     {
         if(this.count==0)
         {
@@ -257,6 +306,7 @@ public class b_plus_tree
         return total;
     }
     /**
+    <p>所有元素计数</p><br>
     计算B+树中元素的数量。
     @return 元素的数量。
     */
@@ -279,6 +329,7 @@ public class b_plus_tree
         return count;
     }
     /**
+    <p>叶节点遍历</p><br>
     通过叶节点链表遍历B+树。
     @return 遍历结果。
     */
@@ -305,6 +356,7 @@ public class b_plus_tree
         return result;
     }
     /**
+    <p>元素输入</p><br>
     <p>此方法会修改调用对象。</p><br>
     将一个元素添加到B+树中。
     @param element 要添加的元素。
@@ -456,6 +508,7 @@ public class b_plus_tree
         return this;
     }
     /**
+    <p>元素删除（首个匹配）</p><br>
     <p>此方法会修改调用对象。</p><br>
     删除B+树中首个匹配的元素。
     @param element 要删除的元素。
@@ -687,6 +740,7 @@ public class b_plus_tree
         return this;
     }
     /**
+    <p>元素删除（所有匹配）</p><br>
     <p>此方法会修改调用对象。</p><br>
     删除B+树中所有匹配的元素。
     @param element 要删除的元素。
@@ -695,12 +749,16 @@ public class b_plus_tree
     public b_plus_tree remove_all(int element)
     {
         b_plus_tree now=this;
-        for(int time=get(element);time>0;time--)
+        for(int time=count(element);time>0;time--)
         {
             now=now.remove(element);
         }
         return now;
     }
+    /**
+    <p>字符串表示</p><br>
+    @return B+树的字符串表示。
+    */
     public String toString()
     {
         b_plus_tree now=this;

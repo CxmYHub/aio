@@ -1,17 +1,36 @@
 package tools.mathematics;
 /**
-<p>直方图类。</p><br>
+<p>直方图类</p><br>
 用于制作和表示直方图和对直方图的操作。
 */
 public class histogram
 {
+    /**
+    <p>区间数量</p>
+    */
     public int group_count;
+    /**
+    <p>区间数据量</p>
+    */
     public int count[];
+    /**
+    <p>区间中点</p>
+    */
     public double group_value[];
+    /**
+    <p>区间边界</p>
+    */
     public double bound[];
+    /**
+    <p>下溢数据量</p>
+    */
     public int underflow_count;
+    /**
+    <p>上溢数据量</p>
+    */
     public int overflow_count;
     /**
+    <p>构造方法</p><br>
     通过区间数和数据构造一个等距直方图对象。
     @param group_count 区间数量。
     @param data 数据。
@@ -64,6 +83,7 @@ public class histogram
         bound[group_count]=max;
     }
     /**
+    <p>构造方法</p><br>
     通过区间数和范围构造一个等距直方图对象。
     @param group_count 区间数量。
     @param min 最小值。
@@ -88,6 +108,7 @@ public class histogram
         bound[group_count]=max;
     }
     /**
+    <p>数据输入</p><br>
     <p>此方法会修改调用对象。</p><br>
     向直方图中插入数据。
     @param data 数据。
@@ -119,6 +140,7 @@ public class histogram
         }
     }
     /**
+    <p>数据批量输入</p><br>
     <p>此方法会修改调用对象。</p><br>
     向直方图中插入多个数据。
     @param data 数据。
@@ -153,6 +175,10 @@ public class histogram
         }
         return count;
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 直方图的字符串表示。
+    */
     public String toString()
     {
         StringBuilder result=new StringBuilder("\n");

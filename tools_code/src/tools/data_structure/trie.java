@@ -8,11 +8,22 @@ package tools.data_structure;
 */
 public class trie
 {
+    /**
+    <p>节点深度</p>
+    */
     public int depth;
+    /**
+    <p>节点是否为字符串结束</p>
+    */
     public boolean is_end;
+    /**
+    <p>子节点指针</p>
+    */
     public trie children[]=new trie[26];
     /**
+    <p>构造方法</p><br>
     构造一个包含所有指定字符串的字典树。
+    @param words 多个字符串。
     */
     public trie(String... words)
     {
@@ -44,7 +55,9 @@ public class trie
         }
     }
     /**
+    <p>节点构造方法</p><br>
     构造一个指定深度的字典树节点。
+    @param depth 节点的深度。
     */
     public trie(int depth)
     {
@@ -52,6 +65,7 @@ public class trie
         this.is_end=false;
     }
     /**
+    <p>无参节点构造方法</p><br>
     构造一个深度为1的字典树。<br><br>
     注意本方法构造的是一个新的字典树。<br>
     包含1个节点，其深度为1。
@@ -62,6 +76,7 @@ public class trie
         this.is_end=false;
     }
     /**
+    <p>字符串计数</p><br>
     计算字典树中字符串数量。
     @return 字符串的数量。
     */
@@ -93,6 +108,7 @@ public class trie
         return count;
     }
     /**
+    <p>树深度计算</p><br>
     计算字典树的深度。<br>
     最长字符串长度=深度-1。
     @return 深度。
@@ -102,6 +118,7 @@ public class trie
         return depth;
     }
     /**
+    <p>最长字符串长度计算</p><br>
     计算字典树最长字符串的长度。<br>
     最长字符串长度=深度-1。
     @return 最长字符串长度。<br>
@@ -112,6 +129,7 @@ public class trie
         return depth-1;
     }
     /**
+    <p>字符串输入</p><br>
     <p>此方法会修改调用对象。</p><br>
     向字典树中添加一个字符串。
     @param word 字符串。
@@ -155,6 +173,7 @@ public class trie
         }
     }
     /**
+    <p>字符串批量输入</p><br>
     <p>此方法会修改调用对象。</p><br>
     向字典树中添加多个字符串。
     @param words 多个字符串。
@@ -196,6 +215,7 @@ public class trie
         return count;
     }
     /**
+    <p>字符串存在性判断</p><br>
     判断字典树中是否存在指定字符串。
     @param word 字符串。
     @return 是否存在。
@@ -216,6 +236,7 @@ public class trie
         return now.is_end;
     }
     /**
+    <p>字符串获取（所有字符串）</p><br>
     获取字典树中所有的字符串。
     @return 所有字符串的数组。
     */
@@ -260,6 +281,7 @@ public class trie
         return result;
     }
     /**
+    <p>字符串删除</p><br>
     <p>此方法会修改调用对象。</p><br>
     从字典树中删除一个字符串。
     @param word 字符串。
@@ -342,6 +364,13 @@ public class trie
         }
         return false;
     }
+    /**
+    <p>导出字符串</p><br>
+    将字典树中所有的字符串转换为一个字符串。<br>
+    整体用大括号括起，每个字符串之间用逗号隔开。<br>
+    例如：<code>{"abc","abd","def"}</code>
+    @return 包含所有字符串的字符串。
+    */
     public String toString()
     {
         trie pins[]=new trie[16];

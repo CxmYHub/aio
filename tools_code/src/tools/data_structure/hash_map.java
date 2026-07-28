@@ -1,6 +1,6 @@
 package tools.data_structure;
 /**
-<p>哈希表类/散列表类。</p><br>
+<p>哈希表类/散列表类</p><br>
 哈希表是一种数据结构，用于存储键值对。<br>
 每个键都映射到一个确定的位置，称为哈希值。<br>
 通过哈希值可以快速访问对应的值。<br><br>
@@ -11,16 +11,31 @@ package tools.data_structure;
 public class hash_map
 {
     /**
-    <p>哈希表节点类。</p><br>
+    <p>哈希表节点类</p><br>
     用于存储哈希表中的键值对。<br>
     每个节点包含键、值和后继节点指针。<br>
     后继节点指针指向链表中的下一个节点，用于处理哈希冲突。
     */
     public static class hash_map_list_node
     {
+        /**
+        <p>键</p><br>
+        */
         public int key;
+        /**
+        <p>值</p><br>
+        */
         public int value;
+        /**
+        <p>后继节点指针</p><br>
+        */
         public hash_map_list_node next;
+        /**
+        <p>构造方法</p><br>
+        构造一个包含指定键值对的哈希表节点。
+        @param key 键。
+        @param value 值。
+        */
         public hash_map_list_node(int key,int value)
         {
             this.key=key;
@@ -29,15 +44,33 @@ public class hash_map
         }
     }
     /**
-    <p>共24个元素。</p><br>
-    哈希表候选容量表。<br>
+    <p>哈希表候选容量表</p><br>
+    <p>共24个元素。</p>
     */
     public static final int prime[]={257,521,1049,2099,4201,8419,16843,33703,67409,134837,269683,539389,1078787,2157587,4315183,8630387,17260781,34521589,69043189,138086407,276172823,552345671,1104691373,2147483647};
+    /**
+    <p>哈希因子1</p>
+    */
     public final int hashing_factor1;
+    /**
+    <p>哈希因子2</p>
+    */
     public final int hashing_factor2;
+    /**
+    <p>哈希表节点数组</p>
+    */
     public hash_map_list_node elements[];
+    /**
+    <p>哈希表中键值对的数量</p>
+    */
     public int size;
+    /**
+    <p>哈希表容量</p>
+    */
     public int capacity;
+    /**
+    <p>哈希表容量在候选容量表中的索引</p>
+    */
     public int capacity_pin;
     {
         int random_number=(int)(Math.random()*2147483647)+1;
@@ -46,6 +79,7 @@ public class hash_map
         hashing_factor2=random_number%2==0?random_number+1:random_number;
     }
     /**
+    <p>构造方法</p><br>
     构造一个大于等于参考容量的最小质数容量的空哈希表。
     @param capacity 哈希表的参考容量。
     */
@@ -72,6 +106,7 @@ public class hash_map
         size=0;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认容量为257的空哈希表。
     */
     public hash_map()
@@ -82,6 +117,7 @@ public class hash_map
         size=0;
     }
     /**
+    <p>动态哈希</p><br>
     对1个整数进行哈希处理，返回该整数在本哈希表中的哈希值。<br>
     @param number 要哈希的整数。
     @return 该整数在本哈希表中的哈希值。
@@ -96,6 +132,7 @@ public class hash_map
         return number;
     }
     /**
+    <p>静态哈希</p><br>
     对1个整数进行哈希处理，返回该整数的默认哈希值。<br>
     @param number 要哈希的整数。
     @return 该整数的默认哈希值。
@@ -110,7 +147,8 @@ public class hash_map
         return number;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对哈希表进行扩容。<br>
     新的哈希表容量=大于当前容量2倍的最小质数。
     @return 新的哈希表容量=大于当前容量2倍的最小质数。
@@ -154,7 +192,8 @@ public class hash_map
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向哈希表中插入一个键值对。<br>
     如果哈希表中已存在相同键，则更新对应的值。<br>
     如果哈希表中元素数量超过容量的2/3，则先扩展容量。
@@ -196,6 +235,7 @@ public class hash_map
         return pin;
     }
     /**
+    <p>元素获取</p><br>
     获取哈希表中指定键对应的值。
     @param key 键。
     @return 键对应的值。<br>
@@ -223,6 +263,7 @@ public class hash_map
         }
     }
     /**
+    <p>元素删除</p><br>
     <p>此方法会修改调用对象。</p><br>
     删除哈希表中指定的键值对。
     @param key 键。
@@ -261,6 +302,10 @@ public class hash_map
             }
         }
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 哈希表的字符串表示。
+    */
     public String toString()
     {
         if(size==0)

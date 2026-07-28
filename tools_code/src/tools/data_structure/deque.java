@@ -1,6 +1,6 @@
 package tools.data_structure;
 /**
-<p>双端队列类。</p><br>
+<p>双端队列类</p><br>
 双端队列是一种特殊的队列，与队列相比，双端队列在队列两端都可以进行插入和删除操作。<br>
 本双端队列以数组实现，属于循环队列，默认容量为256。
 @see tools.data_structure.queue
@@ -8,6 +8,7 @@ package tools.data_structure;
 public class deque extends queue
 {
     /**
+    <p>构造方法</p><br>
     构造一个指定容量的空双端队列。
     @param capacity 双端队列的容量。
     @see queue#queue(int)
@@ -17,6 +18,7 @@ public class deque extends queue
         super(capacity);
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认容量为256的空双端队列。
     @see queue#queue()
     */
@@ -25,7 +27,8 @@ public class deque extends queue
         super();
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>队尾入队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将元素从双端队列的末尾入队。
     @param element 要入队的元素。
     @return 双端队列中元素的数量。
@@ -35,7 +38,8 @@ public class deque extends queue
         return super.input(element);
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>队尾批量入队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将多个元素从双端队列的末尾入队。
     @param elements 要入队的多个元素。
     @return 双端队列中元素的数量。
@@ -45,7 +49,8 @@ public class deque extends queue
         return super.input_more(elements);
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>队头入队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将元素从双端队列的开头入队。
     @param element 要入队的元素。
     @return 双端队列中元素的数量。
@@ -66,7 +71,8 @@ public class deque extends queue
         return overturn?capacity+rear-front:rear-front;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>队头批量入队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将多个元素从双端队列的开头入队。
     @param elements 要入队的多个元素。
     @return 双端队列中元素的数量。
@@ -90,6 +96,7 @@ public class deque extends queue
         return overturn?capacity+rear-front:rear-front;
     }
     /**
+    <p>队尾元素获取</p><br>
     获取队尾元素但不出队。
     @return 队尾元素。<br>
     若队列为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -106,6 +113,7 @@ public class deque extends queue
         }
     }
     /**
+    <p>队头元素获取</p><br>
     获取队头元素但不出队。
     @return 队头元素。<br>
     若队列为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -115,7 +123,8 @@ public class deque extends queue
         return super.get();
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>队尾出队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     队尾元素出队。
     @return 出队的队尾元素。<br>
     若双端队列为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -138,7 +147,8 @@ public class deque extends queue
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>队头出队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     队头元素出队。
     @return 出队的队头元素。<br>
     若双端队列为空，则返回<code>Integer.MIN_VALUE</code>。

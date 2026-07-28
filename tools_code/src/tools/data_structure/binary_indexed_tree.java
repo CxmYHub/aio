@@ -1,30 +1,27 @@
 package tools.data_structure;
 /**
-<p>树状数组类。</p><br>
+<p>树状数组类</p><br>
 树状数组是一种特殊的数据结构，用于高效地计算数组的前缀和。<br>
 */
 public class binary_indexed_tree
 {
-    public long lowbit_prefix_sum[];
-	/**
-	计算一个整数的最低位1的权值。
-	@param number 一个整数。
-	@return 最低位1的权值。
-    @see tools.mathematics.maths#lowbit(int)
-	*/
-	public static int lowbit(int number)
-	{
-		return number&(-number);
-	}
     /**
-    构造一个指定长度的树状数组。
-    @param original_array_length 树状数组的长度。
+    <p>低位前缀和数组</p>
     */
-    public binary_indexed_tree(int original_array_length)
+    public long lowbit_prefix_sum[];
+    /**
+    <p>最低位1的权值</p><br>
+    计算一个整数的最低位1的权值。
+    @param number 一个整数。
+    @return 最低位1的权值。
+    @see tools.mathematics.maths#lowbit(int)
+    */
+    public static int lowbit(int number)
     {
-        lowbit_prefix_sum=new long[original_array_length+1];
+        return number&(-number);
     }
     /**
+    <p>全参构造方法</p><br>
     构造一个树状数组，初始值为指定数组。
     @param original_array 初始数组。
     */
@@ -42,7 +39,17 @@ public class binary_indexed_tree
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>构造方法</p><br>
+    构造一个指定长度的树状数组。
+    @param original_array_length 树状数组的长度。
+    */
+    public binary_indexed_tree(int original_array_length)
+    {
+        lowbit_prefix_sum=new long[original_array_length+1];
+    }
+    /**
+    <p>元素输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     在树状数组的指定索引处添加一个值。
     @param index 要添加值的索引。
     @param addend 要添加的值。
@@ -55,6 +62,7 @@ public class binary_indexed_tree
         }
     }
     /**
+    <p>前缀和计算</p><br>
     计算树状数组中指定索引处的前缀和。
     @param index 要计算前缀和的索引。
     @return 索引处的前缀和。
@@ -69,6 +77,7 @@ public class binary_indexed_tree
         return sum;
     }
     /**
+    <p>区间和计算</p><br>
     计算树状数组中指定区间的和。
     @param index_left 区间的左端点。
     @param index_right 区间的右端点。
@@ -88,6 +97,10 @@ public class binary_indexed_tree
         }
         return right_sum-left_sum;
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 树状数组的字符串表示。
+    */
     public String toString()
     {
         StringBuilder result=new StringBuilder("[");

@@ -2,27 +2,60 @@ package tools.geography;
 import java.util.Random;
 import tools.mathematics.histogram;
 /**
-<p>高程地图类。</p><br>
+<p>高程地图类</p><br>
 高程地图表示一个区域的高程数据。<br>
 本高程地图以二维数组存储，每个元素表示该位置的高程。<br>
 高程单位为米，0表示海平面。
 */
 public class elevation_map implements java.io.Serializable
 {
+    /**
+    <p>序列化版本号</p>
+    */
     public static final long serialVersionUID=1228991341984353796L;
     /**
-    <p>共16个元素。</p><br>
-    梯度向量表。<br>
+    <p>梯度向量表</p><br>
+    <p>共16个元素。</p>
     */
     public static final double gradient[][]={{1,0},{0.9238795325112867,0.38268343236508984},{0.7071067811865476,0.7071067811865476},{0.38268343236508984,0.9238795325112867},{0,1},{-0.38268343236508984,0.9238795325112867},{-0.7071067811865476,0.7071067811865476},{-0.9238795325112867,0.38268343236508984},{-1,0},{-0.9238795325112867,-0.38268343236508984},{-0.7071067811865476,-0.7071067811865476},{-0.38268343236508984,-0.9238795325112867},{0,-1},{0.38268343236508984,-0.9238795325112867},{0.7071067811865476,-0.7071067811865476},{0.9238795325112867,-0.38268343236508984}};
+    /**
+    <p>高程值</p><br>
+    栅格高程数据。<br>
+    每个元素表示该位置的高程。
+    */
     public double elevation[][];
+    /**
+    <p>长度</p><br>
+    高程地图的x轴跨度。
+    */
     public int length;
+    /**
+    <p>宽度</p><br>
+    高程地图的y轴跨度。
+    */
     public int width;
+    /**
+    <p>最大值</p><br>
+    高程地图中所有点的最高值。
+    */
     public double max;
+    /**
+    <p>最小值</p><br>
+    高程地图中所有点的最低值。
+    */
     public double min;
+    /**
+    <p>平均值</p><br>
+    高程地图中所有点的平均值。
+    */
     public double average;
+    /**
+    <p>中位数</p><br>
+    高程地图中所有点的中位数。
+    */
     public double median;
     /**
+    <p>构造方法</p><br>
     构造一个指定长度和宽度的平坦高程地图对象。
     @param length 长度。
     @param width 宽度。
@@ -36,6 +69,7 @@ public class elevation_map implements java.io.Serializable
         elevation=new double[width][length];
     }
     /**
+    <p>构造方法</p><br>
     构造一个指定边长的正方形平坦高程地图对象。
     @param length 边长。
     */
@@ -48,8 +82,9 @@ public class elevation_map implements java.io.Serializable
         elevation=new double[length][length];
     }
     /**
+    <p>统计数据计算</p><br>
     <p>此方法会修改调用对象。</p><br>
-    计算当前高程地图的统计信息。<br>
+    计算当前高程地图的统计数据。<br>
     包括最大值、最小值、平均值、中位数。
     @return 值域是否发生变化。<br>
     若最大值或最小值发生变化，则返回<code>true</code>；否则返回<code>false</code>。
@@ -184,6 +219,7 @@ public class elevation_map implements java.io.Serializable
         return different;
     }
     /**
+    <p>直方图计算</p><br>
     <p>此方法会修改调用对象。</p><br>
     计算当前高程地图的直方图。<br>
     直方图的区间数为100。
@@ -199,6 +235,7 @@ public class elevation_map implements java.io.Serializable
         return histogram;
     }
     /**
+    <p>高程提升</p><br>
     <p>此方法会修改调用对象。</p><br>
     提高当前高程地图的整体高程值。
     @param increase_height 高程增加量。
@@ -220,6 +257,7 @@ public class elevation_map implements java.io.Serializable
         return increase_height;
     }
     /**
+    <p>高程下降</p><br>
     <p>此方法会修改调用对象。</p><br>
     降低当前高程地图的整体高程值。
     @param decrease_height 高程减少量。
@@ -241,6 +279,7 @@ public class elevation_map implements java.io.Serializable
         return -decrease_height;
     }
     /**
+    <p>高程规整</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前高程地图的高程值规整至[<code>min</code>,<code>max</code>]区间。
     @param min 最小值。
@@ -264,6 +303,7 @@ public class elevation_map implements java.io.Serializable
         return vertical_coefficient;
     }
     /**
+    <p>高程归一化</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前高程地图的高程值归一化至[0,1]区间。
     @return 高程变化系数。
@@ -287,6 +327,7 @@ public class elevation_map implements java.io.Serializable
         return 1/max_difference;
     }
     /**
+    <p>竖直线性缩放</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前高程地图进行竖直线性缩放。<br>
     线性缩放将所有高程值乘缩放系数。<br>
@@ -310,40 +351,42 @@ public class elevation_map implements java.io.Serializable
         return vertical_coefficient;
     }
     /**
+    <p>竖直指数缩放</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前高程地图进行竖直指数缩放。<br>
     指数缩放将所有高程值取指数，并整体减去1，使0↦0。<br>
-    操作后高地和山脉将变得更陡峭。
-    @param vertical_exponent 竖直缩放指数。
+    操作后高地和山脉将变得更高、更陡峭。
+    @param vertical_base 竖直缩放底数。
     @return 高程平均值变化系数。
     */
-    public double exponential_scale(double vertical_exponent)
+    public double exponential_scale(double vertical_base)
     {
         double sum=0;
         for(int i=0;i<width;i++)
         {
             for(int j=0;j<length;j++)
             {
-                elevation[i][j]=(Math.pow(vertical_exponent,elevation[i][j])-1)/(vertical_exponent-1);
+                elevation[i][j]=(Math.pow(vertical_base,elevation[i][j])-1)/(vertical_base-1);
                 sum+=elevation[i][j];
             }
         }
-        min=(Math.pow(vertical_exponent,min)-1)/(vertical_exponent-1);
-        max=(Math.pow(vertical_exponent,max)-1)/(vertical_exponent-1);
-        median=(Math.pow(vertical_exponent,median)-1)/(vertical_exponent-1);
+        min=(Math.pow(vertical_base,min)-1)/(vertical_base-1);
+        max=(Math.pow(vertical_base,max)-1)/(vertical_base-1);
+        median=(Math.pow(vertical_base,median)-1)/(vertical_base-1);
         double old_average=average;
         average=sum/(width*length);
         return average/old_average;
     }
     /**
+    <p>竖直指数规整</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前高程地图进行竖直指数规整。<br>
-    指数规整将所有高程值取指数，并整体减去1，使最小值不变。<br>
-    操作后高地和山脉将变得更陡峭。
-    @param normalize_exponent 竖直规整指数。
+    指数规整将所有高程值取指数，并整体减去1，使0↦0。<br>
+    操作后海拔最大值和最小值不变，但高地和山脉将变得更陡峭。
+    @param normalize_base 竖直规整底数。
     @return 高程平均值变化系数。
     */
-    public double exponential_normalize(double normalize_exponent)
+    public double exponential_normalize(double normalize_base)
     {
         double original_min=min;
         double max_difference=max-min;
@@ -358,7 +401,7 @@ public class elevation_map implements java.io.Serializable
         {
             for(int j=0;j<length;j++)
             {
-                elevation[i][j]=(Math.pow(normalize_exponent,elevation[i][j])-1)/(normalize_exponent-1);
+                elevation[i][j]=(Math.pow(normalize_base,elevation[i][j])-1)/(normalize_base-1);
             }
         }
         double sum=0;
@@ -375,12 +418,13 @@ public class elevation_map implements java.io.Serializable
                 min=now<min?now:min;
             }
         }
-        median=(Math.pow(normalize_exponent,(median-original_min)/max_difference)-1)/(normalize_exponent-1)*max_difference+original_min;
+        median=(Math.pow(normalize_base,(median-original_min)/max_difference)-1)/(normalize_base-1)*max_difference+original_min;
         double old_average=average;
         average=sum/(width*length);
         return average/old_average;
     }
     /**
+    <p>竖直正割奇函数规整</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前高程地图进行竖直正割奇函数规整。<br>
     正割奇函数规整将所有高程值取正割函数，并整体减去一个修正值，使0↦0。<br>
@@ -428,6 +472,7 @@ public class elevation_map implements java.io.Serializable
         return average/old_average;
     }
     /**
+    <p>叠加柏林噪声地形</p><br>
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。
     @param seed 种子。不同的种子会生成不同的地形。
@@ -446,13 +491,13 @@ public class elevation_map implements java.io.Serializable
         {
             permutation[i]=i;
         }
-		for(int i=permutation.length-1;i>0;i--)
-		{
-			int random_index=random_generator.nextInt(i+1);
-			int temp=permutation[i];
-			permutation[i]=permutation[random_index];
-			permutation[random_index]=temp;
-		}
+        for(int i=permutation.length-1;i>0;i--)
+        {
+            int random_index=random_generator.nextInt(i+1);
+            int temp=permutation[i];
+            permutation[i]=permutation[random_index];
+            permutation[random_index]=temp;
+        }
         double overlay_elevation[][]=new double[width][length];
         double overlay_max=Double.MIN_VALUE,overlay_min=Double.MAX_VALUE;
         for(int i=0;i<width;i++)
@@ -508,6 +553,7 @@ public class elevation_map implements java.io.Serializable
         return max-min;
     }
     /**
+    <p>叠加柏林噪声地形</p><br>
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。需要提供种子和高程系数。<br>
     该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
@@ -527,6 +573,7 @@ public class elevation_map implements java.io.Serializable
         return overlay_perlin_terrain(seed,300,6,0.5,2,vertical_scale);
     }
     /**
+    <p>叠加柏林噪声地形</p><br>
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。需要提供高程系数。<br>
     该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
@@ -546,6 +593,7 @@ public class elevation_map implements java.io.Serializable
         return overlay_perlin_terrain((long)(((Math.random()*Long.MAX_VALUE)+1)*(Math.random()>=0.5?1:-1)),300,6,0.5,2,vertical_scale);
     }
     /**
+    <p>叠加柏林噪声地形</p><br>
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。需要提供种子。<br>
     该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
@@ -565,6 +613,7 @@ public class elevation_map implements java.io.Serializable
         return overlay_perlin_terrain(seed,300,6,0.5,2,1000);
     }
     /**
+    <p>叠加柏林噪声地形</p><br>
     <p>此方法会修改调用对象。</p><br>
     基于柏林噪声算法为当前高程地图叠加地形。无需提供参数。<br>
     该方法填入默认参数，调用<code>overlay_perlin_terrain(seed,horizontal_scale,octaves,persistence,lacunarity,vertical_scale)</code>方法。<br>
@@ -583,6 +632,10 @@ public class elevation_map implements java.io.Serializable
     {
         return overlay_perlin_terrain((long)(((Math.random()*Long.MAX_VALUE)+1)*(Math.random()>=0.5?1:-1)),300,6,0.5,2,1000);
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 高程地图的元数据字符串表示。
+    */
     public String toString()
     {
         return "elevation_map{length="+length+",width="+width+",min="+min+",max="+max+",average="+average+",median="+median+"}";

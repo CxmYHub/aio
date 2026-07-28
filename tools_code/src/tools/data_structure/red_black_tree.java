@@ -1,7 +1,7 @@
 package tools.data_structure;
 /**
-<p>红黑树类。</p><br>
-红黑树属于自平衡二叉查找树，即AVL树。<br>
+<p>红黑树类</p><br>
+红黑树是一种特殊的自平衡二叉查找树，即AVL树。<br>
 其每个节点有一个元素，一个颜色，左、右两个子节点，一个父节点。<br>
 红黑树满足以下五条性质：<br>
 <ol>
@@ -15,14 +15,40 @@ package tools.data_structure;
 */
 public class red_black_tree
 {
+    /**
+    <p>ANSI红色转义符</p>
+    */
     public static final String ansi_red_color="\u001B[31m";
+    /**
+    <p>ANSI默认转义符</p>
+    */
     public static final String ansi_default_color="\u001B[39m";
+    /**
+    <p>节点元素</p>
+    */
     public int element;
+    /**
+    <p>节点颜色</p><br>
+    <ul>
+        <li>=<code>true</code>：红色</li>
+        <li>=<code>false</code>：黑色</li>
+    </ul>
+    */
     public boolean is_red;
+    /**
+    <p>左子节点指针</p>
+    */
     public red_black_tree left;
+    /**
+    <p>右子节点指针</p>
+    */
     public red_black_tree right;
+    /**
+    <p>父节点指针</p>
+    */
     public red_black_tree parent;
     /**
+    <p>NIL构造方法</p><br>
     构造一个特殊的叶节点。
     @param NIL 哑元，用于创建NIL节点。
     */
@@ -34,8 +60,13 @@ public class red_black_tree
         this.right=this;
         this.parent=this;
     }
+    /**
+    <p>NIL节点</p><br>
+    特殊空节点，用于替代null以避免空指针异常。
+    */
     public static final red_black_tree NIL=new red_black_tree('N');
     /**
+    <p>构造方法</p><br>
     构造一个包含指定元素的红黑树。
     @param elements 多个元素。
     */
@@ -125,6 +156,7 @@ public class red_black_tree
         }
     }
     /**
+    <p>构造方法</p><br>
     构造一个红黑树节点。
     @param element 元素。
     */
@@ -137,6 +169,7 @@ public class red_black_tree
         this.parent=NIL;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认的红黑树。
     */
     public red_black_tree()
@@ -148,6 +181,7 @@ public class red_black_tree
         this.parent=NIL;
     }
     /**
+    <p>遍历</p><br>
     中序遍历红黑树。
     @return 中序遍历结果。
     */
@@ -197,8 +231,11 @@ public class red_black_tree
         return result;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
-    左旋红黑树。
+    <p>左旋红黑树</p><br>
+    <p>此方法会修改调用对象。</p><br>
+    左旋将原根节点的右子节点作为新根节点。<br>
+    将原根节点右子树的左子节点作为原根节点的右子节点。<br>
+    <code>O{L,R{rl,rr}}</code>-><code>R{O{L,rl},rr}</code>
     @param tree 红黑树。
     @return 左旋后的红黑树根节点，即原树的右子节点。
     */
@@ -234,8 +271,11 @@ public class red_black_tree
         return right;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
-    右旋红黑树。
+    <p>右旋红黑树</p><br>
+    <p>此方法会修改调用对象。</p><br>
+    右旋将原根节点的左子节点作为新根节点。<br>
+    将原根节点左子树的右子节点作为原根节点的左子节点。<br>
+    <code>O{L{ll,lr},R}</code>-><code>L{ll,O{lr,R}}</code>
     @param tree 红黑树。
     @return 右旋后的红黑树根节点，即原树的左子节点。
     */
@@ -271,7 +311,8 @@ public class red_black_tree
         return left;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向红黑树中插入一个元素。
     @param element 要插入的元素。
     @return 是否成功插入。
@@ -359,7 +400,8 @@ public class red_black_tree
         return true;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向红黑树中插入多个元素。<br>
     若元素重复，则仅插入一次，忽略剩余的重复元素。
     @param elements 要插入的多个元素。
@@ -454,6 +496,7 @@ public class red_black_tree
         return duplicate;
     }
     /**
+    <p>元素深度计算</p><br>
     获取红黑树中元素的深度。
     @param element 要获取深度的元素。
     @return 元素的深度。<br>
@@ -482,7 +525,8 @@ public class red_black_tree
         return depth;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素删除</p><br>
+    <p>此方法会修改调用对象。</p><br>
     从红黑树中删除一个元素。
     @param element 要删除的元素。
     @return 是否成功删除。
@@ -645,6 +689,10 @@ public class red_black_tree
             return true;
         }
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 红黑树的字符串表示。
+    */
     public String toString()
     {
         red_black_tree pins[]=new red_black_tree[10];

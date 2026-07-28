@@ -1,7 +1,7 @@
 package tools.geography;
 import tools.mathematics.maths;
 /**
-<p>投影坐标类。</p><br>
+<p>投影坐标类</p><br>
 投影坐标是指在平面上的一个点的横坐标和纵坐标。<br>
 横坐标正方向为东，纵坐标正方向为北，即坐标北。<br>
 横坐标和纵坐标都是实数，取值范围为任意实数。<br>
@@ -10,10 +10,17 @@ import tools.mathematics.maths;
 */
 public class projected_coordinate
 {
+    /**
+    <p>横坐标</p>
+    */
     public double x;
+    /**
+    <p>纵坐标</p>
+    */
     public double y;
     /**
-    构造一个投影坐标对象。
+    <p>全参构造方法</p><br>
+    构造一个指定位置的投影坐标对象。
     @param x 横坐标。
     @param y 纵坐标。
     */
@@ -23,6 +30,7 @@ public class projected_coordinate
         this.y=y;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认的投影坐标对象，表示原点。
     */
     public projected_coordinate()
@@ -31,6 +39,7 @@ public class projected_coordinate
         this.y=0;
     }
     /**
+    <p>坐标位移</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前投影坐标进行位移。
     @param delta_x 向东位移。
@@ -44,6 +53,7 @@ public class projected_coordinate
         return delta_x!=0||delta_y!=0;
     }
     /**
+    <p>坐标偏移</p><br>
     计算指定投影坐标偏移指定量的投影坐标。
     @param coordinate 基准投影坐标对象。
     @param delta_x 向东偏移。
@@ -55,6 +65,7 @@ public class projected_coordinate
         return new projected_coordinate(coordinate.x+delta_x,coordinate.y+delta_y);
     }
     /**
+    <p>相对坐标</p><br>
     计算一个投影坐标到当前投影坐标的相对坐标。
     @param coordinate 目标投影坐标对象。
     @return 相对坐标数组。<br>
@@ -65,6 +76,7 @@ public class projected_coordinate
         return new double[]{coordinate.x-x,coordinate.y-y};
     }
     /**
+    <p>两点间距离</p><br>
     计算当前投影坐标与另一个投影坐标的距离。
     @param coordinate 要计算距离的投影坐标对象。
     @return 当前投影坐标与另一个投影坐标的距离。
@@ -74,6 +86,7 @@ public class projected_coordinate
         return Math.sqrt((x-coordinate.x)*(x-coordinate.x)+(y-coordinate.y)*(y-coordinate.y));
     }
     /**
+    <p>两点间距离</p><br>
     计算两点间的距离。
     @param x0 起点的横坐标。
     @param y0 起点的纵坐标。
@@ -86,6 +99,7 @@ public class projected_coordinate
         return Math.sqrt((xt-x0)*(xt-x0)+(yt-y0)*(yt-y0));
     }
     /**
+    <p>近似相等</p><br>
     判断当前投影坐标与指定投影坐标是否在指定容差内。
     @param coordinate 投影坐标对象。
     @param tolerance 容差。
@@ -96,6 +110,7 @@ public class projected_coordinate
         return distance(coordinate)<=tolerance;
     }
     /**
+    <p>相对方位角</p><br>
     计算该点到终点的方位角。
     @param xt 终点的横坐标。
     @param yt 终点的纵坐标。
@@ -123,6 +138,7 @@ public class projected_coordinate
         }
     }
     /**
+    <p>相对方位角</p><br>
     计算该点到目标点的方位角。
     @param target 目标投影坐标对象。
     @return 该点到目标点的方位角。
@@ -149,6 +165,7 @@ public class projected_coordinate
         }
     }
     /**
+    <p>相对方位角</p><br>
     计算起点到终点的方位角。
     @param x0 起点的横坐标。
     @param y0 起点的纵坐标。
@@ -178,6 +195,7 @@ public class projected_coordinate
         }
     }
     /**
+    <p>向方位位移距离</p><br>
     计算该投影坐标以指定方位角位移指定距离后的投影坐标。
     @param azimuth_angle 方位角。
     @param distance 距离。
@@ -253,6 +271,7 @@ public class projected_coordinate
         return new projected_coordinate(destination_x,destination_y);
     }
     /**
+    <p>中点</p><br>
     计算该投影坐标与指定投影坐标连线的中点。
     @param target 目标投影坐标对象。
     @return 该投影坐标与指定投影坐标连线的中点。
@@ -262,6 +281,7 @@ public class projected_coordinate
         return new projected_coordinate((target.x+x)/2,(target.y+y)/2);
     }
     /**
+    <p>线性插值</p><br>
     计算该投影坐标到指定投影坐标的线性插值。
     @param target 目标投影坐标对象。
     @param ratio 线性插值比例。<br>
@@ -273,6 +293,7 @@ public class projected_coordinate
         return new projected_coordinate(x+ratio*(target.x-x),y+ratio*(target.y-y));
     }
     /**
+    <p>向目标点位移距离</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前投影坐标向指定投影坐标位移指定距离。<br>
     注意，坐标经计算后可能存在双精度浮点数精度误差，导致位移结果不准确。
@@ -296,6 +317,7 @@ public class projected_coordinate
         return ratio;
     }
     /**
+    <p>向目标点位移比例</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前投影坐标向指定投影坐标位移指定比例。
     @param target 目标投影坐标对象。
@@ -311,92 +333,99 @@ public class projected_coordinate
         y+=move_ratio*dy;
         return move_ratio*Math.sqrt(dx*dx+dy*dy);
     }
-	/**
-	计算一个多边形区域的周长。
-	@param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
-	@return 多边形区域的周长。<br>
-	若多边形的顶点不足2个，则返回0.0。
-	*/
-	public static double perimeter(projected_coordinate... coordinates_ccw)
-	{
-		if(coordinates_ccw.length>=2)
-		{
-			double temp[]=new double[coordinates_ccw.length<<1];
+    /**
+    <p>多边形周长</p><br>
+    计算一个多边形区域的周长。
+    @param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
+    @return 多边形区域的周长。<br>
+    若多边形的顶点不足2个，则返回0.0。
+    */
+    public static double perimeter(projected_coordinate... coordinates_ccw)
+    {
+        if(coordinates_ccw.length>=2)
+        {
+            double temp[]=new double[coordinates_ccw.length<<1];
             for(int i=0;i<coordinates_ccw.length;i++)
             {
                 temp[i<<1]=coordinates_ccw[i].x;
                 temp[(i<<1)|1]=coordinates_ccw[i].y;
             }
-			double result=0;
-			for(int i=0;i+3<temp.length;i+=2)
-			{
-				result+=Math.sqrt((temp[i+2]-temp[i])*(temp[i+2]-temp[i])+(temp[i+3]-temp[i+1])*(temp[i+3]-temp[i+1]));
-			}
-			result+=Math.sqrt((temp[temp.length-2]-temp[0])*(temp[temp.length-2]-temp[0])+(temp[temp.length-1]-temp[1])*(temp[temp.length-1]-temp[1]));
-			return result;
-		}
-		else
-		{
-			return 0.0;
-		}
-	}
-	/**
-	计算一个多边形区域的面积。
-	@param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
-	@return 多边形区域的面积。<br>
-	若多边形的顶点不足3个，则返回0.0。
-	*/
-	public static double area(projected_coordinate... coordinates_ccw)
-	{
-		if(coordinates_ccw.length>=3)
-		{
-			double temp[]=new double[coordinates_ccw.length<<1];
+            double result=0;
+            for(int i=0;i+3<temp.length;i+=2)
+            {
+                result+=Math.sqrt((temp[i+2]-temp[i])*(temp[i+2]-temp[i])+(temp[i+3]-temp[i+1])*(temp[i+3]-temp[i+1]));
+            }
+            result+=Math.sqrt((temp[temp.length-2]-temp[0])*(temp[temp.length-2]-temp[0])+(temp[temp.length-1]-temp[1])*(temp[temp.length-1]-temp[1]));
+            return result;
+        }
+        else
+        {
+            return 0.0;
+        }
+    }
+    /**
+    <p>多边形面积</p><br>
+    计算一个多边形区域的面积。
+    @param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
+    @return 多边形区域的面积。<br>
+    若多边形的顶点不足3个，则返回0.0。
+    */
+    public static double area(projected_coordinate... coordinates_ccw)
+    {
+        if(coordinates_ccw.length>=3)
+        {
+            double temp[]=new double[coordinates_ccw.length<<1];
             for(int i=0;i<coordinates_ccw.length;i++)
             {
                 temp[i<<1]=coordinates_ccw[i].x;
                 temp[(i<<1)|1]=coordinates_ccw[i].y;
             }
-			double median=maths.median(temp);
-			for(int i=0;i<temp.length;i++)
-			{
-				temp[i]-=median;
-			}
-			double sum1=0,sum2=0;
-			for(int i=0;i+3<temp.length;i+=2)
-			{
-				sum1+=temp[i]*temp[i+3];
-				sum2+=temp[i+1]*temp[i+2];
-			}
-			sum1+=temp[temp.length-2]*temp[1];
-			sum2+=temp[temp.length-1]*temp[0];
-			return Math.abs(sum1-sum2)/2;
-		}
-		else
-		{
-			return 0.0;
-		}
-	}
+            double median=maths.median(temp);
+            for(int i=0;i<temp.length;i++)
+            {
+                temp[i]-=median;
+            }
+            double sum1=0,sum2=0;
+            for(int i=0;i+3<temp.length;i+=2)
+            {
+                sum1+=temp[i]*temp[i+3];
+                sum2+=temp[i+1]*temp[i+2];
+            }
+            sum1+=temp[temp.length-2]*temp[1];
+            sum2+=temp[temp.length-1]*temp[0];
+            return Math.abs(sum1-sum2)/2;
+        }
+        else
+        {
+            return 0.0;
+        }
+    }
+    /**
+    <p>字符串表示</p><br>
+    @return 投影坐标的字符串表示。
+    */
     public String toString()
     {
         return "("+x+","+y+")";
     }
     /**
+    <p>相等判断</p><br>
     判断当前投影坐标是否严格等于指定投影坐标。
-    @param object 投影坐标对象。
+    @param another 投影坐标对象。
     @return 是否严格等于指定投影坐标。<br>
     注意，坐标经计算后可能存在双精度浮点数精度误差，导致判断结果不准确。
     */
-    public boolean equals(Object object)
+    public boolean equals(Object another)
     {
-        if(object instanceof projected_coordinate)
+        if(another instanceof projected_coordinate)
         {
-            if(object==this)
+            if(another==this)
             {
                 return true;
             }
             else
             {
-                projected_coordinate target=(projected_coordinate)object;
+                projected_coordinate target=(projected_coordinate)another;
                 return target.x==x&&target.y==y;
             }
         }

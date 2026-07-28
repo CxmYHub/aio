@@ -1,17 +1,34 @@
 package tools.data_structure;
 /**
-<p>队列类。</p><br>
+<p>队列类</p><br>
 队列是一种先进先出(FIFO)的数据结构。<br>
 本队列以数组实现，属于循环队列，默认容量为256。
 */
 public class queue
 {
+    /**
+    <p>元素数组</p>
+    */
     public int elements[];
+    /**
+    <p>队头指针</p>
+    */
     public int front;
+    /**
+    <p>队尾指针</p>
+    */
     public int rear;
+    /**
+    <p>队列容量</p>
+    */
     public int capacity;
+    /**
+    <p>队列是否翻转</p><br>
+    即当队列非空时，队头索引是否大于等于队尾索引。
+    */
     public boolean overturn=false;
     /**
+    <p>构造方法</p><br>
     构造一个指定容量的空队列。
     @param capacity 队列的容量。
     */
@@ -23,6 +40,7 @@ public class queue
         this.capacity=capacity;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认容量为256的空队列。
     */
     public queue()
@@ -33,6 +51,7 @@ public class queue
         this.capacity=256;
     }
     /**
+    <p>空判断</p><br>
     判断队列是否为空。
     @return 是否为空。
     */
@@ -41,6 +60,7 @@ public class queue
         return front==rear&&!overturn;
     }
     /**
+    <p>满判断</p><br>
     判断队列是否已满。
     @return 是否已满。
     */
@@ -49,6 +69,7 @@ public class queue
         return front==rear&&overturn;
     }
     /**
+    <p>元素计数</p><br>
     获取队列中元素的数量。
     @return 队列中元素的数量。
     */
@@ -57,6 +78,7 @@ public class queue
         return overturn?capacity+rear-front:rear-front;
     }
     /**
+    <p>剩余空间计数</p><br>
     获取队列中剩余空间的数量。
     @return 队列中剩余空间的数量。
     */
@@ -65,7 +87,8 @@ public class queue
         return overturn?front-rear:capacity+front-rear;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对队列进行扩容。<br>
     新的队列容量=当前容量*2+2。
     @return 新的队列容量=当前容量*2+2。
@@ -90,7 +113,8 @@ public class queue
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对队列进行扩容。<br>
     新的队列容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
@@ -120,7 +144,8 @@ public class queue
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素入队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将元素入队。
     @param element 要入队的元素。
     @return 队列中元素的数量。
@@ -140,7 +165,8 @@ public class queue
         return overturn?capacity+rear-front:rear-front;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量入队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将多个元素入队。
     @param elements 要入队的多个元素。
     @return 队列中元素的数量。
@@ -163,6 +189,7 @@ public class queue
         return overturn?capacity+rear-front:rear-front;
     }
     /**
+    <p>元素获取</p><br>
     获取队头元素但不出队。
     @return 队头元素。<br>
     若队列为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -179,7 +206,8 @@ public class queue
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素出队</p><br>
+    <p>此方法会修改调用对象。</p><br>
     队头元素出队。
     @return 出队的队头元素。<br>
     若队列为空，则返回<code>Integer.MIN_VALUE</code>。

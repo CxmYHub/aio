@@ -1,15 +1,25 @@
 package tools.data_structure;
 /**
-<p>单调递增栈类。</p><br>
+<p>单调递增栈类</p><br>
 单调递增栈是一种特殊的栈，其出栈序列是单调递增的。<br>
 每次取出的元素都是当前栈中最小的元素。
 */
 public class stack_ascend
 {
+    /**
+    <p>元素数组</p>
+    */
     public int elements[];
+    /**
+    <p>栈顶指针</p>
+    */
     public int top;
+    /**
+    <p>栈容量</p>
+    */
     public int capacity;
     /**
+    <p>构造方法</p><br>
     构造一个指定容量的空单调递增栈。
     @param capacity 栈的容量。
     */
@@ -20,6 +30,7 @@ public class stack_ascend
         this.capacity=capacity;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认容量为16的空单调递增栈。
     */
     public stack_ascend()
@@ -29,6 +40,7 @@ public class stack_ascend
         this.capacity=16;
     }
     /**
+    <p>空判断</p><br>
     判断栈是否为空。
     @return 是否为空。
     */
@@ -37,6 +49,7 @@ public class stack_ascend
         return top==0;
     }
     /**
+    <p>满判断</p><br>
     判断栈是否已满。
     @return 是否已满。
     */
@@ -45,6 +58,7 @@ public class stack_ascend
         return top==capacity;
     }
     /**
+    <p>元素计数</p><br>
     获取栈中元素的数量。
     @return 栈中元素的数量。
     */
@@ -53,6 +67,7 @@ public class stack_ascend
         return top;
     }
     /**
+    <p>剩余空间计数</p><br>
     获取栈中剩余空间的数量。
     @return 栈中剩余空间的数量。
     */
@@ -61,7 +76,8 @@ public class stack_ascend
         return capacity-top;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对单调递增栈进行扩容。<br>
     新的栈容量=当前容量*2+2。
     @return 新的栈容量=当前容量*2+2。
@@ -75,7 +91,8 @@ public class stack_ascend
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对单调递增栈进行扩容。<br>
     新的栈容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
@@ -94,7 +111,8 @@ public class stack_ascend
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素压入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将元素压入栈中。<br>
     同时将栈中所有小于待压入元素的元素弹出。
     @param element 要压入栈中的元素。
@@ -118,7 +136,8 @@ public class stack_ascend
         return result;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量压入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将多个元素压入栈中。<br>
     同时将栈中所有小于待压入元素的元素弹出。
     @param elements 要压入栈中的多个元素。
@@ -147,6 +166,7 @@ public class stack_ascend
         return result;
     }
     /**
+    <p>元素获取</p><br>
     获取栈顶元素但不弹出。
     @return 栈顶元素。<br>
     若栈为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -163,7 +183,8 @@ public class stack_ascend
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素弹出</p><br>
+    <p>此方法会修改调用对象。</p><br>
     弹出栈顶元素。<br>
     @return 弹出的栈顶元素。<br>
     若栈为空，则返回<code>Integer.MIN_VALUE</code>。

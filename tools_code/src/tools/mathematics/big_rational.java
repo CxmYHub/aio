@@ -1,7 +1,7 @@
 package tools.mathematics;
 import java.util.HashMap;
 /**
-<p>高精度有理数类。</p><br>
+<p>高精度有理数类</p><br>
 有理数，即分数，包含整数、有限小数和无限循环小数。<br>
 任何有理数都可表示为分数。<br>
 本高精度有理数以两个高精度整数对象实现。<br>
@@ -16,10 +16,27 @@ import java.util.HashMap;
 */
 public class big_rational
 {
+    /**
+    <p>分子</p><br>
+    分子高精度整数对象。
+    */
     public big_integer numerator;
+    /**
+    <p>分母</p><br>
+    分母高精度整数对象。
+    */
     public big_integer denominator;
+    /**
+    <p>输出模式</p><br>
+    <ul>
+        <li>&gt;0：小数格式，例如<code>"0.5"</code>。</li>
+        <li>=0：分数&nbsp;&nbsp;小数格式，例如<code>"1/2&nbsp;&nbsp;0.5"</code>。</li>
+        <li>&lt;0：分数格式，例如<code>"1/2"</code>。</li>
+    </ul>
+    */
     public int mode=0;
     /**
+    <p>约分</p><br>
     <p>此方法会修改调用对象。</p><br>
     对有理数进行约分。
     @return 分子和分母的最大公因数
@@ -37,6 +54,7 @@ public class big_rational
         return gcd;
     }
     /**
+    <p>构造方法</p><br>
     通过有理数小数形式字符串构造高精度有理数对象。
     @param rational_string 字符串表示的小数形式有理数。<br>
     用括号表示循环节，例如<code>0.(3)</code>表示0.333333...。
@@ -129,6 +147,7 @@ public class big_rational
         }
     }
     /**
+    <p>构造方法</p><br>
     通过有理数分数形式字符串和字符串输出模式构造高精度有理数对象。
     @param numerator_string 字符串表示的分子。
     @param denominator_string 字符串表示的分母。
@@ -169,6 +188,7 @@ public class big_rational
         }
     }
     /**
+    <p>构造方法</p><br>
     通过有理数分数形式字符串构造高精度有理数对象。
     @param numerator_string 字符串表示的分子。
     @param denominator_string 字符串表示的分母。
@@ -178,6 +198,7 @@ public class big_rational
         this(numerator_string,denominator_string,0);
     }
     /**
+    <p>构造方法</p><br>
     通过有理数分子和分母以及字符串输出模式构造高精度有理数对象。
     @param numerator 整数表示的分子。
     @param denominator 整数表示的分母。
@@ -216,6 +237,7 @@ public class big_rational
         }
     }
     /**
+    <p>构造方法</p><br>
     通过有理数分子和分母构造高精度有理数对象。
     @param numerator 整数表示的分子。
     @param denominator 整数表示的分母。
@@ -225,6 +247,7 @@ public class big_rational
         this(numerator,denominator,0);
     }
     /**
+    <p>构造方法</p><br>
     通过高精度整数分子和分母以及字符串输出模式构造高精度有理数对象。
     @param numerator 高精度整数表示的分子。
     @param denominator 高精度整数表示的分母。
@@ -255,6 +278,7 @@ public class big_rational
         }
     }
     /**
+    <p>构造方法</p><br>
     通过高精度整数分子和分母构造高精度有理数对象。
     @param numerator 高精度整数表示的分子。
     @param denominator 高精度整数表示的分母。
@@ -264,6 +288,7 @@ public class big_rational
         this(numerator,denominator,0);
     }
     /**
+    <p>全参构造方法</p><br>
     通过高精度整数分子和分母以及字符串输出模式构造高精度有理数对象。<br>
     本构造方法会直接使用输入的高精度整数、符号和模式，不创建新的高精度整数对象。
     @param numerator 高精度整数表示的分子。
@@ -293,6 +318,7 @@ public class big_rational
         }
     }
     /**
+    <p>通分</p><br>
     <p>此方法会修改输入的数据。</p><br>
     通分两个有理数。
     @param rational1 第一个有理数对象。
@@ -338,6 +364,7 @@ public class big_rational
         }
     }
     /**
+    <p>加法运算</p><br>
     计算两个有理数的和 <code>addend1</code>+<code>addend2</code>。
     @param addend1 第一个有理数对象。
     @param addend2 第二个有理数对象。
@@ -372,6 +399,7 @@ public class big_rational
         }
     }
     /**
+    <p>减法运算</p><br>
     计算两个有理数的差 <code>minuend</code>-<code>subtrahend</code>。
     @param minuend 被减数有理数对象。
     @param subtrahend 减数有理数对象。
@@ -406,6 +434,7 @@ public class big_rational
         }
     }
     /**
+    <p>乘法运算</p><br>
     计算两个有理数的积 <code>factor1</code>*<code>factor2</code>。
     @param factor1 第一个有理数对象。
     @param factor2 第二个有理数对象。
@@ -436,6 +465,7 @@ public class big_rational
         }
     }
     /**
+    <p>除法运算</p><br>
     计算两个有理数的商 <code>dividend</code>/<code>divisor</code>。
     @param dividend 被除数有理数对象。
     @param divisor 除数有理数对象。
@@ -470,6 +500,7 @@ public class big_rational
         }
     }
     /**
+    <p>幂运算</p><br>
     计算有理数的整数次幂 <code>base</code>^<code>exponent</code>。<br>
     @param base 底数有理数对象。
     @param exponent 指数整数。
@@ -516,6 +547,10 @@ public class big_rational
         }
         return result;
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 有理数的字符串表示。
+    */
     public String toString()
     {
         if(denominator==null)

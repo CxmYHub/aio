@@ -4,18 +4,53 @@ import java.nio.charset.*;
 import java.awt.*;
 import java.awt.image.*;
 /**
-<p>二维码类。</p><br>
+<p>二维码类</p><br>
 用于表示、生成和解析二维码。<br>
 */
 public class quick_response_code
 {
+    /**
+    <p>二维码边长</p>
+    */
     public int side=21;
+    /**
+    <p>纠错等级</p><br>
+    <ul>
+        <li>1:L 低纠错等级(7%)</li>
+        <li>2:M 中纠错等级(15%)</li>
+        <li>3:Q 高纠错等级(25%)</li>
+        <li>4:H 超高纠错等级(30%)</li>
+    </ul>
+    */
     public int error_correction_level=1;
+    /**
+    <p>版本号</p><br>
+    版本号∈[1,40]，对应的二维码边长为<code>(version-1)*4+21</code>。
+    */
     public int version=1;
+    /**
+    <p>编码模式</p><br>
+    <ul>
+        <li>0:数字模式</li>
+        <li>1:数字字母模式</li>
+        <li>2:字节模式</li>
+        <li>3:日文模式</li>
+        <li>4:扩展解释模式（需要使用字节模式掩码）</li>
+    </ul>
+    */
     public int mode=2;
+    /**
+    <p>掩码</p><br>
+    掩码∈[0,7]，用于选择不同的纠错等级。
+    */
     public int mask=0;
+    /**
+    <p>二维码点阵</p><br>
+    二维码的二进制表示，每个元素为二维码的一个点。
+    */
     public boolean field[][];
     /**
+    <p>构造方法</p><br>
     通过文本、编码模式、版本号和纠错等级构造二维码。
     @param text 要编码的文本。
     @param error_correction_level 纠错等级。<br>
@@ -743,6 +778,7 @@ public class quick_response_code
         }
     }
     /**
+    <p>构造方法</p><br>
     通过文本和纠错等级构造二维码。<br>
     自动选择合适的编码模式和最小可用的版本。
     @param text 要编码的文本。
@@ -750,7 +786,7 @@ public class quick_response_code
     1:L 低纠错等级(7%)<br>
     2:M 中纠错等级(15%)<br>
     3:Q 高纠错等级(25%)<br>
-    4:H 超高纠错等级(30%)<br>
+    4:H 超高纠错等级(30%)
     */
     public quick_response_code(String text,int error_correction_level)
     {
@@ -801,6 +837,7 @@ public class quick_response_code
         this(text,error_correction_level,version,mode);
     }
     /**
+    <p>构造方法</p><br>
     通过文本构造二维码。<br>
     自动选择合适的编码模式和最小可用的版本。<br>
     默认纠错等级为L。
@@ -811,6 +848,7 @@ public class quick_response_code
         this(text,1);
     }
     /**
+    <p>编码</p><br>
     通过文本、编码模式、版本号和纠错等级计算二维码图形。
     @param text 要编码的文本。
     @param error_correction_level 纠错等级。<br>
@@ -840,6 +878,7 @@ public class quick_response_code
         return quick_response_code.field;
     }
     /**
+    <p>编码</p><br>
     通过文本和纠错等级计算二维码图形。<br>
     自动选择合适的编码模式和最小可用的版本。
     @param text 要编码的文本。
@@ -862,6 +901,7 @@ public class quick_response_code
         return quick_response_code.field;
     }
     /**
+    <p>编码</p><br>
     通过文本计算二维码图形。<br>
     自动选择合适的编码模式和最小可用的版本。<br>
     默认纠错等级为L。
@@ -880,6 +920,7 @@ public class quick_response_code
         return quick_response_code.field;
     }
     /**
+    <p>图片显示</p><br>
     弹窗显示二维码。
     @param scale 像素块大小。
     */
@@ -910,6 +951,7 @@ public class quick_response_code
         frame.setVisible(true);
     }
     /**
+    <p>图片显示</p><br>
     弹窗显示指定二维码图形。
     @param field 二维码图形的二维数组表示。
     @param scale 像素块大小。
@@ -942,6 +984,7 @@ public class quick_response_code
         frame.setVisible(true);
     }
     /**
+    <p>图片显示</p><br>
     弹窗显示二维码。<br>
     自适应像素块大小。
     */
@@ -974,6 +1017,7 @@ public class quick_response_code
         frame.setVisible(true);
     }
     /**
+    <p>图片显示</p><br>
     弹窗显示指定二维码图形。<br>
     自适应像素块大小。
     @param field 二维码图形的二维数组表示。
@@ -1007,6 +1051,12 @@ public class quick_response_code
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+    /**
+    <p>解码</p><br>
+    从二维码图形中提取内容。
+    @param field 二维码图形的二维数组表示。
+    @return 解码后的内容。
+    */
     public static String decode(boolean field[][])
     {
         int side=field.length;
@@ -1017,6 +1067,10 @@ public class quick_response_code
         }
         return "";
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 二维码元数据和图形的字符串表示。
+    */
     public String toString()
     {
         StringBuilder result=new StringBuilder();

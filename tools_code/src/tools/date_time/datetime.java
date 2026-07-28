@@ -1,6 +1,6 @@
 package tools.date_time;
 /**
-<p>日期时间类。</p><br>
+<p>日期时间类</p><br>
 用于表示和计算日期时间。<br>
 包括年、月、日、时、分、秒、毫秒、时区。<br>
 本日期时间以推广公历实现，支持公元前，此时年存储为公元前年的倒数+1。<br>
@@ -13,16 +13,45 @@ package tools.date_time;
 */
 public class datetime implements Comparable<datetime>
 {
+    /**
+    <p>默认时区</p><br>
+    默认为东八区（UTC+8）。
+    */
     public static int default_time_zone=8;
+    /**
+    <p>年</p>
+    */
     public final int year;
+    /**
+    <p>月</p>
+    */
     public final int month;
+    /**
+    <p>日</p>
+    */
     public final int day;
+    /**
+    <p>时</p>
+    */
     public final int hour;
+    /**
+    <p>分</p>
+    */
     public final int minute;
+    /**
+    <p>秒</p>
+    */
     public final int second;
+    /**
+    <p>毫秒</p>
+    */
     public final int millisecond;
+    /**
+    <p>时区</p>
+    */
     public final int time_zone;
     /**
+    <p>全参构造方法</p><br>
     通过年、月、日、时、分、秒、毫秒、时区构造日期时间对象。<br>
     若参数无效，则使用默认时区（默认为东八区）当前日期时间。
     @param year 年。
@@ -66,6 +95,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=time_zone;
     }
     /**
+    <p>构造方法</p><br>
     通过年、月、日、时、分、秒、时区构造日期时间对象。<br>
     若参数无效，则使用默认时区（默认为东八区）当前日期时间。
     @param year 年。
@@ -107,6 +137,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=time_zone;
     }
     /**
+    <p>构造方法</p><br>
     通过年、月、日、时区或时、分、秒、时区构造日期时间对象。<br>
     若参数无效，则使用默认时区（默认为东八区）当前日期时间。<br><br>
     如需使用年、月、日、时区构造日期时间对象，请在第五个参数中输入<code>true</code>。<br>
@@ -119,7 +150,7 @@ public class datetime implements Comparable<datetime>
     @param time_zone 时区。
     @param true_date_false_time 是否使用年、月、日、时区构造日期时间对象。<br>
     如需使用年、月、日、时区构造纯日期对象，请输入<code>true</code>。<br>
-    如需使用时、分、秒、时区构造纯时间对象，请输入<code>false</code>。<br>
+    如需使用时、分、秒、时区构造纯时间对象，请输入<code>false</code>。
     */
     public datetime(int year_hour,int month_minute,int day_second,int time_zone,boolean true_date_false_time)
     {
@@ -171,6 +202,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>构造方法</p><br>
     通过年、月、日或时、分、秒构造日期时间对象。<br>
     若参数无效，则使用默认时区（默认为东八区）当前日期时间。<br><br>
     如需使用年、月、日构造日期时间对象，请在第四个参数中输入<code>true</code>。<br>
@@ -182,7 +214,7 @@ public class datetime implements Comparable<datetime>
     @param day_second 日或秒。
     @param true_date_false_time 是否使用年、月、日构造日期时间对象。<br>
     如需使用年、月、日构造纯日期对象，请输入<code>true</code>。<br>
-    如需使用时、分、秒构造纯时间对象，请输入<code>false</code>。<br>
+    如需使用时、分、秒构造纯时间对象，请输入<code>false</code>。
     */
     public datetime(int year_hour,int month_minute,int day_second,boolean true_date_false_time)
     {
@@ -232,6 +264,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>构造方法</p><br>
     通过自公元元年1月1日0时0分0秒的毫秒时间戳构造日期时间对象。
     @param timestamp 自公元元年1月1日0时0分0秒的毫秒时间戳。
     @param time_zone 时区。
@@ -314,6 +347,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=time_zone;
     }
     /**
+    <p>构造方法</p><br>
     通过自公元元年1月1日的日时间戳构造日期时间对象。
     @param timestamp_day 自公元元年1月1日的日时间戳。
     @param time_zone 时区。
@@ -389,6 +423,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=time_zone;
     }
     /**
+    <p>构造方法</p><br>
     构造指定时区当前纯日期或纯时间的对象。
     @param time_zone 时区。
     @param true_date_false_time <br>
@@ -408,6 +443,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=now[7];
     }
     /**
+    <p>构造方法</p><br>
     构造指定时区当前日期时间的对象。
     @param time_zone 时区。
     */
@@ -424,6 +460,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=now[7];
     }
     /**
+    <p>构造方法</p><br>
     构造默认时区（默认为东八区）当前纯日期或纯时间的对象。
     @param true_date_false_time <br>
     如需构造纯日期对象，请输入<code>true</code>。<br>
@@ -442,6 +479,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=default_time_zone;
     }
     /**
+    <p>无参构造方法</p><br>
     构造默认时区（默认为东八区）当前日期时间的对象。
     */
     public datetime()
@@ -457,7 +495,7 @@ public class datetime implements Comparable<datetime>
         this.time_zone=default_time_zone;
     }
     /**
-    获取默认时区。
+    <p>获取默认时区</p><br>
     @return 默认时区。
     */
     public static int get_default_time_zone()
@@ -465,7 +503,7 @@ public class datetime implements Comparable<datetime>
         return default_time_zone;
     }
     /**
-    设置默认时区。
+    <p>设置默认时区</p><br>
     @param time_zone 默认时区。
     @return 是否成功设置。
     */
@@ -482,6 +520,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>现在日期时间数组获取（指定时区）</p><br>
     获取指定时区的现在日期时间数组。
     @param time_zone 时区。
     @return 现在日期时间数组。<br>
@@ -548,6 +587,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>现在日期时间数组获取（默认时区）</p><br>
     获取默认时区（默认为东八区）的现在日期时间数组。
     @return 现在日期时间数组。<br>
     <code>{年,月,日,时,分,秒,毫秒,时区}</code>
@@ -557,6 +597,7 @@ public class datetime implements Comparable<datetime>
         return now(default_time_zone);
     }
     /**
+    <p>毫秒时间戳计算</p><br>
     计算当前日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。
     @return 当前日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。<br>
     对于纯时间对象，返回自当日0时0分0秒 UTC+0的毫秒时间戳。
@@ -574,6 +615,7 @@ public class datetime implements Comparable<datetime>
         return millisecond;
     }
     /**
+    <p>毫秒时间戳计算</p><br>
     计算指定日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。
     @param year 年。
     @param month 月。
@@ -598,6 +640,7 @@ public class datetime implements Comparable<datetime>
         return total_millisecond;
     }
     /**
+    <p>日时间戳计算</p><br>
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
     计算当前日期时间自公元元年1月1日的日时间戳。
     @return 当前日期时间自公元元年1月1日的日时间戳。<br>
@@ -618,6 +661,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>日时间戳计算</p><br>
     计算指定日期自公元元年1月1日的日时间戳。
     @param year 年。
     @param month 月。
@@ -632,6 +676,7 @@ public class datetime implements Comparable<datetime>
         return year*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-1;
     }
     /**
+    <p>闰年判断</p><br>
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
     判断当前日期时间的年份是否为闰年。
     @return 是否为闰年。<br>
@@ -642,6 +687,7 @@ public class datetime implements Comparable<datetime>
         return year!=Integer.MIN_VALUE&&(year%400==0||year%4==0&&year%100!=0);
     }
     /**
+    <p>闰年判断</p><br>
     判断指定年份是否为闰年。
     @param year 年份。
     @return 是否为闰年。
@@ -651,6 +697,7 @@ public class datetime implements Comparable<datetime>
         return year%400==0||year%4==0&&year%100!=0;
     }
     /**
+    <p>星期计算</p><br>
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
     计算当前日期时间的星期。
     @return 当前日期时间对象的星期。<br>
@@ -682,6 +729,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>星期计算</p><br>
     计算指定日期的星期。
     @param year 年。
     @param month 月。
@@ -706,6 +754,7 @@ public class datetime implements Comparable<datetime>
         return (-2*c+year+Math.floorDiv(c,4)+Math.floorDiv(year,4)+13*(month+1)/5+day-1)%7;
     }
     /**
+    <p>已过天数计算</p><br>
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
     计算当前日期时间在该年中的天数。
     @return 当前日期时间在该年中的天数。<br>
@@ -723,6 +772,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>已过天数计算</p><br>
     计算指定日期在该年中的天数。
     @param year 年。
     @param month 月。
@@ -734,11 +784,12 @@ public class datetime implements Comparable<datetime>
         return day+(is_leap_year(year)?calendar.month_day_in_leap_year_prefix_sum[month-1]:calendar.month_day_in_common_year_prefix_sum[month-1]);
     }
     /**
+    <p>天数增加</p><br>
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
     计算当前日期时间经过指定天数后的日期时间。
     @param add_day 增加的天数，若为负数则减少天数。
     @return 当前日期时间经过指定天数后的日期时间。<br>
-    对于纯时间对象，不做处理，返回<code>this</code>。<br>
+    对于纯时间对象，不做处理，返回<code>this</code>。
     */
     public datetime add_day(int add_day)
     {
@@ -795,12 +846,13 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>天数增加</p><br>
     计算指定日期经过指定天数后的日期时间。
     @param year 年。
     @param month 月。
     @param day 日。
     @param add_day 增加的天数，若为负数则减少天数。
-    @return 指定日期经过指定天数后的日期时间。<br>
+    @return 指定日期经过指定天数后的日期时间。
     */
     public static datetime add_day(int year,int month,int day,int add_day)
     {
@@ -850,6 +902,7 @@ public class datetime implements Comparable<datetime>
         return new datetime(new_year,new_month,new_timestamp_day,true);
     }
     /**
+    <p>日期差</p><br>
     <p>此方法适用于纯日期对象和日期时间对象。</p><br>
     计算当前日期时间与指定日期时间相差的天数。
     @param to 终点日期时间对象。
@@ -870,6 +923,7 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
+    <p>日期差</p><br>
     计算两个日期相差的天数。
     @param start_year 起点日期的年。
     @param start_month 起点日期的月。
@@ -885,6 +939,7 @@ public class datetime implements Comparable<datetime>
         return timestamp_day(end_year,end_month,end_day)-timestamp_day(start_year,start_month,start_day);
     }
     /**
+    <p>日中秒序号</p><br>
     计算当前日期时间在该天中的秒数。
     @return 当前日期时间在该天中的秒数。
     */
@@ -893,6 +948,7 @@ public class datetime implements Comparable<datetime>
         return hour*3600+minute*60+second;
     }
     /**
+    <p>日中秒序号</p><br>
     计算指定时间在该天中的秒数。
     @param hour 时。
     @param minute 分。
@@ -904,6 +960,7 @@ public class datetime implements Comparable<datetime>
         return hour*3600+minute*60+second;
     }
     /**
+    <p>纯时间差</p><br>
     计算当前日期时间与指定日期时间相差的日间秒数。
     @param to 终点日期时间对象。
     @return 当前日期时间与终点日期时间相差的日间秒数。<br>
@@ -915,6 +972,7 @@ public class datetime implements Comparable<datetime>
         return (to.hour-to.time_zone)*3600+to.minute*60+to.second-(hour-time_zone)*3600-minute*60-second;
     }
     /**
+    <p>纯时间差</p><br>
     计算两个时间相差的秒数。
     @param start_hour 起点时间的时。
     @param start_minute 起点时间的分。
@@ -929,6 +987,13 @@ public class datetime implements Comparable<datetime>
     {
         return end_hour*3600+end_minute*60+end_second-start_hour*3600-start_minute*60-start_second;
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 日期时间的字符串表示。<br>
+    对于公元元年及之后的日期时间，格式为：<code>AD 年/月/日 时:分:秒.毫秒 UTC+时区</code><br>
+    对于公元前年，格式为：<code>年/月/日 BC 时:分:秒.毫秒 UTC+时区</code><br>
+    对于纯时间对象，格式为：<code>时:分:秒.毫秒 UTC+时区</code>
+    */
     public String toString()
     {
         if(year!=Integer.MIN_VALUE)
@@ -948,7 +1013,8 @@ public class datetime implements Comparable<datetime>
         }
     }
     /**
-    比较当前日期时间与指定日期时间的时间。
+    <p>比较</p><br>
+    比较当前日期时间与指定日期时间。
     @param another 指定日期时间对象。
     @return 当前日期时间与指定日期时间的时间的比较结果。<br>
     若混合比较日期时间对象和纯时间对象，则仅比较时间部分。<br>

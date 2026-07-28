@@ -1,15 +1,25 @@
 package tools.data_structure;
 /**
-<p>栈类。</p><br>
+<p>栈类</p><br>
 栈是一种后进先出(LIFO)的数据结构。<br>
 本栈以数组实现，默认容量为16。
 */
 public class stack
 {
+    /**
+    <p>元素数组</p>
+    */
     public int elements[];
+    /**
+    <p>栈顶指针</p>
+    */
     public int top;
+    /**
+    <p>栈容量</p>
+    */
     public int capacity;
     /**
+    <p>构造方法</p><br>
     构造一个指定容量的空栈。
     @param capacity 栈的容量。
     */
@@ -20,6 +30,7 @@ public class stack
         this.capacity=capacity;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认容量为16的空栈。
     */
     public stack()
@@ -30,6 +41,7 @@ public class stack
         this.capacity=16;
     }
     /**
+    <p>空判断</p><br>
     判断栈是否为空。
     @return 是否为空。
     */
@@ -38,6 +50,7 @@ public class stack
         return top==0;
     }
     /**
+    <p>满判断</p><br>
     判断栈是否已满。
     @return 是否已满。
     */
@@ -46,6 +59,7 @@ public class stack
         return top==capacity;
     }
     /**
+    <p>元素计数</p><br>
     获取栈中元素的数量。
     @return 栈中元素的数量。
     */
@@ -54,6 +68,7 @@ public class stack
         return top;
     }
     /**
+    <p>剩余空间计数</p><br>
     获取栈中剩余空间的数量。
     @return 栈中剩余空间的数量。
     */
@@ -62,7 +77,8 @@ public class stack
         return capacity-top;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对栈进行扩容。<br>
     新的栈容量=当前容量*2+2。
     @return 新的栈容量=当前容量*2+2。
@@ -76,7 +92,8 @@ public class stack
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>扩容</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对栈进行扩容。<br>
     新的栈容量=当前容量+<code>more_capacity</code>。
     @param more_capacity 要扩展的容量。
@@ -95,7 +112,8 @@ public class stack
         return capacity;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素压入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将元素压入栈中。
     @param element 要压入栈中的元素。
     @return 栈中元素的数量。
@@ -110,7 +128,8 @@ public class stack
         return top;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量压入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     将多个元素压入栈中。
     @param elements 要压入栈中的元素数组。
     @return 栈中元素的数量。
@@ -128,6 +147,7 @@ public class stack
         return top;
     }
     /**
+    <p>元素获取</p><br>
     获取栈顶元素但不弹出。
     @return 栈顶元素。<br>
     若栈为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -144,7 +164,8 @@ public class stack
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素弹出</p><br>
+    <p>此方法会修改调用对象。</p><br>
     弹出栈顶元素。
     @return 弹出的栈顶元素。<br>
     若栈为空，则返回<code>Integer.MIN_VALUE</code>。

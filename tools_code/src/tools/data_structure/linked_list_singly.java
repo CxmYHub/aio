@@ -1,6 +1,6 @@
 package tools.data_structure;
 /**
-<p>单向链表类。</p><br>
+<p>单向链表类</p><br>
 单向链表属于链表的一种，是一种线性数据结构。<br>
 对比数组，链表具有动态大小的优势，即可以在运行时根据需要动态添加或删除元素。<br>
 同时，链表也可以在任意位置进行插入和删除操作。<br>
@@ -9,9 +9,16 @@ package tools.data_structure;
 */
 public class linked_list_singly
 {
-    public int element=0;
+    /**
+    <p>元素</p>
+    */
+    public int element;
+    /**
+    <p>后继节点指针</p>
+    */
     public linked_list_singly next=null;
     /**
+    <p>构造方法</p><br>
     构造一个包含多个元素的单向链表。
     @param numbers 多个元素。
     */
@@ -25,6 +32,7 @@ public class linked_list_singly
         }
     }
     /**
+    <p>全参节点构造方法</p><br>
     构造一个指定元素和后继节点的单向链表节点。
     @param element 元素。
     @param next 后继节点。
@@ -35,16 +43,25 @@ public class linked_list_singly
         this.next=next;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个空单向链表。
     */
     public linked_list_singly()
     {
+        element=0;
     }
+    /**
+    <p>构造方法</p><br>
+    构造一个指定元素的单向链表节点。
+    @param number 元素。
+    @param inner_constant 哑元，用于区分方法。
+    */
     private linked_list_singly(int number,char inner_constant)
     {
         element=number;
     }
     /**
+    <p>空判断</p><br>
     判断单向链表是否为空。
     @return 是否为空。
     */
@@ -53,6 +70,7 @@ public class linked_list_singly
         return next==null;
     }
     /**
+    <p>元素计数</p><br>
     获取单向链表的元素数量。
     @return 单向链表的元素数量。
     */
@@ -63,6 +81,7 @@ public class linked_list_singly
         return count;
     }
     /**
+    <p>元素获取</p><br>
     获取单向链表中指定索引位置的元素。
     @param index 索引。
     @return 索引位置的元素。<br>
@@ -92,6 +111,7 @@ public class linked_list_singly
         }
     }
     /**
+    <p>索引查询</p><br>
     获取单向链表中第一个出现指定元素的索引。
     @param element 目标元素。
     @return 目标元素的首个索引。<br>
@@ -110,6 +130,7 @@ public class linked_list_singly
         return Integer.MIN_VALUE;
     }
     /**
+    <p>遍历</p><br>
     遍历单向链表。
     @return 遍历结果。
     */
@@ -126,7 +147,8 @@ public class linked_list_singly
         return result;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素尾插</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表的末尾插入一个元素。
     @param number 要插入的元素。
     @return 插入的位置。
@@ -140,7 +162,8 @@ public class linked_list_singly
         return position;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量尾插</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表的末尾插入多个元素。
     @param numbers 要插入的多个元素。
     @return 插入的位置。<br>
@@ -162,7 +185,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>列表尾插</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表的末尾插入另一个单向链表。
     @param list 要插入的单向链表。
     @return 插入的位置。<br>
@@ -184,7 +208,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素头插</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表的开头插入一个元素。
     @param number 要插入的元素。
     @return 插入的位置。
@@ -195,7 +220,8 @@ public class linked_list_singly
         return 0;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量头插</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表的开头插入多个元素。
     @param numbers 要插入的多个元素。
     @return 插入的位置。<br>
@@ -218,7 +244,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>列表头插</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表的开头插入另一个单向链表。
     @param list 要插入的单向链表。
     @return 插入的位置。<br>
@@ -240,7 +267,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表中指定索引位置插入一个元素。
     @param index 索引。<br>
     <ul>
@@ -260,7 +288,8 @@ public class linked_list_singly
         return position;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>元素批量输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表中指定索引位置插入多个元素。
     @param index 索引。<br>
     <ul>
@@ -291,7 +320,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>列表输入</p><br>
+    <p>此方法会修改调用对象。</p><br>
     向单向链表中指定索引位置插入另一个单向链表。
     @param index 索引。<br>
     <ul>
@@ -321,7 +351,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>批量尾删</p><br>
+    <p>此方法会修改调用对象。</p><br>
     删除单向链表末尾的多个元素。
     @param count 要删除的元素数量。
     @return 删除的元素数量。<br>
@@ -351,7 +382,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>批量头删</p><br>
+    <p>此方法会修改调用对象。</p><br>
     删除单向链表开头的多个元素。
     @param count 要删除的元素数量。
     @return 删除的元素数量。<br>
@@ -379,7 +411,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>指定位置元素删除/p><br>
+    <p>此方法会修改调用对象。</p><br>
     删除单向链表中指定索引位置的元素。
     @param index 要删除的元素的索引。
     @return 删除的元素。<br>
@@ -407,7 +440,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>单个元素删除</p><br>
+    <p>此方法会修改调用对象。</p><br>
     删除单向链表中所有的指定元素。
     @param element 要删除的元素。
     @return 删除的元素数量。
@@ -432,7 +466,8 @@ public class linked_list_singly
         return count;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>区间元素删除</p><br>
+    <p>此方法会修改调用对象。</p><br>
     删除单向链表中所有在[<code>min_element</code>,<code>max_element</code>]范围内的元素。
     @param min_element 删除范围的下限（包含）。
     @param max_element 删除范围的上限（包含）。
@@ -458,7 +493,8 @@ public class linked_list_singly
         return count;
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>升序排序</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对单向链表进行升序排序。
     @return 排序后的第一个元素。<br>
     如果单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -546,7 +582,8 @@ public class linked_list_singly
         }
     }
     /**
-	<p>此方法会修改调用对象。</p><br>
+    <p>降序排序</p><br>
+    <p>此方法会修改调用对象。</p><br>
     对单向链表进行降序排序。
     @return 排序后的第一个元素。<br>
     如果单向链表为空，则返回<code>Integer.MIN_VALUE</code>。
@@ -633,6 +670,10 @@ public class linked_list_singly
             return Integer.MIN_VALUE;
         }
     }
+    /**
+    <p>字符串表示</p><br>
+    @return 单向链表的字符串表示。
+    */
     public String toString()
     {
         StringBuilder result=new StringBuilder("[");

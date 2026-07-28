@@ -1,16 +1,33 @@
 package tools.mathematics;
 /**
-<p>高精度整数类。</p><br>
+<p>高精度整数类</p><br>
 整数，即不含分数部分的数，包含正整数、负整数和零。<br>
 本高精度整数以整型数组、符号和位数实现。<br>
 数组以2^31进制表示整数的绝对值，低位优先存储，符号表示整数的正负。
 */
 public class big_integer implements Comparable<big_integer>
 {
+    /**
+    <p>位数组</p><br>
+    2^31进制低位优先存储。
+    */
     public int number[];
+    /**
+    <p>位数</p><br>
+    2^31进制位数，即位数组的有效长度。
+    */
     public int size;
+    /**
+    <p>符号</p><br>
+    <ul>
+        <li>&gt;0 正整数。</li>
+        <li>&lt;0 负整数。</li>
+        <li>=0 零。</li>
+    </ul>
+    */
     public int sign;
     /**
+    <p>构造方法</p><br>
     通过整数形式字符串构造高精度整数对象。
     @param number_string 字符串表示的整数。
     */
@@ -62,6 +79,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>构造方法</p><br>
     通过整数构造高精度整数对象。
     @param number 整数。
     */
@@ -88,6 +106,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>构造方法</p><br>
     通过低位优先表示的整型数组构造高精度整数对象。
     @param number_array 整型数组。
     @param sign 整数的符号。
@@ -112,6 +131,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>全参构造方法</p><br>
     通过低位优先表示的整型数组和位数构造高精度整数对象。<br>
     本构造方法会直接使用输入的数组、位数和符号，不进行拷贝和检查。
     @param number_array 整型数组。
@@ -125,6 +145,7 @@ public class big_integer implements Comparable<big_integer>
         this.sign=sign;
     }
     /**
+    <p>绝对值数组比较</p><br>
     比较两个字节数组低位优先表示的整数的大小。
     @param number1 第一个整数的字节数组低位优先表示。
     @param number2 第二个整数的字节数组低位优先表示。
@@ -160,6 +181,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>自增</p><br>
     <p>此方法会修改调用对象。</p><br>
     对整数自增1。
     @return 位数是否改变。
@@ -217,6 +239,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>自减</p><br>
     <p>此方法会修改调用对象。</p><br>
     对整数自减1。
     @return 位数是否改变。
@@ -274,6 +297,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>加法运算</p><br>
     计算两个高精度整数的和 <code>addend1</code>+<code>addend2</code>。
     @param addend1 第一个高精度整数加数对象。
     @param addend2 第二个高精度整数加数对象。
@@ -352,6 +376,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>减法运算</p><br>
     计算两个高精度整数的差 <code>minuend</code>-<code>subtrahend</code>。
     @param minuend 高精度整数被减数对象。
     @param subtrahend 高精度整数减数对象。
@@ -429,6 +454,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>乘一位数</p><br>
     计算一个高精度整数与一个整数的积 <code>factor</code>*<code>multiplier</code>。
     @param factor 高精度整数因数对象。
     @param multiplier 整数因数。
@@ -462,6 +488,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>乘法运算</p><br>
     计算两个高精度整数的积 <code>factor1</code>*<code>factor2</code>。
     @param factor1 第一个高精度整数因数对象。
     @param factor2 第二个高精度整数因数对象。
@@ -500,6 +527,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>除一位数</p><br>
     计算一个高精度整数与一个整数的商 <code>dividend</code>/<code>divisor</code>。
     @param dividend 高精度整数被除数对象。
     @param divisor 整数除数。
@@ -551,6 +579,7 @@ public class big_integer implements Comparable<big_integer>
         return new big_integer[]{result,new big_integer((int)remainder)};
     }
     /**
+    <p>除法运算</p><br>
     计算两个高精度整数的商 <code>dividend</code>/<code>divisor</code>。
     @param dividend 高精度整数被除数对象。
     @param divisor 高精度整数除数对象。
@@ -685,6 +714,7 @@ public class big_integer implements Comparable<big_integer>
         return new big_integer[]{quotient,remainder};
     }
     /**
+    <p>最大公因数</p><br>
     计算两个高精度整数的最大公因数。
     @param number1 第一个高精度整数对象。
     @param number2 第二个高精度整数对象。
@@ -725,6 +755,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>最小公倍数</p><br>
     计算两个高精度整数的最小公倍数。
     @param number1 第一个高精度整数对象。
     @param number2 第二个高精度整数对象。
@@ -736,6 +767,7 @@ public class big_integer implements Comparable<big_integer>
         return divide(multiply(number1,number2),gcd(number1,number2))[0];
     }
     /**
+    <p>幂运算</p><br>
     计算高精度整数的正整数次幂 <code>base</code>^<code>exponent</code>。<br>
     @param base 底数整数对象。
     @param positive_exponent 指数正整数。
@@ -777,6 +809,7 @@ public class big_integer implements Comparable<big_integer>
         return result;
     }
     /**
+    <p>阶乘运算</p><br>
     计算整数的阶乘。
     @param number 整数。
     @return 整数的阶乘。<br>
@@ -799,6 +832,10 @@ public class big_integer implements Comparable<big_integer>
             return result;
         }
     }
+    /**
+    <p>字符串表示</p><br>
+    高精度整数的字符串表示。
+    */
     public String toString()
     {
         if(size==0)
@@ -839,9 +876,10 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>相等判断</p><br>
     判断当前整数与指定整数是否相等。
     @param another 指定整数对象。
-    @return 是否相等。<br>
+    @return 是否相等。
     */
     public boolean equals(Object another)
     {
@@ -869,6 +907,7 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>哈希值计算</p><br>
     计算当前整数的哈希值。
     @return 当前整数的哈希值。
     */
@@ -889,11 +928,12 @@ public class big_integer implements Comparable<big_integer>
         }
     }
     /**
+    <p>比较</p><br>
     比较当前整数与指定整数的数值。
     @param another 指定整数对象。
     @return 当前整数与指定整数的数值比较的结果。<br>
     <ul>
-        <li>0：当前整数与指定整数相等。</li>
+        <li>=0：当前整数与指定整数相等。</li>
         <li>&gt;0：当前整数大于指定整数。</li>
         <li>&lt;0：当前整数小于指定整数。</li>
     </ul>

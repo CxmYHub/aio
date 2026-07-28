@@ -1,15 +1,22 @@
 package tools.mathematics;
 /**
-<p>直角坐标类。</p><br>
+<p>直角坐标类</p><br>
 直角坐标表示平面直角坐标系中的一个位置。<br>
 横坐标和纵坐标都是实数，取值范围为任意实数。<br>
 @see tools.geography.projected_coordinate
 */
 public class coordinate_cartesian
 {
+    /**
+    <p>横坐标</p>
+    */
     public double x;
+    /**
+    <p>纵坐标</p>
+    */
     public double y;
     /**
+    <p>全参构造方法</p><br>
     构造一个直角坐标对象。
     @param x 横坐标。
     @param y 纵坐标。
@@ -20,6 +27,7 @@ public class coordinate_cartesian
         this.y=y;
     }
     /**
+    <p>无参构造方法</p><br>
     构造一个默认的直角坐标对象，表示原点。
     */
     public coordinate_cartesian()
@@ -28,6 +36,7 @@ public class coordinate_cartesian
         this.y=0;
     }
     /**
+    <p>点象限计算</p><br>
     计算当前直角坐标所在的象限。
     @return 当前直角坐标对象所在的象限。
     */
@@ -36,6 +45,7 @@ public class coordinate_cartesian
         return y>0?x>0?1:2:x<0?3:4;
     }
     /**
+    <p>点象限计算</p><br>
     计算指定直角坐标所在的象限。
     @param x 横坐标。
     @param y 纵坐标。
@@ -46,6 +56,7 @@ public class coordinate_cartesian
         return y>0?x>0?1:2:x<0?3:4;
     }
     /**
+    <p>坐标相加</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前直角坐标与另一个直角坐标相加。
     @param coordinate_cartesian 要相加的直角坐标对象。
@@ -56,6 +67,7 @@ public class coordinate_cartesian
         y+=coordinate_cartesian.y;
     }
     /**
+    <p>坐标相加</p><br>
     计算两个直角坐标的和 <code>coordinate1</code>+<code>coordinate2</code>。
     @param coordinate1 第一个直角坐标对象。
     @param coordinate2 第二个直角坐标对象。
@@ -66,6 +78,7 @@ public class coordinate_cartesian
         return new coordinate_cartesian(coordinate1.x+coordinate2.x,coordinate1.y+coordinate2.y);
     }
     /**
+    <p>坐标相减</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前直角坐标与另一个直角坐标相减。
     @param coordinate_cartesian 要相减的直角坐标对象。
@@ -76,6 +89,7 @@ public class coordinate_cartesian
         y-=coordinate_cartesian.y;
     }
     /**
+    <p>坐标相减</p><br>
     计算两个直角坐标的差 <code>coordinate1</code>-<code>coordinate2</code>。
     @param coordinate1 第一个直角坐标对象。
     @param coordinate2 第二个直角坐标对象。
@@ -86,6 +100,7 @@ public class coordinate_cartesian
         return new coordinate_cartesian(coordinate1.x-coordinate2.x,coordinate1.y-coordinate2.y);
     }
     /**
+    <p>坐标数乘</p><br>
     <p>此方法会修改调用对象。</p><br>
     计算当前直角坐标与一个系数的乘积。
     @param coefficient 系数。
@@ -96,6 +111,7 @@ public class coordinate_cartesian
         y*=coefficient;
     }
     /**
+    <p>坐标数乘</p><br>
     计算一个直角坐标与一个系数的乘积 <code>coordinate_cartesian</code>*<code>coefficient</code>。
     @param coordinate_cartesian 要数乘的直角坐标对象。
     @param coefficient 系数。
@@ -106,6 +122,7 @@ public class coordinate_cartesian
         return new coordinate_cartesian(coordinate_cartesian.x*coefficient,coordinate_cartesian.y*coefficient);
     }
     /**
+    <p>两点距离</p><br>
     计算当前直角坐标与另一个直角坐标的距离。
     @param coordinate_cartesian 要计算距离的直角坐标对象。
     @return 当前直角坐标与另一个直角坐标的距离。
@@ -115,6 +132,7 @@ public class coordinate_cartesian
         return Math.sqrt((x-coordinate_cartesian.x)*(x-coordinate_cartesian.x)+(y-coordinate_cartesian.y)*(y-coordinate_cartesian.y));
     }
     /**
+    <p>两点距离</p><br>
     计算两点间的距离。
     @param x0 起点的横坐标。
     @param y0 起点的纵坐标。
@@ -127,6 +145,7 @@ public class coordinate_cartesian
         return Math.sqrt((xt-x0)*(xt-x0)+(yt-y0)*(yt-y0));
     }
     /**
+    <p>相对角度</p><br>
     计算该点到终点的角度。
     @param xt 终点的横坐标。
     @param yt 终点的纵坐标。
@@ -154,6 +173,7 @@ public class coordinate_cartesian
         }
     }
     /**
+    <p>相对角度</p><br>
     计算该点到终点的角度。
     @param target 终点的直角坐标对象。
     @return 该点到终点的角度。
@@ -180,6 +200,7 @@ public class coordinate_cartesian
         }
     }
     /**
+    <p>相对角度</p><br>
     计算起点到终点的角度。
     @param x0 起点的横坐标。
     @param y0 起点的纵坐标。
@@ -209,6 +230,7 @@ public class coordinate_cartesian
         }
     }
     /**
+    <p>中点</p><br>
     计算该直角坐标与指定直角坐标连线的中点。
     @param target 目标直角坐标对象。
     @return 该直角坐标与指定直角坐标连线的中点。
@@ -218,6 +240,7 @@ public class coordinate_cartesian
         return new coordinate_cartesian((target.x+x)/2,(target.y+y)/2);
     }
     /**
+    <p>线性插值</p><br>
     计算该直角坐标到指定直角坐标的线性插值。
     @param target 目标直角坐标对象。
     @param ratio 线性插值比例。<br>
@@ -229,6 +252,7 @@ public class coordinate_cartesian
         return new coordinate_cartesian(x+ratio*(target.x-x),y+ratio*(target.y-y));
     }
     /**
+    <p>向目标点位移距离</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前直角坐标向指定直角坐标位移指定距离。<br>
     注意，坐标经计算后可能存在双精度浮点数精度误差，导致位移结果不准确。
@@ -252,6 +276,7 @@ public class coordinate_cartesian
         return ratio;
     }
     /**
+    <p>向目标点位移比例</p><br>
     <p>此方法会修改调用对象。</p><br>
     将当前直角坐标向指定直角坐标位移指定比例。
     @param target 目标直角坐标对象。
@@ -267,71 +292,77 @@ public class coordinate_cartesian
         y+=move_ratio*dy;
         return move_ratio*Math.sqrt(dx*dx+dy*dy);
     }
-	/**
-	计算一个多边形的周长。
-	@param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
-	@return 多边形的周长。<br>
-	若多边形的顶点不足2个，则返回0.0。
-	*/
-	public static double perimeter(coordinate_cartesian... coordinates_ccw)
-	{
-		if(coordinates_ccw.length>=2)
-		{
-			double temp[]=new double[coordinates_ccw.length<<1];
+    /**
+    <p>多边形周长</p><br>
+    计算一个多边形的周长。
+    @param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
+    @return 多边形的周长。<br>
+    若多边形的顶点不足2个，则返回0.0。
+    */
+    public static double perimeter(coordinate_cartesian... coordinates_ccw)
+    {
+        if(coordinates_ccw.length>=2)
+        {
+            double temp[]=new double[coordinates_ccw.length<<1];
             for(int i=0;i<coordinates_ccw.length;i++)
             {
                 temp[i<<1]=coordinates_ccw[i].x;
                 temp[(i<<1)|1]=coordinates_ccw[i].y;
             }
-			double result=0;
-			for(int i=0;i+3<temp.length;i+=2)
-			{
-				result+=Math.sqrt((temp[i+2]-temp[i])*(temp[i+2]-temp[i])+(temp[i+3]-temp[i+1])*(temp[i+3]-temp[i+1]));
-			}
-			result+=Math.sqrt((temp[temp.length-2]-temp[0])*(temp[temp.length-2]-temp[0])+(temp[temp.length-1]-temp[1])*(temp[temp.length-1]-temp[1]));
-			return result;
-		}
-		else
-		{
-			return 0.0;
-		}
-	}
-	/**
-	计算一个多边形的面积。
-	@param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
-	@return 多边形的面积。<br>
-	若多边形的顶点不足3个，则返回0.0。
-	*/
-	public static double area(coordinate_cartesian... coordinates_ccw)
-	{
-		if(coordinates_ccw.length>=3)
-		{
-			double temp[]=new double[coordinates_ccw.length<<1];
+            double result=0;
+            for(int i=0;i+3<temp.length;i+=2)
+            {
+                result+=Math.sqrt((temp[i+2]-temp[i])*(temp[i+2]-temp[i])+(temp[i+3]-temp[i+1])*(temp[i+3]-temp[i+1]));
+            }
+            result+=Math.sqrt((temp[temp.length-2]-temp[0])*(temp[temp.length-2]-temp[0])+(temp[temp.length-1]-temp[1])*(temp[temp.length-1]-temp[1]));
+            return result;
+        }
+        else
+        {
+            return 0.0;
+        }
+    }
+    /**
+    <p>多边形面积</p><br>
+    计算一个多边形的面积。
+    @param coordinates_ccw 多边形的顶点坐标，按逆时针方向给出(p1,p2,p3,p4,...)。
+    @return 多边形的面积。<br>
+    若多边形的顶点不足3个，则返回0.0。
+    */
+    public static double area(coordinate_cartesian... coordinates_ccw)
+    {
+        if(coordinates_ccw.length>=3)
+        {
+            double temp[]=new double[coordinates_ccw.length<<1];
             for(int i=0;i<coordinates_ccw.length;i++)
             {
                 temp[i<<1]=coordinates_ccw[i].x;
                 temp[(i<<1)|1]=coordinates_ccw[i].y;
             }
-			double median=maths.median(temp);
-			for(int i=0;i<temp.length;i++)
-			{
-				temp[i]-=median;
-			}
-			double sum1=0,sum2=0;
-			for(int i=0;i+3<temp.length;i+=2)
-			{
-				sum1+=temp[i]*temp[i+3];
-				sum2+=temp[i+1]*temp[i+2];
-			}
-			sum1+=temp[temp.length-2]*temp[1];
-			sum2+=temp[temp.length-1]*temp[0];
-			return Math.abs(sum1-sum2)/2;
-		}
-		else
-		{
-			return 0.0;
-		}
-	}
+            double median=maths.median(temp);
+            for(int i=0;i<temp.length;i++)
+            {
+                temp[i]-=median;
+            }
+            double sum1=0,sum2=0;
+            for(int i=0;i+3<temp.length;i+=2)
+            {
+                sum1+=temp[i]*temp[i+3];
+                sum2+=temp[i+1]*temp[i+2];
+            }
+            sum1+=temp[temp.length-2]*temp[1];
+            sum2+=temp[temp.length-1]*temp[0];
+            return Math.abs(sum1-sum2)/2;
+        }
+        else
+        {
+            return 0.0;
+        }
+    }
+    /**
+    <p>字符串表示</p><br>
+    @return 直角坐标的字符串表示。
+    */
     public String toString()
     {
         return "("+x+","+y+")";
