@@ -815,9 +815,9 @@ public class linked_list_doubly
     /**
     <p>区间元素删除</p><br>
     <p>此方法会修改调用对象。</p><br>
-    删除双向链表中所有在[<code>min_element</code>,<code>max_element</code>]范围内的元素。
-    @param min_element 删除范围的下限（包含）。
-    @param max_element 删除范围的上限（包含）。
+    删除双向链表中所有在[<code>min_element</code>,<code>max_element</code>]区间内的元素。
+    @param min_element 区间下限（包含）。
+    @param max_element 区间上限（包含）。
     @return 删除的元素数量。
     */
     public int remove_element(int min_element,int max_element)

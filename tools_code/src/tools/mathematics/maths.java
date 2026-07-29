@@ -579,11 +579,11 @@ public class maths
     }
     /**
     <p>数组区间反转</p><br>
-    计算一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素反转后的数组。
+    计算一个整数数组中下标在[<code>from</code>,<code>to</code>]区间内的元素反转后的数组。
     @param numbers 整数数组。
     @param from 反转区间下界。
     @param to 反转区间上界。
-    @return 反转下标在[<code>from</code>,<code>to</code>]范围内的元素后的整数数组。
+    @return 反转下标在[<code>from</code>,<code>to</code>]区间内的元素后的整数数组。
     */
     public static int[] reverse_new(int numbers[],int from,int to)
     {
@@ -605,7 +605,7 @@ public class maths
     /**
     <p>数组区间反转</p><br>
     <p>此方法会修改输入的数据。</p><br>
-    反转一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+    反转一个整数数组中下标在[<code>from</code>,<code>to</code>]区间内的元素。
     @param numbers 要反转的整数数组。
     @param from 反转区间下界。
     @param to 反转区间上界。
@@ -652,11 +652,11 @@ public class maths
     }
     /**
     <p>数组区间反转</p><br>
-    计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素反转后的数组。
+    计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]区间内的元素反转后的数组。
     @param numbers 双精度浮点数组。
     @param from 反转区间下界。
     @param to 反转区间上界。
-    @return 反转下标在[<code>from</code>,<code>to</code>]范围内的元素后的双精度浮点数组。
+    @return 反转下标在[<code>from</code>,<code>to</code>]区间内的元素后的双精度浮点数组。
     */
     public static double[] reverse_new(double numbers[],int from,int to)
     {
@@ -678,7 +678,7 @@ public class maths
     /**
     <p>数组区间反转</p><br>
     <p>此方法会修改输入的数据。</p><br>
-    反转一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+    反转一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]区间内的元素。
     @param numbers 要反转的双精度浮点数组。
     @param from 反转区间下界。
     @param to 反转区间上界。
@@ -732,11 +732,11 @@ public class maths
     }
     /**
     <p>数组区间打乱</p><br>
-    计算一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
+    计算一个整数数组中下标在[<code>from</code>,<code>to</code>]区间内的元素随机打乱后的数组。
     @param numbers 要打乱的整数数组。
     @param from 打乱区间下界。
     @param to 打乱区间上界。
-    @return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的整数数组。
+    @return 随机打乱下标在[<code>from</code>,<code>to</code>]区间内的元素后的整数数组。
     */
     public static int[] shuffle_new(int numbers[],int from,int to)
     {
@@ -755,7 +755,7 @@ public class maths
     /**
     <p>数组区间打乱</p><br>
     <p>此方法会修改输入的数据。</p><br>
-    随机打乱一个整数数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+    随机打乱一个整数数组中下标在[<code>from</code>,<code>to</code>]区间内的元素。
     @param numbers 要打乱的整数数组。
     @param from 打乱区间下界。
     @param to 打乱区间上界。
@@ -810,11 +810,11 @@ public class maths
     }
     /**
     <p>数组区间打乱</p><br>
-    计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素随机打乱后的数组。
+    计算一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]区间内的元素随机打乱后的数组。
     @param numbers 要打乱的双精度浮点数组。
     @param from 打乱区间下界。
     @param to 打乱区间上界。
-    @return 随机打乱下标在[<code>from</code>,<code>to</code>]范围内的元素后的双精度浮点数组。
+    @return 随机打乱下标在[<code>from</code>,<code>to</code>]区间内的元素后的双精度浮点数组。
     */
     public static double[] shuffle_new(double numbers[],int from,int to)
     {
@@ -833,7 +833,7 @@ public class maths
     /**
     <p>数组区间打乱</p><br>
     <p>此方法会修改输入的数据。</p><br>
-    随机打乱一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]范围内的元素。
+    随机打乱一个双精度浮点数组中下标在[<code>from</code>,<code>to</code>]区间内的元素。
     @param numbers 要打乱的双精度浮点数组。
     @param from 打乱区间下界。
     @param to 打乱区间上界。

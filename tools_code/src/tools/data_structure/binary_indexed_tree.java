@@ -1,7 +1,7 @@
 package tools.data_structure;
 /**
 <p>树状数组类</p><br>
-树状数组是一种特殊的数据结构，用于高效地计算数组的前缀和。<br>
+树状数组是一种特殊的数据结构，用于高效地计算数组的前缀和。
 */
 public class binary_indexed_tree
 {

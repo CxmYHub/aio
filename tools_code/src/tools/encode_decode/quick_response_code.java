@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.*;
 /**
 <p>二维码类</p><br>
-用于表示、生成和解析二维码。<br>
+用于表示、生成和解析二维码。
 */
 public class quick_response_code
 {

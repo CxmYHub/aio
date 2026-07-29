@@ -31,7 +31,7 @@ public class histogram
     public int overflow_count;
     /**
     <p>构造方法</p><br>
-    通过区间数和数据构造一个等距直方图对象。
+    通过区间数和数据范围构造一个等距直方图对象。
     @param group_count 区间数量。
     @param data 数据。
     */
@@ -84,7 +84,7 @@ public class histogram
     }
     /**
     <p>构造方法</p><br>
-    通过区间数和范围构造一个等距直方图对象。
+    通过区间数和数据范围构造一个等距直方图对象。
     @param group_count 区间数量。
     @param min 最小值。
     @param max 最大值。

@@ -2,7 +2,7 @@ package tools.encode_decode;
 /**
 <p>元数据常量类</p><br>
 二维码的元数据常量。<br>
-如版本、纠错等级、编码类型等。<br>
+如版本、纠错等级、编码类型等。
 */
 public class barcode
 {

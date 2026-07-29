@@ -83,11 +83,11 @@ public class search
     /**
     <p>二分查找</p><br>
     <p>使用时需确保数组已升序排序。</p><br>
-    查找数组中在[<code>min</code>,<code>max</code>]范围内的元素的个数。
+    查找数组中在[<code>min</code>,<code>max</code>]区间内的元素的个数。
     @param numbers 数组。
     @param min 最小值。
     @param max 最大值。
-    @return 在[<code>min</code>,<code>max</code>]范围内的元素的个数。
+    @return 在[<code>min</code>,<code>max</code>]区间内的元素的个数。
     */
     public static int binary_search_between(int numbers[],int min,int max)
     {
