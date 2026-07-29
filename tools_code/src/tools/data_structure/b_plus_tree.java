@@ -24,7 +24,8 @@ B+树满足以下四条性质，其中，m为树的阶：<br>
     <li>有k个子节点的节点包含k-1个关键字。</li>
     <li>所有叶节点都位于同一层。</li>
 </ol><br>
-本B+树默认阶数为256，支持的最小阶数为4。<br>
+本B+树以头节点形式实现，头节点无元素和子节点，其后继节点为B+树的根节点。<br>
+默认阶数为256，支持的最小阶数为4。
 */
 public class b_plus_tree
 {
@@ -64,6 +65,7 @@ public class b_plus_tree
     /**
     <p>叶节点后继指针</p><br>
     <ul>
+        <li>头节点，指向根节点。</li>
         <li>根节点/内部节点，没有后继。</li>
         <li>叶节点，指向下一个叶节点。</li>
     </ul>
@@ -72,6 +74,7 @@ public class b_plus_tree
     /**
     <p>节点类型</p><br>
     <ul>
+        <li>=-1：头节点。</li>
         <li>=0：根节点。</li>
         <li>=1：内部节点。</li>
         <li>=2：叶节点。</li>
@@ -79,11 +82,39 @@ public class b_plus_tree
     */
     public int type;
     /**
+    <p>构造方法</p><br>
+    构造一个指定阶数的B+树对象。
+    @param order 树的阶。
+    */
+    public b_plus_tree(int order)
+    {
+        this.order=order;
+        type=-1;
+        children=null;
+        elements=null;
+        count=0;
+        next=new b_plus_tree(order,2);
+    }
+    /**
+    <p>无参构造方法</p><br>
+    构造一个默认阶数为256的B+树对象。
+    */
+    public b_plus_tree()
+    {
+        order=256;
+        type=-1;
+        children=null;
+        elements=null;
+        count=0;
+        next=new b_plus_tree(order,2);
+    }
+    /**
     <p>节点构造方法</p><br>
     构造一个指定阶数的B+树节点对象。
     @param order 树的阶。
     @param type 节点类型。<br>
     <ul>
+        <li>=-1：头节点。</li>
         <li>=0：根节点。</li>
         <li>=1：内部节点。</li>
         <li>=2：叶节点。</li>
@@ -109,33 +140,6 @@ public class b_plus_tree
         }
     }
     /**
-    <p>构造方法</p><br>
-    构造一个指定阶数的B+树对象。
-    @param order 树的阶。
-    */
-    public b_plus_tree(int order)
-    {
-        this.order=order;
-        this.type=2;
-        children=null;
-        elements=new int[order];
-        count=0;
-        next=null;
-    }
-    /**
-    <p>无参构造方法</p><br>
-    构造一个默认阶数为256的B+树对象。
-    */
-    public b_plus_tree()
-    {
-        this.order=256;
-        this.type=2;
-        children=null;
-        elements=new int[order];
-        count=0;
-        next=null;
-    }
-    /**
     <p>单元素计数</p><br>
     获取B+树中指定元素的数量。
     @param element 元素。
@@ -143,11 +147,11 @@ public class b_plus_tree
     */
     public int count(int element)
     {
-        if(this.count==0)
+        b_plus_tree now=this.next;
+        if(now.count==0)
         {
             return 0;
         }
-        b_plus_tree now=this;
         while(now.type<2)
         {
             int left=0,right=now.count-2;
@@ -223,18 +227,18 @@ public class b_plus_tree
     }
     /**
     <p>区间元素计数</p><br>
-    获取B+树中[<code>min</code>,<code>max</code>]范围内元素的数量。
+    获取B+树中[<code>min</code>,<code>max</code>]区间内元素的数量。
     @param min 最小值。
     @param max 最大值。
-    @return [<code>min</code>,<code>max</code>]范围内元素的数量。
+    @return [<code>min</code>,<code>max</code>]区间内元素的数量。
     */
     public int count(int min,int max)
     {
-        if(this.count==0)
+        b_plus_tree now=this.next;
+        if(now.count==0)
         {
             return 0;
         }
-        b_plus_tree now=this;
         while(now.type<2)
         {
             int left=0,right=now.count-2;
@@ -315,16 +319,13 @@ public class b_plus_tree
     */
     public int count()
     {
-        if(this.count==0)
+        b_plus_tree now=this.next;
+        if(now.count==0)
         {
             return 0;
         }
-        b_plus_tree now=this;
         int count=0;
-        while(now.type<2)
-        {
-            now=now.children[0];
-        }
+        for(;now.type<2;now=now.children[0]);
         for(;now!=null;now=now.next)
         {
             count+=now.count;
@@ -338,23 +339,18 @@ public class b_plus_tree
     */
     public int[] traversal()
     {
-        if(this.count==0)
+        b_plus_tree now=this.next;
+        if(now.count==0)
         {
             return new int[0];
         }
-        b_plus_tree now=this;
-        while(now.type<2)
-        {
-            now=now.children[0];
-        }
+        for(;now.type<2;now=now.children[0]);
         int result[]=new int[count()];
         int pin=0;
         for(;now!=null;now=now.next)
         {
-            for(int i=0;i<now.count;i++)
-            {
-                result[pin++]=now.elements[i];
-            }
+            System.arraycopy(now.elements,0,result,pin,now.count);
+            pin+=now.count;
         }
         return result;
     }
@@ -363,17 +359,17 @@ public class b_plus_tree
     <p>此方法会修改调用对象。</p><br>
     将一个元素添加到B+树中。
     @param element 要添加的元素。
-    @return B+树根节点。
+    @return 是否发生节点分裂。
     */
-    public b_plus_tree input(int element)
+    public boolean input(int element)
     {
-        if(this.count==0)
+        b_plus_tree now=this.next;
+        if(now.count==0)
         {
-            this.elements[0]=element;
-            this.count++;
-            return this;
+            now.elements[0]=element;
+            now.count++;
+            return false;
         }
-        b_plus_tree now=this;
         b_plus_tree pins[]=new b_plus_tree[10];
         int indexs[]=new int[10];
         int pin=0,capacity=10;
@@ -423,10 +419,7 @@ public class b_plus_tree
                 left=middle+1;
             }
         }
-        for(int i=now.count-1;i>=target;i--)
-        {
-            now.elements[i+1]=now.elements[i];
-        }
+        System.arraycopy(now.elements,target,now.elements,target+1,now.count-target);
         now.elements[target]=element;
         now.count++;
         if(pin>0&&target==0&&indexs[pin-1]>0)
@@ -437,10 +430,7 @@ public class b_plus_tree
         {
             int middle=order/2;
             b_plus_tree new_node=new b_plus_tree(order,2);
-            for(int i=0;middle<order;i++,middle++)
-            {
-                new_node.elements[i]=now.elements[middle];
-            }
+            System.arraycopy(now.elements,middle,new_node.elements,0,order-middle);
             middle=order/2;
             now.count=middle;
             new_node.count=order-middle;
@@ -450,11 +440,8 @@ public class b_plus_tree
             {
                 now=pins[pin];
                 int index=indexs[pin];
-                for(int i=now.count-1;i>index;i--)
-                {
-                    now.children[i+1]=now.children[i];
-                    now.elements[i]=now.elements[i-1];
-                }
+                System.arraycopy(now.children,index+1,now.children,index+2,now.count-index-1);
+                System.arraycopy(now.elements,index,now.elements,index+1,now.count-index-1);
                 now.children[index+1]=new_node;
                 b_plus_tree temp=new_node;
                 while(temp.type<2)
@@ -466,11 +453,8 @@ public class b_plus_tree
                 if(now.count>=order)
                 {
                     new_node=new b_plus_tree(order,1);
-                    for(int i=0;middle<order-1;i++,middle++)
-                    {
-                        new_node.children[i]=now.children[middle];
-                        new_node.elements[i]=now.elements[middle];
-                    }
+                    System.arraycopy(now.children,middle,new_node.children,0,order-middle-1);
+                    System.arraycopy(now.elements,middle,new_node.elements,0,order-middle-1);
                     middle=order/2;
                     now.count=middle;
                     new_node.count=order-middle;
@@ -490,7 +474,8 @@ public class b_plus_tree
                         }
                         new_root.elements[0]=temp.elements[0];
                         new_root.count=2;
-                        return new_root;
+                        this.next=new_root;
+                        return true;
                     }
                 }
                 else
@@ -498,32 +483,144 @@ public class b_plus_tree
                     break;
                 }
             }
-            if(this.type!=0)
+            if(this.next.type!=0)
             {
                 b_plus_tree new_root=new b_plus_tree(order,0);
                 new_root.children[0]=now;
                 new_root.children[1]=new_node;
                 new_root.elements[0]=new_node.elements[0];
                 new_root.count=2;
-                return new_root;
+                this.next=new_root;
+                return true;
             }
         }
-        return this;
+        return false;
+    }
+    /**
+    <p>区间元素获取</p><br>
+    获取B+树中[<code>min</code>,<code>max</code>]区间内的元素。
+    @param min 最小值。
+    @param max 最大值。
+    @return [<code>min</code>,<code>max</code>]区间内的元素。
+    */
+    public int[] get(int min,int max)
+    {
+        b_plus_tree now=this.next;
+        if(now.count==0)
+        {
+            return new int[0];
+        }
+        while(now.type<2)
+        {
+            int left=0,right=now.count-2;
+            int target=now.count-1;
+            while(left<=right)
+            {
+                int middle=(left+right)/2;
+                if(now.elements[middle]>=min)
+                {
+                    target=middle;
+                    right=middle-1;
+                }
+                else
+                {
+                    left=middle+1;
+                }
+            }
+            now=now.children[target];
+        }
+        if(now.elements[now.count-1]<min&&now.next!=null)
+        {
+            now=now.next;
+        }
+        int left=0,right=now.count-1;
+        int left_index=now.count;
+        while(left<=right)
+        {
+            int middle=(left+right)/2;
+            if(now.elements[middle]>=min)
+            {
+                left_index=middle;
+                right=middle-1;
+            }
+            else
+            {
+                left=middle+1;
+            }
+        }
+        int result[]=new int[10];
+        int total=0,capacity=10;
+        for(;now!=null;now=now.next)
+        {
+            if(now.elements[now.count-1]<=max)
+            {
+                if(total+now.count-left_index>=capacity)
+                {
+                    capacity=(capacity<<1)+order;
+                    int new_result[]=new int[capacity];
+                    System.arraycopy(result,0,new_result,0,total);
+                    result=new_result;
+                }
+                System.arraycopy(now.elements,left_index,result,total,now.count-left_index);
+                total+=now.count-left_index;
+                left_index=0;
+            }
+            else if(now.elements[left_index]>max)
+            {
+                int returning[]=new int[total];
+                System.arraycopy(result,0,returning,0,total);
+                return returning;
+            }
+            else
+            {
+                left=left_index;
+                right=now.count-1;
+                int right_index=now.count;
+                while(left<=right)
+                {
+                    int middle=(left+right)/2;
+                    if(now.elements[middle]>max)
+                    {
+                        right_index=middle;
+                        right=middle-1;
+                    }
+                    else
+                    {
+                        left=middle+1;
+                    }
+                }
+                if(total+now.count-left_index>=capacity)
+                {
+                    capacity=(capacity<<1)+order;
+                    int new_result[]=new int[capacity];
+                    System.arraycopy(result,0,new_result,0,total);
+                    result=new_result;
+                }
+                System.arraycopy(now.elements,left_index,result,total,right_index-left_index);
+                total+=right_index-left_index;
+                int returning[]=new int[total];
+                System.arraycopy(result,0,returning,0,total);
+                return returning;
+            }
+        }
+        int returning[]=new int[total];
+        System.arraycopy(result,0,returning,0,total);
+        return returning;
     }
     /**
     <p>元素删除（首个匹配）</p><br>
     <p>此方法会修改调用对象。</p><br>
     删除B+树中首个匹配的元素。
     @param element 要删除的元素。
-    @return B+树根节点。
+    @return 是否发生节点合并。
     */
-    public b_plus_tree remove(int element)
+    public boolean remove(int element)
     {
-        if(this.count==0)
+        b_plus_tree now=this.next;
+        if(now.count==0)
         {
-            return this;
+            return false;
         }
-        b_plus_tree now=this;
         b_plus_tree pins[]=new b_plus_tree[10];
         int indexs[]=new int[10];
         int pin=0,capacity=10;
@@ -575,16 +672,13 @@ public class b_plus_tree
         }
         if(now.elements[right_index]!=element)
         {
-            return this;
+            return false;
         }
-        for(int i=right_index+1;i<now.count;i++)
-        {
-            now.elements[i-1]=now.elements[i];
-        }
+        System.arraycopy(now.elements,right_index+1,now.elements,right_index,now.count-right_index-1);
         now.count--;
         if(pin==0)
         {
-            return this;
+            return false;
         }
         int now_min=now.elements[0];
         b_plus_tree parent;
@@ -612,10 +706,7 @@ public class b_plus_tree
         {
             if(previous_node!=null&&previous_node.count>order/2)
             {
-                for(int i=now.count;i>0;i--)
-                {
-                    now.elements[i]=now.elements[i-1];
-                }
+                System.arraycopy(now.elements,0,now.elements,1,now.count);
                 now.elements[0]=previous_node.elements[--previous_node.count];
                 now.count++;
                 parent.elements[parent_index-1]=now.elements[0];
@@ -623,10 +714,7 @@ public class b_plus_tree
             else if(next_node!=null&&next_node.count>order/2)
             {
                 now.elements[now.count++]=next_node.elements[0];
-                for(int i=1;i<next_node.count;i++)
-                {
-                    next_node.elements[i-1]=next_node.elements[i];
-                }
+                System.arraycopy(next_node.elements,1,next_node.elements,0,next_node.count-1);
                 next_node.count--;
                 parent.elements[parent_index]=next_node.elements[0];
             }
@@ -634,31 +722,21 @@ public class b_plus_tree
             {
                 if(previous_node!=null)
                 {
-                    for(int i=0;i<now.count;i++)
-                    {
-                        previous_node.elements[previous_node.count++]=now.elements[i];
-                    }
+                    System.arraycopy(now.elements,0,previous_node.elements,previous_node.count,now.count);
+                    previous_node.count+=now.count;
                     previous_node.next=now.next;
                     parent.count--;
-                    for(int i=parent_index;i<parent.count;i++)
-                    {
-                        parent.elements[i-1]=parent.elements[i];
-                        parent.children[i]=parent.children[i+1];
-                    }
+                    System.arraycopy(parent.elements,parent_index,parent.elements,parent_index-1,parent.count-parent_index);
+                    System.arraycopy(parent.children,parent_index+1,parent.children,parent_index,parent.count-parent_index);
                 }
                 else if(next_node!=null)
                 {
-                    for(int i=0;i<next_node.count;i++)
-                    {
-                        now.elements[now.count++]=next_node.elements[i];
-                    }
+                    System.arraycopy(next_node.elements,0,now.elements,now.count,next_node.count);
+                    now.count+=next_node.count;
                     now.next=next_node.next;
                     parent.count--;
-                    for(int i=parent_index+1;i<parent.count;i++)
-                    {
-                        parent.elements[i-1]=parent.elements[i];
-                        parent.children[i]=parent.children[i+1];
-                    }
+                    System.arraycopy(parent.elements,parent_index+1,parent.elements,parent_index,parent.count-parent_index-1);
+                    System.arraycopy(parent.children,parent_index+2,parent.children,parent_index+1,parent.count-parent_index-1);
                 }
                 for(pin--;pin>0;pin--)
                 {
@@ -671,11 +749,8 @@ public class b_plus_tree
                     {
                         if(previous_node!=null&&previous_node.count>order/2)
                         {
-                            for(int i=now.count;i>0;i--)
-                            {
-                                now.elements[i]=now.elements[i-1];
-                                now.children[i]=now.children[i-1];
-                            }
+                            System.arraycopy(now.elements,0,now.elements,1,now.count);
+                            System.arraycopy(now.children,0,now.children,1,now.count);
                             now.elements[0]=parent.elements[parent_index-1];
                             now.children[0]=previous_node.children[--previous_node.count];
                             parent.elements[parent_index-1]=previous_node.elements[previous_node.count-1];
@@ -687,11 +762,8 @@ public class b_plus_tree
                             now.elements[now.count-1]=parent.elements[parent_index];
                             now.children[now.count++]=next_node.children[0];
                             int next_node_min_leaf_element=next_node.elements[0];
-                            for(int i=1;i<next_node.count-1;i++)
-                            {
-                                next_node.elements[i-1]=next_node.elements[i];
-                                next_node.children[i-1]=next_node.children[i];
-                            }
+                            System.arraycopy(next_node.elements,1,next_node.elements,0,next_node.count-2);
+                            System.arraycopy(next_node.children,1,next_node.children,0,next_node.count-2);
                             next_node.children[next_node.count-2]=next_node.children[next_node.count-1];
                             parent.elements[parent_index]=next_node_min_leaf_element;
                             next_node.count--;
@@ -702,61 +774,52 @@ public class b_plus_tree
                             if(previous_node!=null)
                             {
                                 previous_node.elements[previous_node.count-1]=parent.elements[parent_index-1];
-                                for(int i=0;i<now.count;i++,previous_node.count++)
-                                {
-                                    previous_node.elements[previous_node.count]=now.elements[i];
-                                    previous_node.children[previous_node.count]=now.children[i];
-                                }
+                                System.arraycopy(now.elements,0,previous_node.elements,previous_node.count,now.count);
+                                System.arraycopy(now.children,0,previous_node.children,previous_node.count,now.count);
+                                previous_node.count+=now.count;
                                 parent.count--;
-                                for(int i=parent_index;i<parent.count;i++)
-                                {
-                                    parent.elements[i-1]=parent.elements[i];
-                                    parent.children[i]=parent.children[i+1];
-                                }
+                                System.arraycopy(parent.elements,parent_index,parent.elements,parent_index-1,parent.count-parent_index);
+                                System.arraycopy(parent.children,parent_index+1,parent.children,parent_index,parent.count-parent_index);
                             }
                             else if(next_node!=null)
                             {
                                 now.elements[now.count-1]=parent.elements[parent_index];
-                                for(int i=0;i<next_node.count;i++,now.count++)
-                                {
-                                    now.elements[now.count]=next_node.elements[i];
-                                    now.children[now.count]=next_node.children[i];
-                                }
+                                System.arraycopy(next_node.elements,0,now.elements,now.count,next_node.count);
+                                System.arraycopy(next_node.children,0,now.children,now.count,next_node.count);
+                                now.count+=next_node.count;
                                 parent.count--;
-                                for(int i=parent_index+1;i<parent.count;i++)
-                                {
-                                    parent.elements[i-1]=parent.elements[i];
-                                    parent.children[i]=parent.children[i+1];
-                                }
+                                System.arraycopy(parent.elements,parent_index+1,parent.elements,parent_index,parent.count-parent_index-1);
+                                System.arraycopy(parent.children,parent_index+2,parent.children,parent_index+1,parent.count-parent_index-1);
                             }
                         }
                     }
                 }
-                if(this.type==0&&this.count==1)
+                if(this.next.type==0&&this.next.count==1)
                 {
-                    b_plus_tree new_root=this.children[0];
+                    b_plus_tree new_root=this.next.children[0];
                     new_root.type=new_root.children==null?2:0;
-                    return new_root;
+                    this.next=new_root;
+                    return true;
                 }
             }
         }
-        return this;
+        return false;
     }
     /**
     <p>元素删除（所有匹配）</p><br>
     <p>此方法会修改调用对象。</p><br>
     删除B+树中所有匹配的元素。
     @param element 要删除的元素。
-    @return B+树根节点。
+    @return 删除的元素数量。
     */
-    public b_plus_tree remove_all(int element)
+    public int remove_all(int element)
     {
-        b_plus_tree now=this;
-        for(int time=count(element);time>0;time--)
+        int count=count(element);
+        for(int time=0;time<count;time++)
         {
-            now=now.remove(element);
+            remove(element);
         }
-        return now;
+        return count;
     }
     /**
     <p>字符串表示</p><br>
@@ -764,11 +827,8 @@ public class b_plus_tree
     */
     public String toString()
     {
-        b_plus_tree now=this;
-        while(now.type<2)
-        {
-            now=now.children[0];
-        }
+        b_plus_tree now=this.next;
+        for(;now.type<2;now=now.children[0]);
         StringBuilder result=new StringBuilder(order+"[");
         result.append("[");
         if(now.count>0)
