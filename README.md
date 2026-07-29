@@ -26,8 +26,6 @@
 
         - `src`：此处为源代码。包含 `tools/` 工具包及测试类（如 `sort_test.java`、`elevation_test.java`、`qrc_test.java` 等）。各子包中均包含 `package-info.java` 包描述文件。
 
-        - `output.txt`：由 `converting_array.java` 生成的二维码数据输出文件。
-
     - `.gitignore`：忽略描述文档，用于忽略编译产物（`*.class`、`*.jar` 等）、Windows 系统文件（`Thumbs.db`、`Desktop.ini` 等）及日志文件。
 
     - `README.md`：项目说明文档。
@@ -287,7 +285,7 @@ tools
 
     - 所有方法均**原地修改**输入数组。
 
-    - 额外提供 `median_5`, `max_second_5`, `min_second_5` 用于从5个数中快速计算中位数、第二大、第二小。
+    - 额外提供 `median_5`, `max_second_5`, `min_second_5` 用于从5个数中快速计算中位数、第二大、第二小（均支持 `int` 和 `double` 版本）。
 
 - **示例**：`sort.quick_dual_pivot(arr);`
 
@@ -367,19 +365,21 @@ tools
 
 - **方法**：
 
-    - `int get(int key)` → 返回 `key` 出现的次数（支持重复元素）。
+    - `int count(int element)` → 返回 `element` 出现的次数（支持重复元素）。
 
-    - `int get(int min, int max)` → 返回区间 `[min, max]` 内元素个数。
+    - `int count(int min, int max)` → 返回区间 `[min, max]` 内元素个数。
 
     - `int count()` → 总元素个数。
 
+    - `int[] get(int min, int max)` → 返回区间 `[min, max]` 内所有元素（升序）。
+
     - `int[] traversal()` → 中序遍历所有叶子节点（升序）。
 
-    - `b_plus_tree input(int key)` → 插入元素，返回可能变化的新根。
+    - `boolean input(int element)` → 插入元素，若因插入导致根节点分裂则返回 `true`。
 
-    - `b_plus_tree remove(int key)` → 删除一个匹配的元素，返回新根。
+    - `boolean remove(int element)` → 删除一个匹配的元素，若因删除导致根节点合并则返回 `true`。
 
-    - `b_plus_tree remove_all(int key)` → 删除所有匹配元素，返回新根。
+    - `int remove_all(int element)` → 删除所有匹配元素，返回删除的元素个数。
 
 #### deque（双端队列）
 
@@ -483,9 +483,9 @@ tools
 
     - 查询方法：`is_empty()`, `element_count()`, `element_at(int index)`, `index_of(int element)`, `traversal()`。
 
-    - 插入方法：`input_tail(int)`, `input_more_tail(int...)`, `input_list_tail(list)`, `input_head(int)`, `input_more_head(int...)`, `input_list_head(list)`, `insert(int index, int)`, `insert_more(int index, int...)`, `insert_list(int index, list)`。
+    - 插入方法：`input_back(int)`, `input_more_back(int...)`, `input_list_back(list)`, `input_front(int)`, `input_more_front(int...)`, `input_list_front(list)`, `insert(int index, int)`, `insert_more(int index, int...)`, `insert_list(int index, list)`。
 
-    - 删除方法：`remove_tail(int count)`, `remove_head(int count)`, `remove_index(int index)`, `remove_element(int)`, `remove_element(int min, int max)`。
+    - 删除方法：`remove_back(int count)`, `remove_front(int count)`, `remove_index(int index)`, `remove_element(int)`, `remove_element(int min, int max)`。
 
     - 排序方法：`sort_ascend()`, `sort_descend()`（归并排序实现）。
 
@@ -495,9 +495,9 @@ tools
 
     - 查询方法：`is_empty()`, `element_count()`, `element_at(int index)`, `index_forward(int)`, `index_backward(int)`, `traversal_forward()`, `traversal_backward()`, `reverse_index(int)`, `min_index(int)`。
 
-    - 插入方法：`input_tail(int)`, `input_more_tail(int...)`, `input_list_tail(list)`, `input_head(int)`, `input_more_head(int...)`, `input_list_head(list)`, `insert(int index, int)`, `insert_more(int index, int...)`, `insert_list(int index, list)`。
+    - 插入方法：`input_back(int)`, `input_more_back(int...)`, `input_list_back(list)`, `input_front(int)`, `input_more_front(int...)`, `input_list_front(list)`, `insert(int index, int)`, `insert_more(int index, int...)`, `insert_list(int index, list)`。
 
-    - 删除方法：`remove_tail(int count)`, `remove_head(int count)`, `remove_index(int index)`, `remove_element(int)`, `remove_element(int min, int max)`。
+    - 删除方法：`remove_back(int count)`, `remove_front(int count)`, `remove_index(int index)`, `remove_element(int)`, `remove_element(int min, int max)`。
 
 #### queue（队列）
 
@@ -541,13 +541,13 @@ tools
 
 - **stack**：普通栈，数组实现，自动扩容，默认容量16。
 
-- **stack_ascend**（单调递增栈）：入栈时弹出所有比新元素小的元素。
+- **stack_ascend**（单调递增栈）：独立实现，入栈时弹出所有比新元素小的元素。`input()` 返回被弹出元素的数组 `int[]`，`input_more()` 返回 `int[][]`。
 
-- **stack_descend**（单调递减栈）：入栈时弹出所有比新元素大的元素。
+- **stack_descend**（单调递减栈）：独立实现，入栈时弹出所有比新元素大的元素。`input()` 返回被弹出元素的数组 `int[]`，`input_more()` 返回 `int[][]`。
 
-- **stack_max**：支持 `O(1)` 获取当前栈中最大值。
+- **stack_max**：继承自 `stack`，支持 `O(1)` 获取当前栈中最大值。
 
-- **stack_min**：支持 `O(1)` 获取当前栈中最小值。
+- **stack_min**：继承自 `stack`，支持 `O(1)` 获取当前栈中最小值。
 
 - 通用方法：`is_empty()`, `is_full()`, `element_count()`, `empty_count()`, `input`, `input_more`, `output`, `get`, `dilate()`, `dilate(int more_capacity)`。
 
@@ -580,6 +580,8 @@ tools
     - `String[] get_all_words()` → 返回所有单词（字典序）。
 
     - `boolean remove(String word)` → 删除单词。
+
+    - `String toString()` → 返回所有单词的字符串表示（如 `{"abc","abd","def"}`）。
 
 #### huffman_tree_byte / huffman_tree_char（霍夫曼树）
 
@@ -681,7 +683,7 @@ tools
 
     - `double linear_scale(double vertical_coefficient)` → 线性缩放（乘以系数）。
 
-    - `double exponential_scale(double vertical_exponent)` → 指数缩放（幂次变换）。
+    - `double exponential_scale(double vertical_base)` → 指数缩放（底数幂次变换）。
 
     - `double exponential_normalize(double normalize_exponent)` → 指数归一化（先指数缩放再拉伸至 [0, 1]）。
 
