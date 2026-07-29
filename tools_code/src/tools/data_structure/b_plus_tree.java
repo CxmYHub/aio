@@ -359,7 +359,7 @@ public class b_plus_tree
     <p>此方法会修改调用对象。</p><br>
     将一个元素添加到B+树中。
     @param element 要添加的元素。
-    @return 是否发生节点分裂。
+    @return 是否发生根节点分裂。
     */
     public boolean input(int element)
     {
@@ -612,7 +612,7 @@ public class b_plus_tree
     <p>此方法会修改调用对象。</p><br>
     删除B+树中首个匹配的元素。
     @param element 要删除的元素。
-    @return 是否发生节点合并。
+    @return 是否发生根节点合并。
     */
     public boolean remove(int element)
     {
