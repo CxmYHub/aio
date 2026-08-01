@@ -16,15 +16,13 @@
 
 - `根目录`
 
-    - `tools_code`：工具包源代码目录。可使用VSCode打开文件夹。其中包含工具包子包和一些测试类。
+    - `.vscode`：此处为VSCode相关文件夹，包含基础设置文件，如`settings.json`。
 
-        - `.vscode`：此处为VSCode相关文件夹，包含基础设置文件，如`settings.json`。
+    - `bin`：此文件夹默认不存在，进行首次编译后将自动创建。编译后的输出文件将默认生成在此文件夹中。
 
-        - `bin`：此文件夹默认不存在，进行首次编译后将自动创建。编译后的输出文件将默认生成在此文件夹中。
+    - `doc`：此处为使用javadoc自动创建的文档。
 
-        - `doc`：此处为使用javadoc自动创建的文档。
-
-        - `src`：此处为源代码。包含 `tools/` 工具包及测试类（如 `sort_test.java`、`elevation_test.java`、`qrc_test.java` 等）。各子包中均包含 `package-info.java` 包描述文件。
+    - `src`：此处为源代码。包含 `tools/` 工具包及测试类（如 `sort_test.java`、`elevation_test.java`、`qrc_test.java` 等）。各子包中均包含 `package-info.java` 包描述文件。
 
     - `.gitignore`：忽略描述文档，用于忽略编译产物（`*.class`、`*.jar` 等）、Windows 系统文件（`Thumbs.db`、`Desktop.ini` 等）及日志文件。
 
