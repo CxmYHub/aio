@@ -9,6 +9,7 @@
 *.rar
 *.bat
 hs_err_pid*
+!/*.jar
 
 # Windows
 Thumbs.db
@@ -17,6 +18,7 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 *.lnk
+!/*.bat
 
 # VSCode
 */.vscode/*
