@@ -32,7 +32,7 @@
 
 ## 测试与辅助类
 
-`src/` 目录下除 `tools/` 工具包外，还包含以下测试类和辅助类：
+`src/` 目录下除 `aio/` 工具包外，还包含以下测试类和辅助类：
 
 - **App.java**：项目主入口类，默认导入所有工具包子包，方便快速测试。
 
@@ -63,10 +63,10 @@
 本文件中的任何代码（或包）可直接引入代码或项目中使用，可直接将源代码、源代码文件或整包复制到项目目录中，import后可直接使用（类似java.util.*）。不完整复制时请注意跨包依赖。
 
 ``` Java
-import tools.mathematics.*;
-import tools.collection.*;
+import aio.mathematics.*;
+import aio.collection.*;
 import java.util.*;
-class using_tools
+class using_aio
 {
     public static void main(String args[])
     {
@@ -99,7 +99,7 @@ class using_tools
 
 - [3. 详细说明](#3-详细说明)
 
-    - [3.1 tools.collection（集合与算法）](#31-toolscollection集合与算法)
+    - [3.1 aio.collection（集合与算法）](#31-aiocollection集合与算法)
 
         - [concurrent_sort（并发排序）](#concurrent_sort并发排序)
 
@@ -109,7 +109,7 @@ class using_tools
 
         - [string（字符串工具）](#string字符串工具)
 
-    - [3.2 tools.data_structure（数据结构）](#32-toolsdata_structure数据结构)
+    - [3.2 aio.data_structure（数据结构）](#32-aiodata_structure数据结构)
 
         - [binary_indexed_tree（树状数组）](#binary_indexed_tree树状数组)
 
@@ -141,13 +141,13 @@ class using_tools
 
         - [huffman_tree_byte / huffman_tree_char（霍夫曼树）](#huffman_tree_byte--huffman_tree_char霍夫曼树)
 
-    - [3.3 tools.date_time（日期时间）](#33-toolsdate_time日期时间)
+    - [3.3 aio.date_time（日期时间）](#33-aiodate_time日期时间)
 
         - [datetime（日期时间）](#datetime日期时间)
 
         - [calendar（日期常数）](#calendar日期常数)
 
-    - [3.4 tools.geography（地理工具）](#34-toolsgeography地理工具)
+    - [3.4 aio.geography（地理工具）](#34-aiogeography地理工具)
 
         - [elevation_map（高程地图）](#elevation_map高程地图)
 
@@ -155,7 +155,7 @@ class using_tools
 
         - [projected_coordinate（投影坐标）](#projected_coordinate投影坐标)
 
-    - [3.5 tools.mathematics（数学工具）](#35-toolsmathematics数学工具)
+    - [3.5 aio.mathematics（数学工具）](#35-aiomathematics数学工具)
 
         - [math（数学常数）](#math数学常数)
 
@@ -181,7 +181,7 @@ class using_tools
 
         - [angle（角度）](#angle角度)
 
-    - [3.6 tools.encode_decode（编解码）](#36-toolsencode_decode编解码)
+    - [3.6 aio.encode_decode（编解码）](#36-aioencode_decode编解码)
 
         - [barcode（元数据常量）](#barcode元数据常量)
 
@@ -207,14 +207,14 @@ class using_tools
 
 - **数学工具**：复数、矩阵、行列式、直方图、多项式方程求解（1/2次）、平方根化简、数论函数（最大公因数、质数判断/分解）、组合数/排列数常数表、线性回归等。
 
-所有类均位于 `tools` 包下，按功能划分到子包。使用时请确保编译环境支持 Java 8 及以上。
+所有类均位于 `aio` 包下，按功能划分到子包。使用时请确保编译环境支持 Java 8 及以上。
 
 ---
 
 ## 2. 包结构
 
 ```
-tools
+aio
 ├── collection              # 集合工具（排序、查找、字符串）
 ├── data_structure          # 数据结构（链表、树、堆、图、哈希表等）
 ├── date_time               # 日期时间处理
@@ -227,7 +227,7 @@ tools
 
 ## 3. 详细说明
 
-### 3.1 tools.collection（集合与算法）
+### 3.1 aio.collection（集合与算法）
 
 #### concurrent_sort（并发排序）
 
@@ -247,7 +247,7 @@ tools
 
 #### search（查找）
 
-- **类**：`tools.collection.search`
+- **类**：`aio.collection.search`
 
 - **方法**：
 
@@ -273,7 +273,7 @@ tools
 
 #### sort（排序）
 
-- **类**：`tools.collection.sort`
+- **类**：`aio.collection.sort`
 
 - **功能**：提供多种排序算法的静态实现，支持 `int[]` 和 `double[]`。
 
@@ -289,7 +289,7 @@ tools
 
 #### string（字符串工具）
 
-- **类**：`tools.collection.string`
+- **类**：`aio.collection.string`
 
 - **方法**：
 
@@ -307,9 +307,9 @@ tools
 
 ---
 
-### 3.2 tools.data_structure（数据结构）
+### 3.2 aio.data_structure（数据结构）
 
-以下类均位于 `tools.data_structure` 包中。
+以下类均位于 `aio.data_structure` 包中。
 
 #### binary_indexed_tree（树状数组）
 
@@ -597,7 +597,7 @@ tools
 
 ---
 
-### 3.3 tools.date_time（日期时间）
+### 3.3 aio.date_time（日期时间）
 
 #### datetime（日期时间）
 
@@ -659,7 +659,7 @@ tools
 
 ---
 
-### 3.4 tools.geography（地理工具）
+### 3.4 aio.geography（地理工具）
 
 #### elevation_map（高程地图）
 
@@ -749,7 +749,7 @@ tools
 
 ---
 
-### 3.5 tools.mathematics（数学工具）
+### 3.5 aio.mathematics（数学工具）
 
 #### math（数学常数）
 
@@ -1017,11 +1017,11 @@ tools
 
 ---
 
-### 3.6 tools.encode_decode（编解码）
+### 3.6 aio.encode_decode（编解码）
 
 #### barcode（二维码元数据常量）
 
-- **类**：`tools.encode_decode.barcode`
+- **类**：`aio.encode_decode.barcode`
 
 - **功能**：提供 QR 二维码生成所需的全部常量数据，包括版本边长、编码模式掩码、纠错等级掩码、有限域（GF(256)）指数/对数表、生成多项式系数、编码长度位数、字母数字表、分组信息、对齐图案位置等。
 
@@ -1045,7 +1045,7 @@ tools
 
 #### quick_response_code（二维码）
 
-- **类**：`tools.encode_decode.quick_response_code`
+- **类**：`aio.encode_decode.quick_response_code`
 
 - **功能**：生成 QR 二维码（Quick Response Code），支持数字、字母数字、字节（UTF-8）、日文、ECI 五种编码模式，支持 L/M/Q/H 四种纠错等级，版本 1~40。内部实现包括数据编码、Reed-Solomon 纠错码生成、功能图案与对齐图案绘制、数据位流填充、掩膜评分与选择等完整 QR 码生成流程。
 
@@ -1104,11 +1104,11 @@ tools
 ## 4. 使用示例
 
 ``` Java
-import tools.collection.sort;
-import tools.data_structure.heap_ascend;
-import tools.date_time.datetime;
-import tools.geography.elevation_map;
-import tools.mathematics.maths;
+import aio.collection.sort;
+import aio.data_structure.heap_ascend;
+import aio.date_time.datetime;
+import aio.geography.elevation_map;
+import aio.mathematics.maths;
 public class demo
 {
     public static void main(String args[])
