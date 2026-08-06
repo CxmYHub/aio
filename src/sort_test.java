@@ -1,6 +1,6 @@
-import tools.collection.*;
-import tools.data_structure.*;
 import java.util.*;
+import aio.collection.*;
+import aio.data_structure.*;
 public class sort_test
 {
     public static void main(String args[])

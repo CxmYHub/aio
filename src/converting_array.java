@@ -1,7 +1,6 @@
-import tools.encode_decode.*;
-import tools.mathematics.*;
-
 import java.io.*;
+import aio.encode_decode.*;
+import aio.mathematics.*;
 public class converting_array
 {
     public static void output_data_code_word()

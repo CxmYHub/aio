@@ -1,6 +1,6 @@
-import tools.data_structure.red_black_tree;
-import tools.collection.sort;
 import java.util.*;
+import aio.collection.sort;
+import aio.data_structure.red_black_tree;
 
 /**
  * red_black_tree 类的单元测试和压力测试。

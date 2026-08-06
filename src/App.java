@@ -1,10 +1,10 @@
-import tools.collection.*;
-import tools.data_structure.*;
-import tools.date_time.*;
-import tools.encode_decode.*;
-import tools.mathematics.*;
-import tools.geography.*;
 import java.util.*;
+import aio.collection.*;
+import aio.data_structure.*;
+import aio.date_time.*;
+import aio.encode_decode.*;
+import aio.geography.*;
+import aio.mathematics.*;
 import java.time.*;
 import java.io.*;
 public class App

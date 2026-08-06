@@ -1,4 +1,4 @@
-import tools.data_structure.linked_list_doubly;
+import aio.data_structure.linked_list_doubly;
 public class linked_list_doubly_test {
     private static int passed = 0;
     private static int failed = 0;

@@ -1,4 +1,4 @@
-import tools.data_structure.trie;
+import aio.data_structure.trie;
 public class trie_test {
     private static final String GREEN = "\u001B[32m";
     private static final String RED   = "\u001B[31m";

@@ -1,6 +1,5 @@
 import java.math.BigInteger;
-// import java.util.Random;
-import tools.mathematics.*;
+import aio.mathematics.*;
 /**
  * big_integer 类的全面测试类。
  * 通过 main() 方法调用测试用例，覆盖构造方法、四则运算、GCD、LCM、乘方、阶乘。

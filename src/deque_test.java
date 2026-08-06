@@ -1,5 +1,5 @@
-import tools.data_structure.deque;
 import java.util.*;
+import aio.data_structure.deque;
 /**
  * deque 类的全面测试，包含边界条件与压力测试。
  * 通过 main() 方法依次执行所有测试用例，输出带 ANSI 颜色的结果。

@@ -1,4 +1,4 @@
-import tools.data_structure.linked_list_singly;
+import aio.data_structure.linked_list_singly;
 /**
  * linked_list_singly 的测试类。
  * 在 main 方法中执行所有测试用例，输出 ANSI 彩色结果，并统计正确与错误数。

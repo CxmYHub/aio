@@ -1,7 +1,6 @@
-import tools.data_structure.linked_list_singly;
 import java.util.Arrays;
 import java.util.Random;
-
+import aio.data_structure.linked_list_singly;
 public class ListMergeSortTest {
     private static final Random RNG = new Random();
 

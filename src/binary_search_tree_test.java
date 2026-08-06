@@ -1,8 +1,7 @@
-import tools.data_structure.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
-
+import aio.data_structure.*;
 /**
  * binary_search_tree 类的全面测试，包含边界条件和压力测试。
  */
