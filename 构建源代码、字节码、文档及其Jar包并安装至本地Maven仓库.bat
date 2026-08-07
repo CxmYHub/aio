@@ -15,7 +15,7 @@ set "BIN_DIR=%PROJECT_DIR%bin"
 set "DOC_DIR=%PROJECT_DIR%doc"
 set "VERSION=1.0.0"
 set "GROUP_ID=custom"
-set "ARTIFACT_ID=tools_code"
+set "ARTIFACT_ID=aio"
 REM ---- 2. 清理旧的构建产物（可选） ----
 echo.
 echo [STEP 2] 清理旧的构建产物...
@@ -72,7 +72,7 @@ echo [INFO] 源代码 Jar 打包成功
 REM ---- 7. 生成 Javadoc ----
 echo.
 echo [STEP 7] 生成 Javadoc 文档...
-javadoc -encoding UTF-8 -charset UTF-8 -d "%DOC_DIR%" -sourcepath "%SRC_DIR%" -subpackages tools
+javadoc -encoding UTF-8 -charset UTF-8 -d "%DOC_DIR%" -sourcepath "%SRC_DIR%" -subpackages aio
 if %ERRORLEVEL% NEQ 0 (
     echo [WARN] Javadoc 生成有警告，继续执行...
 )
