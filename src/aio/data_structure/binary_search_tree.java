@@ -91,7 +91,6 @@ public class binary_search_tree
     /**
     <p>无参构造方法</p><br>
     构造一个空二叉查找树。
-    @param element 元素。
     */
     public binary_search_tree()
     {
