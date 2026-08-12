@@ -1,4 +1,7 @@
 package aio.collection;
+
+import java.util.Arrays;
+
 /**
 <p>字符串工具类</p><br>
 用于对字符串进行操作。
@@ -58,6 +61,7 @@ public class string
                 pin=next[pin];
             }
         }
+        System.out.println(Arrays.toString(next));
         pin=0;
         for(int i=0;i<base_length&&pin<pattern_length;)
         {

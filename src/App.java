@@ -13,17 +13,8 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        red_black_tree t=new red_black_tree(3,2,4,1,5);
-        System.out.println(Arrays.toString(t.traversal()));
-        t.input(6);
-        System.out.println(Arrays.toString(t.traversal()));
-        t.input_more(7,8,9);
-        System.out.println(Arrays.toString(t.traversal()));
-        t.remove(3);
-        System.out.println(Arrays.toString(t.traversal()));
-        t.remove(0);
-        t.remove(1);
-        t.remove(2);
-        System.out.println(Arrays.toString(t.traversal()));
+        String base="000001011101000000000";
+        String pattern="10111010000";
+        System.out.println(string.contains(base,pattern));
     }
 }
