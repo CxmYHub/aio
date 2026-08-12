@@ -473,8 +473,6 @@ public class quick_response_code
         int min_punishment_mask_mode=0;
         boolean min_punishment_field[][]=null;
         int min_punishment=Integer.MAX_VALUE;
-        final boolean pattern_1011101[]=barcode.matching_pattern_1011101;
-        final int next_1011101[]=barcode.matching_next_1011101;
         final boolean pattern_00001011101[]=barcode.matching_pattern_00001011101;
         final int next_00001011101[]=barcode.matching_next_00001011101;
         final boolean pattern_10111010000[]=barcode.matching_pattern_10111010000;
@@ -575,8 +573,8 @@ public class quick_response_code
             {
                 int row_continuity=0;
                 int column_continuity=0;
-                int pin_1011101_row=0,pin_00001011101_row=0,pin_10111010000_row=0;
-                int pin_1011101_column=0,pin_00001011101_column=0,pin_10111010000_column=0;
+                int pin_00001011101_row=0,pin_10111010000_row=0;
+                int pin_00001011101_column=0,pin_10111010000_column=0;
                 for(int x=0;x<side;x++)
                 {
                     boolean row_bit=masked_field[y][x];
@@ -587,9 +585,12 @@ public class quick_response_code
                         {
                             row_continuity++;
                         }
-                        else if(row_continuity<=-5)
+                        else
                         {
-                            punishment-=row_continuity+2;
+                            if(row_continuity<=-5)
+                            {
+                                punishment-=row_continuity+2;
+                            }
                             row_continuity=1;
                         }
                     }
@@ -599,9 +600,12 @@ public class quick_response_code
                         {
                             row_continuity--;
                         }
-                        else if(row_continuity>=5)
+                        else
                         {
-                            punishment+=row_continuity-2;
+                            if(row_continuity>=5)
+                            {
+                                punishment+=row_continuity-2;
+                            }
                             row_continuity=-1;
                         }
                     }
@@ -611,9 +615,12 @@ public class quick_response_code
                         {
                             column_continuity++;
                         }
-                        else if(column_continuity<=-5)
+                        else
                         {
-                            punishment-=column_continuity+2;
+                            if(column_continuity<=-5)
+                            {
+                                punishment-=column_continuity+2;
+                            }
                             column_continuity=1;
                         }
                     }
@@ -623,48 +630,25 @@ public class quick_response_code
                         {
                             column_continuity--;
                         }
-                        else if(column_continuity>=5)
+                        else
                         {
-                            punishment+=column_continuity-2;
+                            if(column_continuity>=5)
+                            {
+                                punishment+=column_continuity-2;
+                            }
                             column_continuity=-1;
                         }
                     }
-                    if(x<side-1&&y<side-1&&row_bit&&masked_field[y+1][x+1]&&masked_field[y+1][x]&&masked_field[y][x+1])
+                    if(x<side-1&&y<side-1&&((row_bit&&masked_field[y+1][x+1]&&masked_field[y+1][x]&&masked_field[y][x+1])||!(row_bit||masked_field[y+1][x+1]||masked_field[y+1][x]||masked_field[y][x+1])))
                     {
                         punishment+=3;
-                    }
-                    if(row_bit==pattern_1011101[pin_1011101_row])
-                    {
-                        pin_1011101_row++;
-                        if(pin_1011101_row==7)
-                        {
-                            pin_1011101_row=next_1011101[pin_1011101_row];
-                            punishment+=40;
-                        }
-                    }
-                    else
-                    {
-                        pin_1011101_row=next_1011101[pin_1011101_row];
-                    }
-                    if(column_bit==pattern_1011101[pin_1011101_column])
-                    {
-                        pin_1011101_column++;
-                        if(pin_1011101_column==7)
-                        {
-                            pin_1011101_column=next_1011101[pin_1011101_column];
-                            punishment+=40;
-                        }
-                    }
-                    else
-                    {
-                        pin_1011101_column=next_1011101[pin_1011101_column];
                     }
                     if(row_bit==pattern_00001011101[pin_00001011101_row])
                     {
                         pin_00001011101_row++;
-                        if(pin_00001011101_row==7)
+                        if(pin_00001011101_row==11)
                         {
-                            pin_00001011101_row=next_00001011101[pin_00001011101_row];
+                            pin_00001011101_row=0;
                             punishment+=40;
                         }
                     }
@@ -675,9 +659,9 @@ public class quick_response_code
                     if(column_bit==pattern_00001011101[pin_00001011101_column])
                     {
                         pin_00001011101_column++;
-                        if(pin_00001011101_column==7)
+                        if(pin_00001011101_column==11)
                         {
-                            pin_00001011101_column=next_00001011101[pin_00001011101_column];
+                            pin_00001011101_column=0;
                             punishment+=40;
                         }
                     }
@@ -688,9 +672,9 @@ public class quick_response_code
                     if(row_bit==pattern_10111010000[pin_10111010000_row])
                     {
                         pin_10111010000_row++;
-                        if(pin_10111010000_row==7)
+                        if(pin_10111010000_row==11)
                         {
-                            pin_10111010000_row=next_10111010000[pin_10111010000_row];
+                            pin_10111010000_row=0;
                             punishment+=40;
                         }
                     }
@@ -701,9 +685,9 @@ public class quick_response_code
                     if(column_bit==pattern_10111010000[pin_10111010000_column])
                     {
                         pin_10111010000_column++;
-                        if(pin_10111010000_column==7)
+                        if(pin_10111010000_column==11)
                         {
-                            pin_10111010000_column=next_10111010000[pin_10111010000_column];
+                            pin_10111010000_column=0;
                             punishment+=40;
                         }
                     }
@@ -730,7 +714,7 @@ public class quick_response_code
                     punishment-=column_continuity+2;
                 }
             }
-            int delta_punishment=(true_count*100/side/side-50)*2;
+            int delta_punishment=true_count*200/(side*side)-100;
             punishment+=delta_punishment>=0?delta_punishment:-delta_punishment;
             if(punishment<min_punishment)
             {

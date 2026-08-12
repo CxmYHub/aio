@@ -133,7 +133,7 @@ public class barcode
     <p>00001011101失配跳转数组</p><br>
     <p>共12个元素。</p>
     */
-    public static final int matching_next_00001011101[]={0,0,0,0,4,0,2,0,0,0,0,0};
+    public static final int matching_next_00001011101[]={0,0,0,0,4,0,2,1,1,0,2,0};
     /**
     <p>10111010000布尔模式数组</p><br>
     <p>共11个元素。</p>
@@ -143,5 +143,5 @@ public class barcode
     <p>10111010000失配跳转数组</p><br>
     <p>共12个元素。</p>
     */
-    public static final int matching_next_10111010000[]={0,1,0,2,2,1,0,4,3,0,0,0};
+    public static final int matching_next_10111010000[]={0,1,0,2,2,1,0,4,3,1,1,0};
 }
