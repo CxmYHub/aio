@@ -580,9 +580,11 @@ public class binary_tree
     /**
     <p>子树删除（单个匹配）</p><br>
     <p>此方法会修改调用对象。</p><br>
-    从二叉树中删除一个元素，及其所有子树。
+    从二叉树中删除一个元素，及其所有子树。<br>
+    若存在多个相同元素，则只删除先序遍历序列中出现的第一个。
     @param element 要删除的元素。
-    @return 删除的元素。
+    @return 删除的元素。<br>
+    若元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int remove(int element)
     {
