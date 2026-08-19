@@ -42,7 +42,8 @@ public class tree
     }
     /**
     <p>构造方法</p><br>
-    通过树字符串构造一个树。
+    通过树字符串构造一个树。<br>
+    若传入的结点元素为字符，则存储其ASCII码值。
     @param tree_string 树字符串。<br>
     树字符串的格式为：<code>根结点{子树1,子树2,子树3,...}...</code>。<br>
     例如：<code>A{B{D,E},C{F,G,H,I}}</code>。
@@ -302,20 +303,54 @@ public class tree
     */
     public int[] traversal_levelorder()
     {
-        int node_count=count();
-        tree pins[]=new tree[node_count];
-        int pin=1;
+        tree pins[]=new tree[10];
+        int front=0,rear=1,capacity=10;
+        boolean overturn=false;
         pins[0]=this;
-        int result[]=new int[node_count];
-        int count=0;
-        for(;count<pins.length;count++)
+        int result[]=new int[10];
+        int count=0,result_count=10;
+        while(front!=rear||overturn)
         {
-            tree now=pins[count];
-            result[count]=now.element;
+            tree now=pins[front++];
+            if(front>=capacity)
+            {
+                front=0;
+                overturn=false;
+            }
+            if(count>=result_count)
+            {
+                result_count=(result_count<<1)+2;
+                int new_result[]=new int[result_count];
+                System.arraycopy(result,0,new_result,0,count);
+                result=new_result;
+            }
+            result[count++]=now.element;
             for(tree childs=now.child;childs!=null;childs=childs.next)
             {
-                pins[pin++]=childs;
+                if(front==rear&&overturn)
+                {
+                    tree new_pins[]=new tree[(capacity<<1)+2];
+                    System.arraycopy(pins,front,new_pins,0,capacity-front);
+                    System.arraycopy(pins,0,new_pins,capacity-front,rear);
+                    pins=new_pins;
+                    front=0;
+                    rear=capacity;
+                    capacity=(capacity<<1)+2;
+                    overturn=false;
+                }
+                pins[rear++]=childs;
+                if(rear>=capacity)
+                {
+                    rear=0;
+                    overturn=true;
+                }
             }
+        }
+        if(count<result_count)
+        {
+            int new_result[]=new int[count];
+            System.arraycopy(result,0,new_result,0,count);
+            result=new_result;
         }
         return result;
     }
@@ -369,9 +404,9 @@ public class tree
         return Integer.MIN_VALUE;
     }
     /**
-    <p>元素删除（单个匹配）</p><br>
+    <p>子树删除（单个匹配）</p><br>
     <p>此方法会修改调用对象。</p><br>
-    从树中删除一个元素。<br>
+    从树中删除一个元素，及其所有子树。<br>
     若存在多个相同元素，则只删除先序遍历序列中出现的第一个。
     @param element 要删除的元素。
     @return 删除的元素。<br>
