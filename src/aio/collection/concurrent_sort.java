@@ -460,9 +460,7 @@ class concurrent_quick_dual_pivot_sort implements Runnable
             Thread manager[]=new Thread[3];
             if(left-1-index_left>=threshold)
             {
-                concurrent_quick_dual_pivot_sort instance=new concurrent_quick_dual_pivot_sort(numbers,index_left,left-1);
-                manager[0]=new Thread(instance);
-                manager[0].start();
+                manager[0]=Thread.startVirtualThread(new concurrent_quick_dual_pivot_sort(numbers,index_left,left-1));
             }
             else
             {
@@ -472,9 +470,7 @@ class concurrent_quick_dual_pivot_sort implements Runnable
             {
                 if(left-1-index_left>=threshold)
                 {
-                    concurrent_quick_dual_pivot_sort instance=new concurrent_quick_dual_pivot_sort(numbers,left+1,right-1);
-                    manager[1]=new Thread(instance);
-                    manager[1].start();
+                    manager[1]=Thread.startVirtualThread(new concurrent_quick_dual_pivot_sort(numbers,left+1,right-1));
                 }
                 else
                 {
@@ -483,9 +479,7 @@ class concurrent_quick_dual_pivot_sort implements Runnable
             }
             if(left-1-index_left>=threshold)
             {
-                concurrent_quick_dual_pivot_sort instance=new concurrent_quick_dual_pivot_sort(numbers,right+1,index_right);
-                manager[2]=new Thread(instance);
-                manager[2].start();
+                manager[2]=Thread.startVirtualThread(new concurrent_quick_dual_pivot_sort(numbers,right+1,index_right));
             }
             else
             {
@@ -532,8 +526,7 @@ public class concurrent_sort
     public static void concurrent_quick_dual_pivot(int numbers[])
     {
         concurrent_quick_dual_pivot_sort instance=new concurrent_quick_dual_pivot_sort(numbers,0,numbers.length-1);
-        Thread manager=new Thread(instance);
-        manager.start();
+        Thread manager=Thread.startVirtualThread(instance);
         try
         {
             manager.join();
