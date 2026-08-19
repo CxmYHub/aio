@@ -39,7 +39,7 @@ public class binary_tree
     若传入的结点元素为字符，则存储其ASCII码值。
     @param tree_string 二叉树字符串。<br>
     二叉树字符串的格式为：<code>根结点{左子树,右子树}...</code>。<br>
-    例如：<code>A{B{D,E},C{F,G}}</code>。
+    例如：<code>A{B{D,E},C{F{H},G{,I}}}</code>。
     */
     public binary_tree(String tree_string)
     {
@@ -339,12 +339,9 @@ public class binary_tree
             binary_tree now=pins[--pin];
             if(count>=result_count)
             {
-                result_count=result_count*2+2;
+                result_count=(result_count<<1)+2;
                 int new_result[]=new int[result_count];
-                for(int i=0;i<count;i++)
-                {
-                    new_result[i]=result[i];
-                }
+                System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
             result[count++]=now.element;
@@ -367,10 +364,7 @@ public class binary_tree
         if(count<result_count)
         {
             int new_result[]=new int[count];
-            for(int i=0;i<count;i++)
-            {
-                new_result[i]=result[i];
-            }
+            System.arraycopy(result,0,new_result,0,count);
             result=new_result;
         }
         return result;
@@ -403,12 +397,9 @@ public class binary_tree
             now=pins[--pin];
             if(count>=result_count)
             {
-                result_count=result_count*2+2;
+                result_count=(result_count<<1)+2;
                 int new_result[]=new int[result_count];
-                for(int i=0;i<count;i++)
-                {
-                    new_result[i]=result[i];
-                }
+                System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
             result[count++]=now.element;
@@ -417,10 +408,7 @@ public class binary_tree
         if(count<result_count)
         {
             int new_result[]=new int[count];
-            for(int i=0;i<count;i++)
-            {
-                new_result[i]=result[i];
-            }
+            System.arraycopy(result,0,new_result,0,count);
             result=new_result;
         }
         return result;
@@ -460,12 +448,9 @@ public class binary_tree
             {
                 if(count>=result_count)
                 {
-                    result_count=result_count*2+2;
+                    result_count=(result_count<<1)+2;
                     int new_result[]=new int[result_count];
-                    for(int i=0;i<count;i++)
-                    {
-                        new_result[i]=result[i];
-                    }
+                    System.arraycopy(result,0,new_result,0,count);
                     result=new_result;
                 }
                 result[count++]=top.element;
@@ -476,10 +461,7 @@ public class binary_tree
         if(count<result_count)
         {
             int new_result[]=new int[count];
-            for(int i=0;i<count;i++)
-            {
-                new_result[i]=result[i];
-            }
+            System.arraycopy(result,0,new_result,0,count);
             result=new_result;
         }
         return result;
@@ -491,24 +473,63 @@ public class binary_tree
     */
     public int[] traversal_levelorder()
     {
-        int node_count=count();
-        binary_tree pins[]=new binary_tree[node_count];
-        int pin=1;
+        binary_tree pins[]=new binary_tree[10];
+        int front=0,rear=1,capacity=10;
+        boolean overturn=false;
         pins[0]=this;
-        int result[]=new int[node_count];
-        int count=0;
-        for(;count<node_count;count++)
+        int result[]=new int[10];
+        int count=0,result_count=10;
+        while(front!=rear||overturn)
         {
-            binary_tree now=pins[count];
-            result[count]=now.element;
+            binary_tree now=pins[front++];
+            if(front>=capacity)
+            {
+                front=0;
+                overturn=false;
+            }
+            if(count>=result_count)
+            {
+                result_count=(result_count<<1)+2;
+                int new_result[]=new int[result_count];
+                System.arraycopy(result,0,new_result,0,count);
+                result=new_result;
+            }
+            result[count++]=now.element;
             if(now.left!=null)
             {
-                pins[pin++]=now.left;
+                pins[rear++]=now.left;
+                if(rear>=capacity)
+                {
+                    rear=0;
+                    overturn=true;
+                }
             }
             if(now.right!=null)
             {
-                pins[pin++]=now.right;
+                if(front==rear&&overturn)
+                {
+                    binary_tree new_pins[]=new binary_tree[(capacity<<1)+2];
+                    System.arraycopy(pins,front,new_pins,0,capacity-front);
+                    System.arraycopy(pins,0,new_pins,capacity-front,rear);
+                    pins=new_pins;
+                    front=0;
+                    rear=capacity;
+                    capacity=(capacity<<1)+2;
+                    overturn=false;
+                }
+                pins[rear++]=now.right;
+                if(rear>=capacity)
+                {
+                    rear=0;
+                    overturn=true;
+                }
             }
+        }
+        if(count<result_count)
+        {
+            int new_result[]=new int[count];
+            System.arraycopy(result,0,new_result,0,count);
+            result=new_result;
         }
         return result;
     }
@@ -557,9 +578,9 @@ public class binary_tree
         return now.element;
     }
     /**
-    <p>元素删除（单个匹配）</p><br>
+    <p>子树删除（单个匹配）</p><br>
     <p>此方法会修改调用对象。</p><br>
-    从二叉树中删除一个元素。
+    从二叉树中删除一个元素，及其所有子树。
     @param element 要删除的元素。
     @return 删除的元素。
     */

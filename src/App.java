@@ -13,8 +13,7 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        String base="000001011101000000000";
-        String pattern="10111010000";
-        System.out.println(string.contains(base,pattern));
+        binary_tree tree=new binary_tree("65{,66}");
+        System.out.println(tree);
     }
 }

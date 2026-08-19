@@ -210,12 +210,9 @@ public class tree
             tree now=pins[--pin];
             if(count>=result_count)
             {
-                result_count=result_count*2+2;
+                result_count=(result_count<<1)+2;
                 int new_result[]=new int[result_count];
-                for(int i=0;i<count;i++)
-                {
-                    new_result[i]=result[i];
-                }
+                System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
             result[count++]=now.element;
@@ -238,10 +235,7 @@ public class tree
         if(count<result_count)
         {
             int new_result[]=new int[count];
-            for(int i=0;i<count;i++)
-            {
-                new_result[i]=result[i];
-            }
+            System.arraycopy(result,0,new_result,0,count);
             result=new_result;
         }
         return result;
@@ -277,12 +271,9 @@ public class tree
             {
                 if(count>=result_count)
                 {
-                    result_count=result_count*2+2;
+                    result_count=(result_count<<1)+2;
                     int new_result[]=new int[result_count];
-                    for(int i=0;i<count;i++)
-                    {
-                        new_result[i]=result[i];
-                    }
+                    System.arraycopy(result,0,new_result,0,count);
                     result=new_result;
                 }
                 result[count++]=now.element;
@@ -299,10 +290,7 @@ public class tree
         if(count<result_count)
         {
             int new_result[]=new int[count];
-            for(int i=0;i<count;i++)
-            {
-                new_result[i]=result[i];
-            }
+            System.arraycopy(result,0,new_result,0,count);
             result=new_result;
         }
         return result;
