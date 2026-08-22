@@ -13,7 +13,9 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        binary_tree tree=new binary_tree("65{,66}");
-        System.out.println(tree);
+        datetime time=new datetime(1,1,1,0,0,0,0,0);
+        System.out.println(time);
+        datetime time2=time.add_day(-1);
+        System.out.println(time2);
     }
 }
