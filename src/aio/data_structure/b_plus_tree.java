@@ -834,11 +834,11 @@ public class b_plus_tree
     */
     public String toString()
     {
-        if(this.next==null)
+        if(elements==null&&next==null)
         {
             return order+"[]";
         }
-        b_plus_tree now=this.next;
+        b_plus_tree now=elements==null?next:this;
         for(;now.type<2;now=now.children[0]);
         StringBuilder result=new StringBuilder(order+"[");
         result.append("[");

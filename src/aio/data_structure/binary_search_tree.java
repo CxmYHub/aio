@@ -368,13 +368,13 @@ public class binary_search_tree
     */
     public String toString()
     {
-        if(left==null)
+        if(parent==null&&left==null)
         {
             return "";
         }
         binary_search_tree pins[]=new binary_search_tree[10];
         int pin=0,capacity=10;
-        pins[0]=left;
+        pins[0]=parent==null?left:this;
         StringBuilder result=new StringBuilder("");
         while(pin>=0)
         {

@@ -55,19 +55,6 @@ public class red_black_tree
     */
     public red_black_tree parent;
     /**
-    <p>结点构造方法</p><br>
-    构造一个红黑树结点。
-    @param element 元素。
-    */
-    public red_black_tree(int element)
-    {
-        this.element=element;
-        is_red=true;
-        left=NIL;
-        right=NIL;
-        parent=NIL;
-    }
-    /**
     <p>NIL结点构造方法</p><br>
     构造一个特殊的叶结点。
     @param NIL 哑元，用于创建NIL结点。
@@ -86,35 +73,48 @@ public class red_black_tree
     */
     public static final red_black_tree NIL=new red_black_tree('N');
     /**
+    <p>结点构造方法</p><br>
+    构造一个红黑树结点。
+    @param element 元素。
+    */
+    public red_black_tree(int element)
+    {
+        this.element=element;
+        is_red=true;
+        left=NIL;
+        right=NIL;
+        parent=NIL;
+    }
+    /**
     <p>左旋红黑树</p><br>
     <p>此方法会修改调用对象。</p><br>
     左旋将原根结点的右子结点作为新根结点。<br>
     将原根结点右子树的左子结点作为原根结点的右子结点。<br>
     <code>O{L,R{rl,rr}}</code>-><code>R{O{L,rl},rr}</code>
     @param tree 红黑树。
-    @return 左旋后的红黑树根结点，即原树的右子结点。
+    @return 左旋后的红黑树根结点，即原树的右子结点。<br>
+    若原树的右子结点为NIL，则返回NIL。
     */
     public static red_black_tree left_rotate(red_black_tree tree)
     {
-        red_black_tree root_parent=tree.parent;
-        red_black_tree root=tree;
-        red_black_tree right=root.right;
-        red_black_tree right_left=right.left;
-        if(root==NIL||right==NIL)
+        if(tree==NIL||tree.right==NIL)
         {
             return NIL;
         }
-        root.right=right_left;
+        red_black_tree root_parent=tree.parent;
+        red_black_tree right=tree.right;
+        red_black_tree right_left=right.left;
+        tree.right=right_left;
         if(right_left!=NIL)
         {
-            right_left.parent=root;
+            right_left.parent=tree;
         }
-        right.left=root;
-        root.parent=right;
+        right.left=tree;
+        tree.parent=right;
         right.parent=root_parent;
         if(root_parent!=NIL)
         {
-            if(root_parent.left==root)
+            if(root_parent.left==tree)
             {
                 root_parent.left=right;
             }
@@ -132,29 +132,29 @@ public class red_black_tree
     将原根结点左子树的右子结点作为原根结点的左子结点。<br>
     <code>O{L{ll,lr},R}</code>-><code>L{ll,O{lr,R}}</code>
     @param tree 红黑树。
-    @return 右旋后的红黑树根结点，即原树的左子结点。
+    @return 右旋后的红黑树根结点，即原树的左子结点。<br>
+    若原树的左子结点为NIL，则返回NIL。
     */
     public static red_black_tree right_rotate(red_black_tree tree)
     {
-        red_black_tree root_parent=tree.parent;
-        red_black_tree root=tree;
-        red_black_tree left=root.left;
-        red_black_tree left_right=left.right;
-        if(root==NIL||left==NIL)
+        if(tree==NIL||tree.left==NIL)
         {
             return NIL;
         }
-        root.left=left_right;
+        red_black_tree root_parent=tree.parent;
+        red_black_tree left=tree.left;
+        red_black_tree left_right=left.right;
+        tree.left=left_right;
         if(left_right!=NIL)
         {
-            left_right.parent=root;
+            left_right.parent=tree;
         }
-        left.right=root;
-        root.parent=left;
+        left.right=tree;
+        tree.parent=left;
         left.parent=root_parent;
         if(root_parent!=NIL)
         {
-            if(root_parent.left==root)
+            if(root_parent.left==tree)
             {
                 root_parent.left=left;
             }
@@ -697,13 +697,13 @@ public class red_black_tree
     */
     public String toString()
     {
-        if(left==NIL)
+        if(parent==NIL&&left==NIL)
         {
             return "";
         }
         red_black_tree pins[]=new red_black_tree[10];
         int pin=0,capacity=10;
-        pins[0]=left;
+        pins[0]=parent==NIL?left:this;
         StringBuilder result=new StringBuilder(ansi_default_color);
         while(pin>=0)
         {
