@@ -44,7 +44,17 @@ public class calendar
     /**
     <p>1970年1月1日距1年1月1日的天数</p>
     */
-    public final static int day_1970_1_1=719163;
+    public final static int day_1970_1_1=719162;
+    /**
+    <p>1970年1月1日距1年1月1日的毫秒数</p><br>
+    即1970年1月1日距1年1月1日的毫秒时间戳。
+    */
+    public final static long millisecond_1970_1_1=62135596800000L;
+    /**
+    <p>1970年1月1日距1年1月1日的毫秒时间戳</p><br>
+    即1970年1月1日距1年1月1日的毫秒数。
+    */
+    public final static long timestamp_1970_1_1=62135596800000L;
     /**
     <p>400年中的天数</p>
     */
