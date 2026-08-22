@@ -265,7 +265,7 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>构造方法</p><br>
-    通过自公元元年1月1日0时0分0秒的毫秒时间戳构造日期时间对象。
+    通过自公元元年1月1日0时0分0秒的毫秒时间戳和时区构造日期时间对象。
     @param timestamp 自公元元年1月1日0时0分0秒的毫秒时间戳。
     @param time_zone 时区。
     */
@@ -348,7 +348,7 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>构造方法</p><br>
-    通过自公元元年1月1日的日时间戳构造日期时间对象。
+    通过自公元元年1月1日的日时间戳和时区构造日期时间对象。
     @param timestamp_day 自公元元年1月1日的日时间戳。
     @param time_zone 时区。
     */
@@ -444,23 +444,6 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>构造方法</p><br>
-    构造指定时区当前日期时间的对象。
-    @param time_zone 时区。
-    */
-    public datetime(int time_zone)
-    {
-        int now[]=now(time_zone>=-12&&time_zone<=12?time_zone:default_time_zone);
-        year=now[0];
-        month=now[1];
-        day=now[2];
-        hour=now[3];
-        minute=now[4];
-        second=now[5];
-        millisecond=now[6];
-        this.time_zone=now[7];
-    }
-    /**
-    <p>构造方法</p><br>
     构造默认时区（默认为东八区）当前纯日期或纯时间的对象。
     @param true_date_false_time <br>
     如需构造纯日期对象，请输入<code>true</code>。<br>
@@ -477,6 +460,23 @@ public class datetime implements Comparable<datetime>
         second=true_date_false_time?0:now[5];
         millisecond=true_date_false_time?0:now[6];
         time_zone=default_time_zone;
+    }
+    /**
+    <p>构造方法</p><br>
+    构造指定时区当前日期时间的对象。
+    @param time_zone 时区。
+    */
+    public datetime(int time_zone)
+    {
+        int now[]=now(time_zone>=-12&&time_zone<=12?time_zone:default_time_zone);
+        year=now[0];
+        month=now[1];
+        day=now[2];
+        hour=now[3];
+        minute=now[4];
+        second=now[5];
+        millisecond=now[6];
+        this.time_zone=now[7];
     }
     /**
     <p>无参构造方法</p><br>
@@ -504,6 +504,7 @@ public class datetime implements Comparable<datetime>
     }
     /**
     <p>设置默认时区</p><br>
+    若输入的时区不在[-12,12]范围内，则不设置。
     @param time_zone 默认时区。
     @return 是否成功设置。
     */
@@ -532,7 +533,7 @@ public class datetime implements Comparable<datetime>
         if(time_zone>=-12&&time_zone<=12)
         {
             long millisecond=System.currentTimeMillis()+time_zone*3600000L;
-            long day=millisecond/86400000L+calendar.day_1970_1_1-1L;
+            long day=millisecond/86400000L+calendar.day_1970_1_1;
             int cycles=(int)(day/calendar.day_in_400_years);
             day%=calendar.day_in_400_years;
             int year=cycles*400+1;
@@ -607,8 +608,8 @@ public class datetime implements Comparable<datetime>
         long millisecond=this.millisecond+second*1000L+minute*60000L+(hour-time_zone)*3600000L;
         if(year!=Integer.MIN_VALUE)
         {
-            int month_day[]=is_leap_year()?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
-            int day=this.day+month_day[month-1];
+            int month_day_prefix_sum[]=is_leap_year()?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
+            int day=this.day+month_day_prefix_sum[month-1];
             int year=this.year-1;
             millisecond+=(year*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-1)*86400000L;
         }
@@ -624,20 +625,81 @@ public class datetime implements Comparable<datetime>
     @param minute 分。
     @param second 秒。
     @param millisecond 毫秒。
-    @return 指定日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。<br>
-    对于纯时间对象，返回自当日0时0分0秒的毫秒时间戳。
+    @param time_zone 时区。
+    @return 指定日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。
     */
-    public static long timestamp(int year,int month,int day,int hour,int minute,int second,int millisecond)
+    public static long timestamp(int year,int month,int day,int hour,int minute,int second,int millisecond,int time_zone)
     {
-        long total_millisecond=millisecond+second*1000L+minute*60000L+hour*3600000L;
+        long total_millisecond=millisecond+second*1000L+minute*60000L+(hour-time_zone)*3600000L;
+        int month_day_prefix_sum[]=is_leap_year(year)?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
+        day+=month_day_prefix_sum[month-1];
+        year--;
+        total_millisecond+=(year*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-1)*86400000L;
+        return total_millisecond;
+    }
+    /**
+    <p>现在毫秒时间戳</p><br>
+    计算现在日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。
+    @return 现在日期时间自公元元年1月1日0时0分0秒的毫秒时间戳。
+    */
+    public static long timestamp_now()
+    {
+        return System.currentTimeMillis()+calendar.timestamp_1970_1_1;
+    }
+    /**
+    <p>Unix时间戳计算</p><br>
+    计算当前日期时间的Unix时间戳。<br>
+    即当前日期时间自公元1970年1月1日0时0分0秒的毫秒时间戳。
+    @return 当前日期时间的Unix时间戳。<br>
+    对于纯时间对象，返回自当日0时0分0秒 UTC+0的毫秒时间戳。
+    */
+    public long timestamp_unix()
+    {
+        long millisecond=this.millisecond+second*1000L+minute*60000L+(hour-time_zone)*3600000L;
         if(year!=Integer.MIN_VALUE)
         {
-            int month_day[]=is_leap_year(year)?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
-            day+=month_day[month-1];
+            int month_day_prefix_sum[]=is_leap_year()?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
+            int day=this.day+month_day_prefix_sum[month-1];
+            int year=this.year-1;
+            millisecond+=((year-1969)*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-478)*86400000L;
+        }
+        return millisecond;
+    }
+    /**
+    <p>Unix时间戳计算</p><br>
+    计算指定日期时间的Unix时间戳。<br>
+    即指定日期时间自公元1970年1月1日0时0分0秒的毫秒时间戳。
+    @param year 年。
+    @param month 月。
+    @param day 日。
+    @param hour 时。
+    @param minute 分。
+    @param second 秒。
+    @param millisecond 毫秒。
+    @param time_zone 时区。
+    @return 指定日期时间的Unix时间戳。
+    */
+    public static long timestamp_unix(int year,int month,int day,int hour,int minute,int second,int millisecond,int time_zone)
+    {
+        long total_millisecond=millisecond+second*1000L+minute*60000L+(hour-time_zone)*3600000L;
+        if(year!=Integer.MIN_VALUE)
+        {
+            int month_day_prefix_sum[]=is_leap_year(year)?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
+            day+=month_day_prefix_sum[month-1];
             year--;
-            total_millisecond+=(year*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-1)*86400000L;
+            total_millisecond+=((year-1969)*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-478)*86400000L;
         }
         return total_millisecond;
+    }
+    /**
+    <p>现在Unix时间戳</p><br>
+    计算现在日期时间的Unix时间戳。<br>
+    即现在日期时间自公元1970年1月1日0时0分0秒的毫秒时间戳。
+    @return 现在日期时间的Unix时间戳。
+    */
+    public static long timestamp_unix_now()
+    {
+        return System.currentTimeMillis();
     }
     /**
     <p>日时间戳计算</p><br>
@@ -650,8 +712,8 @@ public class datetime implements Comparable<datetime>
     {
         if(year!=Integer.MIN_VALUE)
         {
-            int month_day[]=is_leap_year()?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
-            int day=this.day+month_day[month-1];
+            int month_day_prefix_sum[]=is_leap_year()?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
+            int day=this.day+month_day_prefix_sum[month-1]+Math.floorDiv(hour-time_zone,24);
             int year=this.year-1;
             return year*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-1;
         }
@@ -670,10 +732,19 @@ public class datetime implements Comparable<datetime>
     */
     public static int timestamp_day(int year,int month,int day)
     {
-        int month_day[]=is_leap_year(year)?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
-        day+=month_day[month-1];
+        int month_day_prefix_sum[]=is_leap_year(year)?calendar.month_day_in_leap_year_prefix_sum:calendar.month_day_in_common_year_prefix_sum;
+        day+=month_day_prefix_sum[month-1];
         year--;
         return year*365+Math.floorDiv(year,400)+Math.floorDiv(year,4)-Math.floorDiv(year,100)+day-1;
+    }
+    /**
+    <p>现在日时间戳</p><br>
+    计算现在日期自公元元年1月1日的日时间戳。
+    @return 现在日期自公元元年1月1日的日时间戳。
+    */
+    public static int timestamp_day_now()
+    {
+        return (int)(System.currentTimeMillis()/calendar.day_millisecond)+calendar.day_1970_1_1;
     }
     /**
     <p>闰年判断</p><br>
@@ -721,7 +792,7 @@ public class datetime implements Comparable<datetime>
             int year=Math.floorMod(this.year,100);
             int month=this.month+(this.month<3?12:0);
             year-=month>12?1:0;
-            return (-2*c+year+Math.floorDiv(c,4)+Math.floorDiv(year,4)+13*(month+1)/5+day-1)%7;
+            return Math.floorMod((-2*c+year+Math.floorDiv(c,4)+Math.floorDiv(year,4)+13*(month+1)/5+day-1),7);
         }
         else
         {
@@ -751,7 +822,7 @@ public class datetime implements Comparable<datetime>
         year=Math.floorMod(year,100);
         month+=month<3?12:0;
         year-=month>12?1:0;
-        return (-2*c+year+Math.floorDiv(c,4)+Math.floorDiv(year,4)+13*(month+1)/5+day-1)%7;
+        return Math.floorMod((-2*c+year+Math.floorDiv(c,4)+Math.floorDiv(year,4)+13*(month+1)/5+day-1),7);
     }
     /**
     <p>已过天数计算</p><br>
@@ -838,7 +909,7 @@ public class datetime implements Comparable<datetime>
                 }
             }
             new_timestamp_day++;
-            return new datetime(new_year,new_month,new_timestamp_day,hour,minute,second,millisecond,time_zone);
+            return new datetime(new_year==0?-1:new_year,new_month,new_timestamp_day,hour,minute,second,millisecond,time_zone);
         }
         else
         {
@@ -899,7 +970,7 @@ public class datetime implements Comparable<datetime>
             }
         }
         new_timestamp_day++;
-        return new datetime(new_year,new_month,new_timestamp_day,true);
+        return new datetime(new_year==0?-1:new_year,new_month,new_timestamp_day,true);
     }
     /**
     <p>日期差</p><br>
