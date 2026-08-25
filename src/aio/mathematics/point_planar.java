@@ -2,7 +2,9 @@ package aio.mathematics;
 /**
 <p>平面点类</p><br>
 平面点表示平面中的一个位置。<br>
-横坐标和纵坐标都是实数，取值范围为任意实数。
+包含直角坐标表示和极坐标表示。<br>
+横坐标、纵坐标取值范围为任意实数。<br>
+极径取值范围为非负实数，极角取值范围为[0,2π)。
 */
 public class point_planar
 {
@@ -15,15 +17,111 @@ public class point_planar
     */
     public double y;
     /**
-    <p>全参构造方法</p><br>
-    构造一个平面点对象。
+    <p>极径</p>
+    */
+    public double rho;
+    /**
+    <p>极角</p>
+    */
+    public double theta;
+    /**
+    <p>计算极坐标</p><br>
+    通过当前平面点的直角坐标计算其极坐标表示。
+    */
+    public void calculate_polar_coordinate()
+    {
+        rho=Math.sqrt(x*x+y*y);
+        if(x>=0&&y==0)
+        {
+            theta=0;
+        }
+        else if(x<0)
+        {
+            theta=Math.PI+Math.atan(y/x);
+        }
+        else if(y>=0)
+        {
+            theta=Math.atan(y/x);
+        }
+        else
+        {
+            theta=6.283185307179586+Math.atan(y/x);
+        }
+    }
+    /**
+    <p>直角坐标转极坐标</p><br>
+    将一组直角坐标转换为极坐标。
     @param x 横坐标。
     @param y 纵坐标。
+    @return 极坐标数组。<br>
+    <code>{极径,极角}</code>
     */
-    public point_planar(double x,double y)
+    public static double[] cartesian_to_polar(double x,double y)
     {
-        this.x=x;
-        this.y=y;
+        double[] polar=new double[2];
+        polar[0]=Math.sqrt(x*x+y*y);
+        if(x>=0&&y==0)
+        {
+            polar[1]=0;
+        }
+        else if(x<0)
+        {
+            polar[1]=Math.PI+Math.atan(y/x);
+        }
+        else if(y>=0)
+        {
+            polar[1]=Math.atan(y/x);
+        }
+        else
+        {
+            polar[1]=6.283185307179586+Math.atan(y/x);
+        }
+        return polar;
+    }
+    /**
+    <p>计算直角坐标</p><br>
+    通过当前平面点的极坐标计算其直角坐标表示。
+    */
+    public void calculate_cartesian_coordinate()
+    {
+        x=rho*Math.cos(theta);
+        y=rho*Math.sin(theta);
+    }
+    /**
+    <p>极坐标转直角坐标</p><br>
+    将一组极坐标转换为直角坐标。
+    @param rho 极径。
+    @param theta 极角。
+    @return 直角坐标数组。<br>
+    <code>{横坐标,纵坐标}</code>
+    */
+    public static double[] polar_to_cartesian(double rho,double theta)
+    {
+        return new double[]{rho*Math.cos(theta),rho*Math.sin(theta)};
+    }
+    /**
+    <p>构造方法</p><br>
+    构造一个平面点对象。
+    @param rho_x 极径或横坐标。
+    @param theta_y 极角或纵坐标。
+    @param true_polar_false_cartesian 是否使用极坐标构造平面点对象。<br>
+    如需使用极坐标构造平面点对象，请输入<code>true</code>。<br>
+    如需使用直角坐标构造平面点对象，请输入<code>false</code>。
+    */
+    public point_planar(double rho_x,double theta_y,boolean true_polar_false_cartesian)
+    {
+        if(true_polar_false_cartesian)
+        {
+            rho=rho_x;
+            theta=theta_y;
+            calculate_cartesian_coordinate();
+        }
+        else
+        {
+            x=rho_x;
+            y=theta_y;
+            calculate_polar_coordinate();
+        }
     }
     /**
     <p>无参构造方法</p><br>
@@ -31,8 +129,10 @@ public class point_planar
     */
     public point_planar()
     {
-        this.x=0;
-        this.y=0;
+        x=0;
+        y=0;
+        rho=0;
+        theta=0;
     }
     /**
     <p>点象限计算</p><br>
@@ -64,6 +164,7 @@ public class point_planar
     {
         x+=coordinate_cartesian.x;
         y+=coordinate_cartesian.y;
+        calculate_polar_coordinate();
     }
     /**
     <p>坐标相加</p><br>
@@ -74,7 +175,7 @@ public class point_planar
     */
     public static point_planar add(point_planar coordinate1,point_planar coordinate2)
     {
-        return new point_planar(coordinate1.x+coordinate2.x,coordinate1.y+coordinate2.y);
+        return new point_planar(coordinate1.x+coordinate2.x,coordinate1.y+coordinate2.y,false);
     }
     /**
     <p>坐标相减</p><br>
@@ -86,6 +187,7 @@ public class point_planar
     {
         x-=coordinate_cartesian.x;
         y-=coordinate_cartesian.y;
+        calculate_polar_coordinate();
     }
     /**
     <p>坐标相减</p><br>
@@ -96,7 +198,7 @@ public class point_planar
     */
     public static point_planar subtract(point_planar coordinate1,point_planar coordinate2)
     {
-        return new point_planar(coordinate1.x-coordinate2.x,coordinate1.y-coordinate2.y);
+        return new point_planar(coordinate1.x-coordinate2.x,coordinate1.y-coordinate2.y,false);
     }
     /**
     <p>坐标数乘</p><br>
@@ -108,6 +210,7 @@ public class point_planar
     {
         x*=coefficient;
         y*=coefficient;
+        rho*=coefficient;
     }
     /**
     <p>坐标数乘</p><br>
@@ -118,7 +221,7 @@ public class point_planar
     */
     public static point_planar multiply_scalar(point_planar coordinate_cartesian,double coefficient)
     {
-        return new point_planar(coordinate_cartesian.x*coefficient,coordinate_cartesian.y*coefficient);
+        return new point_planar(coordinate_cartesian.x*coefficient,coordinate_cartesian.y*coefficient,false);
     }
     /**
     <p>两点距离</p><br>
@@ -236,7 +339,7 @@ public class point_planar
     */
     public point_planar middle_point(point_planar target)
     {
-        return new point_planar((target.x+x)/2,(target.y+y)/2);
+        return new point_planar((target.x+x)/2,(target.y+y)/2,false);
     }
     /**
     <p>线性插值</p><br>
@@ -248,7 +351,7 @@ public class point_planar
     */
     public point_planar linear_interpolation(point_planar target,double ratio)
     {
-        return new point_planar(x+ratio*(target.x-x),y+ratio*(target.y-y));
+        return new point_planar(x+ratio*(target.x-x),y+ratio*(target.y-y),false);
     }
     /**
     <p>向目标点位移距离</p><br>
@@ -364,6 +467,6 @@ public class point_planar
     */
     public String toString()
     {
-        return "("+x+","+y+")";
+        return "xy=("+x+","+y+") ρθ=("+rho+","+theta+")";
     }
 }
