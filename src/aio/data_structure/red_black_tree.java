@@ -672,8 +672,7 @@ public class red_black_tree
                 now.parent.right=now.left;
             }
             now.left.parent=now.parent;
-            now=now.left;
-            now.is_red=false;
+            now.left.is_red=false;
         }
         else
         {
@@ -686,8 +685,7 @@ public class red_black_tree
                 now.parent.right=now.right;
             }
             now.right.parent=now.parent;
-            now=now.right;
-            now.is_red=false;
+            now.right.is_red=false;
         }
         return true;
     }

@@ -332,7 +332,6 @@ public class binary_search_tree
             {
                 now.parent.right=null;
             }
-            return true;
         }
         else if(now.left!=null)
         {
@@ -345,7 +344,6 @@ public class binary_search_tree
                 now.parent.right=now.left;
             }
             now.left.parent=now.parent;
-            now=now.left;
         }
         else
         {
@@ -358,7 +356,6 @@ public class binary_search_tree
                 now.parent.right=now.right;
             }
             now.right.parent=now.parent;
-            now=now.right;
         }
         return true;
     }
