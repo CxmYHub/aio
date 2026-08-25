@@ -6,7 +6,6 @@ import aio.mathematics.maths;
 横坐标正方向为东，纵坐标正方向为北，即坐标北。<br>
 横坐标和纵坐标都是实数，取值范围为任意实数。<br>
 本投影坐标单位为米。<br>
-@see aio.mathematics.coordinate_cartesian
 */
 public class projected_coordinate
 {
