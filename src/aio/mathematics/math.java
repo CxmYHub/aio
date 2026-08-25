@@ -8,11 +8,11 @@ public class math
     /**
     <p>圆周率π</p>
     */
-    public final static double pi=3.14159265358979323846;
+    public final static double pi=3.141592653589793;
     /**
     <p>自然对数的底数e</p>
     */
-    public final static double e=2.71828182845904523536;
+    public final static double e=2.718281828459045;
     /**
     <p>(1,10000) 质数表</p><br>
     <p>共1229个元素。</p>
