@@ -13,9 +13,9 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        datetime time=new datetime(1,1,1,0,0,0,0,0);
-        System.out.println(time);
-        datetime time2=time.add_day(-1);
-        System.out.println(time2);
+        avl_tree tree=new avl_tree(1,2,3,4,5,6,7,8,9);
+        System.out.println(tree);
+        tree.remove(5);
+        System.out.println(tree);
     }
 }
