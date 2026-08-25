@@ -1,5 +1,4 @@
 import java.util.*;
-import aio.collection.sort;
 import aio.data_structure.red_black_tree;
 
 /**
@@ -139,8 +138,8 @@ public class red_black_tree_test {
             printFail(name, "[5]", Arrays.toString(trav));
             return;
         }
-        if (tree.get_depth(5) != 0) {
-            printFail(name, "深度0", "深度" + tree.get_depth(5));
+        if (tree.get_depth(5) != 1) {
+            printFail(name, "深度1", "深度" + tree.get_depth(5));
             return;
         }
         if (!checkRBProperties(tree)) {
@@ -172,8 +171,8 @@ public class red_black_tree_test {
     public static void testGetDepth() {
         String name = "获取深度";
         red_black_tree tree = new red_black_tree(50, 30, 70, 20, 40, 60, 80);
-        if (tree.get_depth(50) != 0 || tree.get_depth(20) != 2 || tree.get_depth(100) != Integer.MIN_VALUE) {
-            printFail(name, "根深度0，20深度2，100不存在", "根深度" + tree.get_depth(50) + "，20深度" + tree.get_depth(20) + "，100深度" + tree.get_depth(100));
+        if (tree.get_depth(50) != 1 || tree.get_depth(20) != 3 || tree.get_depth(100) != Integer.MIN_VALUE) {
+            printFail(name, "根深度1，20深度3，100不存在", "根深度" + tree.get_depth(50) + "，20深度" + tree.get_depth(20) + "，100深度" + tree.get_depth(100));
             return;
         }
         printPass(name);
@@ -375,9 +374,9 @@ public class red_black_tree_test {
     public static void testRotations() {
         String name = "旋转操作";
         // 创建一个简单的子树用于旋转测试（不使用头结点）
-        red_black_tree node10 = new red_black_tree(10);
-        red_black_tree node5 = new red_black_tree(5);
-        red_black_tree node15 = new red_black_tree(15);
+        red_black_tree node10 = new red_black_tree(10,' ');
+        red_black_tree node5 = new red_black_tree(5,' ');
+        red_black_tree node15 = new red_black_tree(15,' ');
         // 连接 10-5-15
         node10.left = node5; node5.parent = node10;
         node10.right = node15; node15.parent = node10;

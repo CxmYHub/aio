@@ -33,8 +33,9 @@ public class binary_search_tree
     <p>结点构造方法</p><br>
     构造一个二叉查找树结点。
     @param element 元素。
+    @param node 哑元，用于区分方法。
     */
-    public binary_search_tree(int element)
+    public binary_search_tree(int element,char node)
     {
         this.element=element;
         left=null;
@@ -52,7 +53,7 @@ public class binary_search_tree
         left=null;
         right=null;
         parent=null;
-        left=new binary_search_tree(elements[0]);
+        left=new binary_search_tree(elements[0],' ');
         left.parent=this;
         for(int element:elements)
         {
@@ -63,7 +64,7 @@ public class binary_search_tree
                 {
                     if(now.left==null)
                     {
-                        now.left=new binary_search_tree(element);
+                        now.left=new binary_search_tree(element,' ');
                         now.left.parent=now;
                         now=now.left;
                         break;
@@ -74,7 +75,7 @@ public class binary_search_tree
                 {
                     if(now.right==null)
                     {
-                        now.right=new binary_search_tree(element);
+                        now.right=new binary_search_tree(element,' ');
                         now.right.parent=now;
                         now=now.right;
                         break;
@@ -161,7 +162,7 @@ public class binary_search_tree
         binary_search_tree now=left;
         if(now==null)
         {
-            left=new binary_search_tree(element);
+            left=new binary_search_tree(element,' ');
             left.parent=this;
             return true;
         }
@@ -171,7 +172,7 @@ public class binary_search_tree
             {
                 if(now.left==null)
                 {
-                    now.left=new binary_search_tree(element);
+                    now.left=new binary_search_tree(element,' ');
                     now.left.parent=now;
                     return true;
                 }
@@ -181,7 +182,7 @@ public class binary_search_tree
             {
                 if(now.right==null)
                 {
-                    now.right=new binary_search_tree(element);
+                    now.right=new binary_search_tree(element,' ');
                     now.right.parent=now;
                     return true;
                 }
@@ -209,7 +210,7 @@ public class binary_search_tree
             binary_search_tree now=left;
             if(now==null)
             {
-                left=new binary_search_tree(element);
+                left=new binary_search_tree(element,' ');
                 left.parent=this;
                 continue;
             }
@@ -219,7 +220,7 @@ public class binary_search_tree
                 {
                     if(now.left==null)
                     {
-                        now.left=new binary_search_tree(element);
+                        now.left=new binary_search_tree(element,' ');
                         now.left.parent=now;
                         now=now.left;
                         break;
@@ -230,7 +231,7 @@ public class binary_search_tree
                 {
                     if(now.right==null)
                     {
-                        now.right=new binary_search_tree(element);
+                        now.right=new binary_search_tree(element,' ');
                         now.right.parent=now;
                         now=now.right;
                         break;
@@ -260,7 +261,7 @@ public class binary_search_tree
         {
             return Integer.MIN_VALUE;
         }
-        int depth=0;
+        int depth=1;
         for(;now.element!=element;depth++)
         {
             if(element<now.element)

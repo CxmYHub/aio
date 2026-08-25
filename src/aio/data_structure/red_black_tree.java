@@ -76,8 +76,9 @@ public class red_black_tree
     <p>结点构造方法</p><br>
     构造一个红黑树结点。
     @param element 元素。
+    @param node 哑元，用于区分方法。
     */
-    public red_black_tree(int element)
+    public red_black_tree(int element,char node)
     {
         this.element=element;
         is_red=true;
@@ -176,7 +177,7 @@ public class red_black_tree
         is_red=false;
         right=NIL;
         parent=NIL;
-        left=new red_black_tree(elements[0]);
+        left=new red_black_tree(elements[0],' ');
         left.parent=this;
         left.is_red=false;
         select_elements:
@@ -189,7 +190,7 @@ public class red_black_tree
                 {
                     if(now.left==NIL)
                     {
-                        now.left=new red_black_tree(element);
+                        now.left=new red_black_tree(element,' ');
                         now.left.parent=now;
                         now=now.left;
                         break;
@@ -200,7 +201,7 @@ public class red_black_tree
                 {
                     if(now.right==NIL)
                     {
-                        now.right=new red_black_tree(element);
+                        now.right=new red_black_tree(element,' ');
                         now.right.parent=now;
                         now=now.right;
                         break;
@@ -329,7 +330,7 @@ public class red_black_tree
         red_black_tree now=left;
         if(now==NIL)
         {
-            left=new red_black_tree(element);
+            left=new red_black_tree(element,' ');
             left.parent=this;
             left.is_red=false;
             return true;
@@ -340,7 +341,7 @@ public class red_black_tree
             {
                 if(now.left==NIL)
                 {
-                    now.left=new red_black_tree(element);
+                    now.left=new red_black_tree(element,' ');
                     now.left.parent=now;
                     now=now.left;
                     break;
@@ -351,7 +352,7 @@ public class red_black_tree
             {
                 if(now.right==NIL)
                 {
-                    now.right=new red_black_tree(element);
+                    now.right=new red_black_tree(element,' ');
                     now.right.parent=now;
                     now=now.right;
                     break;
@@ -423,7 +424,7 @@ public class red_black_tree
             red_black_tree now=left;
             if(now==NIL)
             {
-                left=new red_black_tree(element);
+                left=new red_black_tree(element,' ');
                 left.parent=this;
                 left.is_red=false;
                 continue;
@@ -434,7 +435,7 @@ public class red_black_tree
                 {
                     if(now.left==NIL)
                     {
-                        now.left=new red_black_tree(element);
+                        now.left=new red_black_tree(element,' ');
                         now.left.parent=now;
                         now=now.left;
                         break;
@@ -445,7 +446,7 @@ public class red_black_tree
                 {
                     if(now.right==NIL)
                     {
-                        now.right=new red_black_tree(element);
+                        now.right=new red_black_tree(element,' ');
                         now.right.parent=now;
                         now=now.right;
                         break;
@@ -512,7 +513,7 @@ public class red_black_tree
     public int get_depth(int element)
     {
         red_black_tree now=left;
-        int depth=0;
+        int depth=1;
         for(;now.element!=element;depth++)
         {
             if(now==NIL)

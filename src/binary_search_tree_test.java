@@ -68,7 +68,7 @@ public class binary_search_tree_test {
         check("5".equals(str), "单结点toString", "5", str);
 
         int depth = tree.get_depth(5);
-        check(depth == 0, "单结点深度", "0", Integer.toString(depth));
+        check(depth == 1, "单结点深度", "1", Integer.toString(depth));
 
         // 插入重复元素应失败
         boolean dupInsert = tree.input(5);
@@ -90,13 +90,13 @@ public class binary_search_tree_test {
     /** get_depth 详细测试 */
     static void testGetDepth() {
         binary_search_tree tree = new binary_search_tree(4, 2, 6, 1, 3, 5, 7);
-        check(tree.get_depth(4) == 0, "根结点深度", "0", Integer.toString(tree.get_depth(4)));
-        check(tree.get_depth(2) == 1, "深度测试 2", "1", Integer.toString(tree.get_depth(2)));
-        check(tree.get_depth(6) == 1, "深度测试 6", "1", Integer.toString(tree.get_depth(6)));
-        check(tree.get_depth(1) == 2, "深度测试 1", "2", Integer.toString(tree.get_depth(1)));
-        check(tree.get_depth(3) == 2, "深度测试 3", "2", Integer.toString(tree.get_depth(3)));
-        check(tree.get_depth(5) == 2, "深度测试 5", "2", Integer.toString(tree.get_depth(5)));
-        check(tree.get_depth(7) == 2, "深度测试 7", "2", Integer.toString(tree.get_depth(7)));
+        check(tree.get_depth(4) == 1, "根结点深度", "1", Integer.toString(tree.get_depth(4)));
+        check(tree.get_depth(2) == 2, "深度测试 2", "2", Integer.toString(tree.get_depth(2)));
+        check(tree.get_depth(6) == 2, "深度测试 6", "2", Integer.toString(tree.get_depth(6)));
+        check(tree.get_depth(1) == 3, "深度测试 1", "3", Integer.toString(tree.get_depth(1)));
+        check(tree.get_depth(3) == 3, "深度测试 3", "3", Integer.toString(tree.get_depth(3)));
+        check(tree.get_depth(5) == 3, "深度测试 5", "3", Integer.toString(tree.get_depth(5)));
+        check(tree.get_depth(7) == 3, "深度测试 7", "3", Integer.toString(tree.get_depth(7)));
         check(tree.get_depth(100) == Integer.MIN_VALUE, "查找不存在元素深度", Integer.toString(Integer.MIN_VALUE), Integer.toString(tree.get_depth(100)));
     }
 
@@ -191,10 +191,10 @@ public class binary_search_tree_test {
         for (int i = 0; i < N; i++) expected[i] = i + 1;
         check(arrayEquals(trav, expected), "右斜树遍历", "递增序列", arrStr(trav));
 
-        // 深度：每个结点深度 = element - 1
+        // 深度：每个结点深度 = element
         for (int i = 1; i <= N; i++) {
-            if (tree.get_depth(i) != i - 1) {
-                check(false, "右斜树深度(" + i + ")", Integer.toString(i-1), Integer.toString(tree.get_depth(i)));
+            if (tree.get_depth(i) != i) {
+                check(false, "右斜树深度(" + i + ")", Integer.toString(i), Integer.toString(tree.get_depth(i)));
                 return;
             }
         }

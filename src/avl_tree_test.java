@@ -109,8 +109,8 @@ public class avl_tree_test {
             return new TestResult("插入单个元素遍历", false, "遍历=" + expected, "遍历=" + actual);
         }
         int depth = tree.get_depth(5);
-        if (depth != 0) {
-            return new TestResult("插入单个元素深度", false, "深度=0", "深度=" + depth);
+        if (depth != 1) {
+            return new TestResult("插入单个元素深度", false, "深度=1", "深度=" + depth);
         }
         // 根节点平衡因子应为0
         avl_tree root = tree.left;
@@ -203,9 +203,9 @@ public class avl_tree_test {
     static TestResult testLLRotation() {
         // 构造树：头结点 -> 3 (左) -> 2 (左) -> 1，平衡因子：3:-2, 2:-1, 1:0
         avl_tree tree = new avl_tree();
-        avl_tree node3 = new avl_tree(3);
-        avl_tree node2 = new avl_tree(2);
-        avl_tree node1 = new avl_tree(1);
+        avl_tree node3 = new avl_tree(3,' ');
+        avl_tree node2 = new avl_tree(2,' ');
+        avl_tree node1 = new avl_tree(1,' ');
         tree.left = node3;
         node3.parent = tree;
         node3.left = node2;
@@ -232,9 +232,9 @@ public class avl_tree_test {
     static TestResult testRRRotation() {
         // 构造树：头结点 -> 1 (左) -> 2 (右) -> 3
         avl_tree tree = new avl_tree();
-        avl_tree node1 = new avl_tree(1);
-        avl_tree node2 = new avl_tree(2);
-        avl_tree node3 = new avl_tree(3);
+        avl_tree node1 = new avl_tree(1,' ');
+        avl_tree node2 = new avl_tree(2,' ');
+        avl_tree node3 = new avl_tree(3,' ');
         tree.left = node1;
         node1.parent = tree;
         node1.right = node2;
@@ -259,9 +259,9 @@ public class avl_tree_test {
     static TestResult testLRRotation() {
         // 构造树：3 -> 1 (左) -> 2 (右)
         avl_tree tree = new avl_tree();
-        avl_tree node3 = new avl_tree(3);
-        avl_tree node1 = new avl_tree(1);
-        avl_tree node2 = new avl_tree(2);
+        avl_tree node3 = new avl_tree(3,' ');
+        avl_tree node1 = new avl_tree(1,' ');
+        avl_tree node2 = new avl_tree(2,' ');
         tree.left = node3;
         node3.parent = tree;
         node3.left = node1;
@@ -289,9 +289,9 @@ public class avl_tree_test {
     static TestResult testRLRotation() {
         // 构造树：1 -> 3 (右) -> 2 (左)
         avl_tree tree = new avl_tree();
-        avl_tree node1 = new avl_tree(1);
-        avl_tree node3 = new avl_tree(3);
-        avl_tree node2 = new avl_tree(2);
+        avl_tree node1 = new avl_tree(1,' ');
+        avl_tree node3 = new avl_tree(3,' ');
+        avl_tree node2 = new avl_tree(2,' ');
         tree.left = node1;
         node1.parent = tree;
         node1.right = node3;
@@ -435,8 +435,8 @@ public class avl_tree_test {
         int d3 = tree.get_depth(3);
         int d18 = tree.get_depth(18);
         int d99 = tree.get_depth(99);
-        if (d10 != 0 || d3 != 2 || d18 != 2 || d99 != Integer.MIN_VALUE) {
-            return new TestResult("get_depth测试", false, "深度:10=0,3=2,18=2,99=MIN", "深度:10=" + d10 + ",3=" + d3 + ",18=" + d18 + ",99=" + d99);
+        if (d10 != 1 || d3 != 3 || d18 != 3 || d99 != Integer.MIN_VALUE) {
+            return new TestResult("get_depth测试", false, "深度:10=1,3=3,18=3,99=MIN", "深度:10=" + d10 + ",3=" + d3 + ",18=" + d18 + ",99=" + d99);
         }
         return new TestResult("get_depth测试", true, "全部通过", "深度:10=0,3=2,18=2,99=MIN");
     }

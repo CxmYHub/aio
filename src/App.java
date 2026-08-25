@@ -13,9 +13,8 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        avl_tree tree=new avl_tree(1,2,3,4,5,6,7,8,9);
+        avl_tree tree=new avl_tree(1);
         System.out.println(tree);
-        tree.remove(5);
-        System.out.println(tree);
+        System.out.println(tree.get_depth(1));
     }
 }

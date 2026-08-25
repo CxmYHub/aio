@@ -44,8 +44,9 @@ public class avl_tree
     <p>结点构造方法</p><br>
     构造一个AVL树结点。
     @param element 元素。
+    @param node 哑元，用于区分方法。
     */
-    public avl_tree(int element)
+    public avl_tree(int element,char node)
     {
         this.element=element;
         balance_factor=0;
@@ -156,7 +157,7 @@ public class avl_tree
         balance_factor=0;
         right=null;
         parent=null;
-        left=new avl_tree(elements[0]);
+        left=new avl_tree(elements[0],' ');
         left.parent=this;
         select_elements:
         for(int element:elements)
@@ -168,7 +169,7 @@ public class avl_tree
                 {
                     if(now.left==null)
                     {
-                        now.left=new avl_tree(element);
+                        now.left=new avl_tree(element,' ');
                         now.left.parent=now;
                         now.balance_factor--;
                         for(avl_tree parent=now.parent;parent!=this&&(now.balance_factor==1||now.balance_factor==-1);now=parent,parent=now.parent)
@@ -187,7 +188,7 @@ public class avl_tree
                 {
                     if(now.right==null)
                     {
-                        now.right=new avl_tree(element);
+                        now.right=new avl_tree(element,' ');
                         now.right.parent=now;
                         now.balance_factor++;
                         for(avl_tree parent=now.parent;parent!=this&&(now.balance_factor==1||now.balance_factor==-1);now=parent,parent=now.parent)
@@ -341,7 +342,7 @@ public class avl_tree
         avl_tree now=left;
         if(now==null)
         {
-            left=new avl_tree(element);
+            left=new avl_tree(element,' ');
             left.parent=this;
             return true;
         }
@@ -351,7 +352,7 @@ public class avl_tree
             {
                 if(now.left==null)
                 {
-                    now.left=new avl_tree(element);
+                    now.left=new avl_tree(element,' ');
                     now.left.parent=now;
                     now.balance_factor--;
                     for(avl_tree parent=now.parent;parent!=this&&(now.balance_factor==1||now.balance_factor==-1);now=parent,parent=now.parent)
@@ -370,7 +371,7 @@ public class avl_tree
             {
                 if(now.right==null)
                 {
-                    now.right=new avl_tree(element);
+                    now.right=new avl_tree(element,' ');
                     now.right.parent=now;
                     now.balance_factor++;
                     for(avl_tree parent=now.parent;parent!=this&&(now.balance_factor==1||now.balance_factor==-1);now=parent,parent=now.parent)
@@ -479,7 +480,7 @@ public class avl_tree
             avl_tree now=left;
             if(now==null)
             {
-                left=new avl_tree(element);
+                left=new avl_tree(element,' ');
                 left.parent=this;
                 continue;
             }
@@ -489,7 +490,7 @@ public class avl_tree
                 {
                     if(now.left==null)
                     {
-                        now.left=new avl_tree(element);
+                        now.left=new avl_tree(element,' ');
                         now.left.parent=now;
                         now.balance_factor--;
                         for(avl_tree parent=now.parent;parent!=this&&(now.balance_factor==1||now.balance_factor==-1);now=parent,parent=now.parent)
@@ -508,7 +509,7 @@ public class avl_tree
                 {
                     if(now.right==null)
                     {
-                        now.right=new avl_tree(element);
+                        now.right=new avl_tree(element,' ');
                         now.right.parent=now;
                         now.balance_factor++;
                         for(avl_tree parent=now.parent;parent!=this&&(now.balance_factor==1||now.balance_factor==-1);now=parent,parent=now.parent)
@@ -616,7 +617,7 @@ public class avl_tree
         {
             return Integer.MIN_VALUE;
         }
-        int depth=0;
+        int depth=1;
         for(;now.element!=element;depth++)
         {
             if(element<now.element)
