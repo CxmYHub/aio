@@ -228,15 +228,15 @@ public class avl_tree
                             now.balance_factor=-1;
                             right.balance_factor=0;
                         }
-                        case -1->
-                        {
-                            now.balance_factor=0;
-                            right.balance_factor=1;
-                        }
                         case 0->
                         {
                             now.balance_factor=0;
                             right.balance_factor=0;
+                        }
+                        case -1->
+                        {
+                            now.balance_factor=0;
+                            right.balance_factor=1;
                         }
                     }
                     right_left.balance_factor=0;
@@ -252,11 +252,6 @@ public class avl_tree
                     right_rotate(now);
                     switch(left_right.balance_factor)
                     {
-                        case 1->
-                        {
-                            now.balance_factor=0;
-                            left.balance_factor=-1;
-                        }
                         case -1->
                         {
                             now.balance_factor=1;
@@ -266,6 +261,11 @@ public class avl_tree
                         {
                             now.balance_factor=0;
                             left.balance_factor=0;
+                        }
+                        case 1->
+                        {
+                            now.balance_factor=0;
+                            left.balance_factor=-1;
                         }
                     }
                     left_right.balance_factor=0;
@@ -411,15 +411,15 @@ public class avl_tree
                         now.balance_factor=-1;
                         right.balance_factor=0;
                     }
-                    case -1->
-                    {
-                        now.balance_factor=0;
-                        right.balance_factor=1;
-                    }
                     case 0->
                     {
                         now.balance_factor=0;
                         right.balance_factor=0;
+                    }
+                    case -1->
+                    {
+                        now.balance_factor=0;
+                        right.balance_factor=1;
                     }
                 }
                 right_left.balance_factor=0;
@@ -435,11 +435,6 @@ public class avl_tree
                 right_rotate(now);
                 switch(left_right.balance_factor)
                 {
-                    case 1->
-                    {
-                        now.balance_factor=0;
-                        left.balance_factor=-1;
-                    }
                     case -1->
                     {
                         now.balance_factor=1;
@@ -449,6 +444,11 @@ public class avl_tree
                     {
                         now.balance_factor=0;
                         left.balance_factor=0;
+                    }
+                    case 1->
+                    {
+                        now.balance_factor=0;
+                        left.balance_factor=-1;
                     }
                 }
                 left_right.balance_factor=0;
@@ -550,15 +550,15 @@ public class avl_tree
                             now.balance_factor=-1;
                             right.balance_factor=0;
                         }
-                        case -1->
-                        {
-                            now.balance_factor=0;
-                            right.balance_factor=1;
-                        }
                         case 0->
                         {
                             now.balance_factor=0;
                             right.balance_factor=0;
+                        }
+                        case -1->
+                        {
+                            now.balance_factor=0;
+                            right.balance_factor=1;
                         }
                     }
                     right_left.balance_factor=0;
@@ -574,11 +574,6 @@ public class avl_tree
                     right_rotate(now);
                     switch(left_right.balance_factor)
                     {
-                        case 1->
-                        {
-                            now.balance_factor=0;
-                            left.balance_factor=-1;
-                        }
                         case -1->
                         {
                             now.balance_factor=1;
@@ -588,6 +583,11 @@ public class avl_tree
                         {
                             now.balance_factor=0;
                             left.balance_factor=0;
+                        }
+                        case 1->
+                        {
+                            now.balance_factor=0;
+                            left.balance_factor=-1;
                         }
                     }
                     left_right.balance_factor=0;
@@ -601,6 +601,219 @@ public class avl_tree
             }
         }
         return duplicate;
+    }
+    /**
+    <p>元素深度计算</p><br>
+    获取AVL树中元素的深度。
+    @param element 要获取深度的元素。
+    @return 元素的深度。<br>
+    若元素不存在，则返回<code>Integer.MIN_VALUE</code>。
+    */
+    public int get_depth(int element)
+    {
+        avl_tree now=left;
+        if(now==null)
+        {
+            return Integer.MIN_VALUE;
+        }
+        int depth=0;
+        for(;now.element!=element;depth++)
+        {
+            if(element<now.element)
+            {
+                now=now.left;
+            }
+            else if(element>now.element)
+            {
+                now=now.right;
+            }
+            if(now==null)
+            {
+                return Integer.MIN_VALUE;
+            }
+        }
+        return depth;
+    }
+    /**
+    <p>元素删除</p><br>
+    <p>此方法会修改调用对象。</p><br>
+    从AVL树中删除一个元素。
+    @param element 要删除的元素。
+    @return 是否成功删除。
+    */
+    public boolean remove(int element)
+    {
+        avl_tree now=left;
+        if(now==null)
+        {
+            return false;
+        }
+        while(now.element!=element)
+        {
+            if(element<now.element)
+            {
+                if(now.left==null)
+                {
+                    return false;
+                }
+                now=now.left;
+            }
+            else if(element>now.element)
+            {
+                if(now.right==null)
+                {
+                    return false;
+                }
+                now=now.right;
+            }
+        }
+        if(now.left!=null&&now.right!=null)
+        {
+            avl_tree next=now.right;
+            while(next.left!=null)
+            {
+                next=next.left;
+            }
+            now.element=next.element;
+            now=next;
+        }
+        boolean now_is_left=now==now.parent.left;
+        if(now.left==null&&now.right==null)
+        {
+            if(now_is_left)
+            {
+                now.parent.left=null;
+            }
+            else
+            {
+                now.parent.right=null;
+            }
+        }
+        else if(now.left!=null)
+        {
+            if(now_is_left)
+            {
+                now.parent.left=now.left;
+            }
+            else
+            {
+                now.parent.right=now.left;
+            }
+            now.left.parent=now.parent;
+        }
+        else
+        {
+            if(now_is_left)
+            {
+                now.parent.left=now.right;
+            }
+            else
+            {
+                now.parent.right=now.right;
+            }
+            now.right.parent=now.parent;
+        }
+        for(now=now.parent;now!=this;now_is_left=now==now.parent.left,now=now.parent)
+        {
+            now.balance_factor-=now_is_left?-1:1;
+            if(now.balance_factor>=2)
+            {
+                avl_tree right=now.right;
+                if(right.balance_factor>=0)
+                {
+                    left_rotate(now);
+                    switch(right.balance_factor)
+                    {
+                        case 1->
+                        {
+                            now.balance_factor=0;
+                            right.balance_factor=0;
+                        }
+                        case 0->
+                        {
+                            now.balance_factor=1;
+                            right.balance_factor=-1;
+                        }
+                    }
+                }
+                else
+                {
+                    avl_tree right_left=right.left;
+                    left_rotate(right);
+                    right_rotate(now);
+                    switch(right_left.balance_factor)
+                    {
+                        case 1->
+                        {
+                            now.balance_factor=-1;
+                            left.balance_factor=0;
+                        }
+                        case 0->
+                        {
+                            now.balance_factor=0;
+                            left.balance_factor=0;
+                        }
+                        case -1->
+                        {
+                            now.balance_factor=0;
+                            left.balance_factor=1;
+                        }
+                    }
+                    right_left.balance_factor=0;
+                }
+            }
+            else if(now.balance_factor<=-2)
+            {
+                avl_tree left=now.left;
+                if(left.balance_factor>0)
+                {
+                    avl_tree left_right=left.right;
+                    left_rotate(left);
+                    right_rotate(now);
+                    switch(left_right.balance_factor)
+                    {
+                        case -1->
+                        {
+                            now.balance_factor=1;
+                            left.balance_factor=0;
+                        }
+                        case 0->
+                        {
+                            now.balance_factor=0;
+                            left.balance_factor=0;
+                        }
+                        case 1->
+                        {
+                            now.balance_factor=0;
+                            left.balance_factor=-1;
+                        }
+                    }
+                    left_right.balance_factor=0;
+                }
+                else
+                {
+                    right_rotate(now);
+                    switch(left.balance_factor)
+                    {
+                        case -1->
+                        {
+                            now.balance_factor=0;
+                            left.balance_factor=0;
+                        }
+                        case 0->
+                        {
+                            now.balance_factor=-1;
+                            left.balance_factor=1;
+                        }
+                    }
+                }
+            }
+            else if(now.balance_factor==1||now.balance_factor==-1)
+            {
+                break;
+            }
+        }
+        return true;
     }
     /**
     <p>字符串表示</p><br>
