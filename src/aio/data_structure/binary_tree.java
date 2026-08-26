@@ -333,14 +333,14 @@ public class binary_tree
         int pin=1,capacity=10;
         pins[0]=this;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(pin>0)
         {
             binary_tree now=pins[--pin];
-            if(count>=result_count)
+            if(count>=result_capacity)
             {
-                result_count=(result_count<<1)+2;
-                int new_result[]=new int[result_count];
+                result_capacity=(result_capacity<<1)+2;
+                int new_result[]=new int[result_capacity];
                 System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
@@ -361,7 +361,7 @@ public class binary_tree
                 pins[pin++]=now.left;
             }
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             System.arraycopy(result,0,new_result,0,count);
@@ -380,7 +380,7 @@ public class binary_tree
         int pin=0,capacity=10;
         binary_tree now=this;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(now!=null||pin>0)
         {
             for(;now!=null;now=now.left)
@@ -395,17 +395,17 @@ public class binary_tree
                 pins[pin++]=now;
             }
             now=pins[--pin];
-            if(count>=result_count)
+            if(count>=result_capacity)
             {
-                result_count=(result_count<<1)+2;
-                int new_result[]=new int[result_count];
+                result_capacity=(result_capacity<<1)+2;
+                int new_result[]=new int[result_capacity];
                 System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
             result[count++]=now.element;
             now=now.right;
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             System.arraycopy(result,0,new_result,0,count);
@@ -425,7 +425,7 @@ public class binary_tree
         binary_tree now=this;
         binary_tree last=null;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(now!=null||pin>0)
         {
             for(;now!=null;now=now.left)
@@ -446,10 +446,10 @@ public class binary_tree
             }
             else
             {
-                if(count>=result_count)
+                if(count>=result_capacity)
                 {
-                    result_count=(result_count<<1)+2;
-                    int new_result[]=new int[result_count];
+                    result_capacity=(result_capacity<<1)+2;
+                    int new_result[]=new int[result_capacity];
                     System.arraycopy(result,0,new_result,0,count);
                     result=new_result;
                 }
@@ -458,7 +458,7 @@ public class binary_tree
                 pin--;
             }
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             System.arraycopy(result,0,new_result,0,count);
@@ -478,7 +478,7 @@ public class binary_tree
         boolean overturn=false;
         pins[0]=this;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(front!=rear||overturn)
         {
             binary_tree now=pins[front++];
@@ -487,10 +487,10 @@ public class binary_tree
                 front=0;
                 overturn=false;
             }
-            if(count>=result_count)
+            if(count>=result_capacity)
             {
-                result_count=(result_count<<1)+2;
-                int new_result[]=new int[result_count];
+                result_capacity=(result_capacity<<1)+2;
+                int new_result[]=new int[result_capacity];
                 System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
@@ -525,7 +525,7 @@ public class binary_tree
                 }
             }
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             System.arraycopy(result,0,new_result,0,count);

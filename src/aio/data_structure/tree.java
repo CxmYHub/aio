@@ -205,14 +205,14 @@ public class tree
         int pin=1,capacity=10;
         pins[0]=this;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(pin>0)
         {
             tree now=pins[--pin];
-            if(count>=result_count)
+            if(count>=result_capacity)
             {
-                result_count=(result_count<<1)+2;
-                int new_result[]=new int[result_count];
+                result_capacity=(result_capacity<<1)+2;
+                int new_result[]=new int[result_capacity];
                 System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
@@ -233,7 +233,7 @@ public class tree
                 pins[pin++]=now.child;
             }
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             System.arraycopy(result,0,new_result,0,count);
@@ -253,7 +253,7 @@ public class tree
         level_last[0]=this;
         boolean back=false;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(level>=0)
         {
             tree now=level_last[level];
@@ -270,10 +270,10 @@ public class tree
             }
             while(now!=null&&(now.child==null||back))
             {
-                if(count>=result_count)
+                if(count>=result_capacity)
                 {
-                    result_count=(result_count<<1)+2;
-                    int new_result[]=new int[result_count];
+                    result_capacity=(result_capacity<<1)+2;
+                    int new_result[]=new int[result_capacity];
                     System.arraycopy(result,0,new_result,0,count);
                     result=new_result;
                 }
@@ -288,7 +288,7 @@ public class tree
                 back=true;
             }
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             System.arraycopy(result,0,new_result,0,count);
@@ -308,7 +308,7 @@ public class tree
         boolean overturn=false;
         pins[0]=this;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(front!=rear||overturn)
         {
             tree now=pins[front++];
@@ -317,10 +317,10 @@ public class tree
                 front=0;
                 overturn=false;
             }
-            if(count>=result_count)
+            if(count>=result_capacity)
             {
-                result_count=(result_count<<1)+2;
-                int new_result[]=new int[result_count];
+                result_capacity=(result_capacity<<1)+2;
+                int new_result[]=new int[result_capacity];
                 System.arraycopy(result,0,new_result,0,count);
                 result=new_result;
             }
@@ -346,7 +346,7 @@ public class tree
                 }
             }
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             System.arraycopy(result,0,new_result,0,count);

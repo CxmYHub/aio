@@ -291,7 +291,7 @@ public class avl_tree
         int pin=0,capacity=10;
         avl_tree now=left;
         int result[]=new int[10];
-        int count=0,result_count=10;
+        int count=0,result_capacity=10;
         while(now!=null||pin>0)
         {
             for(;now!=null;now=now.left)
@@ -306,10 +306,10 @@ public class avl_tree
                 pins[pin++]=now;
             }
             now=pins[--pin];
-            if(count>=result_count)
+            if(count>=result_capacity)
             {
-                result_count=result_count*2+2;
-                int new_result[]=new int[result_count];
+                result_capacity=result_capacity*2+2;
+                int new_result[]=new int[result_capacity];
                 for(int i=0;i<count;i++)
                 {
                     new_result[i]=result[i];
@@ -319,7 +319,7 @@ public class avl_tree
             result[count++]=now.element;
             now=now.right;
         }
-        if(count<result_count)
+        if(count<result_capacity)
         {
             int new_result[]=new int[count];
             for(int i=0;i<count;i++)
