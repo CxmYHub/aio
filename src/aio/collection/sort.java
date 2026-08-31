@@ -621,7 +621,7 @@ public class sort
     */
     public static void quick_dual_pivot(int numbers[])
     {
-        int indexs[]=new int[numbers.length*2+2];
+        int indexs[]=new int[(numbers.length<<1)+2];
         indexs[0]=0;
         indexs[1]=numbers.length-1;
         int pin=2;
@@ -830,7 +830,7 @@ public class sort
     */
     public static void quick_dual_pivot(double numbers[])
     {
-        int indexs[]=new int[numbers.length*2+2];
+        int indexs[]=new int[(numbers.length<<1)+2];
         indexs[0]=0;
         indexs[1]=numbers.length-1;
         int pin=2;

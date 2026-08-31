@@ -37,7 +37,7 @@ public class huffman_tree_char
     */
     private void quick_sort_dual_pivot_for_huffman_tree()
     {
-        int indexs[]=new int[weight.length*2+2];
+        int indexs[]=new int[(weight.length<<1)+2];
         indexs[0]=0;
         indexs[1]=weight.length-1;
         int pin=2;
