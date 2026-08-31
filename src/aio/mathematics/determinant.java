@@ -367,7 +367,7 @@ public class determinant implements Comparable<determinant>
     }
     /**
     <p>行列式化简</p><br>
-    <p>此方法会修改调用对象。</p><br>
+    <p>此方法会修改调用对象。</p>
     @return 化简后的系数。
     */
     public int simplify()

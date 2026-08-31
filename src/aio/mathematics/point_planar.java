@@ -26,6 +26,7 @@ public class point_planar
     public double theta;
     /**
     <p>计算极坐标</p><br>
+    <p>此方法会修改调用对象。</p><br>
     通过当前平面点的直角坐标计算其极坐标表示。
     */
     public void calculate_polar_coordinate()
@@ -80,6 +81,7 @@ public class point_planar
     }
     /**
     <p>计算直角坐标</p><br>
+    <p>此方法会修改调用对象。</p><br>
     通过当前平面点的极坐标计算其直角坐标表示。
     */
     public void calculate_cartesian_coordinate()
