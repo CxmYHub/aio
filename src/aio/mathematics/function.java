@@ -162,33 +162,116 @@ public class function
                                 }
                             }
                         }
-                        else
+                        else if(left.type==-1&&right.type==0&&(top.type==1||top.type==3))
+                        {
+                            top.left=right;
+                            top.right=left;
+                        }
+                        else if(left.type<=0&&right.type<=0)
                         {
                             switch(top.type)
                             {
                                 case 1->
                                 {
-                                    
+                                    if(left.value<=0.00000001&&left.value>=-0.00000001)
+                                    {
+                                        top.type=-1;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
                                 }
                                 case 2->
                                 {
-                                    
+                                    if(right.type==0)
+                                    {
+                                        if(right.value<=0.00000001&&right.value>=-0.00000001)
+                                        {
+                                            top.type=-1;
+                                            top.left=null;
+                                            top.right=null;
+                                        }
+                                        else if(right.value<0)
+                                        {
+                                            top.type=1;
+                                            right.value=-right.value;
+                                            top.left=right;
+                                            top.right=left;
+                                        }
+                                    }
                                 }
                                 case 3->
                                 {
-                                    
+                                    if(left.value<=0.00000001&&left.value>=-0.00000001)
+                                    {
+                                        top.type=0;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
+                                    else if(left.value<=1.00000001&&left.value>=0.99999999)
+                                    {
+                                        top.type=-1;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
                                 }
                                 case 4->
                                 {
-                                    
+                                    if(left.type==0&&left.value<=0.00000001&&left.value>=-0.00000001)
+                                    {
+                                        top.type=0;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
+                                    else if(right.type==0&&right.value<=1.00000001&&right.value>=0.99999999)
+                                    {
+                                        top.type=-1;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
                                 }
                                 case 5->
                                 {
-                                    
+                                    if(left.type==0)
+                                    {
+                                        if(left.value<=0.00000001&&left.value>=-0.00000001)
+                                        {
+                                            top.type=0;
+                                            top.left=null;
+                                            top.right=null;
+                                        }
+                                        else if(left.value<=1.00000001&&left.value>=0.99999999)
+                                        {
+                                            top.type=0;
+                                            top.value=1;
+                                            top.left=null;
+                                            top.right=null;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(right.value<=0.00000001&&right.value>=-0.00000001)
+                                        {
+                                            top.type=0;
+                                            top.value=1;
+                                            top.left=null;
+                                            top.right=null;
+                                        }
+                                        else if(right.value<=1.00000001&&right.value>=0.99999999)
+                                        {
+                                            top.type=-1;
+                                            top.left=null;
+                                            top.right=null;
+                                        }
+                                    }
                                 }
                                 case 6->
                                 {
-                                    
+                                    if(left.type==0&&left.value<=1.00000001&&left.value>=0.99999999)
+                                    {
+                                        top.type=-1;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
                                 }
                             }
                         }
@@ -1115,7 +1198,7 @@ public class function
             }
             else if(--generation_count<0)
             {
-                if(population[0].fitness(coordinates_xn,coordinates_yn,0)<0.5)
+                if(population[0].fitness(coordinates_xn,coordinates_yn,0)<0.1)
                 {
                     break;
                 }

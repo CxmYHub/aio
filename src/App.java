@@ -14,7 +14,7 @@ public class App
     public static void main(String args[])
     {
         double x[]={0,1,2,3,4,5,6,7,8,9,10};
-        double y[]={0,1,8,27,64,125,216,343,512,729,1000};
+        double y[]={16,9,4,1,0,1,4,9,16,25,36};
         long count=1;
         long start=System.currentTimeMillis();
         function f=new function(x,y);
