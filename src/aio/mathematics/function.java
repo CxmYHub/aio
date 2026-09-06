@@ -82,195 +82,1266 @@ public class function
                     {
                         expression_tree left=top.left;
                         expression_tree right=top.right;
-                        if(left.type==0&&right.type==0)
+                        if((top.type==1||top.type==2)&&right.value<0)
                         {
-                            switch(top.type)
-                            {
-                                case 1->
-                                {
-                                    top.value=left.value+right.value;
-                                }
-                                case 2->
-                                {
-                                    top.value=left.value-right.value;
-                                }
-                                case 3->
-                                {
-                                    top.value=left.value*right.value;
-                                }
-                                case 4->
-                                {
-                                    top.value=left.value/right.value;
-                                }
-                                case 5->
-                                {
-                                    top.value=Math.pow(left.value,right.value);
-                                }
-                                case 6->
-                                {
-                                    top.value=Math.log(right.value)/Math.log(left.value);
-                                }
-                            }
-                            top.type=0;
-                            count+=2;
-                            top.left=null;
-                            top.right=null;
+                            top.type=3-top.type;
+                            right.value=-right.value;
                         }
-                        else if(left.type==-1&&right.type==-1)
+                        if(left.type<=0&&right.type<=0)
                         {
-                            switch(top.type)
+                            if(left.type==0&&right.type==0)
                             {
-                                case 1->
+                                switch(top.type)
                                 {
-                                    top.type=3;
-                                    left.type=0;
-                                    left.value=2;
-                                    right.type=-1;
-                                    right.value=0;
-                                }
-                                case 2->
-                                {
-                                    top.type=0;
-                                    top.value=0;
-                                    count+=2;
-                                    top.left=null;
-                                    top.right=null;
-                                }
-                                case 3->
-                                {
-                                    top.type=5;
-                                    left.type=-1;
-                                    left.value=0;
-                                    right.type=0;
-                                    right.value=2;
-                                }
-                                case 4->
-                                {
-                                    top.type=0;
-                                    top.value=1;
-                                    count+=2;
-                                    top.left=null;
-                                    top.right=null;
-                                }
-                                case 6->
-                                {
-                                    top.type=0;
-                                    top.value=1;
-                                    count+=2;
-                                    top.left=null;
-                                    top.right=null;
-                                }
-                            }
-                        }
-                        else if(left.type==-1&&right.type==0&&(top.type==1||top.type==3))
-                        {
-                            top.left=right;
-                            top.right=left;
-                        }
-                        else if(left.type<=0&&right.type<=0)
-                        {
-                            switch(top.type)
-                            {
-                                case 1->
-                                {
-                                    if(left.value<=0.00000001&&left.value>=-0.00000001)
+                                    case 1->
                                     {
-                                        top.type=-1;
+                                        top.value=left.value+right.value;
+                                    }
+                                    case 2->
+                                    {
+                                        top.value=left.value-right.value;
+                                    }
+                                    case 3->
+                                    {
+                                        top.value=left.value*right.value;
+                                    }
+                                    case 4->
+                                    {
+                                        top.value=left.value/right.value;
+                                    }
+                                    case 5->
+                                    {
+                                        top.value=Math.pow(left.value,right.value);
+                                    }
+                                    case 6->
+                                    {
+                                        top.value=Math.log(right.value)/Math.log(left.value);
+                                    }
+                                }
+                                top.type=0;
+                                count+=2;
+                                top.left=null;
+                                top.right=null;
+                            }
+                            else if(left.type==-1&&right.type==-1)
+                            {
+                                switch(top.type)
+                                {
+                                    case 1->
+                                    {
+                                        top.type=3;
+                                        left.type=0;
+                                        left.value=2;
+                                        right.type=-1;
+                                        right.value=0;
+                                    }
+                                    case 2->
+                                    {
+                                        top.type=0;
+                                        top.value=0;
+                                        count+=2;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
+                                    case 3->
+                                    {
+                                        top.type=5;
+                                        left.type=-1;
+                                        left.value=0;
+                                        right.type=0;
+                                        right.value=2;
+                                    }
+                                    case 4->
+                                    {
+                                        top.type=0;
+                                        top.value=1;
+                                        count+=2;
+                                        top.left=null;
+                                        top.right=null;
+                                    }
+                                    case 6->
+                                    {
+                                        top.type=0;
+                                        top.value=1;
+                                        count+=2;
                                         top.left=null;
                                         top.right=null;
                                     }
                                 }
-                                case 2->
+                            }
+                            else if(left.type==-1&&right.type==0&&(top.type==1||top.type==3))
+                            {
+                                top.left=right;
+                                top.right=left;
+                            }
+                            else
+                            {
+                                switch(top.type)
                                 {
-                                    if(right.type==0)
+                                    case 1->
                                     {
-                                        if(right.value<=0.00000001&&right.value>=-0.00000001)
+                                        if(left.value<=0.00000001&&left.value>=-0.00000001)
                                         {
                                             top.type=-1;
                                             top.left=null;
                                             top.right=null;
+                                            count+=2;
                                         }
-                                        else if(right.value<0)
+                                    }
+                                    case 2->
+                                    {
+                                        if(right.type==0)
                                         {
-                                            top.type=1;
-                                            right.value=-right.value;
-                                            top.left=right;
-                                            top.right=left;
+                                            if(right.value<=0.00000001&&right.value>=-0.00000001)
+                                            {
+                                                top.type=-1;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=2;
+                                            }
+                                            else if(right.value<0)
+                                            {
+                                                top.type=1;
+                                                right.value=-right.value;
+                                                top.left=right;
+                                                top.right=left;
+                                            }
                                         }
                                     }
-                                }
-                                case 3->
-                                {
-                                    if(left.value<=0.00000001&&left.value>=-0.00000001)
-                                    {
-                                        top.type=0;
-                                        top.left=null;
-                                        top.right=null;
-                                    }
-                                    else if(left.value<=1.00000001&&left.value>=0.99999999)
-                                    {
-                                        top.type=-1;
-                                        top.left=null;
-                                        top.right=null;
-                                    }
-                                }
-                                case 4->
-                                {
-                                    if(left.type==0&&left.value<=0.00000001&&left.value>=-0.00000001)
-                                    {
-                                        top.type=0;
-                                        top.left=null;
-                                        top.right=null;
-                                    }
-                                    else if(right.type==0&&right.value<=1.00000001&&right.value>=0.99999999)
-                                    {
-                                        top.type=-1;
-                                        top.left=null;
-                                        top.right=null;
-                                    }
-                                }
-                                case 5->
-                                {
-                                    if(left.type==0)
+                                    case 3->
                                     {
                                         if(left.value<=0.00000001&&left.value>=-0.00000001)
                                         {
                                             top.type=0;
                                             top.left=null;
                                             top.right=null;
+                                            count+=2;
                                         }
                                         else if(left.value<=1.00000001&&left.value>=0.99999999)
-                                        {
-                                            top.type=0;
-                                            top.value=1;
-                                            top.left=null;
-                                            top.right=null;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if(right.value<=0.00000001&&right.value>=-0.00000001)
-                                        {
-                                            top.type=0;
-                                            top.value=1;
-                                            top.left=null;
-                                            top.right=null;
-                                        }
-                                        else if(right.value<=1.00000001&&right.value>=0.99999999)
                                         {
                                             top.type=-1;
                                             top.left=null;
                                             top.right=null;
+                                            count+=2;
+                                        }
+                                    }
+                                    case 4->
+                                    {
+                                        if(left.type==0&&left.value<=0.00000001&&left.value>=-0.00000001)
+                                        {
+                                            top.type=0;
+                                            top.left=null;
+                                            top.right=null;
+                                            count+=2;
+                                        }
+                                        else if(right.type==0&&right.value<=1.00000001&&right.value>=0.99999999)
+                                        {
+                                            top.type=-1;
+                                            top.left=null;
+                                            top.right=null;
+                                            count+=2;
+                                        }
+                                    }
+                                    case 5->
+                                    {
+                                        if(left.type==0)
+                                        {
+                                            if(left.value<=0.00000001&&left.value>=-0.00000001)
+                                            {
+                                                top.type=0;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=2;
+                                            }
+                                            else if(left.value<=1.00000001&&left.value>=0.99999999)
+                                            {
+                                                top.type=0;
+                                                top.value=1;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if(right.value<=0.00000001&&right.value>=-0.00000001)
+                                            {
+                                                top.type=0;
+                                                top.value=1;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=2;
+                                            }
+                                            else if(right.value<=1.00000001&&right.value>=0.99999999)
+                                            {
+                                                top.type=-1;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                    case 6->
+                                    {
+                                        if(left.type==0&&left.value<=1.00000001&&left.value>=0.99999999)
+                                        {
+                                            top.type=-1;
+                                            top.left=null;
+                                            top.right=null;
+                                            count+=2;
                                         }
                                     }
                                 }
-                                case 6->
+                            }
+                        }
+                        else if(left.type>0&&right.type<=0&&left.left.type<=0&&left.right.type<=0)
+                        {
+                            expression_tree left_left=left.left;
+                            expression_tree left_right=left.right;
+                            switch(top.type)
+                            {
+                                case 1->
                                 {
-                                    if(left.type==0&&left.value<=1.00000001&&left.value>=0.99999999)
+                                    switch(left.type)
                                     {
-                                        top.type=-1;
-                                        top.left=null;
-                                        top.right=null;
+                                        case 1->
+                                        {
+                                            if(right.type==0)
+                                            {
+                                                left.value=left_left.value+right.value;
+                                                right.type=-1;
+                                                right.value=0;
+                                            }
+                                            else
+                                            {
+                                                right.type=3;
+                                                left.type=0;
+                                                left_left.value=2;
+                                                right.left=left_left;
+                                                right.right=left_right;
+                                            }
+                                            left.type=0;
+                                            left.left=null;
+                                            left.right=null;
+                                            count+=2;
+                                        }
+                                        case 2->
+                                        {
+                                            if(left_left.type==0&&right.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=left_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else if(left_right.type==0&&right.type==-1)
+                                            {
+                                                top.type=2;
+                                                right.type=0;
+                                                right.value=left_right.value;
+                                                left.type=3;
+                                                left_left.type=0;
+                                                left_left.value=2;
+                                                left_right.type=-1;
+                                                left_right.value=0;
+                                            }
+                                            else if(left_left.type==0&&right.type==0)
+                                            {
+                                                top.type=2;
+                                                left.type=0;
+                                                left.value=left_left.value+right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=-1;
+                                                right.value=0;
+                                                count+=2;
+                                            }
+                                            else if(left_right.type==0&&right.type==0)
+                                            {
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.value-=left_right.value;
+                                                if(right.value<0)
+                                                {
+                                                    right.value=-right.value;
+                                                    top.type=2;
+                                                }
+                                                count+=2;
+                                            }
+                                        }
+                                        case 3->
+                                        {
+                                            if(right.type==-1)
+                                            {
+                                                top.type=3;
+                                                left.type=0;
+                                                left.value=left_left.value+1;
+                                                left.left=null;
+                                                left.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left_left.type==-1&&right.type==-1)
+                                            {
+                                                top.type=3;
+                                                left.type=0;
+                                                left.value=1/left_right.value+1;
+                                                left.left=null;
+                                                left.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 2->
+                                {
+                                    switch(left.type)
+                                    {
+                                        case 1->
+                                        {
+                                            if(right.type==0)
+                                            {
+                                                right.value-=left_left.value;
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                if(right.value<0)
+                                                {
+                                                    top.type=1;
+                                                    right.value=-right.value;
+                                                }
+                                                count+=2;
+                                            }
+                                            else
+                                            {
+                                                top.type=0;
+                                                top.value=left_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                        }
+                                        case 2->
+                                        {
+                                            if(left_left.type==0&&right.type==-1)
+                                            {
+                                                left.type=0;
+                                                left.value=left_left.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=3;
+                                                left_left.value=2;
+                                                right.left=left_left;
+                                                right.right=left_right;
+                                            }
+                                            else if(left_right.type==0&&right.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=-left_right.value;
+                                                top.left=null;
+                                                top.right=null;
+                                            }
+                                            else if(left_left.type==0&&right.type==0)
+                                            {
+                                                left.type=0;
+                                                left.value=left_left.value-right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=-1;
+                                                right.value=0;
+                                                count+=2;
+                                            }
+                                            else if(left_right.type==0&&right.type==0)
+                                            {
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.value+=left_right.value;
+                                                if(right.value<0)
+                                                {
+                                                    right.value=-right.value;
+                                                    top.type=1;
+                                                }
+                                                count+=2;
+                                            }
+                                        }
+                                        case 3->
+                                        {
+                                            if(right.type==-1)
+                                            {
+                                                top.type=3;
+                                                left.type=0;
+                                                left.value=left_left.value-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left_left.type==-1&&right.type==-1)
+                                            {
+                                                top.type=3;
+                                                left.type=0;
+                                                left.value=1/left_right.value-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 3->
+                                {
+                                    switch(left.type)
+                                    {
+                                        case 1->
+                                        {
+                                            top.type=1;
+                                            if(right.type==0)
+                                            {
+                                                left.type=0;
+                                                left.value=left_left.value*right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=3;
+                                                left_left.value=right.value;
+                                                right.value=0;
+                                                right.left=left_left;
+                                                right.right=left_right;
+                                            }
+                                            else
+                                            {
+                                                left.type=3;
+                                                right.type=5;
+                                                right.left=new expression_tree(-1);
+                                                right.right=new expression_tree(0,2);
+                                            }
+                                        }
+                                        case 2->
+                                        {
+                                            if(left_left.type==0&&right.type==-1)
+                                            {
+                                                top.type=2;
+                                                left.type=3;
+                                                right.type=5;
+                                                right.left=new expression_tree(-1);
+                                                right.right=new expression_tree(0,2);
+                                            }
+                                            else if(left_right.type==0&&right.type==-1)
+                                            {
+                                                top.type=2;
+                                                left.type=5;
+                                                right.type=3;
+                                                right.left=new expression_tree(0,left_right.value);
+                                                right.right=new expression_tree(-1);
+                                                left_right.value=2;
+                                            }
+                                            else if(left_left.type==0&&right.type==0)
+                                            {
+                                                top.type=2;
+                                                left.type=0;
+                                                left.value=left_left.value*right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=3;
+                                                left_left.value=right.value;
+                                                right.left=left_left;
+                                                right.right=left_right;
+                                                right.value=0;
+                                            }
+                                            else if(left_right.type==0&&right.type==0)
+                                            {
+                                                top.type=2;
+                                                left.type=3;
+                                                left_left.type=0;
+                                                left_left.value=right.value;
+                                                left_right.type=-1;
+                                                right.value*=left_right.value;
+                                                left_right.value=0;
+                                            }
+                                        }
+                                        case 3->
+                                        {
+                                            if(right.type==-1)
+                                            {
+                                                left.type=0;
+                                                left.value=left_left.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=5;
+                                                left_left.type=-1;
+                                                left_left.value=0;
+                                                right.left=left_left;
+                                                left_right.type=0;
+                                                left_right.value=2;
+                                                right.right=left_right;
+                                            }
+                                            else
+                                            {
+                                                left.type=0;
+                                                left.value=left_left.value*right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=-1;
+                                                right.value=0;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left_left.type==-1&&right.type==-1)
+                                            {
+                                                top.type=4;
+                                                right.type=0;
+                                                right.value=left_right.value;
+                                                left.type=5;
+                                                left_right.value=2;
+                                            }
+                                            else if(left_right.type==-1&&right.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=left_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else if(left_left.type==0&&right.type==0)
+                                            {
+                                                top.type=4;
+                                                left.type=0;
+                                                left.value=left_left.value*right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=-1;
+                                                right.value=0;
+                                                count+=2;
+                                            }
+                                            else
+                                            {
+                                                left.type=0;
+                                                left.value=right.value/left_right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=-1;
+                                                right.value=0;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 5->
+                                        {
+                                            if(left_left.type==-1&&left_right.type==0&&right.type==-1)
+                                            {
+                                                top.type=5;
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=0;
+                                                right.value=left_right.value+1;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 4->
+                                {
+                                    switch(left.type)
+                                    {
+                                        case 1->
+                                        {
+                                            top.type=1;
+                                            if(right.type==0)
+                                            {
+                                                left.type=0;
+                                                left.value=left_left.value/right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=4;
+                                                left_left.type=-1;
+                                                left_left.value=0;
+                                                right.left=left_left;
+                                                left_right.type=0;
+                                                left_right.value=right.value;
+                                                right.right=left_right;
+                                                right.value=0;
+                                            }
+                                            else
+                                            {
+                                                left.type=0;
+                                                left.value=1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=4;
+                                                right.left=left_left;
+                                                right.right=left_right;
+                                            }
+                                        }
+                                        case 2->
+                                        {
+                                            if(left_left.type==0&&right.type==-1)
+                                            {
+                                                top.type=2;
+                                                left.type=4;
+                                                right.type=0;
+                                                right.value=1;
+                                            }
+                                            else if(left_right.type==0&&right.type==-1)
+                                            {
+                                                top.type=2;
+                                                left.type=0;
+                                                left.value=1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=4;
+                                                left_left.type=0;
+                                                left_left.value=left_right.value;
+                                                right.left=left_left;
+                                                left_right.type=-1;
+                                                left_right.value=0;
+                                                right.right=left_right;
+                                            }
+                                            else if(left_left.type==0&&right.type==0)
+                                            {
+                                                top.type=2;
+                                                left.type=0;
+                                                left.value=left_left.value/right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=4;
+                                                left_left.type=-1;
+                                                left_left.value=0;
+                                                right.left=left_left;
+                                                left_right.type=0;
+                                                left_right.value=right.value;
+                                                right.right=left_right;
+                                                right.value=0;
+                                            }
+                                            else if(left_right.type==0&&right.type==0)
+                                            {
+                                                top.type=2;
+                                                left.type=4;
+                                                double temp=left_right.value;
+                                                left_right.value=right.value;
+                                                right.value=temp/right.value;
+                                            }
+                                        }
+                                        case 3->
+                                        {
+                                            if(right.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=left_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else
+                                            {
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.value/=left_left.value;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left_left.type==-1&&right.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=1/left_right.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else if(left_right.type==-1&&right.type==-1)
+                                            {
+                                                top.type=4;
+                                                left.type=0;
+                                                left.value=left_left.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=5;
+                                                left_left.type=-1;
+                                                left_left.value=0;
+                                                right.left=left_left;
+                                                left_right.type=0;
+                                                left_right.value=2;
+                                                right.right=left_right;
+                                            }
+                                            else if(left_left.type==0&&right.type==0)
+                                            {
+                                                top.type=4;
+                                                left.type=0;
+                                                left.value=left_left.value/right.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=-1;
+                                                right.value=0;
+                                                count+=2;
+                                            }
+                                            else
+                                            {
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=0;
+                                                right.value*=left_right.value;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 5->
+                                        {
+                                            if(left_left.type==-1&&left_right.type==0&&right.type==-1)
+                                            {
+                                                top.type=5;
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=0;
+                                                right.value=left_right.value-1;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 5->
+                                {
+                                    switch(left.type)
+                                    {
+                                        case 3->
+                                        {
+                                            if(right.type==0)
+                                            {
+                                                top.type=3;
+                                                left.type=0;
+                                                left.value=Math.pow(left_left.value,right.value);
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=5;
+                                                left_left.type=-1;
+                                                left_left.value=0;
+                                                right.left=left_left;
+                                                left_right.type=0;
+                                                left_right.value=right.value;
+                                                right.right=left_right;
+                                                right.value=0;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left_left.type==0&&right.type==0)
+                                            {
+                                                top.type=4;
+                                                left.type=0;
+                                                left.value=Math.pow(left_left.value,right.value);
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=5;
+                                                left_left.type=-1;
+                                                left_left.value=0;
+                                                right.left=left_left;
+                                                left_right.type=0;
+                                                left_right.value=right.value;
+                                                right.right=left_right;
+                                                right.value=0;
+                                            }
+                                            else if(left_right.type==0&&right.type==0)
+                                            {
+                                                top.type=4;
+                                                left.type=5;
+                                                double temp=left_right.value;
+                                                left_right.value=right.value;
+                                                right.value=Math.pow(temp,right.value);
+                                            }
+                                        }
+                                        case 5->
+                                        {
+                                            if(left_left.type==-1&&left_right.type==0&&right.type==0)
+                                            {
+                                                left.type=-1;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.value*=left_right.value;
+                                                count+=2;
+                                            }
+                                            else if(left_left.type==0&&left_right.type==-1&&right.type==-1)
+                                            {
+                                                left.type=0;
+                                                left.value=left_left.value;
+                                                left.left=null;
+                                                left.right=null;
+                                                right.type=5;
+                                                left_left.type=-1;
+                                                left_left.value=0;
+                                                right.left=left_left;
+                                                left_right.type=0;
+                                                left_right.value=2;
+                                                right.right=left_right;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if(left.type<=0&&right.type>0&&right.left.type<=0&&right.right.type<=0)
+                        {
+                            expression_tree right_left=right.left;
+                            expression_tree right_right=right.right;
+                            switch(top.type)
+                            {
+                                case 1->
+                                {
+                                    switch(right.type)
+                                    {
+                                        case 1->
+                                        {
+                                            if(left.type==0)
+                                            {
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value+=right_left.value;
+                                                count+=2;
+                                            }
+                                            else
+                                            {
+                                                right.type=3;
+                                                right_left.value=2;
+                                                left.type=0;
+                                                left.value=right_left.value;
+                                            }
+                                        }
+                                        case 2->
+                                        {
+                                            if(left.type==-1&&right_left.type==0)
+                                            {
+                                                top.type=0;
+                                                top.value=right_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else if(left.type==-1&&right_right.type==0)
+                                            {
+                                                top.type=2;
+                                                right.type=0;
+                                                right.value=right_right.value;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.type=3;
+                                                right_left.type=0;
+                                                right_left.value=2;
+                                                left.left=right_left;
+                                                right_right.type=-1;
+                                                right_right.value=0;
+                                                left.right=right_right;
+                                            }
+                                            else if(left.type==0&&right_left.type==0)
+                                            {
+                                                top.type=2;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value+=right_left.value;
+                                                count+=2;
+                                            }
+                                            else if(left.type==0&&right_right.type==0)
+                                            {
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value-=right_right.value;
+                                                if(left.value<0)
+                                                {
+                                                    left.value=-left.value;
+                                                    top.type=2;
+                                                    top.left=right;
+                                                    top.right=left;
+                                                }
+                                                count+=2;
+                                            }
+                                        }
+                                        case 3->
+                                        {
+                                            if(left.type==-1)
+                                            {
+                                                top.type=3;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.type=0;
+                                                left.value=right_left.value+1;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left.type==-1&&right_left.type==-1)
+                                            {
+                                                top.type=3;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.type=0;
+                                                left.value=1/right_right.value+1;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 2->
+                                {
+                                    switch(right.type)
+                                    {
+                                        case 1->
+                                        {
+                                            if(left.type==0)
+                                            {
+                                                left.value-=right_left.value;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                            else
+                                            {
+                                                top.type=0;
+                                                top.value=-right_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                        }
+                                        case 2->
+                                        {
+                                            if(left.type==-1&&right_left.type==0)
+                                            {
+                                                top.type=2;
+                                                right.type=0;
+                                                right.value=right_left.value;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.type=3;
+                                                right_left.type=0;
+                                                right_left.value=2;
+                                                left.left=right_left;
+                                                left.right=right_right;
+                                            }
+                                            else if(left.type==-1&&right_right.type==0)
+                                            {
+                                                top.type=0;
+                                                top.value=right_right.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else if(left.type==0&&right_left.type==0)
+                                            {
+                                                top.type=1;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value-=right_left.value;
+                                                count+=2;
+                                            }
+                                            else if(left.type==0&&right_right.type==0)
+                                            {
+                                                left.value+=right_right.value;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 3->
+                                        {
+                                            if(left.type==-1)
+                                            {
+                                                top.type=3;
+                                                left.type=0;
+                                                left.value=1-right_left.value;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left.type==-1&&right_left.type==-1)
+                                            {
+                                                top.type=3;
+                                                left.type=0;
+                                                left.value=1-1/right_right.value;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 3->
+                                {
+                                    switch(right.type)
+                                    {
+                                        case 1->
+                                        {
+                                            top.type=1;
+                                            if(left.type==0)
+                                            {
+                                                right.type=3;
+                                                double temp=right_left.value;
+                                                right_left.value=left.value;
+                                                left.value*=temp;
+                                            }
+                                            else
+                                            {
+                                                right.type=3;
+                                                left.type=5;
+                                                left.left=new expression_tree(-1);
+                                                left.right=new expression_tree(0,2);
+                                                count-=2;
+                                            }
+                                        }
+                                        case 2->
+                                        {
+                                            if(left.type==-1&&right_left.type==0)
+                                            {
+                                                top.type=2;
+                                                left.type=3;
+                                                left.left=new expression_tree(0,right_left.value);
+                                                left.right=new expression_tree(-1);
+                                                right.type=5;
+                                                right_left.type=-1;
+                                                right_left.value=0;
+                                                right_right.value=2;
+                                                count-=2;
+                                            }
+                                            else if(left.type==-1&&right_right.type==0)
+                                            {
+                                                top.type=2;
+                                                right_left.type=0;
+                                                right_left.value=left.value;
+                                                right_right.type=-1;
+                                                right_right.value=0;
+                                                left.type=5;
+                                                left.right=new expression_tree(-1);
+                                                left.left=new expression_tree(0,2);
+                                                left.type=3;
+                                                count-=2;
+                                            }
+                                            else if(left.type==0&&right_left.type==0)
+                                            {
+                                                top.type=2;
+                                                right.type=3;
+                                                double temp=right_left.value;
+                                                right_left.value=left.value;
+                                                left.value*=temp;
+                                            }
+                                            else if(left.type==0&&right_right.type==0)
+                                            {
+                                                top.type=2;
+                                                right.type=0;
+                                                right.value=left.value*right_right.value;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.type=3;
+                                                right_left.type=0;
+                                                right_left.value=left.value;
+                                                left.left=right_left;
+                                                right_right.type=-1;
+                                                right_right.value=0;
+                                                left.right=right_right;
+                                                left.value=0;
+                                            }
+                                        }
+                                        case 3->
+                                        {
+                                            if(left.type==-1)
+                                            {
+                                                left.type=0;
+                                                left.value=right_left.value;
+                                                right.type=5;
+                                                right_left.type=-1;
+                                                right_left.value=0;
+                                                right_right.type=0;
+                                                right_right.value=2;
+                                            }
+                                            else
+                                            {
+                                                left.value*=right_left.value;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left.type==-1&&right_left.type==-1)
+                                            {
+                                                top.type=4;
+                                                right.type=0;
+                                                right.value=right_right.value;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.type=5;
+                                                left.left=right_left;
+                                                right_right.value=2;
+                                                left.right=right_right;
+                                            }
+                                            else if(right_right.type==-1&&left.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=right_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else if(left.type==0&&right_left.type==0)
+                                            {
+                                                top.type=4;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value*=right_left.value;
+                                                count+=2;
+                                            }
+                                            else
+                                            {
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value/=right_right.value;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 5->
+                                        {
+                                            if(left.type==-1&&right_left.type==-1&&right_right.type==0)
+                                            {
+                                                top.type=5;
+                                                right.type=0;
+                                                right.value=right_right.value+1;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 4->
+                                {
+                                    switch(right.type)
+                                    {
+                                        case 3->
+                                        {
+                                            if(left.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=1/right_left.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else
+                                            {
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value/=right_left.value;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left.type==-1&&right_left.type==-1)
+                                            {
+                                                top.type=0;
+                                                top.value=right_right.value;
+                                                top.left=null;
+                                                top.right=null;
+                                                count+=4;
+                                            }
+                                            else if(right_right.type==-1&&left.type==-1)
+                                            {
+                                                top.type=4;
+                                                right.type=0;
+                                                right.value=right_left.value;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.type=5;
+                                                right_left.type=-1;
+                                                right_left.value=0;
+                                                left.left=right_left;
+                                                right_right.type=0;
+                                                right_right.value=2;
+                                                left.right=right_right;
+                                            }
+                                            else if(left.type==0&&right_left.type==0)
+                                            {
+                                                top.type=3;
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value/=right_left.value;
+                                                count+=2;
+                                            }
+                                            else
+                                            {
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value*=right_right.value;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 5->
+                                        {
+                                            if(left.type==-1&&right_left.type==-1&&right_right.type==0)
+                                            {
+                                                top.type=5;
+                                                right.type=0;
+                                                right.value=1-right_right.value;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                    }
+                                }
+                                case 5->
+                                {
+                                    switch(right.type)
+                                    {
+                                        case 3->
+                                        {
+                                            if(left.type==0)
+                                            {
+                                                left.value=Math.pow(left.value,right_left.value);
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                count+=2;
+                                            }
+                                        }
+                                        case 4->
+                                        {
+                                            if(left.type==0&&right_right.type==0)
+                                            {
+                                                right.type=-1;
+                                                right.left=null;
+                                                right.right=null;
+                                                left.value=Math.pow(left.value,1/right_right.value);
+                                                count+=2;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -542,7 +1613,7 @@ public class function
             return this;
         }
         /**
-        <p>计算方法</p><br>
+        <p>表达式树值计算</p><br>
         计算指定自变量的表达式树的值。
         @param x 自变量值。
         @return 指定自变量的表达式树的值。
@@ -607,6 +1678,10 @@ public class function
                         case 4->
                         {
                             double divisor=result[--count];
+                            if(divisor==0)
+                            {
+                                return Double.NaN;
+                            }
                             double dividend=result[--count];
                             result[count++]=dividend/divisor;
                         }
@@ -614,12 +1689,20 @@ public class function
                         {
                             double exponential=result[--count];
                             double base=result[--count];
+                            if(base==0&&exponential==0)
+                            {
+                                return Double.NaN;
+                            }
                             result[count++]=Math.pow(base,exponential);
                         }
                         case 6->
                         {
                             double power=result[--count];
                             double base=result[--count];
+                            if(power<=0||base==1||base<=0)
+                            {
+                                return Double.NaN;
+                            }
                             result[count++]=Math.log(power)/Math.log(base);
                         }
                     }
@@ -627,7 +1710,7 @@ public class function
                     pin--;
                 }
             }
-            return Double.isNaN(result[0])?Double.MAX_VALUE:result[0];
+            return Double.isNaN(result[0])?Double.NaN:result[0];
         }
         /**
         <p>适应度计算</p><br>
@@ -812,7 +1895,7 @@ public class function
                     pin--;
                 }
             }
-            return "y="+result[0];
+            return result[0];
         }
         /**
         <p>深拷贝表达式树</p>
@@ -867,29 +1950,30 @@ public class function
     /**
     <p>遗传算法种群规模</p>
     */
-    public static int population_size=5000;
+    public static int population_size=6000;
     /**
     <p>遗传算法最大迭代次数</p>
     */
-    public static int max_generation=65536;
+    public static int max_generation=86400000;
     /**
     <p>遗传算法最佳个体保留比例</p><br>
     亲代最适应个体的比例。
     */
     public static double best_rate=0.005;
     /**
-    <p>遗传算法个体选择率</p>
+    <p>遗传算法个体选择率</p><br>
+    迭代时单次竞争中选择的个体数量的倒数。
     */
-    public static double survival_rate=0.05;
+    public static double survival_rate=0.02;
     /**
     <p>遗传算法新个体生成比例</p><br>
     迭代时新增野生个体的比例。
     */
-    public static double new_individual_rate=0.1;
+    public static double new_individual_rate=0.2;
     /**
     <p>遗传算法交叉互换概率</p>
     */
-    public static double crossover_rate=0.8;
+    public static double crossover_rate=0.7;
     /**
     <p>遗传算法突变概率</p>
     */
@@ -897,7 +1981,7 @@ public class function
     /**
     <p>遗传算法最大树深度限制</p>
     */
-    public static int max_tree_depth=6;
+    public static int max_tree_depth=7;
     /**
     <p>函数表达式树</p><br>
     本一元实函数对象的表达式树。
@@ -934,306 +2018,311 @@ public class function
     public function(double coordinates_xn[],double coordinates_yn[])
     {
         int count=coordinates_xn.length;
-        double average_x=0;
-        double average_y=0;
+        double local_mutation_rate=mutation_rate;
+        double max_x=-Double.MAX_VALUE,min_x=Double.MAX_VALUE;
+        double max_y=-Double.MAX_VALUE,min_y=Double.MAX_VALUE;
         for(int i=0;i<count;i++)
         {
-            average_x+=coordinates_xn[i];
-            average_y+=coordinates_yn[i];
+            double now_x=coordinates_xn[i];
+            double now_y=coordinates_yn[i];
+            max_x=now_x>max_x?now_x:max_x;
+            min_x=now_x<min_x?now_x:min_x;
+            max_y=now_y>max_y?now_y:max_y;
+            min_y=now_y<min_y?now_y:min_y;
         }
-        average_x/=count;
-        average_y/=count;
-        double constant_range=Math.sqrt(average_x*average_y>=0?average_x*average_y:-average_x*average_y);
-        int best_count=(int)(population_size*best_rate);
-        int new_count=(int)(population_size*new_individual_rate);
-        int mutate_edge=best_count+new_count;
-        int tournament_size=(int)(1/survival_rate);
-        expression_tree population[]=new expression_tree[population_size];
-        expression_tree next_generation[]=new expression_tree[population_size];
-        double fitness[]=new double[population_size];
-        int indexs[]=new int[(fitness.length<<1)+2];
-        double global_min_fitness=Double.MAX_VALUE;
-        int generation_count=max_generation;
-        for(int i=0;i<population_size;i++)
+        double constant_range=(max_y-min_y)*2;
+        if(constant_range==0)
         {
-            population[i]=new expression_tree(max_tree_depth,RNG.nextBoolean(),0.7,constant_range);
+            function_tree=new expression_tree(0,max_y);
+            fitness=0;
         }
-        for(int generation=0;generation<max_generation;generation++)
+        else
         {
-            for(int i=generation==0?0:best_count;i<population_size;i++)
+            double middle_y=(max_y+min_y)/2;
+            int best_count=(int)(population_size*best_rate);
+            int new_count=(int)(population_size*new_individual_rate);
+            int mutate_edge=best_count+new_count;
+            int tournament_size=(int)(1/survival_rate);
+            expression_tree population[]=new expression_tree[population_size];
+            expression_tree next_generation[]=new expression_tree[population_size];
+            double fitness[]=new double[population_size];
+            int indexs[]=new int[(fitness.length<<1)+2];
+            double global_min_fitness=Double.MAX_VALUE;
+            int generation_count=max_generation;
+            for(int i=0;i<population_size;i++)
             {
-                double now_fitness=population[i].fitness(coordinates_xn,coordinates_yn,0.5);
-                if(Double.isNaN(now_fitness)||Double.isInfinite(now_fitness))
-                {
-                    now_fitness=Double.MAX_VALUE;
-                }
-                fitness[i]=now_fitness;
+                population[i]=new expression_tree(max_tree_depth,RNG.nextBoolean(),0.7,constant_range);
             }
-            indexs[0]=0;
-            indexs[1]=fitness.length-1;
-            int pin=2;
-            while(pin>1)
+            for(int generation=0;generation<max_generation;generation++)
             {
-                int index_right=indexs[--pin];
-                int index_left=indexs[--pin];
-                if(index_left<index_right)
+                for(int i=generation==0?0:best_count;i<population_size;i++)
                 {
-                    int length=index_right-index_left+1;
-                    double temp;
-                    expression_tree temp_tree;
-                    if(length<5&&fitness[index_left]>fitness[index_right])
+                    double now_fitness=population[i].fitness(coordinates_xn,coordinates_yn,0.5);
+                    if(Double.isNaN(now_fitness)||Double.isInfinite(now_fitness))
                     {
-                        temp=fitness[index_left];
-                        temp_tree=population[index_left];
-                        fitness[index_left]=fitness[index_right];
-                        population[index_left]=population[index_right];
-                        fitness[index_right]=temp;
-                        population[index_right]=temp_tree;
+                        now_fitness=Double.MAX_VALUE;
                     }
-                    double pivot1=fitness[index_left];
-                    double pivot2=fitness[index_right];
-                    if(length>=5)
+                    fitness[i]=now_fitness;
+                }
+                indexs[0]=0;
+                indexs[1]=fitness.length-1;
+                int pin=2;
+                while(pin>1)
+                {
+                    int index_right=indexs[--pin];
+                    int index_left=indexs[--pin];
+                    if(index_left<index_right)
                     {
-                        int fifth[]={index_left,index_left+(length>>2),index_left+(length>>1),index_right-(length>>2),index_right};
-                        double a=fitness[fifth[0]],b=fitness[fifth[1]],c=fitness[fifth[2]],d=fitness[fifth[3]],e=fitness[fifth[4]];
-                        double less_win1,less_lose1,less_win2,less_lose2,less_candidate1,less_candidate2,min1,great_candidate1,great_candidate2,great_candidate3,max1;
-                        if(a<b)
+                        int length=index_right-index_left+1;
+                        double temp;
+                        expression_tree temp_tree;
+                        if(length<5&&fitness[index_left]>fitness[index_right])
                         {
-                            less_win1=a;
-                            less_lose1=b;
+                            temp=fitness[index_left];
+                            temp_tree=population[index_left];
+                            fitness[index_left]=fitness[index_right];
+                            population[index_left]=population[index_right];
+                            fitness[index_right]=temp;
+                            population[index_right]=temp_tree;
                         }
-                        else
+                        double pivot1=fitness[index_left];
+                        double pivot2=fitness[index_right];
+                        if(length>=5)
                         {
-                            less_win1=b;
-                            less_lose1=a;
-                        }
-                        if(c<d)
-                        {
-                            less_win2=c;
-                            less_lose2=d;
-                        }
-                        else
-                        {
-                            less_win2=d;
-                            less_lose2=c;
-                        }
-                        if(less_win1<less_win2)
-                        {
-                            min1=less_win1;
-                            less_candidate1=less_win2;
-                            less_candidate2=less_lose1;
-                            great_candidate1=less_lose2;
-                        }
-                        else
-                        {
-                            min1=less_win2;
-                            less_candidate1=less_win1;
-                            less_candidate2=less_lose2;
-                            great_candidate1=less_lose1;
-                        }
-                        if(e<min1)
-                        {
-                            pivot1=min1;
-                            min1=e;
-                            great_candidate2=less_candidate1;
-                            great_candidate3=less_candidate2;
-                        }
-                        else if(e<less_candidate1)
-                        {
-                            pivot1=e<less_candidate2?e:less_candidate2;
-                            great_candidate2=less_candidate1;
-                            great_candidate3=e>less_candidate2?e:less_candidate2;
-                        }
-                        else
-                        {
-                            pivot1=less_candidate1<less_candidate2?less_candidate1:less_candidate2;
-                            great_candidate2=e;
-                            great_candidate3=less_candidate1>less_candidate2?less_candidate1:less_candidate2;
-                        }
-                        if(great_candidate1>great_candidate2)
-                        {
-                            if(great_candidate2>great_candidate3)
+                            int fifth[]={index_left,index_left+(length>>2),index_left+(length>>1),index_right-(length>>2),index_right};
+                            double a=fitness[fifth[0]],b=fitness[fifth[1]],c=fitness[fifth[2]],d=fitness[fifth[3]],e=fitness[fifth[4]];
+                            double less_win1,less_lose1,less_win2,less_lose2,less_candidate1,less_candidate2,min1,great_candidate1,great_candidate2,great_candidate3,max1;
+                            if(a<b)
                             {
-                                max1=great_candidate1;
-                                pivot2=great_candidate2;
-                            }
-                            else if(great_candidate3>great_candidate1)
-                            {
-                                max1=great_candidate3;
-                                pivot2=great_candidate1;
+                                less_win1=a;
+                                less_lose1=b;
                             }
                             else
                             {
-                                max1=great_candidate1;
-                                pivot2=great_candidate3;
+                                less_win1=b;
+                                less_lose1=a;
                             }
-                        }
-                        else
-                        {
-                            if(great_candidate2<great_candidate3)
+                            if(c<d)
                             {
-                                max1=great_candidate3;
-                                pivot2=great_candidate2;
-                            }
-                            else if(great_candidate3<great_candidate1)
-                            {
-                                max1=great_candidate2;
-                                pivot2=great_candidate1;
+                                less_win2=c;
+                                less_lose2=d;
                             }
                             else
                             {
-                                max1=great_candidate2;
-                                pivot2=great_candidate3;
+                                less_win2=d;
+                                less_lose2=c;
                             }
-                        }
-                        if(pivot1==pivot2)
-                        {
-                            pivot1=min1;
-                            pivot2=max1;
-                        }
-                        for(int pivot_index=0;pivot_index<5;pivot_index++)
-                        {
-                            if(pivot1==fitness[fifth[pivot_index]])
+                            if(less_win1<less_win2)
                             {
-                                fitness[fifth[pivot_index]]=fitness[index_left];
-                                fitness[index_left]=pivot1;
-                                break;
+                                min1=less_win1;
+                                less_candidate1=less_win2;
+                                less_candidate2=less_lose1;
+                                great_candidate1=less_lose2;
                             }
-                        }
-                        for(int pivot_index=4;pivot_index>=0;pivot_index--)
-                        {
-                            if(pivot2==fitness[fifth[pivot_index]])
+                            else
                             {
-                                fitness[fifth[pivot_index]]=fitness[index_right];
-                                fitness[index_right]=pivot2;
-                                break;
+                                min1=less_win2;
+                                less_candidate1=less_win1;
+                                less_candidate2=less_lose2;
+                                great_candidate1=less_lose1;
                             }
-                        }
-                    }
-                    int left=index_left;
-                    int right=index_right;
-                    int k=index_left+1;
-                    boolean back=false;
-                    while(k<right)
-                    {
-                        if(fitness[k]<pivot1)
-                        {
-                            temp=fitness[++left];
-                            temp_tree=population[left];
-                            fitness[left]=fitness[k];
-                            population[left]=population[k];
-                            fitness[k]=temp;
-                            population[k++]=temp_tree;
-                        }
-                        else if(fitness[k]<=pivot2)
-                        {
-                            k++;
-                        }
-                        else
-                        {
-                            back=false;
-                            while(fitness[--right]>pivot2)
+                            if(e<min1)
                             {
-                                if(k>=right)
+                                pivot1=min1;
+                                min1=e;
+                                great_candidate2=less_candidate1;
+                                great_candidate3=less_candidate2;
+                            }
+                            else if(e<less_candidate1)
+                            {
+                                pivot1=e<less_candidate2?e:less_candidate2;
+                                great_candidate2=less_candidate1;
+                                great_candidate3=e>less_candidate2?e:less_candidate2;
+                            }
+                            else
+                            {
+                                pivot1=less_candidate1<less_candidate2?less_candidate1:less_candidate2;
+                                great_candidate2=e;
+                                great_candidate3=less_candidate1>less_candidate2?less_candidate1:less_candidate2;
+                            }
+                            if(great_candidate1>great_candidate2)
+                            {
+                                if(great_candidate2>great_candidate3)
                                 {
-                                    back=true;
-                                    break;
+                                    max1=great_candidate1;
+                                    pivot2=great_candidate2;
                                 }
-                            }
-                            if(!back)
-                            {
-                                if(fitness[right]<pivot1)
+                                else if(great_candidate3>great_candidate1)
                                 {
-                                    temp=fitness[right];
-                                    temp_tree=population[right];
-                                    fitness[right]=fitness[k];
-                                    population[right]=population[k];
-                                    fitness[k]=fitness[++left];
-                                    population[k]=population[left];
-                                    fitness[left]=temp;
-                                    population[left]=temp_tree;
+                                    max1=great_candidate3;
+                                    pivot2=great_candidate1;
                                 }
                                 else
                                 {
-                                    temp=fitness[right];
-                                    temp_tree=population[right];
-                                    fitness[right]=fitness[k];
-                                    population[right]=population[k];
-                                    fitness[k]=temp;
-                                    population[k]=temp_tree;
+                                    max1=great_candidate1;
+                                    pivot2=great_candidate3;
                                 }
-                                k++;
+                            }
+                            else
+                            {
+                                if(great_candidate2<great_candidate3)
+                                {
+                                    max1=great_candidate3;
+                                    pivot2=great_candidate2;
+                                }
+                                else if(great_candidate3<great_candidate1)
+                                {
+                                    max1=great_candidate2;
+                                    pivot2=great_candidate1;
+                                }
+                                else
+                                {
+                                    max1=great_candidate2;
+                                    pivot2=great_candidate3;
+                                }
+                            }
+                            if(pivot1==pivot2)
+                            {
+                                pivot1=min1;
+                                pivot2=max1;
+                            }
+                            for(int pivot_index=0;pivot_index<5;pivot_index++)
+                            {
+                                if(pivot1==fitness[fifth[pivot_index]])
+                                {
+                                    fitness[fifth[pivot_index]]=fitness[index_left];
+                                    fitness[index_left]=pivot1;
+                                    temp_tree=population[fifth[pivot_index]];
+                                    population[fifth[pivot_index]]=population[index_left];
+                                    population[index_left]=temp_tree;
+                                    break;
+                                }
+                            }
+                            for(int pivot_index=4;pivot_index>=0;pivot_index--)
+                            {
+                                if(pivot2==fitness[fifth[pivot_index]])
+                                {
+                                    fitness[fifth[pivot_index]]=fitness[index_right];
+                                    fitness[index_right]=pivot2;
+                                    temp_tree=population[fifth[pivot_index]];
+                                    population[fifth[pivot_index]]=population[index_right];
+                                    population[index_right]=temp_tree;
+                                    break;
+                                }
                             }
                         }
+                        int left=index_left;
+                        int right=index_right;
+                        int k=index_left+1;
+                        boolean back=false;
+                        while(k<right)
+                        {
+                            if(fitness[k]<pivot1)
+                            {
+                                temp=fitness[++left];
+                                temp_tree=population[left];
+                                fitness[left]=fitness[k];
+                                population[left]=population[k];
+                                fitness[k]=temp;
+                                population[k++]=temp_tree;
+                            }
+                            else if(fitness[k]<=pivot2)
+                            {
+                                k++;
+                            }
+                            else
+                            {
+                                back=false;
+                                while(fitness[--right]>pivot2)
+                                {
+                                    if(k>=right)
+                                    {
+                                        back=true;
+                                        break;
+                                    }
+                                }
+                                if(!back)
+                                {
+                                    if(fitness[right]<pivot1)
+                                    {
+                                        temp=fitness[right];
+                                        temp_tree=population[right];
+                                        fitness[right]=fitness[k];
+                                        population[right]=population[k];
+                                        fitness[k]=fitness[++left];
+                                        population[k]=population[left];
+                                        fitness[left]=temp;
+                                        population[left]=temp_tree;
+                                    }
+                                    else
+                                    {
+                                        temp=fitness[right];
+                                        temp_tree=population[right];
+                                        fitness[right]=fitness[k];
+                                        population[right]=population[k];
+                                        fitness[k]=temp;
+                                        population[k]=temp_tree;
+                                    }
+                                    k++;
+                                }
+                            }
+                        }
+                        temp=fitness[index_left];
+                        temp_tree=population[index_left];
+                        fitness[index_left]=fitness[left];
+                        population[index_left]=population[left];
+                        fitness[left]=temp;
+                        population[left]=temp_tree;
+                        temp=fitness[index_right];
+                        temp_tree=population[index_right];
+                        fitness[index_right]=fitness[right];
+                        population[index_right]=population[right];
+                        fitness[right]=temp;
+                        population[right]=temp_tree;
+                        indexs[pin++]=right+1;
+                        indexs[pin++]=index_right;
+                        if(pivot1!=pivot2)
+                        {
+                            indexs[pin++]=left+1;
+                            indexs[pin++]=right-1;
+                        }
+                        indexs[pin++]=index_left;
+                        indexs[pin++]=left-1;
                     }
-                    temp=fitness[index_left];
-                    temp_tree=population[index_left];
-                    fitness[index_left]=fitness[left];
-                    population[index_left]=population[left];
-                    fitness[left]=temp;
-                    population[left]=temp_tree;
-                    temp=fitness[index_right];
-                    temp_tree=population[index_right];
-                    fitness[index_right]=fitness[right];
-                    population[index_right]=population[right];
-                    fitness[right]=temp;
-                    population[right]=temp_tree;
-                    indexs[pin++]=right+1;
-                    indexs[pin++]=index_right;
-                    if(pivot1!=pivot2)
-                    {
-                        indexs[pin++]=left+1;
-                        indexs[pin++]=right-1;
-                    }
-                    indexs[pin++]=index_left;
-                    indexs[pin++]=left-1;
                 }
-            }
-            System.arraycopy(population,0,next_generation,0,best_count);
-            double generate_min_fitness=fitness[0];
-            if(generate_min_fitness<global_min_fitness)
-            {
-                global_min_fitness=generate_min_fitness;
-                generation_count=(int)(global_min_fitness*global_min_fitness);
-            }
-            else if(--generation_count<0)
-            {
-                if(population[0].fitness(coordinates_xn,coordinates_yn,0)<0.1)
+                System.arraycopy(population,0,next_generation,0,best_count);
+                double generate_min_fitness=fitness[0];
+                if(population[0].fitness(coordinates_xn,coordinates_yn,0)==0)
                 {
                     break;
                 }
-                else
+                else if(generate_min_fitness<global_min_fitness)
                 {
-                    mutation_rate+=0.001;
-                    generation_count=100;
+                    global_min_fitness=generate_min_fitness;
+                    generation_count=(int)(global_min_fitness*3);
+                    generation_count=generation_count<100?100:generation_count;
+                    System.out.println("\n"+global_min_fitness+"\t"+local_mutation_rate+"\n"+population[0]);
                 }
-            }
-            System.out.println("\n"+global_min_fitness+"\t"+generation_count+"\t"+mutation_rate+"\n");
-            System.out.println(population[0]);
-            for(int i=best_count;i<mutate_edge;i++)
-            {
-                next_generation[i]=new expression_tree(max_tree_depth,RNG.nextBoolean(),0.7,constant_range);
-            }
-            for(int i=mutate_edge;i<population_size;i++)
-            {
-                int target=i;
-                double min_fitness=Double.MAX_VALUE;
-                for(int j=0;j<tournament_size;j++)
+                else if(--generation_count<0)
                 {
-                    int index=RNG.nextInt(population_size);
-                    double now_fitness=fitness[index];
-                    if(now_fitness<min_fitness)
+                    if(population[0].fitness(coordinates_xn,coordinates_yn,0)<0.05*middle_y)
                     {
-                        min_fitness=now_fitness;
-                        target=index;
+                        break;
+                    }
+                    else
+                    {
+                        local_mutation_rate+=0.001;
+                        generation_count=100;
                     }
                 }
-                expression_tree parent1=population[target].clone();
-                expression_tree filial;
-                if(RNG.nextDouble()<crossover_rate)
+                for(int i=best_count;i<mutate_edge;i++)
                 {
-                    target=i;
-                    min_fitness=Double.MAX_VALUE;
+                    next_generation[i]=new expression_tree(max_tree_depth,RNG.nextBoolean(),0.7,constant_range);
+                }
+                for(int i=mutate_edge;i<population_size;i++)
+                {
+                    int target=i;
+                    double min_fitness=Double.MAX_VALUE;
                     for(int j=0;j<tournament_size;j++)
                     {
                         int index=RNG.nextInt(population_size);
@@ -1244,41 +2333,83 @@ public class function
                             target=index;
                         }
                     }
-                    expression_tree parent2=population[target].clone();
-                    expression_tree crossovered[]=expression_tree.crossover(parent1,parent2);
-                    filial=crossovered[RNG.nextInt(2)];
+                    expression_tree parent1=population[target].clone();
+                    expression_tree filial;
+                    if(RNG.nextDouble()<crossover_rate)
+                    {
+                        target=i;
+                        min_fitness=Double.MAX_VALUE;
+                        for(int j=0;j<tournament_size;j++)
+                        {
+                            int index=RNG.nextInt(population_size);
+                            double now_fitness=fitness[index];
+                            if(now_fitness<min_fitness)
+                            {
+                                min_fitness=now_fitness;
+                                target=index;
+                            }
+                        }
+                        expression_tree parent2=population[target].clone();
+                        expression_tree crossovered[]=expression_tree.crossover(parent1,parent2);
+                        filial=crossovered[RNG.nextInt(2)];
+                    }
+                    else
+                    {
+                        filial=parent1.clone();
+                    }
+                    if(RNG.nextDouble()<local_mutation_rate)
+                    {
+                        filial.mutate(max_tree_depth,constant_range);
+                    }
+                    next_generation[i]=filial;
                 }
-                else
-                {
-                    filial=parent1.clone();
-                }
-                if(RNG.nextDouble()<mutation_rate)
-                {
-                    filial.mutate(max_tree_depth>>1,constant_range);
-                }
-                next_generation[i]=filial;
+                expression_tree temp[]=population;
+                population=next_generation;
+                next_generation=temp;
             }
-            expression_tree temp[]=population;
-            population=next_generation;
-            next_generation=temp;
+            double best_fitness=Double.MAX_VALUE;
+            expression_tree best_tree=population[0];
+            for(int i=0;i<population_size;i++)
+            {
+                double now_fitness=population[i].fitness(coordinates_xn,coordinates_yn,0.5);
+                if(Double.isNaN(now_fitness)||Double.isInfinite(now_fitness))
+                {
+                    now_fitness=Double.MAX_VALUE;
+                }
+                if(now_fitness<best_fitness)
+                {
+                    best_fitness=now_fitness;
+                    best_tree=population[i];
+                }
+            }
+            this.fitness=best_tree.fitness(coordinates_xn,coordinates_yn,0);
+            function_tree=best_tree;
         }
-        double best_fitness=Double.MAX_VALUE;
-        expression_tree best_tree=population[0];
-        for(int i=0;i<population_size;i++)
+    }
+    /**
+    <p>计算函数值</p><br>
+    计算指定自变量值的函数值。
+    @param x 自变量值。
+    @return 函数值。
+    */
+    public double calculate(double x)
+    {
+        return function_tree.calculate(x);
+    }
+    /**
+    <p>计算函数值</p><br>
+    计算多个指定自变量值各自的函数值。
+    @param x 多个自变量值。
+    @return 自变量值对应的函数值数组。
+    */
+    public double[] calculate(double... x)
+    {
+        double result[]=new double[x.length];
+        for(int i=0;i<x.length;i++)
         {
-            double now_fitness=population[i].fitness(coordinates_xn,coordinates_yn,0.5);
-            if(Double.isNaN(now_fitness)||Double.isInfinite(now_fitness))
-            {
-                now_fitness=Double.MAX_VALUE;
-            }
-            if(now_fitness<best_fitness)
-            {
-                best_fitness=now_fitness;
-                best_tree=population[i];
-            }
+            result[i]=function_tree.calculate(x[i]);
         }
-        this.fitness=best_fitness;
-        function_tree=best_tree;
+        return result;
     }
     /**
     <p>字符串表示</p>
@@ -1286,6 +2417,6 @@ public class function
     */
     public String toString()
     {
-        return function_tree.toString();
+        return "y="+function_tree.toString();
     }
 }
