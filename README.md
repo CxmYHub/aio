@@ -137,9 +137,9 @@ class using_aio
 
         - [binary_search_tree（二叉查找树）](#binary_search_tree二叉查找树)
 
-        - [avl_tree（AVL树）](#avl_treeAVL树)
+        - [avl_tree（AVL树）](#avl_treeavl树)
 
-        - [b_plus_tree（B+树）](#b_plus_treeb树)
+        - [b_plus_tree（B+树）](#b_plus_treeb+树)
 
         - [deque（双端队列）](#deque双端队列)
 
