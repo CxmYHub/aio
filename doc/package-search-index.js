@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"aio.collection"},{"l":"aio.data_structure"},{"l":"aio.date_time"},{"l":"aio.encode_decode"},{"l":"aio.geography"},{"l":"aio.mathematics"},{"l":"所有程序包","u":"allpackages-index.html","k":"18"}];updateSearchResults();
+packageSearchIndex = [{"l":"aio"},{"l":"aio.collection"},{"l":"aio.data_structure"},{"l":"aio.date_time"},{"l":"aio.encode_decode"},{"l":"aio.geography"},{"l":"aio.mathematics"},{"l":"所有程序包","u":"allpackages-index.html","k":"18"}];updateSearchResults();
