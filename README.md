@@ -139,7 +139,7 @@ class using_aio
 
         - [avl_tree（AVL树）](#avl_treeavl树)
 
-        - [b_plus_tree（B+树）](#b_plus_treeb+树)
+        - [b_plus_tree（B+树）](#b_plus_treeb树)
 
         - [deque（双端队列）](#deque双端队列)
 
