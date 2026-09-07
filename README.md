@@ -28,6 +28,8 @@
 
     - `README.md`：项目说明文档。
 
+    - `构建源代码、字节码、文档及其Jar包并安装至本地Maven仓库.bat`：一键构建脚本，编译源代码、生成字节码和文档、打包Jar并安装至本地Maven仓库。
+
 > 如果您想要自定义文件夹结构，请打开 `.vscode/settings.json` 并更新相关设置。（当您使用VSCode打开项目时，将提示创建此文件夹。）
 
 ## 测试与辅助类
@@ -44,15 +46,33 @@
 
 - **big_rational_test.java**：高精度有理数类 `big_rational` 的综合测试。
 
+- **avl_tree_test.java**：AVL树 `avl_tree` 的功能测试。
+
+- **b_plus_tree_test.java**：B+树 `b_plus_tree` 的功能测试。
+
+- **binary_search_tree_test.java**：二叉查找树 `binary_search_tree` 的功能测试。
+
+- **binary_tree_test.java**：二叉树 `binary_tree` 的功能测试。
+
+- **datetime_test.java**：日期时间 `datetime` 的功能测试。
+
+- **deque_test.java**：双端队列 `deque` 的功能测试。
+
 - **elevation_test.java**：高程地图 `elevation_map` 的可视化测试，包含地形生成与统计面板。
+
+- **expression_tree_test.java**：表达式树 `expression_tree` 的化简与计算测试。
+
+- **function_test.java**：一元实函数 `function` 的遗传算法拟合测试。
 
 - **linked_list_doubly_test.java**：双向链表 `linked_list_doubly` 的功能测试。
 
 - **linked_list_singly_test.java**：单向链表 `linked_list_singly` 的功能测试。
 
-- **deque_test.java**：双端队列 `deque` 的功能测试。
-
 - **qrc_test.java**：二维码生成 `quick_response_code` 的功能测试。
+
+- **red_black_tree_test.java**：红黑树 `red_black_tree` 的功能测试。
+
+- **tree_test.java**：树（孩子兄弟表示法）`tree` 的功能测试。
 
 - **trie_test.java**：字典树 `trie` 的功能测试。
 
@@ -115,6 +135,10 @@ class using_aio
 
         - [binary_tree（二叉树）](#binary_tree二叉树)
 
+        - [binary_search_tree（二叉查找树）](#binary_search_tree二叉查找树)
+
+        - [avl_tree（AVL树）](#avl_treeAVL树)
+
         - [b_plus_tree（B+树）](#b_plus_treeb树)
 
         - [deque（双端队列）](#deque双端队列)
@@ -167,7 +191,9 @@ class using_aio
 
         - [complex（复数）](#complex复数)
 
-        - [coordinate_cartesian（直角坐标）](#coordinate_cartesian直角坐标)
+        - [function / expression_tree（一元实函数 / 表达式树）](#function--expression_tree一元实函数--表达式树)
+
+        - [point_planar（平面点）](#point_planar平面点)
 
         - [determinant（行列式）](#determinant行列式)
 
@@ -199,13 +225,13 @@ class using_aio
 
 - **并发排序**：基于双轴快速排序的多线程版本，可自动划分任务并行处理。
 
-- **数据结构**：链表（单向/双向）、栈（普通/单调/最大/最小）、队列（循环）、堆（升序/降序）、二叉树、红黑树、B+树、字典树、霍夫曼树、图（邻接矩阵）、并查集、哈希表、树状数组等。
+- **数据结构**：链表（单向/双向）、栈（普通/单调/最大/最小）、队列（循环）、堆（升序/降序）、二叉树、二叉查找树、AVL树、红黑树、B+树、字典树、霍夫曼树、图（邻接矩阵）、并查集、哈希表、树状数组等。
 
 - **日期时间**：支持公历（含公元前），时区转换，日期间隔计算，星期计算等。
 
 - **地理工具**：地理坐标（经纬度）、投影坐标（平面直角坐标）、高程地图（柏林噪声地形生成、统计分析等）。
 
-- **数学工具**：复数、矩阵、行列式、直方图、多项式方程求解（1/2次）、平方根化简、数论函数（最大公因数、质数判断/分解）、组合数/排列数常数表、线性回归等。
+- **数学工具**：复数、矩阵、行列式、直方图、多项式方程求解（1/2次）、平方根化简、数论函数（最大公因数、质数判断/分解）、组合数/排列数常数表、线性回归、一元实函数（遗传算法拟合）、平面点（直角/极坐标）等。
 
 所有类均位于 `aio` 包下，按功能划分到子包。使用时请确保编译环境支持 Java 21 及以上。
 
@@ -352,6 +378,54 @@ aio
     - `int remove(int element)` → 删除第一个遇到的节点（按先序）。
 
     - `void invert()` → 镜像翻转。
+
+#### binary_search_tree（二叉查找树）
+
+- 二叉查找树满足：左子树所有结点小于根结点，右子树所有结点大于根结点。采用头结点设计，头结点的左子结点为根结点。注意：非平衡版本，最坏情况下可能退化为链表。
+
+- **构造器**：
+
+    - `binary_search_tree()` → 空二叉查找树。
+
+    - `binary_search_tree(int... elements)` → 从给定元素构建（重复元素忽略）。
+
+- **方法**：
+
+    - `int[] traversal()` → 中序遍历（升序）。
+
+    - `boolean input(int element)` → 插入元素，重复返回 `false`。
+
+    - `int input_more(int... elements)` → 批量插入，返回忽略的重复元素数量。
+
+    - `int get_depth(int element)` → 获取元素深度（根深度为1），不存在返回 `Integer.MIN_VALUE`。
+
+    - `boolean remove(int element)` → 删除元素。
+
+    - `String toString()` → 返回括号表示法的字符串表示。
+
+- **字段**：`element`（元素）、`left`（左子结点）、`right`（右子结点）、`parent`（父结点）。
+
+#### avl_tree（AVL树）
+
+- AVL树是一种自平衡二叉查找树，规则严格，读取操作更快，但修改操作效率略低。每个结点包含平衡因子（右子树高度-左子树高度），高度差至多为1。采用头结点设计，头结点的左子结点为根结点。
+
+- **构造器**：
+
+    - `avl_tree()` → 空AVL树。
+
+    - `avl_tree(int... elements)` → 从给定元素构建AVL树（自动平衡，重复元素忽略）。
+
+- **方法**：
+
+    - `int[] traversal()` → 中序遍历（升序）。
+
+    - `boolean input(int element)` → 插入元素，重复返回 `false`。
+
+    - `static avl_tree left_rotate(avl_tree tree)` → 左旋，返回新根结点。
+
+    - `static avl_tree right_rotate(avl_tree tree)` → 右旋，返回新根结点。
+
+- **字段**：`element`（元素）、`balance_factor`（平衡因子）、`left`（左子结点）、`right`（右子结点）、`parent`（父结点）。
 
 #### b_plus_tree（B+树）
 
@@ -911,35 +985,103 @@ aio
 
 - 表示 `a + bi`，提供加减乘除、模长运算。
 
-#### coordinate_cartesian（直角坐标）
+#### function / expression_tree（一元实函数 / 表达式树）
 
-- 类似 `projected_coordinate`，无地理语义，提供象限、距离、角度、中点、插值等方法。
+- **类**：`aio.mathematics.function` 及其内部类 `expression_tree`
 
-- **构造**：`coordinate_cartesian(double x, double y)` 或 `coordinate_cartesian()`。
+- **功能**：一元实函数类，使用遗传算法（Genetic Programming）通过给定坐标点拟合出函数表达式。内部使用表达式树表示数学表达式，支持加法、减法、乘法、除法、指数、对数六种运算。
+
+- **expression_tree（表达式树）**：
+
+    - 结点类型：`-1`=自变量x，`0`=常量，`1`=加法，`2`=减法，`3`=乘法，`4`=除法，`5`=指数，`6`=对数。
+
+    - **构造器**：
+
+        - `expression_tree(int type, expression_tree left, expression_tree right)` → 指定类型和子树。
+
+        - `expression_tree(int type, double value)` → 指定类型和常量值。
+
+        - `expression_tree(double value)` → 常量结点。
+
+        - `expression_tree(int type)` → 指定类型（默认值0.0）。
+
+        - `expression_tree(int max_tree_depth, boolean full, double subtree_chance, double constant_range)` → 随机生成表达式树。
+
+    - **方法**：
+
+        - `int simplify()` → 化简表达式树，返回删除的结点数。
+
+        - `int count()` → 结点数。
+
+        - `int depth()` → 树深度。
+
+        - `expression_tree get_node_random()` → 随机获取一个结点。
+
+        - `double calculate(double x)` → 计算指定自变量值的函数值。
+
+        - `double fitness(double x[], double y[], double complexity_penalty)` → 计算对点集的适应度（均方误差+复杂度惩罚）。
+
+        - `static expression_tree[] crossover(expression_tree, expression_tree)` → 交叉互换两个表达式树的结点。
+
+        - `int mutate(int max_depth, double constant_range)` → 突变表达式树的一个结点。
+
+        - `expression_tree clone()` → 深拷贝。
+
+        - `String toString()` → 返回表达式字符串。
+
+- **function（一元实函数）**：
+
+    - **遗传算法参数**（静态字段）：`population_size`（种群规模，默认6000）、`max_generation`（最大迭代次数，默认86400000）、`best_rate`（最佳保留比例，默认0.005）、`survival_rate`（选择率，默认0.02）、`new_individual_rate`（新个体比例，默认0.2）、`crossover_rate`（交叉概率，默认0.7）、`mutation_rate`（突变概率，默认0.3）、`max_tree_depth`（最大树深度，默认7）。
+
+    - **构造器**：
+
+        - `function(double... coordinates_xn_yn)` → 通过x1,y1,x2,y2,...格式的坐标拟合。
+
+        - `function(double coordinates_xn[], double coordinates_yn[])` → 通过两个坐标数组拟合。
+
+    - **方法**：
+
+        - `double calculate(double x)` → 计算函数值。
+
+        - `double[] calculate(double... x)` → 批量计算函数值。
+
+        - `String toString()` → 返回 `"y=..."` 格式的函数字符串。
+
+    - **字段**：`function_tree`（表达式树）、`fitness`（适应度）。
+
+#### point_planar（平面点）
+
+- 平面点表示平面中的一个位置，同时包含直角坐标（x, y）和极坐标（ρ, θ）表示。提供象限、距离、角度、中点、插值、多边形周长/面积等方法。
+
+- **构造**：`point_planar(double rho_x, double theta_y, boolean true_polar_false_cartesian)` 可选择极坐标或直角坐标构造；`point_planar()` 默认原点。
 
 - **方法**：
 
+    - `void calculate_polar_coordinate()` / `void calculate_cartesian_coordinate()` → 直角坐标与极坐标互转。
+
+    - `static double[] cartesian_to_polar(double x, double y)` / `static double[] polar_to_cartesian(double rho, double theta)` → 静态版坐标转换。
+
     - `int quadrant()` / `static int quadrant(double x, double y)` → 判断象限（0=原点，1~4=象限，5=坐标轴）。
 
-    - `void add(coordinate_cartesian)` / `static coordinate_cartesian add(coordinate_cartesian, coordinate_cartesian)` → 坐标加法。
+    - `void add(point_planar)` / `static point_planar add(point_planar, point_planar)` → 坐标加法。
 
-    - `void subtract(coordinate_cartesian)` / `static coordinate_cartesian subtract(...)` → 坐标减法。
+    - `void subtract(point_planar)` / `static point_planar subtract(...)` → 坐标减法。
 
-    - `void multiply_scalar(double)` / `static coordinate_cartesian multiply_scalar(...)` → 标量乘法。
+    - `void multiply_scalar(double)` / `static point_planar multiply_scalar(...)` → 标量乘法。
 
-    - `double distance(coordinate_cartesian)` / `static double distance(double, double, double, double)` → 距离计算。
+    - `double distance(point_planar)` / `double distance(double, double, double, double)` → 距离计算。
 
-    - `double angle(coordinate_cartesian target)` / `static double angle(double, double, double, double)` → 角度（弧度，0°=正东）。
+    - `double angle(point_planar target)` / `double angle(double xt, double yt)` / `static double angle(double, double, double, double)` → 角度（度，0°=正东）。
 
-    - `coordinate_cartesian middle_point(coordinate_cartesian target)` → 中点。
+    - `point_planar middle_point(point_planar target)` → 中点。
 
-    - `coordinate_cartesian linear_interpolation(coordinate_cartesian target, double ratio)` → 线性插值。
+    - `point_planar linear_interpolation(point_planar target, double ratio)` → 线性插值。
 
-    - `double move_distance_towards(coordinate_cartesian target, double move_distance)` / `double move_ratio_towards(...)` → 向目标移动。
+    - `double move_distance_towards(point_planar target, double move_distance)` / `double move_ratio_towards(...)` → 向目标移动。
 
-    - `static double perimeter(coordinate_cartesian... coordinates_ccw)` / `static double area(...)` → 多边形周长/面积。
+    - `static double perimeter(point_planar... coordinates_ccw)` / `static double area(...)` → 多边形周长/面积。
 
-    - `String toString()` → 字符串表示。
+    - `String toString()` → 字符串表示（同时显示直角坐标和极坐标）。
 
 #### determinant（行列式）
 
