@@ -95,7 +95,7 @@ public class elevation_map implements java.io.Serializable
         int half_size=size>>1;
         double max=Double.MIN_VALUE,min=Double.MAX_VALUE;
         double sum=0;
-        double numbers[]=new double[width*length];
+        double numbers[]=new double[size];
         int pin=0;
         for(int i=0;i<width;i++)
         {
@@ -191,7 +191,7 @@ public class elevation_map implements java.io.Serializable
                 else
                 {
                     median+=pivot;
-                    half_size++;
+                    half_size--;
                     index_left=0;
                     index_right=size-1;
                     is_odd=true;
