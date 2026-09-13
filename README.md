@@ -321,7 +321,9 @@ aio
 
     - `reverse(String s)` → 反转字符串。
 
-    - `contains(String base, String pattern)` → 使用 KMP 算法判断 `base` 是否包含 `pattern`。
+    - `containing_index(String base, String pattern)` → 使用 KMP 算法查找 `pattern` 在 `base` 中首次出现的起始索引，未找到返回 `-1`。
+
+    - `containing_count(String base, String pattern)` → 使用 KMP 算法计算 `pattern` 在 `base` 中出现的次数。
 
     - `is_palindrome(String s)` → 判断是否为回文串。
 
@@ -347,7 +349,7 @@ aio
 
 - **方法**：
 
-    - `void add(int index, int delta)` → 在 `index` 处增加 `delta`（索引从0开始）。
+    - `void add(int index, int addend)` → 在 `index` 处增加 `addend`（索引从0开始）。
 
     - `long sum_prefix(int index)` → 前缀和 `[0..index]`。
 
@@ -369,7 +371,7 @@ aio
 
     - `int depth()` → 深度（根深度为1）。
 
-    - `boolean is_same(binary_tree other)` → 结构相同且元素相等。
+    - `boolean equals(Object another_tree)` → 结构相同且元素相等。
 
     - `int[] traversal_preorder/inorder/postorder/levelorder()` → 返回遍历序列。
 
@@ -421,9 +423,17 @@ aio
 
     - `boolean input(int element)` → 插入元素，重复返回 `false`。
 
+    - `int input_more(int... elements)` → 批量插入，返回忽略的重复元素数量。
+
+    - `int get_depth(int element)` → 获取元素深度（根深度为1），不存在返回 `Integer.MIN_VALUE`。
+
+    - `boolean remove(int element)` → 删除元素。
+
     - `static avl_tree left_rotate(avl_tree tree)` → 左旋，返回新根结点。
 
     - `static avl_tree right_rotate(avl_tree tree)` → 右旋，返回新根结点。
+
+    - `String toString()` → 返回括号表示法的字符串表示。
 
 - **字段**：`element`（元素）、`balance_factor`（平衡因子）、`left`（左子结点）、`right`（右子结点）、`parent`（父结点）。
 
@@ -493,9 +503,9 @@ aio
 
 - **disjoint_set_element**：扩展支持整数元素映射。
 
-    - `int input(int element)` → 添加元素（若已存在返回 `Integer.MIN_VALUE`）。
+    - `int input(int element)` → 添加元素，返回新元素数量；若已存在返回 `Integer.MIN_VALUE`。
 
-    - `int input_more(int... elements)`
+    - `int input_more(int... elements)` → 批量添加元素，返回新元素数量。
 
     - `int find_root_by_element(int element)`
 
@@ -507,11 +517,11 @@ aio
 
 - 采用邻接矩阵，支持有向/无向、有权/无权。
 
-- **构造**：`graph(String graphString, int type)`
+- **构造**：`graph(String graph_string, int type)`
 
-    - `type=1` 无向无权，`type=2` 无向有权，`type=3` 有向有权。
+    - `type=1` 无向有权，`type=2` 有向无权，`type=3` 有向有权。
 
-    - 字符串格式：`"{(v1,v2,w1),(v2,v3,w2),...}"`，顶点编号从1开始。
+    - 字符串格式：`"{v1,v2,w1},{v2,v3,w2},..."`，顶点编号从1开始。
 
 - **方法**：`int cost_min(int start, int end)` → Dijkstra 算法求最短路径成本（有权图）或边数（无权图）。
 
@@ -546,6 +556,10 @@ aio
     - `int get()` → 获取堆顶。
 
     - `int regular_all()` → 重建堆。
+
+    - `int regular_top()` → 调整堆顶。
+
+    - `int regular_last()` → 调整最后一个元素。
 
 #### linked_list_singly / linked_list_doubly（链表）
 
@@ -593,7 +607,7 @@ aio
 
 - 使用 NIL 节点，提供插入、删除、中序遍历。
 
-- **构造**：`red_black_tree()` 创建一个空树（头节点）。
+- **构造**：`red_black_tree()` 创建一个空树（头节点）；`red_black_tree(int... elements)` 从给定元素构建。
 
 - **方法**：
 
@@ -605,9 +619,11 @@ aio
 
     - `int[] traversal()` → 中序遍历升序序列。
 
-    - `int get_depth(int element)` → 返回深度（根深度0）。
+    - `int get_depth(int element)` → 返回深度（根深度1），不存在返回 `Integer.MIN_VALUE`。
 
     - `static red_black_tree left_rotate(red_black_tree)` / `right_rotate(red_black_tree)` → 左旋/右旋操作。
+
+    - `String toString()` → 返回括号表示法的字符串表示。
 
 #### stack / stack_ascend / stack_descend / stack_max / stack_min（栈）
 
@@ -617,9 +633,9 @@ aio
 
 - **stack_descend**（单调递减栈）：独立实现，入栈时弹出所有比新元素大的元素。`input()` 返回被弹出元素的数组 `int[]`，`input_more()` 返回 `int[][]`。
 
-- **stack_max**：继承自 `stack`，支持 `O(1)` 获取当前栈中最大值。
+- **stack_max**：继承自 `stack`，支持 `O(1)` 获取当前栈中最大值。`max_element()` 返回当前栈中最大值。
 
-- **stack_min**：继承自 `stack`，支持 `O(1)` 获取当前栈中最小值。
+- **stack_min**：继承自 `stack`，支持 `O(1)` 获取当前栈中最小值。`min_element()` 返回当前栈中最小值。
 
 - 通用方法：`is_empty()`, `is_full()`, `element_count()`, `empty_count()`, `input`, `input_more`, `output`, `get`, `dilate()`, `dilate(int more_capacity)`。
 
@@ -665,6 +681,8 @@ aio
 
     - `String get_code(byte b)` / `String get_code(char c)` → 获取单个字符的霍夫曼编码。
 
+    - `String get_all_codes()` → 获取所有字符的霍夫曼编码表。
+
     - `String encode(byte[] data)` / `String encode(String text)` → 压缩。
 
     - `byte[] decode(String code)` / `String decode(String code)` → 解压。
@@ -689,9 +707,17 @@ aio
 
     - `int get_default_time_zone()` / `boolean set_default_time_zone(int time_zone)` → 获取/设置默认时区。
 
-    - `long timestamp(...)` → 计算自公元元年1月1日0时0分0秒的毫秒数。
+    - `long timestamp(int year, int month, int day, int hour, int minute, int second, int millisecond, int time_zone)` → 计算自公元元年1月1日0时0分0秒的毫秒数。
 
-    - `int timestamp_day(...)` → 计算日时间戳（天数）。
+    - `long timestamp_now()` → 获取当前时间的时间戳。
+
+    - `long timestamp_unix(int year, int month, int day, int hour, int minute, int second, int millisecond, int time_zone)` → 计算自1970年1月1日0时0分0秒（UTC）的毫秒数（Unix时间戳）。
+
+    - `long timestamp_unix_now()` → 获取当前Unix时间戳。
+
+    - `int timestamp_day(int year, int month, int day)` → 计算日时间戳（天数）。
+
+    - `int timestamp_day_now()` → 获取当前日时间戳。
 
     - `static boolean is_leap_year(int year)` → 判断指定年份是否为闰年。
 
@@ -709,6 +735,12 @@ aio
 
 - **实例方法**：
 
+    - `long timestamp()` → 返回自公元元年1月1日0时0分0秒的毫秒数。
+
+    - `long timestamp_unix()` → 返回Unix时间戳。
+
+    - `int timestamp_day()` → 返回日时间戳（天数）。
+
     - `boolean is_leap_year()` → 是否为闰年。
 
     - `int weekday()` → 星期（0=周日，1=周一，...，6=周六）。
@@ -719,13 +751,13 @@ aio
 
     - `datetime add_day(int days)` → 返回新对象，日期偏移。
 
-    - `long interval_day(datetime other)` → 相差天数。
+    - `long interval_day(datetime to)` → 计算与另一个datetime的日期间隔天数。
 
-    - `int interval_second_in_day(datetime other)` → 同一天内相差秒数。
+    - `int interval_second_in_day(datetime to)` → 计算同一天内与另一个datetime的时间间隔秒数。
 
-    - `int compareTo(datetime other)` → 比较时间顺序。
+    - `String toString()` → 返回日期时间字符串表示。
 
-    - `String toString()` → 返回 `"AD 2026/01/01 12:00:00.000 UTC+8"` 格式字符串。
+    - `int compareTo(datetime another)` → 时间比较，返回负数表示早于，正数表示晚于。
 
 #### calendar（日期常数）
 
@@ -739,7 +771,7 @@ aio
 
 - 存储二维 double 数组，表示海拔（米）。
 
-- **构造**：`elevation_map(int length, int width)` 或 `elevation_map(int side)`。
+- **构造**：`elevation_map(int length, int width)` 或 `elevation_map(int length)`。
 
 - **方法**：
 
@@ -747,7 +779,7 @@ aio
 
     - `histogram calculate_histogram()` → 返回100区间的直方图。
 
-    - `double elevate(double inc)` / `double sink(double dec)` → 整体抬高/降低。
+    - `double elevate(double increase_height)` / `double sink(double decrease_height)` → 整体抬高/降低。
 
     - `double normalize(double newMin, double newMax)` → 线性拉伸至指定范围。
 
@@ -757,7 +789,7 @@ aio
 
     - `double exponential_scale(double vertical_base)` → 指数缩放（底数幂次变换）。
 
-    - `double exponential_normalize(double normalize_exponent)` → 指数归一化（先指数缩放再拉伸至 [0, 1]）。
+    - `double exponential_normalize(double normalize_base)` → 指数归一化（先指数缩放再拉伸至 [0, 1]）。
 
     - `double secant_odd_normalize()` → 正割奇函数归一化（使用 secant 变换后拉伸至 [0, 1]）。
 
@@ -777,9 +809,19 @@ aio
 
 - 存储经度、纬度（十进制度），并提供度分秒转换。
 
-- **构造**：`geographic_coordinate(double lon, double lat)`。
+- **构造**：`geographic_coordinate(double longitude_deg, double latitude_deg)`。
 
-- **方法**：`deg_to_dms`, `dms_to_deg`, `print_deg`, `print_dms`。
+- **方法**：
+
+    - `static int[] deg_to_dms(double deg)` → 十进制度转换为度分秒数组 `{度, 分, 秒}`。
+
+    - `static double dms_to_deg(int[] dms)` → 度分秒数组转换为十进制度。
+
+    - `void print_deg()` → 打印十进制经纬度。
+
+    - `void print_dms()` → 打印度分秒格式经纬度。
+
+    - `String toString()` → 返回度分秒格式的字符串表示。
 
 #### projected_coordinate（投影坐标）
 
@@ -883,11 +925,15 @@ aio
 
     - `shuffle_new`, `shuffle_local` → 随机打乱（支持 `int[]` 和 `double[]`，支持指定区间）。
 
-    - `distinct_sort_new`, `distinct_sort_local` → 去重并升序排序。
+    - `distinct_sort_new(int[] numbers)` → 去重并升序排序，返回新数组。
+
+    - `distinct_sort_local(int[] numbers)` → 原地去重并升序排序，返回重复元素个数。
 
 - **几何**：
 
-    - `polygon_perimeter`, `polygon_area`。
+    - `polygon_perimeter(double... coordinates_xn_yn_ccw)` → 多边形周长（顶点按逆时针顺序，参数为交替的x,y坐标）。
+
+    - `polygon_area(double... coordinates_xn_yn_ccw)` → 多边形面积（顶点按逆时针顺序，参数为交替的x,y坐标）。
 
     - `matrix_multiply(int[][] factor_left, int[][] factor_right)` → 矩阵乘法。
 
@@ -984,6 +1030,22 @@ aio
 #### complex（复数）
 
 - 表示 `a + bi`，提供加减乘除、模长运算。
+
+- **构造**：`complex(double real, double imaginary)` 或 `complex()` 默认 `0+0i`。
+
+- **方法**（实例/静态成对出现）：
+
+    - `boolean add(complex C)` / `static complex add(complex, complex)` → 复数加法。
+
+    - `boolean subtract(complex C)` / `static complex subtract(complex, complex)` → 复数减法。
+
+    - `boolean multiply(complex C)` / `static complex multiply(complex, complex)` → 复数乘法。
+
+    - `boolean divide(complex C)` / `static complex divide(complex, complex)` → 复数除法。
+
+    - `double magnitude()` / `static double magnitude(double real, double imaginary)` → 模长。
+
+    - `String toString()` → 返回 `"a+bi"` 格式的字符串表示。
 
 #### function / expression_tree（一元实函数 / 表达式树）
 
@@ -1087,17 +1149,67 @@ aio
 
 - 支持整数元素，可计算值、余子式、代数余子式、转置等。
 
+- **构造**：
+
+    - `determinant(int order_number, int... element_numbers)` → 指定阶数和元素。
+
+    - `determinant(int order_number)` → 指定阶数，元素初始为0。
+
+    - `determinant(determinant coping_determinant)` → 拷贝构造。
+
+    - `determinant(matrix square_matrix)` → 从方阵构造。
+
+- **方法**：
+
+    - `double value()` → 计算行列式的值。
+
+    - `determinant cofactor(int base_row, int base_column)` → 余子式。
+
+    - `determinant cofactor_algebraic(int base_row, int base_column)` → 代数余子式。
+
+    - `determinant reverse()` → 转置。
+
+    - `int simplify()` → 化简行列式，返回化简步骤数。
+
+    - `int compareTo(determinant comparing)` → 比较行列式值的大小。
+
 #### histogram（直方图）
 
 - 等距直方图，自动计算边界，支持下溢/上溢计数。
 
-- **构造**：`histogram(int groups, double... data)` 或指定 `(groups, min, max)`。
+- **构造**：`histogram(int group_count, double... data)` 或指定 `(group_count, min, max)`。
 
-- **方法**：`input`, `input_more` 插入数据。
+- **方法**：
+
+    - `boolean input(double data)` → 插入单个数据，返回 `true` 若在范围内。
+
+    - `int input_more(double... data)` → 批量插入数据，返回超出范围的数据个数。
 
 #### matrix（矩阵）
 
 - 整数矩阵，支持加、减、数乘、乘法、转置、余子式、伴随矩阵、幂运算等。
+
+- **构造**：`matrix(int[][] elements)`。
+
+- **主要方法**：
+
+    - `matrix add(matrix source)` / `static matrix add(matrix, matrix)` → 矩阵加法。
+
+    - `matrix subtract(matrix subtrahend)` / `static matrix subtract(matrix, matrix)` → 矩阵减法。
+
+    - `int multiply_scalar(int coefficient)` / `static matrix multiply_scalar(int, matrix)` → 标量乘法。
+
+    - `matrix multiply(int[][] factor)` / `static matrix multiply(matrix, matrix)` → 矩阵乘法。
+
+    - `static matrix reverse(matrix)` → 矩阵转置。
+
+    - `static matrix cofactor(matrix, int base_row, int base_column)` → 余子式。
+
+    - `static matrix cofactor_algebraic(matrix, int base_row, int base_column)` → 代数余子式。
+
+    - `static matrix adjugate(matrix)` → 伴随矩阵。
+
+    - `matrix power(int power)` / `static matrix power(matrix, int)` → 矩阵幂运算。
 
 #### polynomial_equation（多项式方程）
 
@@ -1147,15 +1259,15 @@ aio
 
     - `static double angle_to_rad(int degree, int minute, int second)` → 静态版弧度转换。
 
-    - `boolean add(angle angle)` → 角度加法，修改当前对象。
+    - `boolean add(angle angle)` → 角度加法，修改当前对象，返回是否超过360度。
 
     - `static int[] sum(angle... angles)` → 多个角度求和，返回 `{度, 分, 秒}`。
 
     - `double divide(int number)` → 角度除法（整数除），返回十进制角度商。
 
-    - `int reform()` → 规范化角度（进位处理），返回符号。
+    - `int reform()` → 将角度规约到 [0, 360) 范围内，返回规约后的度数。
 
-    - `String toString()` → 返回格式化字符串。
+    - `String toString()` → 返回度分秒格式的字符串表示（如 `"30°15'50"`）。
 
 ---
 
@@ -1236,6 +1348,8 @@ aio
     - `static void display(boolean[][] field, int scale)` → 弹窗显示给定的二维码布尔矩阵，指定每个像素块的像素大小。
 
 - **其他方法**：
+
+    - `static String decode(boolean[][] field)` → 解码二维码布尔矩阵，返回解码后的文本。
 
     - `String toString()` → 返回二维码的文本表示，包含纠错等级、版本、编码模式、掩膜编号信息，以及用 Unicode 字符（██ 和空格）绘制的二维码图形。
 
