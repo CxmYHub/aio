@@ -119,7 +119,7 @@ public class heap
             {
                 dilate();
             }
-            elements[size++]=elements[i];
+            this.elements[size++]=elements[i];
         }
         return size;
     }
