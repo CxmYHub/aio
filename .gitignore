@@ -29,5 +29,11 @@ $RECYCLE.BIN/
 .history/
 
 # 项目
+/bin
 */bin/*
+/lib
 !*/doc/*
+/.trae-*
+/.trae-*/*
+/aio-java-review
+/aio-java-review/*
