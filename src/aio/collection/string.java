@@ -1,7 +1,4 @@
 package aio.collection;
-
-import java.util.Arrays;
-
 /**
 <p>字符串工具类</p><br>
 用于对字符串进行操作。
@@ -29,19 +26,20 @@ public class string
         return new String(char_string);
     }
     /**
-    <p>字符串包含判断</p><br>
-    判断一个字符串中是否包含另一个字符串。
+    <p>字符串包含查找</p><br>
+    查找一个字符串中，另一个字符串的第一个起始索引。
     @param base 基字符串。
     @param pattern 模式字符串。
-    @return 是否包含。
+    @return 基字符串中，模式字符串的第一个起始索引。<br>
+    若模式字符串不存在于基字符串中，则返回-1。
     */
-    public static boolean contains(String base,String pattern)
+    public static int containing_index(String base,String pattern)
     {
         int base_length=base.length();
         int pattern_length=pattern.length();
         if(base_length<pattern_length)
         {
-            return false;
+            return -1;
         }
         char char_base[]=base.toCharArray();
         char char_pattern[]=pattern.toCharArray();
@@ -61,9 +59,9 @@ public class string
                 pin=next[pin];
             }
         }
-        System.out.println(Arrays.toString(next));
         pin=0;
-        for(int i=0;i<base_length&&pin<pattern_length;)
+        int i=0;
+        while(i<base_length&&pin<pattern_length)
         {
             if(pin==-1||char_pattern[pin]==char_base[i])
             {
@@ -75,7 +73,61 @@ public class string
                 pin=next[pin];
             }
         }
-        return pin==pattern_length;
+        return pin==pattern_length?i-pattern_length:-1;
+    }
+    /**
+    <p>字符串包含计数</p><br>
+    计算一个字符串中，另一个字符串的出现次数。
+    @param base 基字符串。
+    @param pattern 模式字符串。
+    @return 基字符串中，模式字符串的出现次数。
+    */
+    public static int containing_count(String base,String pattern)
+    {
+        int base_length=base.length();
+        int pattern_length=pattern.length();
+        if(base_length<pattern_length)
+        {
+            return -1;
+        }
+        char char_base[]=base.toCharArray();
+        char char_pattern[]=pattern.toCharArray();
+        int next[]=new int[pattern_length];
+        next[0]=-1;
+        int pin=-1;
+        for(int i=0;i<pattern_length-1;)
+        {
+            if(pin==-1||char_pattern[pin]==char_pattern[i])
+            {
+                pin++;
+                i++;
+                next[i]=char_pattern[pin]==char_pattern[i]?next[pin]:pin;
+            }
+            else
+            {
+                pin=next[pin];
+            }
+        }
+        pin=0;
+        int count=0;
+        for(int i=0;i<base_length;)
+        {
+            if(pin==-1||char_pattern[pin]==char_base[i])
+            {
+                pin++;
+                i++;
+                if(pin>=pattern_length)
+                {
+                    count++;
+                    pin=0;
+                }
+            }
+            else
+            {
+                pin=next[pin];
+            }
+        }
+        return count;
     }
     /**
     <p>回文串判断</p><br>
@@ -215,6 +267,10 @@ public class string
     */
     public static boolean match_regular_expression(String string,String expression)
     {
+        if(expression.charAt(0)=='*')
+        {
+            return false;
+        }
         char char_string[]=string.toCharArray();
         char char_expression[]=expression.toCharArray();
         int length_string=char_string.length;
