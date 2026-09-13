@@ -260,9 +260,9 @@ public class matrix
         {
             for(int i=0;i<row;i++)
             {
-                elements[target_column-1][i]+=elements[source_column-1][i]*k;
+                elements[i][target_column-1]+=elements[i][source_column-1]*k;
             }
-            return elements[target_column-1][0];
+            return elements[0][target_column-1];
         }
         else
         {
