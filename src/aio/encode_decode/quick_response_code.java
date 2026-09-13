@@ -69,15 +69,15 @@ public class quick_response_code
     */
     public quick_response_code(String text,int error_correction_level,int version,int mode)
     {
-        this.version=version;
-        this.mode=mode;
-        if(version<1||version>40)
+        int code_length=text.length();
+        if(version<1||version>40||code_length>barcode.effective_data_code_word_count[version][error_correction_level][mode])
         {
             this.version=-1;
             return;
         }
+        this.version=version;
+        this.mode=mode;
         this.error_correction_level=error_correction_level;
-        int code_length=text.length();
         if(mode>=2)
         {
             code_length=text.getBytes(StandardCharsets.UTF_8).length;
