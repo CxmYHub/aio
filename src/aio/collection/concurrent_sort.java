@@ -468,7 +468,7 @@ class concurrent_quick_dual_pivot_sort implements Runnable
             }
             if(pivot1!=pivot2)
             {
-                if(left-1-index_left>=threshold)
+                if(right-left-2>=threshold)
                 {
                     manager[1]=Thread.startVirtualThread(new concurrent_quick_dual_pivot_sort(numbers,left+1,right-1));
                 }
@@ -477,7 +477,7 @@ class concurrent_quick_dual_pivot_sort implements Runnable
                     quick_dual_pivot(numbers,left+1,right-1);
                 }
             }
-            if(left-1-index_left>=threshold)
+            if(index_right-right-1>=threshold)
             {
                 manager[2]=Thread.startVirtualThread(new concurrent_quick_dual_pivot_sort(numbers,right+1,index_right));
             }
