@@ -10,7 +10,8 @@ public class search
     从数组中查找目标元素的第一个出现位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 目标元素的第一个出现位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
+    @return 目标元素的第一个出现位置。<br>
+    若目标元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int linear_search(int numbers[],int target)
     {
@@ -30,7 +31,8 @@ public class search
     从数组中查找目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 目标元素的位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
+    @return 目标元素的位置。<br>
+    若目标元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int binary_search(int numbers[],int target)
     {
@@ -59,26 +61,27 @@ public class search
     从数组中查找第一个大于等于目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 第一个大于等于目标元素的位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
+    @return 第一个大于等于目标元素的位置。<br>
+    若目标元素大于数组中所有元素，则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int binary_search_first(int numbers[],int target)
     {
-        int left=1,right=numbers.length-1;
+        int left=0,right=numbers.length-1;
         int result=numbers.length;
         while(left<=right)
         {
             int middle=(right+left)/2;
-            if(numbers[middle]<target)
-            {
-                left=middle+1;
-            }
-            else
+            if(numbers[middle]>=target)
             {
                 result=middle;
                 right=middle-1;
             }
+            else
+            {
+                left=middle+1;
+            }
         }
-        return result;
+        return result<numbers.length?result:Integer.MIN_VALUE;
     }
     /**
     <p>二分查找</p><br>
@@ -130,25 +133,34 @@ public class search
     从数组中查找目标元素的位置。
     @param numbers 数组。
     @param target 目标元素。
-    @return 目标元素的位置，如果不存在则返回<code>Integer.MIN_VALUE</code>。
+    @return 目标元素的位置。<br>
+    若目标元素不存在，则返回<code>Integer.MIN_VALUE</code>。
     */
     public static int interpolation_search(int numbers[],int target)
     {
         int left=0,right=numbers.length-1;
         while(left<=right)
         {
-            int position=left+(right-left)*(target-numbers[left])/(numbers[right]-numbers[left]);
-            if(numbers[position]==target)
+            int divisor=numbers[right]-numbers[left];
+            if(divisor==0)
             {
-                return position;
-            }
-            else if(numbers[position]<target)
-            {
-                left=position+1;
+                return numbers[left]==target?left:-1;
             }
             else
             {
-                right=position-1;
+                int position=left+(right-left)*(target-numbers[left])/divisor;
+                if(numbers[position]==target)
+                {
+                    return position;
+                }
+                else if(numbers[position]<target)
+                {
+                    left=position+1;
+                }
+                else
+                {
+                    right=position-1;
+                }
             }
         }
         return Integer.MIN_VALUE;
