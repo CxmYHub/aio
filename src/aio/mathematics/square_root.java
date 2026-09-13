@@ -133,7 +133,7 @@ public class square_root implements Comparable<square_root>
         }
         else
         {
-            int square_result=coefficient*coefficient*base*base-another.coefficient*another.coefficient*another.base*another.base;
+            int square_result=coefficient*coefficient*base-another.coefficient*another.coefficient*another.base;
             if(square_result>0)
             {
                 return 1;
