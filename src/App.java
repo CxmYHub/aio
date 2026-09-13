@@ -13,8 +13,6 @@ public class App
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        System.out.println(Arrays.toString(maths.binary_weight(333)));
-        big_integer n3=new big_integer(3);
-        System.out.println(big_integer.power(n3,333));
+        System.out.println(maths.gcd(0,12,4,8));
     }
 }
