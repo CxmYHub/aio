@@ -151,10 +151,15 @@ public class hash_map
     <p>此方法会修改调用对象。</p><br>
     对哈希表进行扩容。<br>
     新的哈希表容量=大于当前容量2倍的最小质数。
-    @return 新的哈希表容量=大于当前容量2倍的最小质数。
+    @return 新的哈希表容量=大于当前容量2倍的最小质数。<br>
+    若当前容量已为最大容量2147483647，则返回<code>Integer.MIN_VALUE</code>。
     */
     public int dilate()
     {
+        if(capacity_pin==prime.length-1)
+        {
+            return Integer.MIN_VALUE;
+        }
         int new_capacity=prime[++capacity_pin];
         hash_map_list_node new_elements[]=new hash_map_list_node[new_capacity];
         for(int i=0;i<capacity;i++)
