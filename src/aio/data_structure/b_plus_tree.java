@@ -32,7 +32,7 @@ public class b_plus_tree
     /**
     <p>阶</p><br>
     每个结点的子结点数量上限。<br>
-    默认为256。
+    最小为4，默认为256。
     */
     public final int order;
     /**
