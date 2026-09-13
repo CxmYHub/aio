@@ -747,17 +747,17 @@ public class avl_tree
                         case 1->
                         {
                             now.balance_factor=-1;
-                            left.balance_factor=0;
+                            right.balance_factor=0;
                         }
                         case 0->
                         {
                             now.balance_factor=0;
-                            left.balance_factor=0;
+                            right.balance_factor=0;
                         }
                         case -1->
                         {
                             now.balance_factor=0;
-                            left.balance_factor=1;
+                            right.balance_factor=1;
                         }
                     }
                     right_left.balance_factor=0;
