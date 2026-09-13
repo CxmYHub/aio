@@ -66,7 +66,8 @@ public class maths
     }
     /**
     <p>最大公因数</p><br>
-    计算多个整数的最大公因数。
+    计算多个整数的最大公因数。<br>
+    自动忽略输入数据中的0。
     @param numbers 多个整数。
     @return 最大公因数。
     */
@@ -77,8 +78,15 @@ public class maths
             return numbers[0];
         }
         int numbers_member[]=new int[numbers.length];
-        System.arraycopy(numbers,0,numbers_member,0,numbers.length);
-        for(int i=1;i<numbers_member.length;i++)
+        int pin=0;
+        for(int i=0;i<numbers.length;i++)
+        {
+            if(numbers[i]!=0)
+            {
+                numbers_member[pin++]=numbers[i];
+            }
+        }
+        for(int i=1;i<pin;i++)
         {
             int smaller=Math.abs(numbers_member[i]);
             int greater=Math.abs(numbers_member[i-1]);
@@ -90,7 +98,7 @@ public class maths
             }
             numbers_member[i]=smaller;
         }
-        return numbers_member[numbers_member.length-1];
+        return numbers_member[pin-1];
     }
     /**
     <p>最小公倍数</p><br>
@@ -1232,7 +1240,7 @@ public class maths
         {
             if(temp[i]!=temp[j])
             {
-                count=i-j-1;
+                count=i-j;
                 if(count_max<count)
                 {
                     count_max=count;
@@ -1248,7 +1256,7 @@ public class maths
                 j=i;
             }
         }
-        count=temp.length-j-1;
+        count=temp.length-j;
         if(count_max<count)
         {
             count_max=count;
