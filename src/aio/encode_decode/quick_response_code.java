@@ -971,9 +971,16 @@ public class quick_response_code
     <p>图片显示</p><br>
     弹窗显示二维码。<br>
     自适应像素块大小。
+    @return 是否成功显示二维码。<br>
+    若二维码版本为-1，即未编码，则返回<code>false</code>。<br>
+    否则，返回<code>true</code>。
     */
-    public void display()
+    public boolean display()
     {
+        if(version==-1)
+        {
+            return false;
+        }
         int scale=1000/(side+8);
         scale=scale>12?12:scale;
         int size=(side+8)*scale;
@@ -999,6 +1006,7 @@ public class quick_response_code
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        return true;
     }
     /**
     <p>图片显示</p><br>
