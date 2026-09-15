@@ -1983,6 +1983,10 @@ public class function
     */
     public static int max_tree_depth=7;
     /**
+    <p>遗传算法并发数量</p>
+    */
+    public static int concurrent_count=25;
+    /**
     <p>函数表达式树</p><br>
     本一元实函数对象的表达式树。
     */
@@ -2298,10 +2302,11 @@ public class function
                 }
                 else if(generate_min_fitness<global_min_fitness)
                 {
+                    local_mutation_rate-=(global_min_fitness-generate_min_fitness)/global_min_fitness*(local_mutation_rate-mutation_rate);
                     global_min_fitness=generate_min_fitness;
                     generation_count=(int)(global_min_fitness*3);
                     generation_count=generation_count<100?100:generation_count;
-                    System.out.println("\n"+global_min_fitness+"\t"+local_mutation_rate+"\n"+population[0]);
+                    // System.out.println("\n当前最适应个体偏差="+global_min_fitness+"\t\t当前突变概率="+local_mutation_rate+"\t\t当前最适应个体：\n"+population[0]);
                 }
                 else if(--generation_count<0)
                 {
@@ -2311,7 +2316,10 @@ public class function
                     }
                     else
                     {
-                        local_mutation_rate+=0.001;
+                        if(local_mutation_rate<0.7)
+                        {
+                            local_mutation_rate+=0.001;
+                        }
                         generation_count=100;
                     }
                 }
@@ -2384,6 +2392,110 @@ public class function
             }
             this.fitness=best_tree.fitness(coordinates_xn,coordinates_yn,0);
             function_tree=best_tree;
+        }
+    }
+    /**
+    <p>构造方法</p><br>
+    通过两个坐标数组构造一元实函数对象。
+    @param coordinates_xn 用于拟合的x坐标数组。
+    @param coordinates_yn 用于拟合的y坐标数组。
+    @param use_concurrent 是否使用并发计算。
+    */
+    public function(double coordinates_xn[],double coordinates_yn[],boolean use_concurrent)
+    {
+        if(use_concurrent)
+        {
+            function concurrent_functions[]=new function[concurrent_count];
+            Thread threads[]=new Thread[concurrent_count];
+            for(int i=0;i<concurrent_count;i++)
+            {
+                int index=i;
+                threads[index]=Thread.startVirtualThread(()->
+                {
+                    concurrent_functions[index]=new function(coordinates_xn,coordinates_yn);
+                });
+            }
+            double global_best_fitness=Double.MAX_VALUE;
+            int global_best_index=-1;
+            int completed=0;
+            int last_reported=0;
+            while(completed<concurrent_count)
+            {
+                completed=0;
+                double current_best_fitness=Double.MAX_VALUE;
+                int current_best_index=-1;
+                for(int i=0;i<concurrent_count;i++)
+                {
+                    if(concurrent_functions[i]!=null)
+                    {
+                        completed++;
+                        double now_fitness=concurrent_functions[i].fitness;
+                        if(now_fitness<current_best_fitness)
+                        {
+                            current_best_fitness=now_fitness;
+                            current_best_index=i;
+                        }
+                    }
+                }
+                if(current_best_index>=0&&current_best_fitness<global_best_fitness)
+                {
+                    global_best_fitness=current_best_fitness;
+                    global_best_index=current_best_index;
+                }
+                if(completed>last_reported)
+                {
+                    System.out.println("已完成: "+completed+"/"+concurrent_count+"\t当前最佳适应度: "+global_best_fitness+"\t最佳个体: "+concurrent_functions[global_best_index]);
+                    last_reported=completed;
+                }
+                if(global_best_fitness==0)
+                {
+                    System.out.println("适应度已达最优，停止等待。");
+                    break;
+                }
+                if(completed<concurrent_count)
+                {
+                    try
+                    {
+                        Thread.sleep(100);
+                    }
+                    catch(InterruptedException e)
+                    {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+            }
+            if(global_best_index<0)
+            {
+                for(int i=0;i<concurrent_count;i++)
+                {
+                    try
+                    {
+                        threads[i].join();
+                    }
+                    catch(InterruptedException e)
+                    {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                global_best_index=0;
+                for(int i=1;i<concurrent_count;i++)
+                {
+                    if(concurrent_functions[i].fitness<concurrent_functions[global_best_index].fitness)
+                    {
+                        global_best_index=i;
+                    }
+                }
+            }
+            function best=concurrent_functions[global_best_index];
+            function_tree=best.function_tree;
+            fitness=best.fitness;
+        }
+        else
+        {
+            function best=new function(coordinates_xn,coordinates_yn);
+            function_tree=best.function_tree;
+            fitness=best.fitness;
         }
     }
     /**
