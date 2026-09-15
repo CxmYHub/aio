@@ -6,7 +6,7 @@ public class sort_test
     public static void main(String args[])
     {
         Random RNG=new Random();
-        boolean judging=true;
+        boolean judging=false;
         int time=4;
         int length=100000000;
         int numbers[]=new int[length];

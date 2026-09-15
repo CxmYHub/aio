@@ -6,12 +6,12 @@ public class function_test
     public static Random RNG=new Random();
     public static void main(String args[])
     {
-        double x[]={1641,2192,2436,2919,3253,3470,3569,3834};
-        double y[]={223,366,440,592,689,745,768,823};
+        double x[]={1,2,3,4,5};
+        double y[]={1,32,243,1024,3125};
         // double x[]={0,1,2,3,4};
         // double y[]={0,1,4,9,16};
         long start=System.currentTimeMillis();
-        function f=new function(x,y);
+        function f=new function(x,y,true);
         long end=System.currentTimeMillis();
         System.out.println(end-start);
         System.out.println(f);
