@@ -3,8 +3,7 @@ package aio.mathematics;
 <p>角度类</p><br>
 用于表示角度及对角度的操作。
 */
-public class angle
-{
+public class Angle {
     /**
     <p>度</p>
     */
@@ -24,8 +23,7 @@ public class angle
     @param minute 分。
     @param second 秒。
     */
-    public angle(int degree,int minute,int second)
-    {
+    public Angle(int degree,int minute,int second) {
         this.degree=degree;
         this.minute=minute;
         this.second=second;
@@ -36,8 +34,7 @@ public class angle
     @param degree 度。
     @param minute 分。
     */
-    public angle(int degree,int minute)
-    {
+    public Angle(int degree,int minute) {
         this.degree=degree;
         this.minute=minute;
         second=0;
@@ -47,8 +44,7 @@ public class angle
     构造一个角度对象。
     @param degree 度。
     */
-    public angle(int degree)
-    {
+    public Angle(int degree) {
         this.degree=degree;
         minute=0;
         second=0;
@@ -57,8 +53,7 @@ public class angle
     <p>无参构造方法</p><br>
     构造一个默认角度对象(0°0'0")。
     */
-    public angle()
-    {
+    public Angle() {
         degree=0;
         minute=0;
         second=0;
@@ -68,8 +63,7 @@ public class angle
     计算角度对应的小数表示的角度。
     @return 角度对应的小数表示的角度。
     */
-    public double angle_to_deg()
-    {
+    public double angleToDeg() {
         return (double)degree+(double)minute/60+(double)second/3600;
     }
     /**
@@ -80,8 +74,7 @@ public class angle
     @param second 秒。
     @return 角度对应的小数表示的角度。
     */
-    public static double angle_to_deg(int degree,int minute,int second)
-    {
+    public static double angleToDeg(int degree,int minute,int second) {
         return (double)degree+(double)minute/60+(double)second/3600;
     }
     /**
@@ -89,8 +82,7 @@ public class angle
     计算角度对应的弧度。
     @return 角度对应的弧度。
     */
-    public double angle_to_rad()
-    {
+    public double angleToRad() {
         return ((double)degree+(double)minute/60+(double)second/3600)/180*Math.PI;
     }
     /**
@@ -101,8 +93,7 @@ public class angle
     @param second 秒。
     @return 角度对应的弧度。
     */
-    public static double angle_to_rad(int degree,int minute,int second)
-    {
+    public static double angleToRad(int degree,int minute,int second) {
         return ((double)degree+(double)minute/60+(double)second/3600)/180*Math.PI;
     }
     /**
@@ -116,17 +107,14 @@ public class angle
         <li>若和未超过360°，则返回<code>false</code>。</li>
     </ul>
     */
-    public boolean add(angle angle)
-    {
+    public boolean add(Angle angle) {
         degree+=angle.degree;
         minute+=angle.minute;
         second+=angle.second;
-        for(;second>=60;second-=60)
-        {
+        for(;second>=60;second-=60) {
             minute++;
         }
-        for(;minute>=60;minute-=60)
-        {
+        for(;minute>=60;minute-=60) {
             degree++;
         }
         boolean reversed=false;
@@ -139,20 +127,16 @@ public class angle
     @param angles 要计算和的多个角度对象。
     @return 多个角度的和。
     */
-    public static int[] sum(angle... angles)
-    {
+    public static int[] sum(Angle... angles) {
         int sum[]=new int[3];
-        for(angle angle:angles)
-        {
+        for(Angle angle:angles) {
             sum[2]+=angle.second;
-            if(sum[2]>=60)
-            {
+            if(sum[2]>=60) {
                 sum[2]-=60;
                 sum[1]++;
             }
             sum[1]+=angle.minute;
-            if(sum[1]>=60)
-            {
+            if(sum[1]>=60) {
                 sum[1]-=60;
                 sum[0]++;
             }
@@ -167,26 +151,22 @@ public class angle
     @param number 除数。
     @return 一个角度对象除以一个整数后的小数表示的角度，保留到秒。
     */
-    public double divide(int number)
-    {
-        double sub_second=0;
-        if(degree%number!=0)
-        {
+    public double divide(int number) {
+        double subSecond=0;
+        if(degree%number!=0) {
             minute+=60*(degree%number);
         }
         degree/=number;
-        if(minute%number!=0)
-        {
+        if(minute%number!=0) {
             second+=60*(minute%number);
         }
         minute/=number;
-        if(second%number!=0)
-        {
-            sub_second=(double)second/number;
-            sub_second-=second/number;
+        if(second%number!=0) {
+            subSecond=(double)second/number;
+            subSecond-=second/number;
         }
         second/=number;
-        return sub_second;
+        return subSecond;
     }
     /**
     <p>诱导公式一</p><br>
@@ -194,8 +174,7 @@ public class angle
     将当前角度的度部分取模360(执行诱导公式一)。
     @return 当前角度对象的度部分取模360后的结果。
     */
-    public int reform()
-    {
+    public int reform() {
         degree%=360;
         return degree;
     }
@@ -203,8 +182,7 @@ public class angle
     <p>字符串表示</p><br>
     @return 角度的字符串表示。
     */
-    public String toString()
-    {
+    public String toString() {
         return ""+degree+"°"+((minute<10)?("0"+minute):minute)+"'"+((second<10)?("0"+second):second)+"\"";
     }
 }

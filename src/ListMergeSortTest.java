@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.Random;
-import aio.data_structure.linked_list_singly;
+
+import aio.datastructure.LinkedListSingly;
 public class ListMergeSortTest {
     private static final Random RNG = new Random();
 
@@ -23,9 +24,9 @@ public class ListMergeSortTest {
         Arrays.sort(expected);
         
         // 3. 用自定义链表构建并排序
-        linked_list_singly myList = new linked_list_singly(original);          // 假设 linked_list 有接收 int[] 的构造器
+        LinkedListSingly myList = new LinkedListSingly(original);          // 假设 linkedList 有接收 int[] 的构造器
         long start = System.nanoTime();
-        myList.sort_ascend();                        // 归并排序
+        myList.sortAscend();                        // 归并排序
         long end = System.nanoTime();
         
         // 4. 将排序后的链表转回数组进行比较
@@ -42,11 +43,11 @@ public class ListMergeSortTest {
         }
     }
     
-    // 将链表转换为 int 数组（假设 linked_list 的迭代方式是通过 next 遍历）
-    private static int[] listToArray(linked_list_singly l) {
-        int size = l.element_count();   // element_count() 返回链表元素个数
+    // 将链表转换为 int 数组（假设 linkedList 的迭代方式是通过 next 遍历）
+    private static int[] listToArray(LinkedListSingly l) {
+        int size = l.elementCount();   // elementCount() 返回链表元素个数
         int[] arr = new int[size];
-        linked_list_singly cur = l.next;               // 跳过哑元头结点
+        LinkedListSingly cur = l.next;               // 跳过哑元头结点
         for (int i = 0; i < size; i++) {
             arr[i] = cur.element;
             cur = cur.next;

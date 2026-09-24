@@ -4,8 +4,7 @@ package aio.mathematics;
 行列式是一个数字方阵，其本质是一个数，用于计算矩阵的行列式值。<br>
 本行列式以二维数组实现，仅支持整数元素。
 */
-public class determinant implements Comparable<determinant>
-{
+public class Determinant implements Comparable<Determinant> {
     /**
     <p>阶数</p>
     */
@@ -22,68 +21,56 @@ public class determinant implements Comparable<determinant>
     /**
     <p>构造方法</p><br>
     构造一个行列式对象，包含指定元素。
-    @param order_number 行列式的阶数。
-    @param element_numbers 行列式的元素。
+    @param orderNumber 行列式的阶数。
+    @param elementNumbers 行列式的元素。
     */
-    public determinant(int order_number,int... element_numbers)
-    {
-        if(order_number<=0)
-        {
-            order_number=(int)Math.sqrt(element_numbers.length-1)+1;
+    public Determinant(int orderNumber,int... elementNumbers) {
+        if(orderNumber<=0) {
+            orderNumber=(int)Math.sqrt(elementNumbers.length-1)+1;
         }
-        order=order_number;
-        elements=new int[order_number][order_number];
-        for(int i=0;i<element_numbers.length;i++)
-        {
-            elements[i/order_number][i%order_number]=element_numbers[i];
+        order=orderNumber;
+        elements=new int[orderNumber][orderNumber];
+        for(int i=0;i<elementNumbers.length;i++) {
+            elements[i/orderNumber][i%orderNumber]=elementNumbers[i];
         }
     }
     /**
     <p>构造方法</p><br>
     构造一个指定阶数的零矩阵的行列式对象。
-    @param order_number 行列式的阶数。
+    @param orderNumber 行列式的阶数。
     */
-    public determinant(int order_number)
-    {
-        order=order_number;
-        elements=new int[order_number][order_number];
+    public Determinant(int orderNumber) {
+        order=orderNumber;
+        elements=new int[orderNumber][orderNumber];
     }
     /**
     <p>构造方法</p><br>
     复制一个行列式对象。
-    @param coping_determinant 要复制的行列式对象。
+    @param copingDeterminant 要复制的行列式对象。
     */
-    public determinant(determinant coping_determinant)
-    {
-        order=coping_determinant.order;
+    public Determinant(Determinant copingDeterminant) {
+        order=copingDeterminant.order;
         elements=new int[order][order];
-        for(int i=0;i<order;i++)
-        {
-            System.arraycopy(coping_determinant.elements[i],0,elements[i],0,order);
+        for(int i=0;i<order;i++) {
+            System.arraycopy(copingDeterminant.elements[i],0,elements[i],0,order);
         }
     }
     /**
     <p>构造方法</p><br>
     通过矩阵构造该矩阵的行列式。
-    @param square_matrix 矩阵对象。<br>
+    @param squareMatrix 矩阵对象。<br>
     若矩阵不是方阵，则构造一个阶数为1的零行列式对象。
     */
-    public determinant(matrix square_matrix)
-    {
-        if(square_matrix.row==square_matrix.column)
-        {
-            order=square_matrix.row;
+    public Determinant(Matrix squareMatrix) {
+        if(squareMatrix.row==squareMatrix.column) {
+            order=squareMatrix.row;
             elements=new int[order][order];
-            for(int i=0;i<order;i++)
-            {
-                for(int j=0;j<order;j++)
-                {
-                    elements[i][j]=square_matrix.elements[i][j];
+            for(int i=0;i<order;i++) {
+                for(int j=0;j<order;j++) {
+                    elements[i][j]=squareMatrix.elements[i][j];
                 }
             }
-        }
-        else
-        {
+        } else {
             order=1;
             elements=new int[1][1];
         }
@@ -91,19 +78,15 @@ public class determinant implements Comparable<determinant>
     /**
     <p>元素获取</p><br>
     获取行列式的指定元素。
-    @param target_row 要获取的元素的行号。
-    @param target_column 要获取的元素的列号。
+    @param targetRow 要获取的元素的行号。
+    @param targetColumn 要获取的元素的列号。
     @return 指定元素的值。<br>
     若行号或列号超出范围则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int get_element(int target_row,int target_column)
-    {
-        if(target_row>=1&&target_row<=order&&target_column>=1&&target_column<=order)
-        {
-            return elements[target_row-1][target_column-1];
-        }
-        else
-        {
+    public int getElement(int targetRow,int targetColumn) {
+        if(targetRow>=1&&targetRow<=order&&targetColumn>=1&&targetColumn<=order) {
+            return elements[targetRow-1][targetColumn-1];
+        } else {
             return Integer.MIN_VALUE;
         }
     }
@@ -116,22 +99,17 @@ public class determinant implements Comparable<determinant>
     @return 行列式的系数。<br>
     若行号超出范围则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int exchange_row(int row1,int row2)
-    {
-        if(row1!=row2&&row1>0&&row2>0&&row1<=order&&row2<=order)
-        {
+    public int exchangeRow(int row1,int row2) {
+        if(row1!=row2&&row1>0&&row2>0&&row1<=order&&row2<=order) {
             int temp;
-            for(int i=0;i<order;i++)
-            {
+            for(int i=0;i<order;i++) {
                 temp=elements[row1-1][i];
                 elements[row1-1][i]=elements[row2-1][i];
                 elements[row2-1][i]=temp;
             }
             coefficient*=-1;
             return coefficient;
-        }
-        else
-        {
+        } else {
             return Integer.MIN_VALUE;
         }
     }
@@ -144,22 +122,17 @@ public class determinant implements Comparable<determinant>
     @return 行列式的系数。<br>
     若列号超出范围则返回<code>Integer.MIN_VALUE</code>。
     */
-    public int exchange_column(int column1,int column2)
-    {
-        if(column1!=column2&&column1>0&&column2>0&&column1<=order&&column2<=order)
-        {
+    public int exchangeColumn(int column1,int column2) {
+        if(column1!=column2&&column1>0&&column2>0&&column1<=order&&column2<=order) {
             int temp;
-            for(int i=0;i<order;i++)
-            {
+            for(int i=0;i<order;i++) {
                 temp=elements[i][column1-1];
                 elements[i][column1-1]=elements[i][column2-1];
                 elements[i][column2-1]=temp;
             }
             coefficient*=-1;
             return coefficient;
-        }
-        else
-        {
+        } else {
             return Integer.MIN_VALUE;
         }
     }
@@ -168,13 +141,10 @@ public class determinant implements Comparable<determinant>
     <p>此方法会修改调用对象。</p><br>
     @return <code>this</code>。
     */
-    public determinant reverse()
-    {
+    public Determinant reverse() {
         int temp;
-        for(int i=0;i<order;i++)
-        {
-            for(int j=0;j<i;j++)
-            {
+        for(int i=0;i<order;i++) {
+            for(int j=0;j<i;j++) {
                 temp=elements[j][i];
                 elements[j][i]=elements[i][j];
                 elements[i][j]=temp;
@@ -185,17 +155,14 @@ public class determinant implements Comparable<determinant>
     /**
     <p>转置行列式</p><br>
     计算行列式的转置行列式。
-    @param reversing_determinant 要转置的行列式对象。
+    @param reversingDeterminant 要转置的行列式对象。
     @return 转置行列式。
     */
-    public static determinant reverse(determinant reversing_determinant)
-    {
-        determinant result=new determinant(reversing_determinant.order,reversing_determinant.order);
-        for(int i=0;i<reversing_determinant.order;i++)
-        {
-            for(int j=0;j<reversing_determinant.order;j++)
-            {
-                result.elements[j][i]=reversing_determinant.elements[i][j];
+    public static Determinant reverse(Determinant reversingDeterminant) {
+        Determinant result=new Determinant(reversingDeterminant.order,reversingDeterminant.order);
+        for(int i=0;i<reversingDeterminant.order;i++) {
+            for(int j=0;j<reversingDeterminant.order;j++) {
+                result.elements[j][i]=reversingDeterminant.elements[i][j];
             }
         }
         return result;
@@ -203,166 +170,134 @@ public class determinant implements Comparable<determinant>
     /**
     <p>余子式计算</p><br>
     计算行列式的余子式。
-    @param base_row 基准行。
-    @param base_column 基准列。
+    @param baseRow 基准行。
+    @param baseColumn 基准列。
     @return 余子式对象。<br>
     若行号或列号超出范围则不进行计算，返回<code>this</code>。
     */
-    public determinant cofactor(int base_row,int base_column)
-    {
-        if(base_row>=1&&base_row<=order&&base_column>=1&&base_column<=order)
-        {
-            determinant result=new determinant(order-1);
-            int origin_row=0;
-            int origin_column=0;
-            for(int i=0;i<result.order;i++)
-            {
-                origin_column=0;
-                for(int j=0;j<result.order;j++)
-                {
-                    if(origin_row==base_row-1)
-                    {
-                        origin_row++;
+    public Determinant cofactor(int baseRow,int baseColumn) {
+        if(baseRow>=1&&baseRow<=order&&baseColumn>=1&&baseColumn<=order) {
+            Determinant result=new Determinant(order-1);
+            int originRow=0;
+            int originColumn=0;
+            for(int i=0;i<result.order;i++) {
+                originColumn=0;
+                for(int j=0;j<result.order;j++) {
+                    if(originRow==baseRow-1) {
+                        originRow++;
                     }
-                    if(origin_column==base_column-1)
-                    {
-                        origin_column++;
+                    if(originColumn==baseColumn-1) {
+                        originColumn++;
                     }
-                    result.elements[i][j]=elements[origin_row][origin_column++];
+                    result.elements[i][j]=elements[originRow][originColumn++];
                 }
-                origin_row++;
+                originRow++;
             }
             return result;
-        }
-        else
-        {
+        } else {
             return this;
         }
     }
     /**
     <p>余子式计算</p><br>
     计算行列式的余子式。
-    @param target_determinant 要计算余子式的行列式对象。
-    @param base_row 基准行。
-    @param base_column 基准列。
+    @param targetDeterminant 要计算余子式的行列式对象。
+    @param baseRow 基准行。
+    @param baseColumn 基准列。
     @return 余子式对象。<br>
     若行号或列号超出范围则不进行计算，返回目标行列式对象。
     */
-    public static determinant cofactor(determinant target_determinant,int base_row,int base_column)
-    {
-        if(base_row>=1&&base_row<=target_determinant.order&&base_column>=1&&base_column<=target_determinant.order)
-        {
-            determinant result=new determinant(target_determinant.order-1);
-            int origin_row=0;
-            int origin_column=0;
-            for(int i=0;i<result.order;i++)
-            {
-                origin_column=0;
-                for(int j=0;j<result.order;j++)
-                {
-                    if(origin_row==base_row-1)
-                    {
-                        origin_row++;
+    public static Determinant cofactor(Determinant targetDeterminant,int baseRow,int baseColumn) {
+        if(baseRow>=1&&baseRow<=targetDeterminant.order&&baseColumn>=1&&baseColumn<=targetDeterminant.order) {
+            Determinant result=new Determinant(targetDeterminant.order-1);
+            int originRow=0;
+            int originColumn=0;
+            for(int i=0;i<result.order;i++) {
+                originColumn=0;
+                for(int j=0;j<result.order;j++) {
+                    if(originRow==baseRow-1) {
+                        originRow++;
                     }
-                    if(origin_column==base_column-1)
-                    {
-                        origin_column++;
+                    if(originColumn==baseColumn-1) {
+                        originColumn++;
                     }
-                    result.elements[i][j]=target_determinant.elements[origin_row][origin_column++];
+                    result.elements[i][j]=targetDeterminant.elements[originRow][originColumn++];
                 }
-                origin_row++;
+                originRow++;
             }
             return result;
-        }
-        else
-        {
-            return target_determinant;
+        } else {
+            return targetDeterminant;
         }
     }
     /**
     <p>代数余子式计算</p><br>
     计算行列式的代数余子式。
-    @param base_row 基准行。
-    @param base_column 基准列。
+    @param baseRow 基准行。
+    @param baseColumn 基准列。
     @return 代数余子式对象。<br>
     若行号或列号超出范围则不进行计算，返回<code>this</code>。
     */
-    public determinant cofactor_algebraic(int base_row,int base_column)
-    {
-        determinant result=cofactor(base_row,base_column);
-        if(result.order<order)
-        {
-            result.coefficient=(int)Math.pow(-1,base_row+base_column);
+    public Determinant cofactorAlgebraic(int baseRow,int baseColumn) {
+        Determinant result=cofactor(baseRow,baseColumn);
+        if(result.order<order) {
+            result.coefficient=(int)Math.pow(-1,baseRow+baseColumn);
             return result;
-        }
-        else
-        {
+        } else {
             return this;
         }
     }
     /**
     <p>代数余子式计算</p><br>
     计算行列式的代数余子式。
-    @param target_determinant 要计算代数余子式的行列式对象。
-    @param base_row 基准行。
-    @param base_column 基准列。
+    @param targetDeterminant 要计算代数余子式的行列式对象。
+    @param baseRow 基准行。
+    @param baseColumn 基准列。
     @return 代数余子式对象。<br>
     若行号或列号超出范围则不进行计算，返回目标行列式对象。
     */
-    public static determinant cofactor_algebraic(determinant target_determinant,int base_row,int base_column)
-    {
-        determinant result=cofactor(target_determinant,base_row,base_column);
-        if(result.order<target_determinant.order)
-        {
-            result.coefficient=(int)Math.pow(-1,base_row+base_column);
+    public static Determinant cofactorAlgebraic(Determinant targetDeterminant,int baseRow,int baseColumn) {
+        Determinant result=cofactor(targetDeterminant,baseRow,baseColumn);
+        if(result.order<targetDeterminant.order) {
+            result.coefficient=(int)Math.pow(-1,baseRow+baseColumn);
             return result;
-        }
-        else
-        {
-            return target_determinant;
+        } else {
+            return targetDeterminant;
         }
     }
     /**
     <p>余子式系数计算</p><br>
     计算行列式的余子式的系数。
-    @param base_row 基准行。
-    @param base_column 基准列。
+    @param baseRow 基准行。
+    @param baseColumn 基准列。
     @return 带有系数的余子式对象。<br>
     若行号或列号超出范围则不进行计算，返回<code>this</code>。
     */
-    public determinant cofactor_coefficient(int base_row,int base_column)
-    {
-        determinant result=cofactor(base_row,base_column);
-        if(result.order<order)
-        {
-            result.coefficient=(int)(coefficient*elements[base_row-1][base_column-1]*Math.pow(-1,base_row+base_column));
+    public Determinant cofactorCoefficient(int baseRow,int baseColumn) {
+        Determinant result=cofactor(baseRow,baseColumn);
+        if(result.order<order) {
+            result.coefficient=(int)(coefficient*elements[baseRow-1][baseColumn-1]*Math.pow(-1,baseRow+baseColumn));
             return result;
-        }
-        else
-        {
+        } else {
             return this;
         }
     }
     /**
     <p>余子式系数计算</p><br>
     计算行列式的余子式的系数。
-    @param target_determinant 要计算余子式系数的行列式对象。
-    @param base_row 基准行。
-    @param base_column 基准列。
+    @param targetDeterminant 要计算余子式系数的行列式对象。
+    @param baseRow 基准行。
+    @param baseColumn 基准列。
     @return 带有系数的余子式对象。<br>
     若行号或列号超出范围则不进行计算，返回目标行列式对象。
     */
-    public static determinant cofactor_coefficient(determinant target_determinant,int base_row,int base_column)
-    {
-        determinant result=cofactor(target_determinant,base_row,base_column);
-        if(result.order<target_determinant.order)
-        {
-            result.coefficient=(int)(target_determinant.coefficient*target_determinant.elements[base_row-1][base_column-1]*Math.pow(-1,base_row+base_column));
+    public static Determinant cofactorCoefficient(Determinant targetDeterminant,int baseRow,int baseColumn) {
+        Determinant result=cofactor(targetDeterminant,baseRow,baseColumn);
+        if(result.order<targetDeterminant.order) {
+            result.coefficient=(int)(targetDeterminant.coefficient*targetDeterminant.elements[baseRow-1][baseColumn-1]*Math.pow(-1,baseRow+baseColumn));
             return result;
-        }
-        else
-        {
-            return target_determinant;
+        } else {
+            return targetDeterminant;
         }
     }
     /**
@@ -370,31 +305,24 @@ public class determinant implements Comparable<determinant>
     <p>此方法会修改调用对象。</p>
     @return 化简后的系数。
     */
-    public int simplify()
-    {
+    public int simplify() {
         int gcd=1;
-        for(int i=0;i<order;i++)
-        {
-            gcd=maths.gcd(elements[i]);
-            if(gcd>1)
-            {
-                for(int j=0;j<order;j++)
-                {
+        for(int i=0;i<order;i++) {
+            gcd=Maths.gcd(elements[i]);
+            if(gcd>1) {
+                for(int j=0;j<order;j++) {
                     elements[i][j]/=gcd;
                 }
             }
             coefficient*=gcd;
         }
         int column[]=new int[order];
-        for(int j=0;j<order;j++)
-        {
-            for(int i=0;i<order;i++)
-            {
+        for(int j=0;j<order;j++) {
+            for(int i=0;i<order;i++) {
                 column[i]=elements[i][j];
             }
-            gcd=maths.gcd(column);
-            for(int i=0;i<order;i++)
-            {
+            gcd=Maths.gcd(column);
+            for(int i=0;i<order;i++) {
                 elements[i][j]/=gcd;
             }
             coefficient*=gcd;
@@ -407,8 +335,7 @@ public class determinant implements Comparable<determinant>
     提取行列式的系数。
     @return 行列式的系数。
     */
-    public int extract_coefficient()
-    {
+    public int extractCoefficient() {
         int result=coefficient;
         coefficient=1;
         return result;
@@ -418,79 +345,60 @@ public class determinant implements Comparable<determinant>
     计算行列式的值。
     @return 行列式的值。
     */
-    public double value()
-    {
+    public double value() {
         double value=0;
-        double this_value;
-        int index_numbers[]=new int[order];
+        double thisValue;
+        int indexNumbers[]=new int[order];
         int N;
-        boolean up_needed=true,distinct_needed=true;
-        for(int i=0;i<order;i++)
-        {
-            index_numbers[i]=i+1;
+        boolean upNeeded=true,distinctNeeded=true;
+        for(int i=0;i<order;i++) {
+            indexNumbers[i]=i+1;
         }
-        for(int i=0;i<math.A[order][order];i++)
-        {
-            this_value=1;
+        for(int i=0;i<Maths.A[order][order];i++) {
+            thisValue=1;
             N=0;
-            for(int j=0;j<order;j++)
-            {
-                this_value*=elements[j][index_numbers[j]-1];
-                for(int k=j+1;k<order;k++)
-                {
-                    if(index_numbers[j]>index_numbers[k])
-                    {
+            for(int j=0;j<order;j++) {
+                thisValue*=elements[j][indexNumbers[j]-1];
+                for(int k=j+1;k<order;k++) {
+                    if(indexNumbers[j]>indexNumbers[k]) {
                         N++;
                     }
                 }
             }
-            if(N%2==1)
-            {
-                value-=this_value;
+            if(N%2==1) {
+                value-=thisValue;
+            } else {
+                value+=thisValue;
             }
-            else
-            {
-                value+=this_value;
-            }
-            index_numbers[order-1]++;
-            up_needed=true;
-            distinct_needed=true;
-            do
-            {
-                if(distinct_needed)
-                {
-                    for(int j=1;j<order;j++)
-                    {
-                        for(int k=0;k<j;k++)
-                        {
-                            if(index_numbers[j]==index_numbers[k])
-                            {
-                                index_numbers[j]++;
-                                if(index_numbers[j]>order)
-                                {
-                                    up_needed=true;
+            indexNumbers[order-1]++;
+            upNeeded=true;
+            distinctNeeded=true;
+            do {
+                if(distinctNeeded) {
+                    for(int j=1;j<order;j++) {
+                        for(int k=0;k<j;k++) {
+                            if(indexNumbers[j]==indexNumbers[k]) {
+                                indexNumbers[j]++;
+                                if(indexNumbers[j]>order) {
+                                    upNeeded=true;
                                 }
                                 k=-1;
                             }
                         }
                     }
-                    distinct_needed=false;
+                    distinctNeeded=false;
                 }
-                if(up_needed)
-                {
-                    for(int j=order-1;j>0;j--)
-                    {
-                        if(index_numbers[j]>order)
-                        {
-                            index_numbers[j-1]++;
-                            index_numbers[j]=1;
-                            distinct_needed=true;
+                if(upNeeded) {
+                    for(int j=order-1;j>0;j--) {
+                        if(indexNumbers[j]>order) {
+                            indexNumbers[j-1]++;
+                            indexNumbers[j]=1;
+                            distinctNeeded=true;
                         }
                     }
-                    up_needed=false;
+                    upNeeded=false;
                 }
-            }
-            while(up_needed||distinct_needed);
+            } while(upNeeded||distinctNeeded);
         }
         return coefficient*value;
     }
@@ -498,26 +406,18 @@ public class determinant implements Comparable<determinant>
     <p>字符串表示</p><br>
     @return 行列式的字符串表示。
     */
-    public String toString()
-    {
+    public String toString() {
         String result="\n";
-        if(coefficient==-1)
-        {
+        if(coefficient==-1) {
             result+="-";
-        }
-        else if(coefficient>1||coefficient<-1)
-        {
+        } else if(coefficient>1||coefficient<-1) {
             result+=""+coefficient;
-        }
-        else if(coefficient==0)
-        {
+        } else if(coefficient==0) {
             return "0";
         }
-        for(int i=0;i<order;i++)
-        {
+        for(int i=0;i<order;i++) {
             result+="\t|";
-            for(int j=0;j<order;j++)
-            {
+            for(int j=0;j<order;j++) {
                 result+=""+elements[i][j]+"\t";
             }
             result+="|\n";
@@ -535,19 +435,13 @@ public class determinant implements Comparable<determinant>
         <li>&lt;0：当前行列式小于指定行列式。</li>
     </ul>
     */
-    public int compareTo(determinant comparing)
-    {
+    public int compareTo(Determinant comparing) {
         double result=value()-comparing.value();
-        if(result>-0.0000001&&result<0.0000001)
-        {
+        if(result>-0.0000001&&result<0.0000001) {
             return 0;
-        }
-        else if(result>0)
-        {
+        } else if(result>0) {
             return 1;
-        }
-        else
-        {
+        } else {
             return -1;
         }
     }

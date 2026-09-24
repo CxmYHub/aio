@@ -1,7 +1,7 @@
 aio
 aio.collection
-aio.data_structure
-aio.date_time
-aio.encode_decode
+aio.datastructure
+aio.datetime
+aio.endecode
 aio.geography
 aio.mathematics
